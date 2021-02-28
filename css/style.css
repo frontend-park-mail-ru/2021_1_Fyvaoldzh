@@ -1,79 +1,6 @@
-/*Обнуление*/
-
-* {
-  padding: 0;
-  margin: 0;
-  border: 0;
+:root {
+  --main-gradient: linear-gradient(90deg, #2e1665 0%, #57001e 100%);
 }
-
-*, *:before, *:after {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
-:focus, :active {
-  outline: none;
-}
-
-a:focus, a:active {
-  outline: none;
-}
-
-nav, footer, header, aside {
-  display: block;
-}
-
-html, body {
-  height: 100%;
-  width: 100%;
-  font-size: 100%;
-  line-height: 1;
-  font-size: 14px;
-  -ms-text-size-adjust: 100%;
-  -moz-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-}
-
-input, button, textarea {
-  font-family: inherit;
-}
-
-input::-ms-clear {
-  display: none;
-}
-
-button {
-  cursor: pointer;
-}
-
-button::-moz-focus-inner {
-  padding: 0;
-  border: 0;
-}
-
-a, a:visited {
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: none;
-}
-
-ul li {
-  list-style: none;
-}
-
-img {
-  vertical-align: top;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-size: inherit;
-  font-weight: inherit;
-}
-
-/*--------------------*/
 
 .wrapper {
   min-height: 100%;
@@ -85,9 +12,7 @@ h1, h2, h3, h4, h5, h6 {
   /* Full height */
   height: 100%;
   /* Center and scale the image nicely */
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  background: url("../img/login-background.jpg") no-repeat center / cover;
   justify-content: space-between;
 }
 
@@ -101,7 +26,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .navbar {
-  background: linear-gradient(90deg, #2E1665 0%, #57001E 100%);
+  background: var(--main-gradient);
 }
 
 .navbar__row {
@@ -117,35 +42,33 @@ h1, h2, h3, h4, h5, h6 {
 
 .logo__text {
   font-family: Abril Fatface;
-  font-style: normal;
-  font-weight: normal;
   font-size: 30px;
   line-height: 40px;
   display: flex;
   align-items: center;
   text-align: center;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
-.navbar__menu {
+.navbar-menu {
   display: flex;
   justify-content: space-between;
   margin-right: 80px;
 }
 
-.form__login-input {
+.form-body__input__login {
   padding: 21px;
 }
 
-.form__password-input {
+.form-body__input__password {
   padding: 21px;
 }
 
-.navbar__signup {}
-
-.background {}
-
-.background__photo {}
+.navbar-menu__signup {
+  width: 20px;
+  height: 20px;
+  background: url("../img/Vector.png") no-repeat center / 100%;
+}
 
 .form {
   background-color: white;
@@ -162,7 +85,6 @@ h1, h2, h3, h4, h5, h6 {
   height: 73px;
   margin-top: 30px;
   font-family: PT Serif;
-  font-style: normal;
   font-weight: bold;
   font-size: 50px;
   line-height: 66px;
@@ -177,26 +99,26 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 5px;
 }
 
-.form__body {
+.form-body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
 }
 
-.form__login-input {
+.form-body__input__login {
   width: 510px;
   height: 60px;
   margin-top: 58px;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
 }
 
-.form__password-input {
+.form-body__input__password {
   width: 510px;
   height: 60px;
   margin-top: 30px;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
 }
 
@@ -204,7 +126,7 @@ h1, h2, h3, h4, h5, h6 {
   width: 510px;
   height: 60px;
   margin-top: 58px;
-  background: linear-gradient(90deg, #2E1665 0%, #57001E 100%);
+  background: var(--main-gradient);
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
@@ -213,21 +135,17 @@ h1, h2, h3, h4, h5, h6 {
 
 .button-label {
   font-family: PT Serif;
-  font-style: normal;
-  font-weight: normal;
   font-size: 24px;
   line-height: 32px;
   display: flex;
   align-items: center;
   text-align: center;
   margin-top: 14px;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .form__bottom-text {
   font-family: PT Serif;
-  font-style: normal;
-  font-weight: normal;
   font-size: 20px;
   line-height: 22px;
   /* or 110% */
@@ -239,9 +157,7 @@ h1, h2, h3, h4, h5, h6 {
 
 ::placeholder {
   font-family: PT Serif;
-  font-style: normal;
-  font-weight: normal;
   font-size: 20px;
   left: 5px;
-  color: #8986AC;
+  color: #8986ac;
 }
