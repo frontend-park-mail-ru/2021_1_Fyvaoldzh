@@ -1,31 +1,22 @@
-/*
-nmp i - установка пакетов
+'use strict';
+
+/**
+ * nmp i - установка пакетов
  */
 
-const http = require('http');
-const fs = require('fs');
-const debug = require('debug');
+const express = require('express')
 
-const log = debug('server');
+const app = express()
+const path = require('path');
 
-const server = http.createServer((req, res) => {
-  log('request', req.url);
+app.use(express.static(path.resolve(__dirname, '..', 'public')));
 
-  let file = 'index.html';
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '..', 'public/index.html'));
+})
 
-  fs.readFile('public/index.html', (err, data) => {
-    if (err) {
-      log('error', err);
-      res.end();
+const port = process.env.PORT || 3000;
 
-      return;
-    }
-    res.write(data);
-
-    res.end();
-
-  });
-
+app.listen(port, function () {
+  console.log(`Server listening port ${port}`);
 });
-
-server.listen(8000);
