@@ -1,0 +1,26 @@
+{
+  "name": "2021_1_Fyvaoldzh",
+  "version": "1.0.0",
+  "description": "### kudago *(репозиторий фронтенда)*",
+  "main": "index.js",
+  "scripts": {
+    "start": "DEBUG=* node server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frontend-park-mail-ru/2021_1_Fyvaoldzh.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/frontend-park-mail-ru/2021_1_Fyvaoldzh/issues"
+  },
+  "homepage": "https://github.com/frontend-park-mail-ru/2021_1_Fyvaoldzh#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "debug": "^4.3.1",
+    "express": "^4.17.1"
+  }
+}
