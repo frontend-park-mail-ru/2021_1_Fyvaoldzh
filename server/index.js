@@ -27,6 +27,10 @@ app.get('/events', (req, res) => {
   res.sendFile(path.resolve(__dirname, '..', 'public/index.html'));
 })
 
+app.get('/event', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '..', 'public/one-event.html'));
+})
+
 const port = process.env.PORT || 3000;
 
 app.listen(port, function () {
