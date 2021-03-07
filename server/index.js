@@ -19,6 +19,14 @@ app.get('/login', (req, res) => {
   res.sendFile(path.resolve(__dirname, '..', 'public/login.html'));
 })
 
+app.get('/signup', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '..', 'public/signup.html'));
+})
+
+app.get('/events', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '..', 'public/index.html'));
+})
+
 const port = process.env.PORT || 3000;
 
 app.listen(port, function () {
