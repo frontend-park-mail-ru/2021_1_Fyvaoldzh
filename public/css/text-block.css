@@ -1,0 +1,36 @@
+:root {
+  --main-gradient: linear-gradient(90deg, #2e1665 0%, #57001e 100%);
+}
+
+.text-block {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 570px;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+  margin-top: 60px;
+}
+
+.text-block__title {
+  width: 510px;
+  height: 73px;
+  font-family: PT Serif;
+  font-weight: bold;
+  font-size: 50px;
+  line-height: 66px;
+  text-align: center;
+  color: #000000;
+}
+
+.text-block__body {
+  font-family: PT Serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 0em;
+  text-align: left;  
+}
