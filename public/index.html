@@ -11,129 +11,20 @@
     <link rel="stylesheet" href="css/events.css">
     <link rel="stylesheet" href="css/rows.css">
     <link rel="stylesheet" href="css/buttons.css">
+    <link rel="stylesheet" href="css/form.css">
+    <link rel="stylesheet" href="css/one-event.css">
     <meta name="viewport" content="width=device-width">
 </head>
 <body>
-    <div class="navbar">
-        <div class="container">
-            <div class="navbar__row">
-                <div class="logo">QDA</div>
-                <div class="navbar-menu">
-                    <a href="#" class="navbar-menu__signup"></a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="wrapper">
-        <div class="row">
-            <div class="container">
-                <div class="right-row">
-                    <div class="text-block">
-                    <div class="text-block__title">Заголовок.
-                    </div>
-                    <div class="decor-line"></div>
-                    <div class="text-block__body">Я в своем познании настолько преисполнился, что я как будто бы уже сто триллионов миллиардов лет проживаю на триллионах и триллионах таких же планет, как эта Земля, мне этот мир абсолютно понятен, и я здесь ищу только одного - покоя, умиротворения и вот этой гармонии, от слияния с бесконечно вечным, от созерцания великого фрактального подобия и от вот этого замечательного всеединства существа, бесконечно вечного, куда ни посмотри, хоть вглубь - бесконечно малое, хоть ввысь - бесконечное большое, понимаешь? А ты мне опять со своим вот этим, иди суетись дальше, это твоё распределение, это твой путь и твой горизонт познания и ощущения твоей природы, он несоизмеримо мелок по сравнению с моим, понимаешь?
-            
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="events-table">
-            <div class="container">
-                <div class="title">
-                    Находите события
-                    <div class="right-arrow"></div>
-                </div>
-                <div class="left-row">
-                    <button class="button-active">
-                        <span class="button-label">Выставки</span>
-                    </button>
-                    <button class="button-inactive">
-                        <span class="button-label_inactive">Кино</span>
-                    </button>
-                    <button class="button-inactive">
-                        <span class="button-label_inactive">Концерты</span>
-                    </button>
-                </div>
-                <div class="center-row">
-                    <div class="events-block">
-                        <div class="events-block__photo">
-                        </div>
-                        <div class="events-block__text">
-                            <div class="events-block__title">
-                            Какая-то очень красивая интересная выставка
-                            </div>
-                            <div class="events-block__info">
-                                12 мая в модной галерее
-                            </div>
-                        </div>
-                    </div>
-                    <div class="events-block">
-                        <div class="events-block__photo">
-                        </div>
-                        <div class="events-block__text">
-                            <div class="events-block__title">
-                            Какая-то очень красивая интересная выставка
-                            </div>
-                            <div class="events-block__info">
-                                12 мая в модной галерее
-                            </div>
-                        </div>
-                    </div>
-                    <div class="events-block">
-                        <div class="events-block__photo">
-                        </div>
-                        <div class="events-block__text">
-                            <div class="events-block__title">
-                            Какая-то очень красивая интересная выставка
-                            </div>
-                            <div class="events-block__info">
-                                12 мая в модной галерее
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="center-row">
-                    <div class="events-block">
-                        <div class="events-block__photo">
-                        </div>
-                        <div class="events-block__text">
-                            <div class="events-block__title">
-                            Какая-то очень красивая интересная выставка
-                            </div>
-                            <div class="events-block__info">
-                                12 мая в модной галерее
-                            </div>
-                        </div>
-                    </div>
-                    <div class="events-block">
-                        <div class="events-block__photo">
-                        </div>
-                        <div class="events-block__text">
-                            <div class="events-block__title">
-                            Какая-то очень красивая интересная выставка
-                            </div>
-                            <div class="events-block__info">
-                                12 мая в модной галерее
-                            </div>
-                        </div>
-                    </div>
-                   <div class="events-block">
-                        <div class="events-block__photo">
-                        </div>
-                        <div class="events-block__text">
-                            <div class="events-block__title">
-                            Какая-то очень красивая интересная выставка
-                            </div>
-                            <div class="events-block__info">
-                                12 мая в модной галерее
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
+    <div id="navbar" class="navbar"></div>
+    <div id="wrapper" class="wrapper"></div>
+
+    <script src="templates/navbar/navbar.js"></script>
+    <script src="templates/events/upper-text.js"></script>
+    <script src="templates/one-table-event/one-table-event.js"></script>
+    <script src="templates/signup/signup.js"></script>
+    <script src="templates/one-event-page/one-event-page.js"></script>
+    <script src="templates/login/login.js"></script>
+    <script type="module" src="js/main.js"></script>
 </body>
 </html>

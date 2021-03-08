@@ -1,0 +1,46 @@
+.row
+  .container
+    .left-row
+      .event-description
+        .event-description__star
+        .event-description__title
+          | #{Title}
+        .decor-line
+        .event-description__body
+          | #{Description}
+  .tags
+    .container
+      .left-row
+        button.button-inactive
+          span.button-label_inactive &Kcy;&ucy;&lcy;&softcy;&tcy;&ucy;&rcy;&acy;
+        button.button-inactive
+          span.button-label_inactive &Vcy;&ycy;&scy;&tcy;&acy;&vcy;&kcy;&icy;
+        button.button-inactive
+          span.button-label_inactive &Vcy;&ycy;&scy;&tcy;&acy;&vcy;&kcy;&icy;
+        button.button-inactive
+          span.button-label_inactive &Vcy;&ycy;&scy;&tcy;&acy;&vcy;&kcy;&icy;
+  .event-info
+    .container
+      .title
+        | &Kcy;&ocy;&gcy;&dcy;&acy;?
+      .event-info__date
+        | #{Date}
+      .title &Gcy;&dcy;&iecy;?
+      .event-info__location
+        .location-text
+          | #{Place}
+        .street-text
+          | #{Street}
+        .underground-text
+          | #{Subway}
+      .geolocation-image
+      .decor-line
+  .reviews-block
+    .container
+      .title &Ocy;&tcy;&zcy;&ycy;&vcy;&ycy;
+      .rewiew-form
+        .center-row
+          .rate-stars
+          textarea(name='rewiew-text' placeholder='Начните писать отзыв')
+          button.confirm-rewiew-button
+            span.button-label &Ocy;&tcy;&pcy;&rcy;&acy;&vcy;&icy;&tcy;&softcy;

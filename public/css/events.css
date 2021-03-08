@@ -18,7 +18,9 @@
 }
 
 .events-block__photo {
+  display: block;
   min-height: 300px;
+  min-width: 300px;
   background: url("../img/chel.jpg") no-repeat center / cover;
 }
 
