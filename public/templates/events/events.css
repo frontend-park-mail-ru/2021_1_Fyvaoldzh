@@ -3,7 +3,7 @@
 }
 
 .wrapper {
-    background: url("../img/events-background.jpg") no-repeat;
+    background: url("img/events-background.jpg") no-repeat;
 }
 
 .events-table {
@@ -21,7 +21,7 @@
   display: block;
   min-height: 300px;
   min-width: 300px;
-  background: url("../img/chel.jpg") no-repeat center / cover;
+  background: url("img/chel.jpg") no-repeat center / cover;
 }
 
 .events-block__title {

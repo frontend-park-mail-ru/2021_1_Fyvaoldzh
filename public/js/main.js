@@ -4,7 +4,7 @@ class eventComponent {
     constructor({
         parent = document.body,
         data = {},
-    } = {}) {
+    }) {
         this._parent = parent;
         this._data = data;
     }
@@ -42,8 +42,7 @@ let events_json = {
         Date: 'Пн-Сб',
         Street: 'Госпитальный пер.',
         Id: 2,
-    }
-    
+    },
 }
 
 const wrapper = document.getElementById('wrapper');
@@ -64,7 +63,7 @@ const urlMap = {
 
 function renderEvents() {
     wrapper.innerHTML = '';
-    wrapper.style.background = 'url("../img/events-background.jpg") no-repeat';
+    wrapper.style.background = 'url("templates/events/img/events-background.jpg") no-repeat';
     wrapper.innerHTML = upperTextTemplate({});
 
     const eventsRow = document.getElementById('events-row');
@@ -76,7 +75,7 @@ function renderEvents() {
 }
 
 function renderSignUp() {
-    wrapper.style.background =  'url("../img/login-background.jpg") no-repeat top / cover';
+    wrapper.style.background =  'url("components/img/form-background.jpg") no-repeat top / cover';
     wrapper.innerHTML = '';
     wrapper.innerHTML = signUpFormTemplate({});
 }
@@ -91,13 +90,13 @@ body.addEventListener('click', e => {
 });
 
 function renderEventPage(Id) {
-    wrapper.style.background =  'url("../img/event-page-background.jpg") no-repeat top right';
+    wrapper.style.background =  'url("templates/one-event-page/img/event-page-background.jpg") no-repeat top right';
     wrapper.innerHTML = '';
     wrapper.innerHTML = oneEventPageTemplate(events_json[Id]);
 }
 
 function renderLoginPage() {
-    wrapper.style.background =  'url("../img/login-background.jpg") no-repeat top / cover';
+    wrapper.style.background =  'url("components/img/form-background.jpg") no-repeat top / cover';
     wrapper.innerHTML = '';
     wrapper.innerHTML = loginTemplate();
 }
