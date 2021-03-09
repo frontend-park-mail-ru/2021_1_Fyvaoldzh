@@ -1,0 +1,46 @@
+.row
+  .container
+    .left-row
+      .event-description
+        .event-description__star
+        .event-description__title
+          | #{Title}
+        .decor-line
+        .event-description__body
+          | #{Description}
+  .tags
+    .container
+      .left-row
+        button.button-inactive
+          span.button-label_inactive Культура
+        button.button-inactive
+          span.button-label_inactive Выставки
+        button.button-inactive
+          span.button-label_inactive Событие
+        button.button-inactive
+          span.button-label_inactive Кино
+  .event-info
+    .container
+      .title
+        | Когда?
+      .event-info__date
+        | #{Date}
+      .title Когда?
+      .event-info__location
+        .location-text
+          | #{Place}
+        .street-text
+          | #{Street}
+        .underground-text
+          | #{Subway}
+      .geolocation-image
+      .decor-line
+  .reviews-block
+    .container
+      .title Отзывы
+      .rewiew-form
+        .center-row
+          .rate-stars
+          textarea(name='rewiew-text' placeholder='Начните писать отзыв')
+          button.confirm-rewiew-button
+            span.button-label Отправить

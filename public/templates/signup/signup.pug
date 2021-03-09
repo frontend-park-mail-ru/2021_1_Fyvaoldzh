@@ -1,0 +1,13 @@
+.form
+  a.form__arrow-back(href='#', data-direction='back')
+  .form__title Регистрация
+  .decor-line
+  .form-body
+    input.form-body__input__login(type='text' placeholder='Введите логин')
+    input.form-body__input__password(type='password' placeholder='Введите пароль')
+    input.form-body__input__nickname(type='text' placeholder='Введите имя')
+    button.confirm-button
+      span.button-label(type='submit') Зарегистрироваться
+    span.form__bottom-text
+      | Уже есть аккаунт?
+      a.a-stroke(data-direction='login' href='/login') Войдите.

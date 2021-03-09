@@ -8,6 +8,7 @@
   overflow: hidden;
   flex-direction: column;
   padding: 30px 0;
+  transition: background 1.5s ease-in-out;
 }
 
 .decor-line {
