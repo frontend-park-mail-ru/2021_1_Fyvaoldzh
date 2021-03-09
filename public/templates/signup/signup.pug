@@ -2,12 +2,12 @@
   a.form__arrow-back(href='#', data-direction='back')
   .form__title Регистрация
   .decor-line
-  .form-body
-    input.form-body__input__login(type='text' placeholder='Введите логин')
-    input.form-body__input__password(type='password' placeholder='Введите пароль')
-    input.form-body__input__nickname(type='text' placeholder='Введите имя')
-    button.confirm-button
-      span.button-label(type='submit') Зарегистрироваться
+  form.form-body(id='formBody')
+    input.form-body__input__login(type='text' name='login' placeholder='Введите логин')
+    input.form-body__input__password(type='password' name='password' placeholder='Введите пароль')
+    input.form-body__input__nickname(type='text' name='nickname' placeholder='Введите имя')
+    button.confirm-button(type='submit' id='postRegistration')
+      span.button-label Зарегистрироваться
     span.form__bottom-text
       | Уже есть аккаунт?
       a.a-stroke(data-direction='login' href='/login') Войдите.
