@@ -33,3 +33,14 @@
   height: 20px;
   background: url("img/vector.png") no-repeat center / 100%;
 }
+
+.navbar-profile-name {
+  color: white;
+}
+
+.navbar-profile-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: url("img/avatar.jpeg") no-repeat center / 100%;
+}

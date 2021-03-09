@@ -1,9 +1,10 @@
 'use strict';
 
-import {getAllEventsJson} from './networkModule/network.js';
+import {getAllEventsJson, getLoggedProfileData} from './networkModule/network.js';
 import {getEventById} from './networkModule/network.js';
 import {postRegistationData} from './networkModule/network.js';
 import {postLoginData} from './networkModule/network.js';
+import {logoutFunc} from './networkModule/network.js';
 
 class eventComponent {
     constructor({
@@ -21,10 +22,9 @@ class eventComponent {
 }
 
 const wrapper = document.getElementById('wrapper');
-const navbar = document.getElementById('navbar');
 
-navbar.innerHTML = navbarTemplate({});
-wrapper.innerHTML = upperTextTemplate({});
+
+//wrapper.innerHTML = upperTextTemplate({});
 
 const body = document.body;
 
@@ -34,6 +34,8 @@ const urlMap = {
     back: renderEvents,
     eventPage: renderEventPage,
     login: renderLoginPage,
+    profile: renderProfilePage,
+    logout: renderLogout,
 }
 
 async function renderEvents() {
@@ -77,12 +79,34 @@ body.addEventListener('click', async e => {
         
         if (target.id === 'postRegistration') {
             let answer = await postRegistationData(jsonData);
-            console.log(answer);
+            console.log(answer.ok);
+            if (answer.ok) {
+                let loginCheck = await getLoggedProfileData();
+                if (loginCheck.ok) {
+                    let profileInfo = await loginCheck.json();
+                    let navbarRow = document.getElementById('navbarRow');
+                    navbarRow.innerHTML = navbarLoggedTemplate(profileInfo);
+                }
+                renderEvents();
+            } else {
+                alert('Такой логин уже существует'); // TODO Максим, добавь какую-нибудь обработку
+            }
         }
 
         if (target.id === 'postLogin') {
             let answer = await postLoginData(jsonData);
             console.log(answer);
+            if (answer.ok) {
+                let loginCheck = await getLoggedProfileData();
+                if (loginCheck.ok) {
+                    let profileInfo = await loginCheck.json();
+                    let navbarRow = document.getElementById('navbarRow');
+                    navbarRow.innerHTML = navbarLoggedTemplate(profileInfo);
+                }
+                renderEvents();
+            } else {
+                alert('Неверный логин или пароль'); // TODO Максим, добавь какую-нибудь обработку
+            }
         }
     }
 });
@@ -99,8 +123,29 @@ function renderLoginPage() {
     wrapper.style.background =  'url("components/img/form-background.jpg") no-repeat top / cover';
     wrapper.innerHTML = '';
     wrapper.innerHTML = loginTemplate();
+    //logoutFunc();
 }
 
-renderEvents();
+function renderLogout() {
+    navbar.innerHTML = '';
+    navbar.innerHTML = navbarTemplate({});
+    logoutFunc();
+    renderEvents();
+}
 
-/////////////////////////////////////////////////////////////////////////////////// network
+function renderProfilePage() {
+    //TODO МАКСИМ
+}
+
+async function init() {
+    navbar.innerHTML = navbarTemplate({}); 
+    let loginCheck = await getLoggedProfileData();
+    if (loginCheck.ok) {
+        let profileInfo = await loginCheck.json();
+        let navbarRow = document.getElementById('navbarRow');
+        navbarRow.innerHTML = navbarLoggedTemplate(profileInfo);
+    }
+    renderEvents();
+}
+
+init();

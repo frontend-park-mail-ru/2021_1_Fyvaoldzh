@@ -7,10 +7,12 @@ const oneEventUrl = 'http://95.163.180.8:1323/api/v1/event/';
 const postLoginDataUrl = 'http://95.163.180.8:1323/api/v1/login';
 const postRegistrationDataUrl = 'http://95.163.180.8:1323/api/v1/register';
 
+const currentProfileUrl = 'http://95.163.180.8:1323/api/v1/profile';
+const logout = 'http://95.163.180.8:1323/api/v1/logout';
+
 export async function getAllEventsJson() {
     let answer = await fetch(allEventsUrl);
     let jsonFile = await answer.json();
-    console.log(answer);
     return jsonFile;
 }
 
@@ -29,19 +31,30 @@ export async function postRegistationData(jsonString) {
         },
         body: jsonString
     })
-    let result = await answer.json();
-    return result;
+    return answer;
 }
 
 export async function postLoginData(jsonString) {
     let answer = await fetch(postLoginDataUrl, {
         method: 'POST',
+        credentials: 'include',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
         },
         body: jsonString
     })
     console.log(answer);
-    let result = await answer.json();
-    return result;
+    return answer;
+}
+
+export async function getLoggedProfileData() {
+    let answer = await fetch(currentProfileUrl, {credentials: 'include'});
+    return answer;
+}
+
+export async function logoutFunc() {
+    let answer = await fetch(logout, {credentials: 'include'});
+    let a = await answer.json();
+    console.log(a);
+    return answer;
 }
