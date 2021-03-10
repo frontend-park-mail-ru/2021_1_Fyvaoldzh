@@ -8,6 +8,7 @@ import {logoutFunc} from './networkModule/network.js';
 import validation from './validationModule/inputValidation.js';
 
 const imgUrl = 'http://95.163.180.8:1323/api/v1/avatar/';
+const imgEventUrl = 'http://95.163.180.8:1323/api/v1/event/';
 
 class eventComponent {
     constructor({
@@ -19,8 +20,13 @@ class eventComponent {
     }
 
     render() {
+
         const template = oneTableEventTemplate(this._data);
+        
         this._parent.insertAdjacentHTML('beforeend', template)
+        let eventGet = document.getElementById(this._data.id);
+
+        eventGet.style.background = `url(${imgEventUrl + this._data.id}/image) no-repeat top / cover`;
     }
 }
 
@@ -67,7 +73,7 @@ body.addEventListener('click', async e => {
 
     if (Object.prototype.toString.call(target) === '[object HTMLAnchorElement]') {
         e.preventDefault();
-        urlMap[target.dataset.direction](target.dataset.eventid);
+        urlMap[target.dataset.direction](target.id);
     }
 
     if (Object.prototype.toString.call(target) === '[object HTMLButtonElement]') {
@@ -103,6 +109,7 @@ body.addEventListener('click', async e => {
                     renderLoggedNavbar();
                     renderEvents();
                 } else {
+
                     alert('Неверный логин или пароль'); // TODO Максим, добавь какую-нибудь обработку
                 }
             }

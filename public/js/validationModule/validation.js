@@ -14,7 +14,7 @@ const INPUTS = {
         errorMsg: VALIDATION_ERR_MESSAGES.LOGIN,
     },
     'name': {
-        regex: /^[a-zA-Z][a-zA-Z0-9]{4,}$/,
+        regex: /[^A-zА-я]{4,}/,
         inputName: 'name',
         errorMsg: VALIDATION_ERR_MESSAGES.NAME,
     },
