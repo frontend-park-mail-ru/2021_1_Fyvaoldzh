@@ -1,5 +1,11 @@
 'use strict';
 
+import {getLoggedProfileData} from '../networkModule/network.js';
+import {getAllEventsJson, getEventById, logoutFunc} from '../networkModule/network.js';
+
+export const imgUrl = 'http://95.163.180.8:1323/api/v1/avatar/';
+export const imgEventUrl = 'http://95.163.180.8:1323/api/v1/event/';
+
 export class eventComponent {
     constructor({
                     parent = document.body,
@@ -40,14 +46,6 @@ export function renderSignUp() {
     wrapper.innerHTML = signUpFormTemplate({});
 }
 
-export async function renderEventPage(Id) {
-    wrapper.style.background =  'url("templates/one-event-page/img/event-page-background.jpg") no-repeat top right';
-    wrapper.innerHTML = '';
-
-    const eventJson = await getEventById(Id);
-    wrapper.innerHTML = oneEventPageTemplate(eventJson);
-}
-
 export function renderLoginPage() {
     wrapper.style.background =  'url("components/img/form-background.jpg") no-repeat top / cover';
     wrapper.innerHTML = '';
@@ -68,10 +66,15 @@ export function renderProfilePage() {
     wrapper.innerHTML = profileTemplate({});
 }
 
-export function renderMyProfilePage() {
+export async function renderMyProfilePage() {
     wrapper.style.background = 'url("components/img/my-profile-background.jpg") no-repeat top / cover';
     wrapper.innerHTML = '';
-    wrapper.innerHTML = myProfileTemplate({});
+    let profileData = await getLoggedProfileData();
+    let profileDataJson = await profileData.json();
+
+    wrapper.innerHTML = myProfileTemplate(profileDataJson);
+    let ava = document.getElementById('profileAvatar');
+    ava.style.background = `url(${imgUrl + profileDataJson.Uid}) no-repeat`;
 }
 
 export function renderMyEventsPage() {
@@ -86,31 +89,6 @@ export async function renderEventPage(Id) {
 
     const eventJson = await getEventById(Id);
     wrapper.innerHTML = oneEventPageTemplate(eventJson);
-}
-
-export function renderLoginPage() {
-    wrapper.style.backgroundImage =  'url("components/img/form-background.jpg") no-repeat top / cover';
-    wrapper.innerHTML = '';
-    wrapper.innerHTML = loginTemplate();
-    //logoutFunc();
-}
-
-export function renderLogout() {
-    navbar.innerHTML = '';
-    navbar.innerHTML = navbarTemplate({});
-    logoutFunc();
-    renderEvents();
-}
-
-export async function renderMyProfilePage() {
-    wrapper.style.background = 'url("components/img/my-profile-background.jpg") no-repeat top / cover';
-    wrapper.innerHTML = '';
-    let profileData = await getLoggedProfileData();
-    let profileDataJson = await profileData.json();
-
-    wrapper.innerHTML = myProfileTemplate(profileDataJson);
-    let ava = document.getElementById('profileAvatar');
-    ava.style.background = `url(${imgUrl + profileDataJson.Uid}) no-repeat`;
 }
 
 export async function renderLoggedNavbar() {

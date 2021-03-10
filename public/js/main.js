@@ -1,16 +1,19 @@
 'use strict';
 
 import {getAllEventsJson, getLoggedProfileData, postProfileData, putAvatar} from './networkModule/network.js';
-import {getEventById} from './networkModule/network.js';
+import {imgUrl} from './renderModule/render.js';
 import {postRegistationData} from './networkModule/network.js';
 import {postLoginData} from './networkModule/network.js';
-import {logoutFunc} from './networkModule/network.js';
 import validation from './validationModule/inputValidation.js';
-import {init} from './initialModule/initial';
+import {init} from './initialModule/initial.js';
+import {renderLoggedNavbar, renderLoginPage, renderEvents} from './renderModule/render.js';
 
 const wrapper = document.getElementById('wrapper');
 
 //wrapper.innerHTML = upperTextTemplate({});
+
+import {urlMap} from '../js/initialModule/initial.js';
+
 
 const body = document.body;
 
@@ -38,10 +41,10 @@ body.addEventListener('click', async e => {
                 let jsonData = JSON.stringify(Object.fromEntries(dataFromForm));
                 let answer = await postRegistationData(jsonData);
                 if (answer.ok) {
-                    renderLoggedNavbar();
-                    renderEvents();
+                    renderLoginPage();
                 } else {
-                    alert('Такой логин уже существует'); // TODO Максим, добавь какую-нибудь обработку
+                    let errorSignupT = errorSignupTemplate();
+                    wrapper.insertAdjacentHTML('beforeend', errorSignupT);
                 }
             }
         }
@@ -56,8 +59,8 @@ body.addEventListener('click', async e => {
                     renderLoggedNavbar();
                     renderEvents();
                 } else {
-
-                    alert('Неверный логин или пароль'); // TODO Максим, добавь какую-нибудь обработку
+                    let errorLoginT = errorLoginTemplate();
+                    wrapper.insertAdjacentHTML('beforeend', errorLoginT);
                 }
             }
         }
@@ -97,7 +100,7 @@ body.addEventListener('click', async e => {
                         reader.readAsDataURL(blob) ;
                     }) ;
                 } else {
-                    alert('неведомая ошибка');
+                    //alert('неведомая ошибка');
                 }
             }
         }

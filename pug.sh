@@ -8,3 +8,5 @@
 (pug -c -n navbarLoggedTemplate public/components/navbar/navbar-logged.pug)
 (pug -c -n profileTemplate public/templates/profile/profile.pug)
 (pug -c -n myProfileTemplate public/templates/my-profile/my-profile.pug)
+(pug -c -n errorLoginTemplate public/templates/login/error-login.pug)
+(pug -c -n errorSignupTemplate public/templates/signup/errorSignup.pug)

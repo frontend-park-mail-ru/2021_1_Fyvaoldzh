@@ -14,7 +14,7 @@ const INPUTS = {
         errorMsg: VALIDATION_ERR_MESSAGES.LOGIN,
     },
     'name': {
-        regex: /[^A-zА-я]{4,}/,
+        regex: /^[a-zA-Z][a-zA-Z0-9]{4,}$/,
         inputName: 'name',
         errorMsg: VALIDATION_ERR_MESSAGES.NAME,
     },
@@ -30,12 +30,12 @@ const INPUTS = {
     },
     'city': {
         regex: /^[a-zA-Z][a-zA-Z0-9]{4,}$/,
-        inputName: 'name',
+        inputName: 'city',
         errorMsg: VALIDATION_ERR_MESSAGES.CITY,
     },
     'birthday': {
         regex: /^[a-zA-Z][a-zA-Z0-9]{4,}$/,
-        inputName: 'name',
+        inputName: 'birthday',
         errorMsg: VALIDATION_ERR_MESSAGES.BIRTHDAY,
     },
     
