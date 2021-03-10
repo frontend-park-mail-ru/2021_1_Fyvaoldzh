@@ -2,8 +2,9 @@ const VALIDATION_ERR_MESSAGES = {
     LOGIN: `Логин должен содержать минимум 5 символов`,
     PASSWORD: `Пароль из минимум 6 символов`,
     EMAIL: 'Неправильный формат электронной почты',
-    TAB_ADD: 'Название плейлиста не должно быть пустым',
     NAME: `Имя из минимум 5 символов`,
+    CITY: `Город минимум 3 символа`,
+    BIRTHDAY: `День рождения минимум 5 символов`,
 };
 
 const INPUTS = {
@@ -27,6 +28,17 @@ const INPUTS = {
         inputName: 'email',
         errorMsg: VALIDATION_ERR_MESSAGES.EMAIL,
     },
+    'city': {
+        regex: /^[a-zA-Z][a-zA-Z0-9]{4,}$/,
+        inputName: 'name',
+        errorMsg: VALIDATION_ERR_MESSAGES.CITY,
+    },
+    'birthday': {
+        regex: /^[a-zA-Z][a-zA-Z0-9]{4,}$/,
+        inputName: 'name',
+        errorMsg: VALIDATION_ERR_MESSAGES.BIRTHDAY,
+    },
+    
 };
 
 export default class Input {

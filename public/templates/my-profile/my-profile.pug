@@ -22,25 +22,25 @@
                 .settings-block__title
                     | Меня зовут:
                 form.span-form()
-                    input.settings-block__input(type='text' name='name' value=name)
+                    input.settings-block__input(type='text' placeholder='Введите' name='name' value=name class='form__input')
                     button.settings-block__edit-img(type='submit' id='postProfile')
             .settings-block__one-setting
                 .settings-block__title
                     | Дата рождения:
                 form.span-form()
-                    input.settings-block__input(type='text' name='birthday' value=birthday)
+                    input.settings-block__input(type='text' placeholder='Введите' name='birthday' value=birthday class='form__input')
                     button.settings-block__edit-img(type='submit' id='postProfile')
             .settings-block__one-setting
                 .settings-block__title
                     | Город:
                 form.span-form()
-                    input.settings-block__input(type='text' name='city' value=city)
-                    button.settings-block__edit-img(type='submit' id='postProfile')
+                    input.settings-block__input(type='text' placeholder='Введите' name='city' value=city class='form__input')
+                    button.settings-block__edit-img(type='submit' id='postProfile' class='form__input')
             .settings-block__one-setting
                 .settings-block__title
                     | Почта:
                 form.span-form()
-                    input.settings-block__input(type='text' name='email' value=email)
-                    button.settings-block__edit-img(type='submit' id='postProfile')
+                    input.settings-block__input(type='text' placeholder='Введите' name='email' value=email class='form__input')
+                    button.settings-block__edit-img(type='submit' id='postProfile' class='form__input')
             button.button-inactive
                 .button-label_inactive Изменить пароль;
