@@ -1,10 +1,12 @@
 'use strict';
 
-import {getAllEventsJson, getLoggedProfileData} from './networkModule/network.js';
+import {getAllEventsJson, getLoggedProfileData, postProfileData, putAvatar} from './networkModule/network.js';
 import {getEventById} from './networkModule/network.js';
 import {postRegistationData} from './networkModule/network.js';
 import {postLoginData} from './networkModule/network.js';
 import {logoutFunc} from './networkModule/network.js';
+
+const imgUrl = 'http://95.163.180.8:1323/api/v1/avatar/';
 
 class eventComponent {
     constructor({
@@ -34,7 +36,7 @@ const urlMap = {
     back: renderEvents,
     eventPage: renderEventPage,
     login: renderLoginPage,
-    profile: renderProfilePage,
+    profile: renderMyProfilePage,
     logout: renderLogout,
 }
 
@@ -72,21 +74,16 @@ body.addEventListener('click', async e => {
         const formBody = document.getElementById('formBody');
 
         console.log(Object.prototype.toString.call(formBody));
-        let dataFromForm = new FormData(formBody);
-        let jsonData = JSON.stringify(Object.fromEntries(dataFromForm));
+        
 
-        console.log(jsonData); // Возвращает строку в лог с параметрами
         
         if (target.id === 'postRegistration') {
+            let dataFromForm = new FormData(formBody);
+            let jsonData = JSON.stringify(Object.fromEntries(dataFromForm));
             let answer = await postRegistationData(jsonData);
             console.log(answer.ok);
             if (answer.ok) {
-                let loginCheck = await getLoggedProfileData();
-                if (loginCheck.ok) {
-                    let profileInfo = await loginCheck.json();
-                    let navbarRow = document.getElementById('navbarRow');
-                    navbarRow.innerHTML = navbarLoggedTemplate(profileInfo);
-                }
+                renderLoggedNavbar();
                 renderEvents();
             } else {
                 alert('Такой логин уже существует'); // TODO Максим, добавь какую-нибудь обработку
@@ -94,18 +91,43 @@ body.addEventListener('click', async e => {
         }
 
         if (target.id === 'postLogin') {
+            let dataFromForm = new FormData(formBody);
+            let jsonData = JSON.stringify(Object.fromEntries(dataFromForm));
             let answer = await postLoginData(jsonData);
             console.log(answer);
             if (answer.ok) {
-                let loginCheck = await getLoggedProfileData();
-                if (loginCheck.ok) {
-                    let profileInfo = await loginCheck.json();
-                    let navbarRow = document.getElementById('navbarRow');
-                    navbarRow.innerHTML = navbarLoggedTemplate(profileInfo);
-                }
+                renderLoggedNavbar();
                 renderEvents();
             } else {
                 alert('Неверный логин или пароль'); // TODO Максим, добавь какую-нибудь обработку
+            }
+        }
+
+        if (target.id === 'postProfile') {
+            let dataSpanForm = new FormData(target.parentNode);
+            let dataSpanFormJson = JSON.stringify(Object.fromEntries(dataSpanForm));
+            console.log(dataSpanFormJson);
+            let postProfileAnswer = await postProfileData(dataSpanFormJson);
+            renderLoggedNavbar();
+        }
+
+        if (target.id === 'postAvatarProfile') {
+            let avatarInput = document.getElementById('imageFile');
+            if (!avatarInput.value) {
+                alert('Не выбран аватар');
+            } else {
+                let photo = avatarInput.files[0];
+                let formPut = new FormData();
+                formPut.append("avatar", photo);
+                let answ = await putAvatar(formPut);
+                console.log(answ.ok);
+                if (answ.ok) {
+                    setTimeout(donothing, 500);
+                    renderEvents();
+                    renderLoggedNavbar();
+                } else {
+                    alert('неведомая ошибка');
+                }
             }
         }
     }
@@ -133,18 +155,35 @@ function renderLogout() {
     renderEvents();
 }
 
-function renderProfilePage() {
-    //TODO МАКСИМ
+async function renderMyProfilePage() {
+    wrapper.style.background = 'url("components/img/my-profile-background.jpg") no-repeat top / cover';
+    wrapper.innerHTML = '';
+    let profileData = await getLoggedProfileData();
+    let profileDataJson = await profileData.json();
+
+    wrapper.innerHTML = myProfileTemplate(profileDataJson);
+    let ava = document.getElementById('profileAvatar');
+    ava.style.background = `url(${imgUrl + profileDataJson.Uid}) no-repeat`;
 }
 
-async function init() {
-    navbar.innerHTML = navbarTemplate({}); 
+async function renderLoggedNavbar() {
     let loginCheck = await getLoggedProfileData();
     if (loginCheck.ok) {
         let profileInfo = await loginCheck.json();
         let navbarRow = document.getElementById('navbarRow');
+        navbarRow.innerHTML = '';
         navbarRow.innerHTML = navbarLoggedTemplate(profileInfo);
+        let navbarAvatar = document.getElementById('navbar-avatar');
+        
+        navbarAvatar.style.background = `url(${imgUrl + profileInfo.Uid}) no-repeat center / cover`;
+        
+
     }
+}
+
+async function init() {
+    navbar.innerHTML = navbarTemplate({}); 
+    renderLoggedNavbar();
     renderEvents();
 }
 

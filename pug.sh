@@ -6,3 +6,5 @@
 (pug -c -n upperTextTemplate public/templates/events/upper-text.pug)
 (pug -c -n navbarTemplate public/components/navbar/navbar.pug)
 (pug -c -n navbarLoggedTemplate public/components/navbar/navbar-logged.pug)
+(pug -c -n profileTemplate public/templates/profile/profile.pug)
+(pug -c -n myProfileTemplate public/templates/my-profile/my-profile.pug)

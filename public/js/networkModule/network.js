@@ -9,6 +9,7 @@ const postRegistrationDataUrl = 'http://95.163.180.8:1323/api/v1/register';
 
 const currentProfileUrl = 'http://95.163.180.8:1323/api/v1/profile';
 const logout = 'http://95.163.180.8:1323/api/v1/logout';
+const putAvatarUrl = 'http://95.163.180.8:1323/api/v1/upload_avatar';
 
 export async function getAllEventsJson() {
     let answer = await fetch(allEventsUrl);
@@ -47,6 +48,20 @@ export async function postLoginData(jsonString) {
     return answer;
 }
 
+export async function postProfileData(jsonString) {
+    let answer = await fetch(currentProfileUrl, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: jsonString
+    })
+    let a = await answer.text();
+    console.log(a);
+    return answer;
+}
+
 export async function getLoggedProfileData() {
     let answer = await fetch(currentProfileUrl, {credentials: 'include'});
     return answer;
@@ -54,7 +69,14 @@ export async function getLoggedProfileData() {
 
 export async function logoutFunc() {
     let answer = await fetch(logout, {credentials: 'include'});
-    let a = await answer.json();
-    console.log(a);
+    return answer;
+}
+
+export async function putAvatar(file) {
+    let answer = await fetch(putAvatarUrl, {
+        method: 'PUT',
+        credentials: 'include',
+        body: file
+    })
     return answer;
 }
