@@ -40,6 +40,10 @@ const urlMap = {
     logout: renderLogout,
 }
 
+/**
+ * Функция для построения страницы ивентов
+ */
+
 async function renderEvents() {
     wrapper.innerHTML = '';
     wrapper.style.background = 'url("templates/events/img/events-background.jpg") no-repeat';
@@ -54,11 +58,21 @@ async function renderEvents() {
     }
 }
 
+/**
+ * Функция построения страницы регистрации
+ */
+
 function renderSignUp() {
     wrapper.style.background =  'url("components/img/form-background.jpg") no-repeat top / cover';
     wrapper.innerHTML = '';
     wrapper.innerHTML = signUpFormTemplate({});
 }
+
+/**
+ * Функция для регистрации
+ * @param {string} type - тип события
+ * @return {Promise<void>} listener - обработчик события
+ */
 
 body.addEventListener('click', async e => {
     const {target} = e;
@@ -143,6 +157,11 @@ body.addEventListener('click', async e => {
     }
 });
 
+/**
+ * Функция для построения страницы одного ивента
+ * @param {uint64} Id - id ивента
+ */
+
 async function renderEventPage(Id) {
     wrapper.style.backgroundImage =  'url("templates/one-event-page/img/event-page-background.jpg") no-repeat top right';
     wrapper.innerHTML = '';
@@ -151,6 +170,10 @@ async function renderEventPage(Id) {
     wrapper.innerHTML = oneEventPageTemplate(eventJson);
 }
 
+/**
+ * Функция для генерации страницы логина
+ */
+
 function renderLoginPage() {
     wrapper.style.backgroundImage =  'url("components/img/form-background.jpg") no-repeat top / cover';
     wrapper.innerHTML = '';
@@ -158,12 +181,20 @@ function renderLoginPage() {
     //logoutFunc();
 }
 
+/**
+ * Функция для генерации страницы логаута
+ */
+
 function renderLogout() {
     navbar.innerHTML = '';
     navbar.innerHTML = navbarTemplate({});
     logoutFunc();
     renderEvents();
 }
+
+/**
+ * Функция для рендера страницы профиля
+ */
 
 async function renderMyProfilePage() {
     wrapper.style.background = 'url("components/img/my-profile-background.jpg") no-repeat top / cover';
@@ -175,6 +206,10 @@ async function renderMyProfilePage() {
     let ava = document.getElementById('profileAvatar');
     ava.style.background = `url(${imgUrl + profileDataJson.Uid}) no-repeat`;
 }
+
+/**
+ * Функция для рендера навбара залогинненого пользователя
+ */
 
 async function renderLoggedNavbar() {
     let loginCheck = await getLoggedProfileData();
@@ -190,6 +225,10 @@ async function renderLoggedNavbar() {
         navbarAvatar.style.background = `url(${imgUrl + profileInfo.Uid}) no-repeat center / cover`;
     }
 }
+
+/**
+ * Функция для рендера главной страницы
+ */
 
 async function init() {
     navbar.innerHTML = navbarTemplate({}); 

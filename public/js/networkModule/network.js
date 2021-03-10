@@ -11,11 +11,22 @@ const currentProfileUrl = 'http://95.163.180.8:1323/api/v1/profile';
 const logout = 'http://95.163.180.8:1323/api/v1/logout';
 const putAvatarUrl = 'http://95.163.180.8:1323/api/v1/upload_avatar';
 
+/**
+ * Функция для получения ивентов
+ * @return {json} - возвращает json
+ */
+
 export async function getAllEventsJson() {
     let answer = await fetch(allEventsUrl);
     let jsonFile = await answer.json();
     return jsonFile;
 }
+
+/**
+ * Функция для получения ивента по id
+ * @param {uint64} id - форма для валидации
+ * @return {json} - json ивента
+ */
 
 export async function getEventById(id) {
     let answer = await fetch(oneEventUrl + id);
@@ -23,6 +34,12 @@ export async function getEventById(id) {
     console.log(jsonFile);
     return jsonFile;
 }
+
+/**
+ * Функция для регистрации
+ * @param {json} jsonString - данные в формате json
+ * @return {Response} answer - ответ
+ */
 
 export async function postRegistationData(jsonString) {
     let answer = await fetch(postRegistrationDataUrl, {
@@ -34,6 +51,12 @@ export async function postRegistationData(jsonString) {
     })
     return answer;
 }
+
+/**
+ * Функция для логина
+ * @param {json} jsonString - данные в формате json
+ * @return {Response} answer - ответ
+ */
 
 export async function postLoginData(jsonString) {
     let answer = await fetch(postLoginDataUrl, {
@@ -47,6 +70,12 @@ export async function postLoginData(jsonString) {
     console.log(answer);
     return answer;
 }
+
+/**
+ * Функция для обновления профиля
+ * @param {json} jsonString - данные обновленные в формате json
+ * @return {Response} answer - ответ
+ */
 
 export async function postProfileData(jsonString) {
     let answer = await fetch(currentProfileUrl, {
@@ -62,15 +91,31 @@ export async function postProfileData(jsonString) {
     return answer;
 }
 
+/**
+ * Функция для получения профиля текущего пользователя
+ * @return {Response} answer - ответ
+ */
+
 export async function getLoggedProfileData() {
     let answer = await fetch(currentProfileUrl, {credentials: 'include'});
     return answer;
 }
 
+/**
+ * Функция для выхода из системы
+ * @return {Response} answer - ответ
+ */
+
 export async function logoutFunc() {
     let answer = await fetch(logout, {credentials: 'include'});
     return answer;
 }
+
+/**
+ * Функция для обновления аватара
+ * @param {FormData} file -
+ * @return {Response} answer - ответ
+ */
 
 export async function putAvatar(file) {
     let answer = await fetch(putAvatarUrl, {
