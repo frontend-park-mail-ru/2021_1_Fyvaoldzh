@@ -5,6 +5,7 @@ import {getEventById} from './networkModule/network.js';
 import {postRegistationData} from './networkModule/network.js';
 import {postLoginData} from './networkModule/network.js';
 import {logoutFunc} from './networkModule/network.js';
+import validation from './validationModule/inputValidation.js';
 
 const imgUrl = 'http://95.163.180.8:1323/api/v1/avatar/';
 
@@ -79,27 +80,31 @@ body.addEventListener('click', async e => {
         
         if (target.id === 'postRegistration') {
             let dataFromForm = new FormData(formBody);
-            let jsonData = JSON.stringify(Object.fromEntries(dataFromForm));
-            let answer = await postRegistationData(jsonData);
-            console.log(answer.ok);
-            if (answer.ok) {
-                renderLoggedNavbar();
-                renderEvents();
-            } else {
-                alert('Такой логин уже существует'); // TODO Максим, добавь какую-нибудь обработку
+            if (validation(formBody)) {
+                console.log(validation(formBody));
+                let jsonData = JSON.stringify(Object.fromEntries(dataFromForm));
+                let answer = await postRegistationData(jsonData);
+                if (answer.ok) {
+                    renderLoggedNavbar();
+                    renderEvents();
+                } else {
+                    alert('Такой логин уже существует'); // TODO Максим, добавь какую-нибудь обработку
+                }
             }
         }
 
         if (target.id === 'postLogin') {
             let dataFromForm = new FormData(formBody);
-            let jsonData = JSON.stringify(Object.fromEntries(dataFromForm));
-            let answer = await postLoginData(jsonData);
-            console.log(answer);
-            if (answer.ok) {
-                renderLoggedNavbar();
-                renderEvents();
-            } else {
-                alert('Неверный логин или пароль'); // TODO Максим, добавь какую-нибудь обработку
+            if (validation(formBody)) {
+                let jsonData = JSON.stringify(Object.fromEntries(dataFromForm));
+                let answer = await postLoginData(jsonData);
+                console.log(answer);
+                if (answer.ok) {
+                    renderLoggedNavbar();
+                    renderEvents();
+                } else {
+                    alert('Неверный логин или пароль'); // TODO Максим, добавь какую-нибудь обработку
+                }
             }
         }
 
