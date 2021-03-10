@@ -31,7 +31,7 @@ export async function getAllEventsJson() {
 export async function getEventById(id) {
     let answer = await fetch(oneEventUrl + id);
     let jsonFile = await answer.json();
-    console.log(jsonFile);
+    // console.log(jsonFile);
     return jsonFile;
 }
 
@@ -67,7 +67,7 @@ export async function postLoginData(jsonString) {
         },
         body: jsonString
     })
-    console.log(answer);
+    // console.log(answer);
     return answer;
 }
 
@@ -87,7 +87,7 @@ export async function postProfileData(jsonString) {
         body: jsonString
     })
     let a = await answer.text();
-    console.log(a);
+    // console.log(a);
     return answer;
 }
 
