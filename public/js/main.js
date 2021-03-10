@@ -1,104 +1,108 @@
-'use strict';
+import {
+  getLoggedProfileData, putAvatar,
+  postRegistationData, postLoginData,
+} from './libs/network/network.js';
+import {
+  imgUrl, renderLoggedNavbar, renderLoginPage, renderEvents,
+} from './libs/render/render.js';
 
-class eventComponent {
-    constructor({
-        parent = document.body,
-        data = {},
-    }) {
-        this._parent = parent;
-        this._data = data;
-    }
+import validation from './libs/validation/inputValidation.js';
+import { init, urlMap } from './libs/initial/initial.js';
 
-    render() {
-        const template = oneTableEventTemplate(this._data);
-        this._parent.insertAdjacentHTML('beforeend', template)
-    }
-}
-
-let events_json = {
-    '0': {
-        Title: 'Первое мега событие',
-        Place: 'Где-то там',
-        Description: 'Супер',
-        Date: '12 мая',
-        Subway: 'Метро Петровско-Разумовская',
-        Street: 'Улица Пушкина, дом Колотушкина',
-        Id: 0,
-    },
-    '1': {
-        Title: 'А это еще лучше',
-        Place: 'Общага',
-        Date: '13 апреля',
-        Subway: 'Метро Измайловская',
-        Street: 'Измайловский проспект 73А',
-        Description: 'Ваще круто',
-        Id: 1,
-    },
-    '2': {
-        Title: 'Лучше не приходить',
-        Place: 'Бауманка',
-        Description: 'Тут пары',
-        Subway: 'Метро Бауманская',
-        Date: 'Пн-Сб',
-        Street: 'Госпитальный пер.',
-        Id: 2,
-    },
-}
+// wrapper.innerHTML = upperTextTemplate({});
 
 const wrapper = document.getElementById('wrapper');
-const navbar = document.getElementById('navbar');
 
-navbar.innerHTML = navbarTemplate({});
-wrapper.innerHTML = upperTextTemplate({});
+const { body } = document;
 
-const body = document.body;
+body.addEventListener('click', async (e) => {
+  const { target } = e;
+  // console.log(Object.prototype.toString.call(target));
 
-const urlMap = {
-    main: renderEvents,
-    signup: renderSignUp,
-    back: renderEvents,
-    eventPage: renderEventPage,
-    login: renderLoginPage,
-}
+  if (Object.prototype.toString.call(target) === '[object HTMLAnchorElement]') {
+    e.preventDefault();
+    urlMap[target.dataset.direction](target.id);
+  }
 
-function renderEvents() {
-    wrapper.innerHTML = '';
-    wrapper.style.background = 'url("templates/events/img/events-background.jpg") no-repeat';
-    wrapper.innerHTML = upperTextTemplate({});
+  if (Object.prototype.toString.call(target) === '[object HTMLButtonElement]') {
+    e.preventDefault();
+    const formBody = document.getElementById('formBody');
 
-    const eventsRow = document.getElementById('events-row');
-    
-    for (let i in events_json) {
-        const innerEvent = new eventComponent({parent: eventsRow, data: events_json[i]});
-        innerEvent.render();
+    // console.log(Object.prototype.toString.call(formBody));
+
+    if (target.id === 'postRegistration') {
+      const dataFromForm = new FormData(formBody);
+      if (validation(formBody)) {
+        // console.log(validation(formBody));
+        const jsonData = JSON.stringify(Object.fromEntries(dataFromForm));
+        const answer = await postRegistationData(jsonData);
+        if (answer.ok) {
+          renderLoginPage();
+        } else {
+          const errorSignupT = errorSignupTemplate();
+          wrapper.insertAdjacentHTML('beforeend', errorSignupT);
+        }
+      }
     }
-}
 
-function renderSignUp() {
-    wrapper.style.background =  'url("components/img/form-background.jpg") no-repeat top / cover';
-    wrapper.innerHTML = '';
-    wrapper.innerHTML = signUpFormTemplate({});
-}
-
-body.addEventListener('click', e => {
-    const {target} = e;
-
-    if (Object.prototype.toString.call(target) === '[object HTMLAnchorElement]') {
-        e.preventDefault();
-        urlMap[target.dataset.direction](target.dataset.eventid);
+    if (target.id === 'postLogin') {
+      const dataFromForm = new FormData(formBody);
+      if (validation(formBody)) {
+        const jsonData = JSON.stringify(Object.fromEntries(dataFromForm));
+        const answer = await postLoginData(jsonData);
+        // console.log(answer);
+        if (answer.ok) {
+          renderLoggedNavbar();
+          renderEvents();
+        } else {
+          const errorLoginT = errorLoginTemplate();
+          wrapper.insertAdjacentHTML('beforeend', errorLoginT);
+        }
+      }
     }
+
+    if (target.id === 'postProfile') {
+      // const dataSpanForm = new FormData(target.parentNode);
+      if (validation(target.parentNode)) {
+        // const dataSpanFormJson = JSON.stringify(Object.fromEntries(dataSpanForm));
+        // console.log(dataSpanFormJson);
+        // const postProfileAnswer = await postProfileData(dataSpanFormJson);
+        renderLoggedNavbar();
+      }
+    }
+
+    if (target.id === 'postAvatarProfile') {
+      const avatarInput = document.getElementById('imageFile');
+      if (!avatarInput.value) {
+        alert('Не выбран аватар');
+      } else {
+        const photo = avatarInput.files[0];
+        const formPut = new FormData();
+        formPut.append('avatar', photo);
+        // console.log(formPut);
+        const answ = await putAvatar(formPut);
+        if (answ.ok) {
+          const loginCheck = await getLoggedProfileData();
+          const profileInfo = await loginCheck.json();
+          // const navbarRow = document.getElementById('navbarRow');
+
+          const navbarAvatar = document.getElementById('navbar-avatar');
+          const avaProfile = document.getElementById('profileAvatar');
+
+          fetch(`${imgUrl + profileInfo.Uid}`).then((response) => response.blob()).then((blob) => {
+            const reader = new FileReader();
+            reader.onload = function () {
+              navbarAvatar.style.background = `url(${this.result}) no-repeat center / cover`;
+              avaProfile.style.background = `url(${this.result}) no-repeat center / cover`;
+            };
+            reader.readAsDataURL(blob);
+          });
+        } else {
+          // alert('неведомая ошибка');
+        }
+      }
+    }
+  }
 });
 
-function renderEventPage(Id) {
-    wrapper.style.background =  'url("templates/one-event-page/img/event-page-background.jpg") no-repeat top right';
-    wrapper.innerHTML = '';
-    wrapper.innerHTML = oneEventPageTemplate(events_json[Id]);
-}
-
-function renderLoginPage() {
-    wrapper.style.background =  'url("components/img/form-background.jpg") no-repeat top / cover';
-    wrapper.innerHTML = '';
-    wrapper.innerHTML = loginTemplate();
-}
-
-renderEvents();
+init();
