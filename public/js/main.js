@@ -119,12 +119,22 @@ body.addEventListener('click', async e => {
                 let photo = avatarInput.files[0];
                 let formPut = new FormData();
                 formPut.append("avatar", photo);
+                console.log(formPut);
                 let answ = await putAvatar(formPut);
-                console.log(answ.ok);
                 if (answ.ok) {
-                    setTimeout(donothing, 500);
-                    renderEvents();
-                    renderLoggedNavbar();
+                    let loginCheck = await getLoggedProfileData();
+                    let profileInfo = await loginCheck.json();
+                    let navbarRow = document.getElementById('navbarRow');
+
+                    let navbarAvatar = document.getElementById('navbar-avatar');
+                    let avaProfile = document.getElementById('profileAvatar');
+                    
+                    fetch(`${imgUrl + profileInfo.Uid}`).then((response) => response.blob()).then(blob => {
+                        const reader = new FileReader() ;
+                        reader.onload = function() { navbarAvatar.style.background = `url(${this.result}) no-repeat center / cover`
+                                                     avaProfile.style.background = `url(${this.result}) no-repeat center / cover`};
+                        reader.readAsDataURL(blob) ;
+                    }) ;
                 } else {
                     alert('неведомая ошибка');
                 }
@@ -134,7 +144,7 @@ body.addEventListener('click', async e => {
 });
 
 async function renderEventPage(Id) {
-    wrapper.style.background =  'url("templates/one-event-page/img/event-page-background.jpg") no-repeat top right';
+    wrapper.style.backgroundImage =  'url("templates/one-event-page/img/event-page-background.jpg") no-repeat top right';
     wrapper.innerHTML = '';
 
     const eventJson = await getEventById(Id);
@@ -142,7 +152,7 @@ async function renderEventPage(Id) {
 }
 
 function renderLoginPage() {
-    wrapper.style.background =  'url("components/img/form-background.jpg") no-repeat top / cover';
+    wrapper.style.backgroundImage =  'url("components/img/form-background.jpg") no-repeat top / cover';
     wrapper.innerHTML = '';
     wrapper.innerHTML = loginTemplate();
     //logoutFunc();
@@ -168,7 +178,9 @@ async function renderMyProfilePage() {
 
 async function renderLoggedNavbar() {
     let loginCheck = await getLoggedProfileData();
+    console.log(loginCheck.ok);
     if (loginCheck.ok) {
+        
         let profileInfo = await loginCheck.json();
         let navbarRow = document.getElementById('navbarRow');
         navbarRow.innerHTML = '';
@@ -176,8 +188,6 @@ async function renderLoggedNavbar() {
         let navbarAvatar = document.getElementById('navbar-avatar');
         
         navbarAvatar.style.background = `url(${imgUrl + profileInfo.Uid}) no-repeat center / cover`;
-        
-
     }
 }
 
