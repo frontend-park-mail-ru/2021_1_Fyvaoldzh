@@ -1,7 +1,7 @@
 'use strict';
 
-import {getLoggedProfileData} from '../network/network.js';
-import {getAllEventsJson, getEventById, logoutFunc} from '../network/network.js';
+import {getLoggedProfileData} from '../networkModule/network.js';
+import {getAllEventsJson, getEventById, logoutFunc} from '../networkModule/network.js';
 
 export const imgUrl = 'http://95.163.180.8:1323/api/v1/avatar/';
 export const imgEventUrl = 'http://95.163.180.8:1323/api/v1/event/';
@@ -93,7 +93,7 @@ export async function renderEventPage(Id) {
 
 export async function renderLoggedNavbar() {
     let loginCheck = await getLoggedProfileData();
-    // console.log(loginCheck.ok);
+    console.log(loginCheck.ok);
     if (loginCheck.ok) {
 
         let profileInfo = await loginCheck.json();
