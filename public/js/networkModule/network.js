@@ -44,6 +44,7 @@ export async function getEventById(id) {
 export async function postRegistationData(jsonString) {
     let answer = await fetch(postRegistrationDataUrl, {
         method: 'POST',
+        credentials: 'include',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
         },

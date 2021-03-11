@@ -41,7 +41,8 @@ body.addEventListener('click', async e => {
                 let jsonData = JSON.stringify(Object.fromEntries(dataFromForm));
                 let answer = await postRegistationData(jsonData);
                 if (answer.ok) {
-                    renderLoginPage();
+                    renderEvents();
+                    renderLoggedNavbar();
                 } else {
                     let errorSignupT = errorSignupTemplate();
                     wrapper.insertAdjacentHTML('beforeend', errorSignupT);
