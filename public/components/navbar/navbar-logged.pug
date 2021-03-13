@@ -1,8 +1,9 @@
-.logo
-  a(href='/' data-direction='main' data-profileId=Uid) QDA
-.profile-nav
-  .navbar-profile-avatar(id='navbar-avatar')
-  a.navbar-profile-name(href='#' data-direction='profile')
-    | #{name}
-a(href="#", data-direction='logout')
-  | logout
+.container
+  .navbar__row(id='navbarRow')
+    a.logo(href='/' data-direction='main' data-profileId=Uid) QDA
+    .navbar-menu
+      .profile-nav
+        .navbar-profile-avatar(id='navbar-avatar')
+        a.navbar-profile-name(href='#' data-direction='profile')
+          | #{name}
+        a.navbar-menu__logout(href='/signup' data-direction='logout')

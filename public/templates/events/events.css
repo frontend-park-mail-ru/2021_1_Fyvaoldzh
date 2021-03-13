@@ -24,6 +24,11 @@
   background: url("img/chel.jpg") no-repeat center / cover;
 }
 
+.events-block__photo:hover {
+  transform: scale(1.05);
+  transition-duration: 0.5s;
+}
+
 .events-block__title {
   font-family: PT Serif;
   font-size: 24px;

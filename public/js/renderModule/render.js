@@ -27,6 +27,7 @@ export class eventComponent {
 }
 
 export async function renderEvents() {
+    window.scroll(0, 0);
     wrapper.innerHTML = '';
     wrapper.style.background = 'url("templates/events/img/events-background.jpg") no-repeat';
     wrapper.innerHTML = upperTextTemplate({});
@@ -84,6 +85,7 @@ export function renderMyEventsPage() {
 }
 
 export async function renderEventPage(Id) {
+    window.scroll(0, 0);
     wrapper.style.backgroundImage =  'url("templates/one-event-page/img/event-page-background.jpg") no-repeat top right';
     wrapper.innerHTML = '';
 
@@ -97,9 +99,8 @@ export async function renderLoggedNavbar() {
     if (loginCheck.ok) {
 
         let profileInfo = await loginCheck.json();
-        let navbarRow = document.getElementById('navbarRow');
-        navbarRow.innerHTML = '';
-        navbarRow.innerHTML = navbarLoggedTemplate(profileInfo);
+        navbar.innerHTML = '';
+        navbar.innerHTML = navbarLoggedTemplate(profileInfo);
         let navbarAvatar = document.getElementById('navbar-avatar');
 
         navbarAvatar.style.background = `url(${imgUrl + profileInfo.Uid}) no-repeat center / cover`;
