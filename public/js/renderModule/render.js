@@ -85,7 +85,7 @@ export function renderMyEventsPage() {
 }
 
 export async function renderEventPage(Id) {
-    window.scroll(0, 0);
+    window.scroll(0, 0);  //
     wrapper.style.backgroundImage =  'url("templates/one-event-page/img/event-page-background.jpg") no-repeat top right';
     wrapper.innerHTML = '';
 

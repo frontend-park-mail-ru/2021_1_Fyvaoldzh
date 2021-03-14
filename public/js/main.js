@@ -17,9 +17,22 @@ import {urlMap} from '../js/initialModule/initial.js';
 
 const body = document.body;
 
+
 body.addEventListener('click', async e => {
+    const navbarCheckbox = document.getElementById('toggle');
     const {target} = e;
     console.log(Object.prototype.toString.call(target));
+
+    /*if (Object.prototype.toString.call(target) !== '[object HTMLInputElement]') {
+        // Сворачивание открытого профиля навбарчика при нажатии куда-либо
+        navbarCheckbox.checked = false;
+    }
+
+    if (Object.prototype.toString.call(target) === '[object HTMLInputElement]') {
+        console.log(navbarCheckbox.checked)
+        navbarCheckbox.checked = !navbarCheckbox.checked;
+    }
+    */
 
     if (Object.prototype.toString.call(target) === '[object HTMLAnchorElement]') {
         e.preventDefault();
