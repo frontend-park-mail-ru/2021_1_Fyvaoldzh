@@ -26,6 +26,7 @@
 }
 
 input {
+  position: relative;
   font-family: PT Serif;
   font-size: 20px;
   left: 5px;

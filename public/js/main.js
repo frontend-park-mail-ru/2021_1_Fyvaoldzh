@@ -34,6 +34,8 @@ body.addEventListener('click', async e => {
     }
     */
 
+    
+
     if (Object.prototype.toString.call(target) === '[object HTMLAnchorElement]') {
         e.preventDefault();
         urlMap[target.dataset.direction](target.id);

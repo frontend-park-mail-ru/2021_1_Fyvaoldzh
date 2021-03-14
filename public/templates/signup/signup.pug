@@ -4,8 +4,11 @@
   .decor-line
   form.form-body(id='formBody')
     input.form-body__input__login(type='text' name='login' placeholder='Введите логин' class='form__input')
+    .form-body__error_input(id="loginError")
     input.form-body__input__password(type='password' name='password' placeholder='Введите пароль' class='form__input')
+    .form-body__error_input(id="passwordError")
     input.form-body__input__nickname(type='text' name='name' placeholder='Введите имя' class='form__input')
+    .form-body__error_input(id="nicknameError")
     button.confirm-button.button-label(type='submit' id='postRegistration')
       | Зарегистрироваться
     span.form__bottom-text
