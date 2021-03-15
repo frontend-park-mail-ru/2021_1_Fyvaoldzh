@@ -11,11 +11,9 @@ const validation = (form) => {
     const inputs = form.getElementsByClassName('form__input');
 
 
-    document.getElementById('loginError').innerText = '';
-    document.getElementById('passwordError').innerText = '';
-    //document.getElementById('nicknameError').innerText = '';
-
-    
+    document.getElementById('loginError') ? document.getElementById('loginError').innerText = '' : null;
+    document.getElementById('passwordError') ? document.getElementById('passwordError').innerText = '' : null;
+    document.getElementById('nicknameError') ? document.getElementById('nicknameError').innerText = '' : null;
     
 
     for (const inputItem of inputs) {

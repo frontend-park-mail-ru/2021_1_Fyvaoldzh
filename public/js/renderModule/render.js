@@ -42,12 +42,14 @@ export async function renderEvents() {
 }
 
 export function renderSignUp() {
+    window.scroll(0, 0);
     wrapper.style.background =  'url("components/img/form-background.jpg") no-repeat top / cover';
     wrapper.innerHTML = '';
     wrapper.innerHTML = signUpFormTemplate({});
 }
 
 export function renderLoginPage() {
+    window.scroll(0, 0);
     wrapper.style.background =  'url("components/img/form-background.jpg") no-repeat top / cover';
     wrapper.innerHTML = '';
     wrapper.innerHTML = loginTemplate();
@@ -55,6 +57,7 @@ export function renderLoginPage() {
 }
 
 export function renderLogout() {
+    window.scroll(0, 0);
     navbar.innerHTML = '';
     navbar.innerHTML = navbarTemplate({});
     logoutFunc();
@@ -62,12 +65,14 @@ export function renderLogout() {
 }
 
 export function renderProfilePage() {
+    window.scroll(0, 0);
     wrapper.style.background = 'url("components/img/profile-background.jpg") no-repeat top / cover';
     wrapper.innerHTML = '';
     wrapper.innerHTML = profileTemplate({});
 }
 
 export async function renderMyProfilePage() {
+    window.scroll(0, 0);
     wrapper.style.background = 'url("components/img/my-profile-background.jpg") no-repeat top / cover';
     wrapper.innerHTML = '';
     let profileData = await getLoggedProfileData();
@@ -79,6 +84,7 @@ export async function renderMyProfilePage() {
 }
 
 export function renderMyEventsPage() {
+    window.scroll(0, 0);
     wrapper.style.background = 'url("components/img/my-events-background.jpg") no-repeat top / cover';
     wrapper.innerHTML = '';
     wrapper.innerHTML = myEventsTemplate({});
@@ -94,6 +100,7 @@ export async function renderEventPage(Id) {
 }
 
 export async function renderLoggedNavbar() {
+    window.scroll(0, 0);
     let loginCheck = await getLoggedProfileData();
     console.log(loginCheck.ok);
     if (loginCheck.ok) {
