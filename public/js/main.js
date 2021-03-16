@@ -14,6 +14,22 @@ const wrapper = document.getElementById('wrapper');
 
 import {urlMap} from '../js/initialModule/initial.js';
 
+const SERVER_ERRORS = {
+    LOGIN: 'Неправильный логин или пароль',
+    REGISTRATION: 'Такой логин уже существует',
+}
+
+function drawServerError(error) {
+    if (document.getElementById('nicknameError')) {
+        document.getElementsByName('login').forEach(el => el.style.boxShadow = '0px 0px 10px 0px #CE0E50');
+        document.getElementById('loginError').style.boxShadow = '0px 0px 10px 0px #CE0E50';
+        document.getElementById('nicknameError').innerText = error;
+    } else {
+        document.getElementsByName('login').forEach(el => el.style.boxShadow = '0px 0px 10px 0px #CE0E50');
+        document.getElementsByName('password').forEach(el => el.style.boxShadow = '0px 0px 10px 0px #CE0E50');
+        document.getElementById('passwordError').innerText = error;
+    }
+}
 
 const body = document.body;
 
@@ -59,8 +75,7 @@ body.addEventListener('click', async e => {
                     renderEvents();
                     renderLoggedNavbar();
                 } else {
-                    let errorSignupT = errorSignupTemplate();
-                    wrapper.insertAdjacentHTML('beforeend', errorSignupT);
+                    drawServerError(SERVER_ERRORS.REGISTRATION);
                 }
             }
         }
@@ -75,8 +90,7 @@ body.addEventListener('click', async e => {
                     renderLoggedNavbar();
                     renderEvents();
                 } else {
-                    let errorLoginT = errorLoginTemplate();
-                    wrapper.insertAdjacentHTML('beforeend', errorLoginT);
+                    drawServerError(SERVER_ERRORS.LOGIN);
                 }
             }
         }
