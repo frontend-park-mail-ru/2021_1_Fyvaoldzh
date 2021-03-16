@@ -12,6 +12,8 @@ const wrapper = document.getElementById('wrapper');
 
 //wrapper.innerHTML = upperTextTemplate({});
 
+const body = document.body;
+
 import {urlMap} from '../js/initialModule/initial.js';
 
 const SERVER_ERRORS = {
@@ -31,13 +33,10 @@ function drawServerError(error) {
     }
 }
 
-const body = document.body;
-
-
 body.addEventListener('click', async e => {
     const navbarCheckbox = document.getElementById('toggle');
     const {target} = e;
-    console.log(Object.prototype.toString.call(target));
+    //console.log(Object.prototype.toString.call(target));
 
     /*if (Object.prototype.toString.call(target) !== '[object HTMLInputElement]') {
         // Сворачивание открытого профиля навбарчика при нажатии куда-либо
@@ -60,10 +59,6 @@ body.addEventListener('click', async e => {
     if (Object.prototype.toString.call(target) === '[object HTMLButtonElement]') {
         e.preventDefault();
         const formBody = document.getElementById('formBody');
-
-        console.log(Object.prototype.toString.call(formBody));
-        
-
         
         if (target.id === 'postRegistration') {
             let dataFromForm = new FormData(formBody);
@@ -134,6 +129,7 @@ body.addEventListener('click', async e => {
                 }
             }
         }
+        
     }
 });
 

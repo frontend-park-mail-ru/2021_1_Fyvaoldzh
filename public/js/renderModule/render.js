@@ -64,6 +64,25 @@ export function renderLogout() {
     renderEvents();
 }
 
+async function handleFileSelect(e) {
+    var file = e.target.files[0]; 
+    // Только изображения.
+    if (!file.type.match('image.*')) {
+        alert("Image only please....");
+    }
+    var reader = new FileReader();
+    // Closure to capture the file information.
+
+    reader.onload = function(evnt) {
+        console.log(evnt.target.result);
+        let ava = document.getElementById('profileAvatar');
+        ava.style.background = `url(${evnt.target.result}) no-repeat`;
+    }
+
+    reader.readAsDataURL(file);
+}
+
+
 export function renderProfilePage() {
     window.scroll(0, 0);
     wrapper.style.background = 'url("components/img/profile-background.jpg") no-repeat top / cover';
@@ -81,6 +100,7 @@ export async function renderMyProfilePage() {
     wrapper.innerHTML = myProfileTemplate(profileDataJson);
     let ava = document.getElementById('profileAvatar');
     ava.style.background = `url(${imgUrl + profileDataJson.Uid}) no-repeat`;
+    document.getElementById('imageFile').addEventListener('change', handleFileSelect);
 }
 
 export function renderMyEventsPage() {
@@ -102,9 +122,8 @@ export async function renderEventPage(Id) {
 export async function renderLoggedNavbar() {
     window.scroll(0, 0);
     let loginCheck = await getLoggedProfileData();
-    console.log(loginCheck.ok);
-    if (loginCheck.ok) {
 
+    if (loginCheck.ok) {
         let profileInfo = await loginCheck.json();
         navbar.innerHTML = '';
         navbar.innerHTML = navbarLoggedTemplate(profileInfo);

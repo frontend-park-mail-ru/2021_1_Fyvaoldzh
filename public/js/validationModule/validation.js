@@ -9,7 +9,7 @@ const VALIDATION_ERR_MESSAGES = {
 
 const INPUTS = {
     'login': {
-        regex: /^[a-zA-Z.0-9]{4,}$/,
+        regex: /^[a-zA-Z._0-9]{4,}$/,
         inputName: 'login',
         errorMsg: VALIDATION_ERR_MESSAGES.LOGIN,
     },
@@ -19,7 +19,7 @@ const INPUTS = {
         errorMsg: VALIDATION_ERR_MESSAGES.NAME,
     },
     'password': {
-        regex: /[a-zA-Z0-9.]{6,}$/,
+        regex: /[$._*^&a-zA-Z0-9]{6,}$/,
         inputName: 'password',
         errorMsg: VALIDATION_ERR_MESSAGES.PASSWORD,
     },
@@ -34,7 +34,7 @@ const INPUTS = {
         errorMsg: VALIDATION_ERR_MESSAGES.CITY,
     },
     'birthday': {
-        regex: /^[a-zA-Z][a-zA-Z0-9]{4,}$/,
+        regex: /^\d{2}[./-]\d{2}[./-]\d{4}$/,
         inputName: 'birthday',
         errorMsg: VALIDATION_ERR_MESSAGES.BIRTHDAY,
     },
