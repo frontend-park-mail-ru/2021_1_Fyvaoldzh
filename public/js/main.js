@@ -8,7 +8,7 @@ import validation from './validationModule/inputValidation.js';
 import {init} from './initialModule/initial.js';
 import {renderLoggedNavbar, renderLoginPage, renderEvents} from './renderModule/render.js';
 
-const wrapper = document.getElementById('wrapper');
+const wrapper = document.getElementById('wrapper');  //почему document находит index.html??????
 
 //wrapper.innerHTML = upperTextTemplate({});
 
@@ -21,7 +21,7 @@ const SERVER_ERRORS = {
     REGISTRATION: 'Такой логин уже существует',
 }
 
-function drawServerError(error) {
+function drawServerError(error) {  //тут часть валидации типо?????????
     if (document.getElementById('nicknameError')) {
         document.getElementsByName('login').forEach(el => el.style.boxShadow = '0px 0px 10px 0px #CE0E50');
         document.getElementById('loginError').style.boxShadow = '0px 0px 10px 0px #CE0E50';
@@ -35,7 +35,8 @@ function drawServerError(error) {
 
 body.addEventListener('click', async e => {
     const navbarCheckbox = document.getElementById('toggle');
-    const {target} = e;
+    const {target} = e;  //target = e.target??????????????????????????????????
+
     //console.log(Object.prototype.toString.call(target));
 
     /*if (Object.prototype.toString.call(target) !== '[object HTMLInputElement]') {
@@ -53,7 +54,7 @@ body.addEventListener('click', async e => {
 
     if (Object.prototype.toString.call(target) === '[object HTMLAnchorElement]') {
         e.preventDefault();
-        urlMap[target.dataset.direction](target.id);
+        urlMap[target.dataset.direction](target.id);  //в соответствующую ф-цию рендера передаем target.id (но он не является параметром ни в одной)?????
     }
 
     if (Object.prototype.toString.call(target) === '[object HTMLButtonElement]') {

@@ -12,7 +12,8 @@ import {renderMyEventsPage} from '../renderModule/render.js';
 
 
 export const urlMap = {
-    main: renderEvents,
+    // main: renderEvents,
+    main: renderProfilePage,
     signup: renderSignUp,
     back: renderEvents,
     eventPage: renderEventPage,
