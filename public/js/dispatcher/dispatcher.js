@@ -1,9 +1,13 @@
 export class Dispatcher {
     constructor(storage) {
-        this.storage = storage;
+        this.channel = [];
     }
 
     dispatch(action) {
-        this.storage.register(action);
+        this.channel.forEach(listener => listener(action));
+    }
+
+    register(listener) {
+        this.channel.push(listener);
     }
 }

@@ -48,7 +48,7 @@ export async function postRegistrationData(jsonString) {
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
         },
-        body: jsonString
+        body: JSON.stringify(jsonString)
     })
     return answer;
 }
@@ -98,8 +98,9 @@ export async function postProfileData(jsonString) {
  */
 
 export async function getLoggedProfileData() {
-    let answer = await fetch(currentProfileUrl, {credentials: 'include'});
-    return answer;
+    const answer = await fetch(currentProfileUrl, {credentials: 'include'});
+    const answerJson = await answer.json();
+    return answerJson;
 }
 
 /**

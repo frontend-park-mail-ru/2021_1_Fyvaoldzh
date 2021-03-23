@@ -6,7 +6,7 @@ import {postRegistrationData} from './networkModule/network.js';
 import {postLoginData} from './networkModule/network.js';
 import {validation} from './validationModule/inputValidation.js';
 import {init} from './initialModule/initial.js';
-import {renderLoggedNavbar, renderLoginPage, renderEvents} from './renderModule/render.js';
+import {renderLoginPage} from './renderModule/render.js';
 
 const wrapper = document.getElementById('wrapper');
 const body = document.body;
@@ -15,12 +15,16 @@ import {urlMap} from '../js/initialModule/initial.js';
 /////////////
 import {Dispatcher} from './dispatcher/dispatcher.js'
 import { actions } from './actions/actions.js';
-import {StorageApp} from './storage/storage.js'
 
+import {Store} from './storage/storage.js'
+import {subscribeViews} from './views/register.js'
 
-export const storage = new StorageApp();
-export const dispatcher = new Dispatcher(storage);
+export const dispatcher = new Dispatcher();
+subscribeViews();
 
+for (let key in Store.storeMethods) {
+    dispatcher.register(Store.storeMethods[key]);  // Подписываем все методы хранилища на экшны.
+}
 
 
 
@@ -81,6 +85,7 @@ body.addEventListener('click', async e => {
                 }
             }
             */
+            
             actions.register(objectDataForm);
         }
 
@@ -91,8 +96,8 @@ body.addEventListener('click', async e => {
                 let answer = await postLoginData(jsonData);
                 console.log(answer);
                 if (answer.ok) {
-                    renderLoggedNavbar();
-                    renderEvents();
+                    //renderLoggedNavbar();
+                    //renderEvents();
                 } else {
                     drawServerError(SERVER_ERRORS.LOGIN);
                 }

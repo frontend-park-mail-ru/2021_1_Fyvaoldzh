@@ -21,7 +21,6 @@ export const validation = (formDataObject) => {
     */
 
     for (let key in formDataObject) {
-        console.log(formDataObject[key]);
         switch (key) {
             case 'login':
                 if (!INPUTS.login.regex.test(formDataObject[key])) {

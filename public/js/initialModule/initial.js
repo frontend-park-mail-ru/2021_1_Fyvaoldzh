@@ -1,7 +1,5 @@
 'use strict';
 
-import {renderLoggedNavbar} from '../renderModule/render.js';
-import {renderEvents} from '../renderModule/render.js';
 import {renderSignUp} from '../renderModule/render.js';
 import {renderEventPage} from '../renderModule/render.js';
 import {renderLoginPage} from '../renderModule/render.js';
@@ -12,9 +10,9 @@ import {renderMyEventsPage} from '../renderModule/render.js';
 
 
 export const urlMap = {
-    main: renderEvents,
+
     signup: renderSignUp,
-    back: renderEvents,
+
     eventPage: renderEventPage,
     login: renderLoginPage,
     profile: renderMyProfilePage,
@@ -23,6 +21,4 @@ export const urlMap = {
 
 export async function init() {
     navbar.innerHTML = navbarTemplate({});
-    renderLoggedNavbar();
-    renderEvents();
 }
