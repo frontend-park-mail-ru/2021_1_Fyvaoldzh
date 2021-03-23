@@ -25,9 +25,7 @@ export class eventComponent {
 }
 
 function renderEvents() {
-    
     if (Store.getCurrentPage() != pageNames.eventsPage) {
-        console.log('ya zhiv');
         return;
     }
     const eventsJson = Store.getEventsData();
@@ -57,22 +55,31 @@ function renderLoggedNavbar() {
 
 
 function renderValidationErrors() {
-    const validationErrors = Store.getRegisterValidationErrors();
+    const validationErrors = Store.getValidationErrors();
     document.getElementById('loginError').innerText = '';  // вопросики
     document.getElementById('passwordError').innerText = '';
-    document.getElementById('nicknameError').innerText = '';
+    if (document.getElementById('nicknameError')) {
+        document.getElementById('nicknameError').innerText = '';
+    }
 
-    for (let i in validationErrors) { // TODO переделать на foreach()
+    document.getElementsByName('login').forEach(el => el.style = null);
+    document.getElementsByName('password').forEach(el => el.style = null);
+    document.getElementsByName('name').forEach(el => el.style = null);
+
+    for (let i in validationErrors) { // TODO переделать на foreach() (если возможно)
         switch (validationErrors[i]) {
             case 'login':
+                document.getElementsByName('login').forEach(el => el.style.boxShadow = '0px 0px 10px 0px #CE0E50');
                 document.getElementById('loginError').innerText = INPUTS.login.errorMsg;
                 break;
 
             case 'password':
+                document.getElementsByName('password').forEach(el => el.style.boxShadow = '0px 0px 10px 0px #CE0E50');
                 document.getElementById('passwordError').innerText = INPUTS.password.errorMsg;
                 break;
 
             case 'name':  // Nickname / name исправить все на одно
+                document.getElementsByName('name').forEach(el => el.style.boxShadow = '0px 0px 10px 0px #CE0E50');
                 document.getElementById('nicknameError').innerText = INPUTS.name.errorMsg;
                 break;
 
@@ -80,11 +87,31 @@ function renderValidationErrors() {
     }
 }
 
-export function renderSignUp() {
+function renderSignUp() {
     window.scroll(0, 0);
     wrapper.style.background =  'url("components/img/form-background.jpg") no-repeat top / cover';
     wrapper.innerHTML = '';
     wrapper.innerHTML = signUpFormTemplate({});
+}
+
+function renderLoginPage() {
+    window.scroll(0, 0);
+    wrapper.style.background =  'url("components/img/form-background.jpg") no-repeat top / cover';
+    wrapper.innerHTML = '';
+    wrapper.innerHTML = loginTemplate();
+}
+
+function renderLogout() {
+    window.scroll(0, 0);
+    navbar.innerHTML = '';
+    navbar.innerHTML = navbarTemplate({});
+    renderEvents();
+}
+
+function renderNavbar() {
+    window.scroll(0, 0);
+    navbar.innerHTML = '';
+    navbar.innerHTML = navbarTemplate({});
 }
 
 function changePage() {
@@ -93,20 +120,68 @@ function changePage() {
         case pageNames.eventsPage:
             actions.updateEvents();
             break;
+        case pageNames.profilePage:
+            actions.updateUser();
+            break;
+        case pageNames.registrationPage:
+            renderSignUp();
+            break;
+        case pageNames.loginPage:
+            renderLoginPage();
+            break;
+        case pageNames.logoutPage:
+            renderLogout();
+            break;
+        case pageNames.oneEventPage:
+            
     }
 }
+
 
 function onRegisterSuccessfull() {
     actions.updateUser();
     actions.changePage(pageNames.eventsPage);
 }
 
+function renderEventPage() {
+    const eventData = Store.getEventsData();
+    window.scroll(0, 0);  //
+    wrapper.style.backgroundImage =  'url("templates/one-event-page/img/event-page-background.jpg") no-repeat top right';
+    wrapper.innerHTML = '';
+
+    wrapper.innerHTML = oneEventPageTemplate(eventData);
+}
+
+
+
+function renderMyProfilePage() {
+    if (Store.getCurrentPage() != pageNames.profilePage) {
+        return;
+    }
+    window.scroll(0, 0);
+    const profileData = Store.getUserData();
+
+    wrapper.style.background = 'url("components/img/my-profile-background.jpg") no-repeat top / cover';
+    wrapper.innerHTML = '';
+    wrapper.innerHTML = myProfileTemplate(profileData);
+
+    let ava = document.getElementById('profileAvatar');
+    ava.style.background = `url(${imgUrl + profileDataJson.Uid}) no-repeat`;
+    document.getElementById('imageFile').addEventListener('change', handleFileSelect);
+}
+
 export function subscribeViews() {
-    eventBus.subscribe(channelNames.errorValidationRegister, renderValidationErrors);
+    eventBus.subscribe(channelNames.errorValidation, renderValidationErrors);
     eventBus.subscribe(channelNames.registerSuccessfull, onRegisterSuccessfull);
 
     eventBus.subscribe(channelNames.userUpdated, renderLoggedNavbar);
     eventBus.subscribe(channelNames.eventsUpdated, renderEvents);
 
+    eventBus.subscribe(channelNames.userUpdated, renderMyProfilePage);
     eventBus.subscribe(channelNames.pageChanged, changePage);
+
+    eventBus.subscribe(channelNames.logoutSuccessfull, renderLogout);
+    eventBus.subscribe(channelNames.userIsNotAuth, renderNavbar);
+
+    eventBus.subscribe(channelNames.eventCome, renderEventPage)
 }

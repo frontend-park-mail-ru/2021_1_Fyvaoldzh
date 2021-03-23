@@ -31,7 +31,6 @@ export async function getAllEventsJson() {
 export async function getEventById(id) {
     let answer = await fetch(oneEventUrl + id);
     let jsonFile = await answer.json();
-    console.log(jsonFile);
     return jsonFile;
 }
 
@@ -48,7 +47,7 @@ export async function postRegistrationData(jsonString) {
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
         },
-        body: JSON.stringify(jsonString)
+        body: JSON.stringify(jsonString),
     })
     return answer;
 }
@@ -66,7 +65,7 @@ export async function postLoginData(jsonString) {
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
         },
-        body: jsonString
+        body: JSON.stringify(jsonString),
     })
     console.log(answer);
     return answer;

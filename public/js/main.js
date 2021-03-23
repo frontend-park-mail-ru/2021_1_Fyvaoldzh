@@ -5,13 +5,11 @@ import {imgUrl} from './renderModule/render.js';
 import {postRegistrationData} from './networkModule/network.js';
 import {postLoginData} from './networkModule/network.js';
 import {validation} from './validationModule/inputValidation.js';
-import {init} from './initialModule/initial.js';
-import {renderLoginPage} from './renderModule/render.js';
+
 
 const wrapper = document.getElementById('wrapper');
 const body = document.body;
 
-import {urlMap} from '../js/initialModule/initial.js';
 /////////////
 import {Dispatcher} from './dispatcher/dispatcher.js'
 import { actions } from './actions/actions.js';
@@ -25,7 +23,9 @@ subscribeViews();
 for (let key in Store.storeMethods) {
     dispatcher.register(Store.storeMethods[key]);  // Подписываем все методы хранилища на экшны.
 }
-
+navbar.innerHTML = navbarTemplate({});
+actions.updateUser();
+actions.changePage('events');
 
 
 const SERVER_ERRORS = {
@@ -63,7 +63,19 @@ body.addEventListener('click', async e => {
 
     if (Object.prototype.toString.call(target) === '[object HTMLAnchorElement]') {
         e.preventDefault();
-        urlMap[target.dataset.direction](target.id);
+        
+        switch (target.dataset.direction) {
+            case 'logout':
+                actions.logout();
+                console.log('adjkwadkjda');
+                break;
+
+            case 'eventPage':
+                actions.eventPage(target.id);
+
+            default:
+                actions.changePage(target.dataset.direction);
+        }
     }
 
     if (Object.prototype.toString.call(target) === '[object HTMLButtonElement]') {
@@ -71,37 +83,15 @@ body.addEventListener('click', async e => {
         const formBody = document.getElementById('formBody');
         
         if (target.id === 'postRegistration') {
-            let dataFromForm = new FormData(formBody);
-            let objectDataForm = Object.fromEntries(dataFromForm);
-            /*
-            if (validation(objectDataForm)) {
-                let jsonData = JSON.stringify(Object.fromEntries(dataFromForm));            
-                let answer = await postRegistrationData(jsonData);
-                if (answer.ok) {
-                    renderEvents();
-                    renderLoggedNavbar();
-                } else {
-                    drawServerError(SERVER_ERRORS.REGISTRATION);
-                }
-            }
-            */
-            
+            const dataFromForm = new FormData(formBody);
+            const objectDataForm = Object.fromEntries(dataFromForm);            
             actions.register(objectDataForm);
         }
 
         if (target.id === 'postLogin') {
-            let dataFromForm = new FormData(formBody);
-            if (validation(formBody)) {
-                let jsonData = JSON.stringify(Object.fromEntries(dataFromForm));
-                let answer = await postLoginData(jsonData);
-                console.log(answer);
-                if (answer.ok) {
-                    //renderLoggedNavbar();
-                    //renderEvents();
-                } else {
-                    drawServerError(SERVER_ERRORS.LOGIN);
-                }
-            }
+            const dataFromForm = new FormData(formBody);
+            const objectDataForm = Object.fromEntries(dataFromForm);
+            actions.login(objectDataForm);
         }
 
         if (target.id === 'postProfile') {
@@ -146,5 +136,3 @@ body.addEventListener('click', async e => {
         
     }
 });
-
-init();

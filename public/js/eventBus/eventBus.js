@@ -19,18 +19,23 @@ export const eventBus = {
 }
 
 export const channelNames = {
-    errorValidationRegister: 'errorValidationRegister',
-    errorValidationLogin: 'errorValidationLogin',
+    errorValidation: 'errorValidation',
     errorLoginIsExist: 'errorLoginIsExist',
     errorWrongLoginOrPassword: 'errorWrongLoginOrPassword',
     registerSuccessfull: 'registerSuccessfull',
     userUpdated: 'userUpdated',
     pageChanged: 'pageChanged',
     eventsUpdated: 'eventsUpdated',
+    logoutSuccessfull: 'logoutSuccessfull',
+    userIsNotAuth: 'userIsNotAuth',
+    eventCome: 'eventCome',
 }
 
 export const pageNames = {
     eventsPage: 'events',
     profilePage: 'profile',
-    oneEventPage: 'event',
+    oneEventPage: 'eventPage',
+    registrationPage: 'registration',
+    loginPage: 'login',
+    logoutPage: 'logout',
 }

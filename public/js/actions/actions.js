@@ -8,6 +8,13 @@ export const actions = {
         });
     },
 
+    login: function(loginData) {
+        dispatcher.dispatch({
+            eventName: 'login',
+            data: loginData,
+        });
+    },
+
     updateUser: function() {
         dispatcher.dispatch({
             eventName: 'updateUser',
@@ -26,6 +33,27 @@ export const actions = {
         dispatcher.dispatch({
             eventName: 'updateEvents',
             data: null,
+        });
+    },
+
+    updateProfileData: function() {
+        dispatcher.dispatch({
+            eventName: 'updateProfileData',
+            data: null,
+        });
+    },
+
+    logout: function() {
+        dispatcher.dispatch({
+            eventName: 'logout',
+            data: null,
+        });
+    },
+
+    eventPage: function(id) {
+        dispatcher.dispatch({
+            eventName: 'eventPage',
+            data: id,
         });
     },
 }

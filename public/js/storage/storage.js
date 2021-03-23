@@ -1,6 +1,5 @@
-import {postRegistrationData, getLoggedProfileData, getAllEventsJson} from '../networkModule/network.js'
+import {postRegistrationData, getLoggedProfileData, getAllEventsJson, postLoginData, logoutFunc, getEventById} from '../networkModule/network.js'
 import {validation} from '../validationModule/inputValidation.js'
-import {renderSignUp} from '../views/register.js'
 import {eventBus, channelNames} from '../eventBus/eventBus.js'
 
 
@@ -27,9 +26,20 @@ export const Store = {
         return this.eventsData;
     },
 
+    currentEventData: {},
+    getCurrentEventData() {
+        return this.currentEventData;
+    },
 
+
+    validationErrors: [],
     registerData: {
         errorLoginExist: false,
+        validationErrors: [],
+    },
+
+    loginData: {
+        errorWrongLoginOrPassword: false,
         validationErrors: [],
     },
 
@@ -37,10 +47,10 @@ export const Store = {
         registerData: async function(payload) {
             switch(payload.eventName) {
             case 'register':
-                Store.registerData.validationErrors = validation(payload.data);
+                Store.validationErrors = validation(payload.data);
                 
-                if (Store.registerData.validationErrors.length) {
-                    eventBus.publish(channelNames.errorValidationRegister, null);
+                if (Store.validationErrors.length) {
+                    eventBus.publish(channelNames.errorValidation, null);
                 } else {
                     let answer = await postRegistrationData(payload.data);
 
@@ -54,8 +64,27 @@ export const Store = {
                     }
                 }
                 break;
+            }
+        },
 
-            
+        loginUser: async function(payload) {
+            switch(payload.eventName) {
+            case 'login':
+                Store.validationErrors = validation(payload.data);
+                if (Store.validationErrors.length) {
+                    eventBus.publish(channelNames.errorValidation, null);
+                } else {
+                    let answer = await postLoginData(payload.data);
+                    if (answer.ok) {
+                        Store.userData = await getLoggedProfileData();
+                        Store.currentPage = pagesRoute.events;
+                        eventBus.publish(channelNames.registerSuccessfull, null); // Попробовать не передавать null
+                    } else {
+                        Store.registerData.errorLoginExist = true;
+                        eventBus.publish(channelNames.errorWrongLoginOrPassword, null);
+                    }
+                }
+                break;
             }
         },
 
@@ -63,7 +92,12 @@ export const Store = {
             switch(payload.eventName) {
                 case 'updateUser':
                     Store.userData = await getLoggedProfileData();
-                    eventBus.publish(channelNames.userUpdated, null);
+                
+                    if (Store.userData.message === 'user is not authorized') {
+                        eventBus.publish(channelNames.userIsNotAuth, null);
+                    } else {
+                        eventBus.publish(channelNames.userUpdated, null);
+                    }
             }
         },
 
@@ -83,10 +117,27 @@ export const Store = {
             }
         },
 
+        logout: async function(payload) {
+            switch(payload.eventName) {
+                case 'logout':
+                    Store.userData = {};
+                    logoutFunc();
+                    eventBus.publish(channelNames.registerSuccessfull, null);  // register заменить на общее что-то
+            }
+        },
+
+        oneEvent: async function(payload) {
+            switch(payload.eventName) {
+                case 'eventPage':
+                    
+                    Store.eventsData = await getEventById(payload.data);
+                    eventBus.publish(channelNames.eventCome, null);  // register заменить на общее что-то
+            }
+        },
         
     },
 
-    getRegisterValidationErrors() {
-        return this.registerData.validationErrors;
+    getValidationErrors() {
+        return this.validationErrors;
     },
 }
