@@ -1,13 +1,13 @@
 const VALIDATION_ERR_MESSAGES = {
     LOGIN: `Логин должен содержать минимум 5 символов латиницы, не содержать знаков препинания, кроме точки.`,
-    PASSWORD: `Пароль должен содержать минимум 6 символов латиницы`,
+    PASSWORD: `Пароль должен содержать минимум 6 символов латиницы, цифр.`,
     EMAIL: 'Неправильный формат электронной почты',
     NAME: `Имя не должно содержать цифры, спецсимволы и знаки препинания`,
     CITY: `Город минимум 3 символа`,
     BIRTHDAY: `День рождения минимум 5 символов`,
 };
 
-const INPUTS = {
+export const INPUTS = {
     'login': {
         regex: /^[a-zA-Z._0-9]{4,}$/,
         inputName: 'login',
@@ -40,13 +40,3 @@ const INPUTS = {
     },
     
 };
-
-export default class Input {
-    constructor(inputID) {
-        ({
-            regex: this.regex,
-            inputName: this.inputName,
-            errorMsg: this.errorMsg,
-        } = INPUTS[inputID]);
-    }
-}

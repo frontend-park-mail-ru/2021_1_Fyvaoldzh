@@ -2,19 +2,27 @@
 
 import {getAllEventsJson, getLoggedProfileData, postProfileData, putAvatar} from './networkModule/network.js';
 import {imgUrl} from './renderModule/render.js';
-import {postRegistationData} from './networkModule/network.js';
+import {postRegistrationData} from './networkModule/network.js';
 import {postLoginData} from './networkModule/network.js';
-import validation from './validationModule/inputValidation.js';
+import {validation} from './validationModule/inputValidation.js';
 import {init} from './initialModule/initial.js';
 import {renderLoggedNavbar, renderLoginPage, renderEvents} from './renderModule/render.js';
 
 const wrapper = document.getElementById('wrapper');
-
-//wrapper.innerHTML = upperTextTemplate({});
-
 const body = document.body;
 
 import {urlMap} from '../js/initialModule/initial.js';
+/////////////
+import {Dispatcher} from './dispatcher/dispatcher.js'
+import { actions } from './actions/actions.js';
+import {StorageApp} from './storage/storage.js'
+
+
+export const storage = new StorageApp();
+export const dispatcher = new Dispatcher(storage);
+
+
+
 
 const SERVER_ERRORS = {
     LOGIN: 'Неправильный логин или пароль',
@@ -49,8 +57,6 @@ body.addEventListener('click', async e => {
     }
     */
 
-    
-
     if (Object.prototype.toString.call(target) === '[object HTMLAnchorElement]') {
         e.preventDefault();
         urlMap[target.dataset.direction](target.id);
@@ -62,10 +68,11 @@ body.addEventListener('click', async e => {
         
         if (target.id === 'postRegistration') {
             let dataFromForm = new FormData(formBody);
-            if (validation(formBody)) {
-                console.log(validation(formBody));
-                let jsonData = JSON.stringify(Object.fromEntries(dataFromForm));
-                let answer = await postRegistationData(jsonData);
+            let objectDataForm = Object.fromEntries(dataFromForm);
+            /*
+            if (validation(objectDataForm)) {
+                let jsonData = JSON.stringify(Object.fromEntries(dataFromForm));            
+                let answer = await postRegistrationData(jsonData);
                 if (answer.ok) {
                     renderEvents();
                     renderLoggedNavbar();
@@ -73,6 +80,8 @@ body.addEventListener('click', async e => {
                     drawServerError(SERVER_ERRORS.REGISTRATION);
                 }
             }
+            */
+            actions.register(objectDataForm);
         }
 
         if (target.id === 'postLogin') {

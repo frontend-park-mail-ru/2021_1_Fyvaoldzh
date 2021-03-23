@@ -53,7 +53,6 @@ export function renderLoginPage() {
     wrapper.style.background =  'url("components/img/form-background.jpg") no-repeat top / cover';
     wrapper.innerHTML = '';
     wrapper.innerHTML = loginTemplate();
-    //logoutFunc();
 }
 
 export function renderLogout() {
@@ -76,7 +75,7 @@ async function handleFileSelect(e) {
     reader.onload = function(evnt) {
         console.log(evnt.target.result);
         let ava = document.getElementById('profileAvatar');
-        ava.style.background = `url(${evnt.target.result}) no-repeat`;
+        ava.style.background = `url(${evnt.target.result}) no-repeat center / cover`;
     }
 
     reader.readAsDataURL(file);
