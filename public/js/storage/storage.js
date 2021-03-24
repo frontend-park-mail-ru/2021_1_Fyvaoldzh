@@ -59,8 +59,8 @@ export const Store = {
                         Store.currentPage = pagesRoute.events;
                         eventBus.publish(channelNames.registerSuccessfull, null); // Попробовать не передавать null
                     } else {
-                        Store.registerData.errorLoginExist = true;
-                        eventBus.publish(channelNames.errorLoginIsExist, null);
+                        Store.validationErrors.push('loginExist');
+                        eventBus.publish(channelNames.errorValidation, null);
                     }
                 }
                 break;
@@ -80,8 +80,8 @@ export const Store = {
                         Store.currentPage = pagesRoute.events;
                         eventBus.publish(channelNames.registerSuccessfull, null); // Попробовать не передавать null
                     } else {
-                        Store.registerData.errorLoginExist = true;
-                        eventBus.publish(channelNames.errorWrongLoginOrPassword, null);
+                        Store.validationErrors.push('wrongLoginOrPass');
+                        eventBus.publish(channelNames.errorValidation, null);
                     }
                 }
                 break;
@@ -122,7 +122,7 @@ export const Store = {
                 case 'logout':
                     Store.userData = {};
                     logoutFunc();
-                    eventBus.publish(channelNames.registerSuccessfull, null);  // register заменить на общее что-то
+                    eventBus.publish(channelNames.logoutSuccessfull, null);  // register заменить на общее что-то
             }
         },
 
@@ -134,6 +134,7 @@ export const Store = {
                     eventBus.publish(channelNames.eventCome, null);  // register заменить на общее что-то
             }
         },
+
         
     },
 

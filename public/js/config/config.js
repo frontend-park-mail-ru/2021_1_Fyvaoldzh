@@ -1,3 +1,5 @@
+'use strict';
+
 export const urlMap = {
     allEventsUrl: 'http://95.163.180.8:1323/api/v1/',
     oneEventUrl: 'http://95.163.180.8:1323/api/v1/event/',
@@ -8,4 +10,9 @@ export const urlMap = {
     putAvatarUrl: 'http://95.163.180.8:1323/api/v1/upload_avatar',
     imgUrl: 'http://95.163.180.8:1323/api/v1/avatar/',
     imgEventUrl: 'http://95.163.180.8:1323/api/v1/event/',
+}
+
+export const SERVER_ERRORS = {
+    WRONG_LOGIN_OR_PASS: 'Неправильный логин или пароль',
+    LOGIN_EXIST: 'Такой логин уже существует',
 }

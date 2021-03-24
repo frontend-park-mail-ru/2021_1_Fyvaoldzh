@@ -1,56 +1,30 @@
 'use strict';
 
-import {getAllEventsJson, getLoggedProfileData, postProfileData, putAvatar} from './networkModule/network.js';
-import {imgUrl} from './renderModule/render.js';
-import {postRegistrationData} from './networkModule/network.js';
-import {postLoginData} from './networkModule/network.js';
-import {validation} from './validationModule/inputValidation.js';
-
-
-const wrapper = document.getElementById('wrapper');
-const body = document.body;
-
-/////////////
 import {Dispatcher} from './dispatcher/dispatcher.js'
-import { actions } from './actions/actions.js';
-
+import {actions} from './actions/actions.js';
 import {Store} from './storage/storage.js'
 import {subscribeViews} from './views/register.js'
 
-export const dispatcher = new Dispatcher();
-subscribeViews();
+const body = document.body;
+
+export const dispatcher = new Dispatcher();  // Диспетчер отвечает за доставку actions до хранилища
+subscribeViews();  // Подписываем представления на сообщения об изменении хранилища
 
 for (let key in Store.storeMethods) {
     dispatcher.register(Store.storeMethods[key]);  // Подписываем все методы хранилища на экшны.
 }
-navbar.innerHTML = navbarTemplate({});
-actions.updateUser();
-actions.changePage('events');
+
+navbar.innerHTML = navbarTemplate({});  // Начальный пустой навбар.
+actions.updateUser();  // Обновляем данные пользователя в хранилище.
+actions.changePage('events');  // Заходим на главную страницу эвентов.
 
 
-const SERVER_ERRORS = {
-    LOGIN: 'Неправильный логин или пароль',
-    REGISTRATION: 'Такой логин уже существует',
-}
+    /* Заготовка для скрытия навбара по клику куда-либо
 
-function drawServerError(error) {
-    if (document.getElementById('nicknameError')) {
-        document.getElementsByName('login').forEach(el => el.style.boxShadow = '0px 0px 10px 0px #CE0E50');
-        document.getElementById('loginError').style.boxShadow = '0px 0px 10px 0px #CE0E50';
-        document.getElementById('nicknameError').innerText = error;
-    } else {
-        document.getElementsByName('login').forEach(el => el.style.boxShadow = '0px 0px 10px 0px #CE0E50');
-        document.getElementsByName('password').forEach(el => el.style.boxShadow = '0px 0px 10px 0px #CE0E50');
-        document.getElementById('passwordError').innerText = error;
-    }
-}
-
-body.addEventListener('click', async e => {
     const navbarCheckbox = document.getElementById('toggle');
-    const {target} = e;
-    //console.log(Object.prototype.toString.call(target));
+    //console.log(Object.prototype.toString.call(target)); отладочная фыгня
 
-    /*if (Object.prototype.toString.call(target) !== '[object HTMLInputElement]') {
+    if (Object.prototype.toString.call(target) !== '[object HTMLInputElement]') {
         // Сворачивание открытого профиля навбарчика при нажатии куда-либо
         navbarCheckbox.checked = false;
     }
@@ -61,13 +35,15 @@ body.addEventListener('click', async e => {
     }
     */
 
+body.addEventListener('click', async e => {
+    const {target} = e;
+
     if (Object.prototype.toString.call(target) === '[object HTMLAnchorElement]') {
         e.preventDefault();
         
         switch (target.dataset.direction) {
             case 'logout':
                 actions.logout();
-                console.log('adjkwadkjda');
                 break;
 
             case 'eventPage':
@@ -84,7 +60,7 @@ body.addEventListener('click', async e => {
         
         if (target.id === 'postRegistration') {
             const dataFromForm = new FormData(formBody);
-            const objectDataForm = Object.fromEntries(dataFromForm);            
+            const objectDataForm = Object.fromEntries(dataFromForm);
             actions.register(objectDataForm);
         }
 
@@ -93,6 +69,8 @@ body.addEventListener('click', async e => {
             const objectDataForm = Object.fromEntries(dataFromForm);
             actions.login(objectDataForm);
         }
+
+        /* Еще не добавленный в архитектуру старый код по изменению страницы пользователя.
 
         if (target.id === 'postProfile') {
             let dataSpanForm = new FormData(target.parentNode);
@@ -133,6 +111,7 @@ body.addEventListener('click', async e => {
                 }
             }
         }
+        */
         
     }
 });

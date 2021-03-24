@@ -1,15 +1,6 @@
 'use strict';
 
-const backendServerUrl = 'http://95.163.180.8:1323/api/v1/';
-
-const allEventsUrl = 'http://95.163.180.8:1323/api/v1/';
-const oneEventUrl = 'http://95.163.180.8:1323/api/v1/event/';
-const postLoginDataUrl = 'http://95.163.180.8:1323/api/v1/login';
-const postRegistrationDataUrl = 'http://95.163.180.8:1323/api/v1/register';
-
-const currentProfileUrl = 'http://95.163.180.8:1323/api/v1/profile';
-const logout = 'http://95.163.180.8:1323/api/v1/logout';
-const putAvatarUrl = 'http://95.163.180.8:1323/api/v1/upload_avatar';
+import {urlMap} from '../config/config.js'
 
 /**
  * Функция для получения ивентов
@@ -17,7 +8,7 @@ const putAvatarUrl = 'http://95.163.180.8:1323/api/v1/upload_avatar';
  */
 
 export async function getAllEventsJson() {
-    let answer = await fetch(allEventsUrl);
+    let answer = await fetch(urlMap.allEventsUrl);
     let jsonFile = await answer.json();
     return jsonFile;
 }
@@ -29,7 +20,7 @@ export async function getAllEventsJson() {
  */
 
 export async function getEventById(id) {
-    let answer = await fetch(oneEventUrl + id);
+    let answer = await fetch(urlMap.oneEventUrl + id);
     let jsonFile = await answer.json();
     return jsonFile;
 }
@@ -41,7 +32,7 @@ export async function getEventById(id) {
  */
 
 export async function postRegistrationData(jsonString) {
-    let answer = await fetch(postRegistrationDataUrl, {
+    let answer = await fetch(urlMap.postRegistrationDataUrl, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -59,7 +50,7 @@ export async function postRegistrationData(jsonString) {
  */
 
 export async function postLoginData(jsonString) {
-    let answer = await fetch(postLoginDataUrl, {
+    let answer = await fetch(urlMap.postLoginDataUrl, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -78,7 +69,7 @@ export async function postLoginData(jsonString) {
  */
 
 export async function postProfileData(jsonString) {
-    let answer = await fetch(currentProfileUrl, {
+    let answer = await fetch(urlMap.currentProfileUrl, {
         method: 'PUT',
         credentials: 'include',
         headers: {
@@ -97,7 +88,7 @@ export async function postProfileData(jsonString) {
  */
 
 export async function getLoggedProfileData() {
-    const answer = await fetch(currentProfileUrl, {credentials: 'include'});
+    const answer = await fetch(urlMap.currentProfileUrl, {credentials: 'include'});
     const answerJson = await answer.json();
     return answerJson;
 }
@@ -108,7 +99,7 @@ export async function getLoggedProfileData() {
  */
 
 export async function logoutFunc() {
-    let answer = await fetch(logout, {credentials: 'include'});
+    let answer = await fetch(urlMap.logout, {credentials: 'include'});
     return answer;
 }
 
@@ -119,7 +110,7 @@ export async function logoutFunc() {
  */
 
 export async function putAvatar(file) {
-    let answer = await fetch(putAvatarUrl, {
+    let answer = await fetch(urlMap.putAvatarUrl, {
         method: 'PUT',
         credentials: 'include',
         body: file

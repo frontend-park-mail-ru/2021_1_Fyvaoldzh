@@ -1,3 +1,5 @@
+'use strict';
+
 import {dispatcher} from '../main.js'
 
 export const actions = {

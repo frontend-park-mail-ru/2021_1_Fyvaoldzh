@@ -7,6 +7,7 @@ const VALIDATION_ERR_MESSAGES = {
     BIRTHDAY: `День рождения минимум 5 символов`,
 };
 
+
 export const INPUTS = {
     'login': {
         regex: /^[a-zA-Z._0-9]{4,}$/,

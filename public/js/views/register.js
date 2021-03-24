@@ -1,8 +1,12 @@
+'use strict';
+
 import {Store} from '../storage/storage.js'
 import {INPUTS} from '../validationModule/validation.js'
 import {eventBus, channelNames, pageNames} from '../eventBus/eventBus.js'
 import {actions} from '../actions/actions.js';
-import {urlMap} from '../config/config.js'
+import {urlMap, SERVER_ERRORS} from '../config/config.js'
+
+// Тута все представления для отрисовки
 
 export class eventComponent {
     constructor({
@@ -83,6 +87,16 @@ function renderValidationErrors() {
                 document.getElementById('nicknameError').innerText = INPUTS.name.errorMsg;
                 break;
 
+            case 'loginExist':
+                document.getElementsByName('login').forEach(el => el.style.boxShadow = '0px 0px 10px 0px #CE0E50');
+                document.getElementById('nicknameError').innerText = SERVER_ERRORS.LOGIN_EXIST;
+                break;
+
+            case 'wrongLoginOrPass':
+                document.getElementsByName('login').forEach(el => el.style.boxShadow = '0px 0px 10px 0px #CE0E50');
+                document.getElementsByName('password').forEach(el => el.style.boxShadow = '0px 0px 10px 0px #CE0E50');
+                document.getElementById('passwordError').innerText = SERVER_ERRORS.WRONG_LOGIN_OR_PASS;
+
         }
     }
 }
@@ -121,6 +135,7 @@ function changePage() {
             actions.updateEvents();
             break;
         case pageNames.profilePage:
+            console.log('adwjjwda');
             actions.updateUser();
             break;
         case pageNames.registrationPage:
@@ -145,7 +160,7 @@ function onRegisterSuccessfull() {
 
 function renderEventPage() {
     const eventData = Store.getEventsData();
-    window.scroll(0, 0);  //
+    window.scroll(0, 0);
     wrapper.style.backgroundImage =  'url("templates/one-event-page/img/event-page-background.jpg") no-repeat top right';
     wrapper.innerHTML = '';
 
@@ -153,6 +168,23 @@ function renderEventPage() {
 }
 
 
+function handleFileSelect(e) {
+    const file = e.target.files[0]; 
+    // Только изображения.
+    if (!file.type.match('image.*')) {
+        alert("Image only please....");
+    }
+    const reader = new FileReader();
+    // Closure to capture the file information.
+
+    reader.onload = function(evnt) {
+        console.log(evnt.target.result);
+        let ava = document.getElementById('profileAvatar');
+        ava.style.background = `url(${evnt.target.result}) no-repeat center / cover`;
+    }
+
+    reader.readAsDataURL(file);
+}
 
 function renderMyProfilePage() {
     if (Store.getCurrentPage() != pageNames.profilePage) {
@@ -166,7 +198,7 @@ function renderMyProfilePage() {
     wrapper.innerHTML = myProfileTemplate(profileData);
 
     let ava = document.getElementById('profileAvatar');
-    ava.style.background = `url(${imgUrl + profileDataJson.Uid}) no-repeat`;
+    ava.style.background = `url(${urlMap.imgUrl + profileData.Uid}) no-repeat`;
     document.getElementById('imageFile').addEventListener('change', handleFileSelect);
 }
 

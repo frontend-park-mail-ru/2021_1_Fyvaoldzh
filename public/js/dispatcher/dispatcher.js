@@ -1,5 +1,5 @@
 export class Dispatcher {
-    constructor(storage) {
+    constructor() {
         this.channel = [];
     }
 
