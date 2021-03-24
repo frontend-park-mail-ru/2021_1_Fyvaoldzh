@@ -92,7 +92,7 @@ export async function renderProfilePage() {
     wrapper.innerHTML = profileTemplate(profileDataJson);
     let ava = document.getElementById('profileAvatar');
     // let profileDataJson = JSON.parse(profileData);
-    ava.style.background = `url(${imgUrl + profileDataJson.Uid}) no-repeat`;
+    ava.style.background = `url(${imgUrl + profileDataJson.Uid}) no-repeat center / cover`;
 }
 
 export async function renderMyProfilePage() {
