@@ -93,6 +93,11 @@ export async function renderProfilePage() {
     let ava = document.getElementById('profileAvatar');
     // let profileDataJson = JSON.parse(profileData);
     ava.style.background = `url(${imgUrl + profileDataJson.Uid}) no-repeat center / cover`;
+    let eventsList = document.getElementById('events-list');
+    const eventJson = await getEventById(profileDataJson.events[0]);
+    eventsList.innerHTML = oneEventBlockTemplate(eventJson);
+
+
 }
 
 export async function renderMyProfilePage() {

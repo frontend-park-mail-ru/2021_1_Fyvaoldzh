@@ -2,7 +2,7 @@
     .event__photo
     .event__text
         .event__title
-            a(href='#' data-direction='eventPage') #{title}
+            a(href='#', id=id, data-direction='eventPage') #{title}
         .event__info
-            | #{description}
+            | #{date} &nbsp &nbsp #{place}
     .event__chosen
