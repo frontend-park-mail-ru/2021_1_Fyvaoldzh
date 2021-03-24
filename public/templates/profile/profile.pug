@@ -1,69 +1,61 @@
-.row
-    .profile-main-block
-        .profile-header
-            .profile-header__avatar(id='profileAvatar')
-            .profile-header__info-block
-                .profile-header__title
-                    |#{name}
-                .profile-header__about
-                    .profile-header__dialogue-cloud-img
-                    |#{about}
-                .profile-header__other-info
-                    .profile-header__info-segment
-                        .profile-header__age-img
-                        |#{age}
-                    .profile-header__info-segment
-                        .profile-header__city-img
-                        |#{city}
-                    .profile-header__info-segment
-                        .profile-header__subscribers-img
-                        |#{followers}
-            .profile-header__button-block
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title &Mcy;&ocy;&icy; &mcy;&iecy;&rcy;&ocy;&pcy;&rcy;&icy;&yacy;&tcy;&icy;&yacy;
+    link(rel='stylesheet' href='css/reset.css')
+    link(rel='stylesheet' href='css/navbar.css')
+    link(rel='stylesheet' href='css/base.css')
+    link(rel='stylesheet' href='css/my-events.css')
+    link(rel='stylesheet' href='css/profile.css')
+    link(rel='stylesheet' href='css/form.css')
+    link(rel='stylesheet' href='css/buttons.css')
+    meta(name='viewport' content='width=device-width')
+.navbar
+    .container
+        .navbar__row
+            .logo QDA
+            .navbar-menu
+                a.navbar-menu__signup(href='#')
+.wrapper
+    .row
+        .profile-main-block
+            .profile-header
+                .profile-header__avatar
+                .profile-header__info-block
+                    .profile-header__title
+                        | &Ncy;&acy;&dcy;&iecy;&zhcy;&dcy;&acy; &Mcy;&iecy;&rcy;&kcy;&ucy;&lcy;&ocy;&vcy;&acy;
+                    .profile-header__about
+                        .profile-header__dialogue-cloud-img
+                        |                         &Ncy;&acy; &fcy;&ocy;&tcy;&ocy; &mcy;&ncy;&iecy; 17
+                    .profile-header__other-info
+                        .profile-header__info-segment
+                            .profile-header__age-img
+                            |                             21 &gcy;&ocy;&dcy;
+                        .profile-header__info-segment
+                            .profile-header__city-img
+                            |                             &Mcy;&ocy;&scy;&kcy;&vcy;&acy;
+                        .profile-header__info-segment
+                            .profile-header__subscribers-img
+                            |                             131 &pcy;&ocy;&dcy;&pcy;&icy;&scy;&chcy;&icy;&kcy;
+                .profile-header__button-block
+                    button.button-inactive
+                        .button-label_inactive &Pcy;&ocy;&dcy;&pcy;&icy;&scy;&acy;&tcy;&softcy;&scy;&yacy;
+                    button.button-inactive
+                        .button-label_inactive &Ncy;&acy;&pcy;&icy;&scy;&acy;&tcy;&softcy;
+            .decor-line
+            .button-block
+                button.button-active
+                    span.button-label &Pcy;&lcy;&acy;&ncy;&icy;&rcy;&ucy;&iecy;&mcy;&ycy;&iecy;
                 button.button-inactive
-                    .button-label_inactive &Pcy;&ocy;&dcy;&pcy;&icy;&scy;&acy;&tcy;&softcy;&scy;&yacy;
-                button.button-inactive
-                    .button-label_inactive &Ncy;&acy;&pcy;&icy;&scy;&acy;&tcy;&softcy;
-        .decor-line
-        .button-block
-            button.button-active
-                span.button-label &Pcy;&lcy;&acy;&ncy;&icy;&rcy;&ucy;&iecy;&mcy;&ycy;&iecy;
-            button.button-inactive
-                span.button-label_inactive &Pcy;&ocy;&scy;&iecy;&shchcy;&iecy;&ncy;&ncy;&ycy;&iecy;
-        .my-events-block
-            .event
-                .event__photo
-                .event__text
-                    .event__title
-                        |#{title}
-                    .event__info
-                        |#{date} #{place}
-                .event__chosen
-            .event
-                .event__photo
-                .event__text
-                    .event__title
-                        |#{title}
-                    .event__info
-                        |#{date} #{place}
-                .event__unchosen
-            .event
-                .event__photo
-                .event__text
-                    .event__title
-                        |#{title}
-                    .event__info
-                        |#{date} #{place}
-                .event__unchosen
-            .event
-                .event__photo
-                .event__text
-                    .event__title
-                        |#{title}
-                    .event__info
-                        |#{date} #{place}
-                .event__unchosen
-        .paginator
-            a.paginator__arrow-back(href='#')
-            a.paginator__page-button(href='#') 1
-            a.paginator__arrow-forward(href='#')
-
+                    span.button-label_inactive &Pcy;&ocy;&scy;&iecy;&shchcy;&iecy;&ncy;&ncy;&ycy;&iecy;
+            #events-list.my-events-block
+            .paginator
+                a.paginator__arrow-back(href='#')
+                a.paginator__page-button(href='#') 1
+                a.paginator__arrow-forward(href='#')
+.footer
+    .footer__text
+        | wheresoever, 2021
+    .footer__text
+        | fyvaoldzh
