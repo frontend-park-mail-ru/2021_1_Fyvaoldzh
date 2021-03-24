@@ -1,28 +1,8 @@
 .row
-    .profile-main-block
-        .profile-header
-            .profile-header__avatar(id='profileAvatar')
-            .profile-header__info-block
-                .profile-header__title
-                    |#{name}
-                .profile-header__about
-                    .profile-header__dialogue-cloud-img
-                    |#{about}
-                .profile-header__other-info
-                    .profile-header__info-segment
-                        .profile-header__age-img
-                        |#{age}
-                    .profile-header__info-segment
-                        .profile-header__city-img
-                        |#{city}
-                    .profile-header__info-segment
-                        .profile-header__subscribers-img
-                        |#{followers}
-            .profile-header__button-block
-                button.button-inactive
-                    .button-label_inactive &Pcy;&ocy;&dcy;&pcy;&icy;&scy;&acy;&tcy;&softcy;&scy;&yacy;
-                button.button-inactive
-                    .button-label_inactive &Ncy;&acy;&pcy;&icy;&scy;&acy;&tcy;&softcy;
+    .my-events-main-block
+        .my-events-main-block__title
+            a.my-events-main-block__back-button(href='#')
+            |                     &Mcy;&ocy;&icy; &mcy;&iecy;&rcy;&ocy;&pcy;&rcy;&icy;&yacy;&tcy;&icy;&yacy;
         .decor-line
         .button-block
             button.button-active
@@ -45,7 +25,7 @@
                         |#{title}
                     .event__info
                         |#{date} #{place}
-                .event__unchosen
+                .event__chosen
             .event
                 .event__photo
                 .event__text
@@ -53,7 +33,7 @@
                         |#{title}
                     .event__info
                         |#{date} #{place}
-                .event__unchosen
+                .event__chosen
             .event
                 .event__photo
                 .event__text
@@ -61,9 +41,8 @@
                         |#{title}
                     .event__info
                         |#{date} #{place}
-                .event__unchosen
+                .event__chosen
         .paginator
             a.paginator__arrow-back(href='#')
             a.paginator__page-button(href='#') 1
             a.paginator__arrow-forward(href='#')
-

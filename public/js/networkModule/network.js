@@ -4,6 +4,7 @@ const backendServerUrl = 'http://95.163.180.8:1323/api/v1/';
 
 const allEventsUrl = 'http://95.163.180.8:1323/api/v1/';
 const oneEventUrl = 'http://95.163.180.8:1323/api/v1/event/';
+const oneProfileUrl = 'http://95.163.180.8:1323/api/v1/profile/1';
 const postLoginDataUrl = 'http://95.163.180.8:1323/api/v1/login';
 const postRegistrationDataUrl = 'http://95.163.180.8:1323/api/v1/register';
 
@@ -30,6 +31,18 @@ export async function getAllEventsJson() {
 
 export async function getEventById(id) {
     let answer = await fetch(oneEventUrl + id);
+    let jsonFile = await answer.json();
+    console.log(jsonFile);
+    return jsonFile;
+}
+
+/**
+ * Функция для получения профиля по id
+ * @return {json} - json профиля
+ */
+
+export async function getProfileById() {
+    let answer = await fetch(oneProfileUrl);
     let jsonFile = await answer.json();
     console.log(jsonFile);
     return jsonFile;

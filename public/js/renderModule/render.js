@@ -1,6 +1,6 @@
 'use strict';
 
-import {getLoggedProfileData} from '../networkModule/network.js';
+import {getLoggedProfileData, getProfileById} from '../networkModule/network.js';
 import {getAllEventsJson, getEventById, logoutFunc} from '../networkModule/network.js';
 
 export const imgUrl = 'http://95.163.180.8:1323/api/v1/avatar/';
@@ -83,11 +83,16 @@ async function handleFileSelect(e) {
 }
 
 
-export function renderProfilePage() {
+export async function renderProfilePage() {
     window.scroll(0, 0);
     wrapper.style.background = 'url("components/img/profile-background.jpg") no-repeat top / cover';
     wrapper.innerHTML = '';
-    wrapper.innerHTML = profileTemplate({});
+    let profileDataJson = await getProfileById();
+    // let profileDataJson = await profileData.json();
+    wrapper.innerHTML = profileTemplate(profileDataJson);
+    let ava = document.getElementById('profileAvatar');
+    // let profileDataJson = JSON.parse(profileData);
+    ava.style.background = `url(${imgUrl + profileDataJson.Uid}) no-repeat`;
 }
 
 export async function renderMyProfilePage() {
