@@ -107,6 +107,18 @@
     letter-spacing: 0em;
     text-align: left;
     margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: start;
+}
+
+.event__place {
+    font-weight: bold;
+}
+
+.event__data {
+
 }
 
 .event__chosen {

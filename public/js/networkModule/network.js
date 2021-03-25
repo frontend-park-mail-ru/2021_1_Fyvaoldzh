@@ -4,7 +4,7 @@ const backendServerUrl = 'http://95.163.180.8:1323/api/v1/';
 
 const allEventsUrl = 'http://95.163.180.8:1323/api/v1/';
 const oneEventUrl = 'http://95.163.180.8:1323/api/v1/event/';
-const oneProfileUrl = 'http://95.163.180.8:1323/api/v1/profile/1';
+const oneProfileUrl = 'http://95.163.180.8:1323/api/v1/profile/2';
 const postLoginDataUrl = 'http://95.163.180.8:1323/api/v1/login';
 const postRegistrationDataUrl = 'http://95.163.180.8:1323/api/v1/register';
 

@@ -1,8 +1,9 @@
 .event
-    .event__photo
+    .event__photo(style='background: url(http://95.163.180.8:1323/api/v1/event/' + id + '/image) no-repeat center / cover;')
     .event__text
         .event__title
-            a(href='#', id=id, data-direction='eventPage') #{title}
+            a(href='#' id=id data-direction='eventPage') #{title}
         .event__info
-            | #{date} &nbsp &nbsp #{place}
+            .event__place #{place}
+            .event__data #{date}
     .event__chosen

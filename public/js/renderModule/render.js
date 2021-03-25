@@ -2,6 +2,7 @@
 
 import {getLoggedProfileData, getProfileById} from '../networkModule/network.js';
 import {getAllEventsJson, getEventById, logoutFunc} from '../networkModule/network.js';
+// import * as url from "url";
 
 export const imgUrl = 'http://95.163.180.8:1323/api/v1/avatar/';
 export const imgEventUrl = 'http://95.163.180.8:1323/api/v1/event/';
@@ -43,14 +44,14 @@ export async function renderEvents() {
 
 export function renderSignUp() {
     window.scroll(0, 0);
-    wrapper.style.background =  'url("components/img/form-background.jpg") no-repeat top / cover';
+    wrapper.style.background = 'url("components/img/form-background.jpg") no-repeat top / cover';
     wrapper.innerHTML = '';
     wrapper.innerHTML = signUpFormTemplate({});
 }
 
 export function renderLoginPage() {
     window.scroll(0, 0);
-    wrapper.style.background =  'url("components/img/form-background.jpg") no-repeat top / cover';
+    wrapper.style.background = 'url("components/img/form-background.jpg") no-repeat top / cover';
     wrapper.innerHTML = '';
     wrapper.innerHTML = loginTemplate();
     //logoutFunc();
@@ -65,7 +66,7 @@ export function renderLogout() {
 }
 
 async function handleFileSelect(e) {
-    var file = e.target.files[0]; 
+    var file = e.target.files[0];
     // Только изображения.
     if (!file.type.match('image.*')) {
         alert("Image only please....");
@@ -73,7 +74,7 @@ async function handleFileSelect(e) {
     var reader = new FileReader();
     // Closure to capture the file information.
 
-    reader.onload = function(evnt) {
+    reader.onload = function (evnt) {
         console.log(evnt.target.result);
         let ava = document.getElementById('profileAvatar');
         ava.style.background = `url(${evnt.target.result}) no-repeat`;
@@ -88,16 +89,59 @@ export async function renderProfilePage() {
     wrapper.style.background = 'url("components/img/profile-background.jpg") no-repeat top / cover';
     wrapper.innerHTML = '';
     let profileDataJson = await getProfileById();
-    // let profileDataJson = await profileData.json();
     wrapper.innerHTML = profileTemplate(profileDataJson);
     let ava = document.getElementById('profileAvatar');
-    // let profileDataJson = JSON.parse(profileData);
     ava.style.background = `url(${imgUrl + profileDataJson.Uid}) no-repeat center / cover`;
+
+    let buttons = Array.from(document.getElementsByTagName('button'));
+    buttons.forEach((element) => {
+        if (element.dataset.buttontype === 'toggle') {
+            element.addEventListener('click', async e => {
+                let {target} = e;
+                if (target.classList.contains('button-inactive')) {
+                    let curActiveElem = target.parentNode.querySelector('.button-active');
+                    let curActiveText = curActiveElem.querySelector('.button-label');
+                    curActiveText.classList.add('button-label_inactive');
+                    curActiveText.classList.remove('button-label');
+                    curActiveElem.classList.add('button-inactive');
+                    curActiveElem.classList.remove('button-active');
+                    let targetText = target.querySelector('.button-label_inactive');
+                    targetText.classList.add('button-label');
+                    targetText.classList.remove('button-label_inactive');
+                    target.classList.add('button-active');
+                    target.classList.remove('button-inactive');
+
+                    if (document.getElementById('planningEventsButton').classList.contains('button-active')) {
+                        await renderEventsList(profileDataJson.events);
+                    } else if (document.getElementById('visitedEventsButton').classList.contains('button-active')) {
+                        await renderEventsList(null);
+                    }
+                }
+            });
+        }
+    });
+
+    if (document.getElementById('planningEventsButton').classList.contains('button-active')) {
+        await renderEventsList(profileDataJson.events);
+    } else if (document.getElementById('visitedEventsButton').classList.contains('button-active')) {
+        await renderEventsList(null);
+    }
+}
+
+export async function renderEventsList(events) {
     let eventsList = document.getElementById('events-list');
-    const eventJson = await getEventById(profileDataJson.events[0]);
-    eventsList.innerHTML = oneEventBlockTemplate(eventJson);
-
-
+    eventsList.innerHTML = '';
+    if (events === null) {
+        let thereIsNothingGif = document.createElement('img')
+        thereIsNothingGif.src = 'components/img/thereIsNothing.gif';
+        thereIsNothingGif.style.marginBottom = '5%';
+        eventsList.appendChild(thereIsNothingGif);
+    } else {
+        for (let curEventId in events) {
+            const eventJson = await getEventById(events[curEventId]);
+            eventsList.insertAdjacentHTML('beforeend', oneEventBlockTemplate(eventJson));
+        }
+    }
 }
 
 export async function renderMyProfilePage() {
@@ -122,7 +166,7 @@ export function renderMyEventsPage() {
 
 export async function renderEventPage(Id) {
     window.scroll(0, 0);  //
-    wrapper.style.backgroundImage =  'url("templates/one-event-page/img/event-page-background.jpg") no-repeat top right';
+    wrapper.style.backgroundImage = 'url("templates/one-event-page/img/event-page-background.jpg") no-repeat top right';
     wrapper.innerHTML = '';
 
     const eventJson = await getEventById(Id);

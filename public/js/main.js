@@ -1,7 +1,7 @@
 'use strict';
 
 import {getAllEventsJson, getLoggedProfileData, postProfileData, putAvatar} from './networkModule/network.js';
-import {imgUrl} from './renderModule/render.js';
+import {imgUrl, renderEventsList, renderProfilePage} from './renderModule/render.js';
 import {postRegistationData} from './networkModule/network.js';
 import {postLoginData} from './networkModule/network.js';
 import validation from './validationModule/inputValidation.js';
@@ -130,6 +130,26 @@ body.addEventListener('click', async e => {
                 }
             }
         }
+
+        // if ((target.dataset.buttontype === 'toggle') && (target.classList.contains('button-inactive'))) {
+        //     let curActiveElem = target.parentNode.querySelector('.button-active');
+        //     let curActiveText = curActiveElem.querySelector('.button-label');
+        //     curActiveText.classList.add('button-label_inactive');
+        //     curActiveText.classList.remove('button-label');
+        //     curActiveElem.classList.add('button-inactive');
+        //     curActiveElem.classList.remove('button-active');
+        //     let targetText = target.querySelector('.button-label_inactive');
+        //     targetText.classList.add('button-label');
+        //     targetText.classList.remove('button-label_inactive');
+        //     target.classList.add('button-active');
+        //     target.classList.remove('button-inactive');
+        //
+        //     if (document.getElementById('planningEventsButton').classList.contains('button-active')) {
+        //         await renderEventsList(profileDataJson.events);
+        //     } else if (document.getElementById('visitedEventsButton').classList.contains('button-active')) {
+        //         await renderEventsList(null);
+        //     }
+        // }
         
     }
 });
