@@ -103,14 +103,8 @@ export async function renderProfilePage() {
         let {target} = e;
         if (target.classList.contains('button-inactive')) {
           let curActiveElem = target.parentNode.querySelector('.button-active');
-          let curActiveText = curActiveElem.querySelector('.button-label');
-          curActiveText.classList.add('button-label_inactive');
-          curActiveText.classList.remove('button-label');
           curActiveElem.classList.add('button-inactive');
           curActiveElem.classList.remove('button-active');
-          let targetText = target.querySelector('.button-label_inactive');
-          targetText.classList.add('button-label');
-          targetText.classList.remove('button-label_inactive');
           target.classList.add('button-active');
           target.classList.remove('button-inactive');
 

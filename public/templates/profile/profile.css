@@ -112,6 +112,18 @@
     transform: translate(-50%);
 }
 
+/*.profile-header__avatar::before {*/
+/*    content: '';*/
+/*    background-image: url(img/avatar.png);*/
+/*    background-size: cover;*/
+/*    background-repeat: no-repeat;*/
+/*    background-position: center;*/
+/*    border-radius: 50%;*/
+/*    height: 100%;*/
+/*    width: 100%;*/
+/*    position: absolute;*/
+/*}*/
+
 .profile-header__button-block {
     margin-top: 30px;
     width: 200px;
