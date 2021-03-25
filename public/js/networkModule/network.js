@@ -18,9 +18,9 @@ const putAvatarUrl = 'http://95.163.180.8:1323/api/v1/upload_avatar';
  */
 
 export async function getAllEventsJson() {
-    let answer = await fetch(allEventsUrl);
-    let jsonFile = await answer.json();
-    return jsonFile;
+  let answer = await fetch(allEventsUrl);
+  let jsonFile = await answer.json();
+  return jsonFile;
 }
 
 /**
@@ -30,10 +30,10 @@ export async function getAllEventsJson() {
  */
 
 export async function getEventById(id) {
-    let answer = await fetch(oneEventUrl + id);
-    let jsonFile = await answer.json();
-    console.log(jsonFile);
-    return jsonFile;
+  let answer = await fetch(oneEventUrl + id);
+  let jsonFile = await answer.json();
+  console.log(jsonFile);
+  return jsonFile;
 }
 
 /**
@@ -42,10 +42,10 @@ export async function getEventById(id) {
  */
 
 export async function getProfileById() {
-    let answer = await fetch(oneProfileUrl);
-    let jsonFile = await answer.json();
-    console.log(jsonFile);
-    return jsonFile;
+  let answer = await fetch(oneProfileUrl);
+  let jsonFile = await answer.json();
+  console.log(jsonFile);
+  return jsonFile;
 }
 
 /**
@@ -55,15 +55,15 @@ export async function getProfileById() {
  */
 
 export async function postRegistationData(jsonString) {
-    let answer = await fetch(postRegistrationDataUrl, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: jsonString
-    })
-    return answer;
+  let answer = await fetch(postRegistrationDataUrl, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+    body: jsonString,
+  });
+  return answer;
 }
 
 /**
@@ -73,16 +73,16 @@ export async function postRegistationData(jsonString) {
  */
 
 export async function postLoginData(jsonString) {
-    let answer = await fetch(postLoginDataUrl, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: jsonString
-    })
-    console.log(answer);
-    return answer;
+  let answer = await fetch(postLoginDataUrl, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+    body: jsonString,
+  });
+  console.log(answer);
+  return answer;
 }
 
 /**
@@ -92,17 +92,17 @@ export async function postLoginData(jsonString) {
  */
 
 export async function postProfileData(jsonString) {
-    let answer = await fetch(currentProfileUrl, {
-        method: 'PUT',
-        credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: jsonString
-    })
-    let a = await answer.text();
-    console.log(a);
-    return answer;
+  let answer = await fetch(currentProfileUrl, {
+    method: 'PUT',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+    body: jsonString,
+  });
+  let a = await answer.text();
+  console.log(a);
+  return answer;
 }
 
 /**
@@ -111,8 +111,8 @@ export async function postProfileData(jsonString) {
  */
 
 export async function getLoggedProfileData() {
-    let answer = await fetch(currentProfileUrl, {credentials: 'include'});
-    return answer;
+  let answer = await fetch(currentProfileUrl, {credentials: 'include'});
+  return answer;
 }
 
 /**
@@ -121,8 +121,8 @@ export async function getLoggedProfileData() {
  */
 
 export async function logoutFunc() {
-    let answer = await fetch(logout, {credentials: 'include'});
-    return answer;
+  let answer = await fetch(logout, {credentials: 'include'});
+  return answer;
 }
 
 /**
@@ -132,10 +132,10 @@ export async function logoutFunc() {
  */
 
 export async function putAvatar(file) {
-    let answer = await fetch(putAvatarUrl, {
-        method: 'PUT',
-        credentials: 'include',
-        body: file
-    })
-    return answer;
+  let answer = await fetch(putAvatarUrl, {
+    method: 'PUT',
+    credentials: 'include',
+    body: file,
+  });
+  return answer;
 }
