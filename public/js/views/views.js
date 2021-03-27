@@ -1,7 +1,7 @@
 'use strict';
 
 import {INPUTS} from '../validationModule/validation.js';
-import {eventBus, channelNames, pageNames} from '../eventBus/eventBus.js';
+import {channelNames, pageNames} from '../eventBus/eventBus.js';
 import {actions} from '../actions/actions.js';
 import {urlMap, SERVER_ERRORS} from '../config/config.js';
 
@@ -9,7 +9,7 @@ import {userStore, eventsStore, oneEventStore, globalStore} from '../main.js';
 
 // Тута все представления для отрисовки
 
-export class eventComponent {
+class eventComponent {
     constructor({
                     parent = document.body,
                     data = {},
@@ -137,7 +137,6 @@ function changePage() {
             actions.updateEvents();
             break;
         case pageNames.profilePage:
-            console.log('adwjjwda');
             actions.updateUser();
             break;
         case pageNames.registrationPage:
@@ -204,7 +203,7 @@ function renderMyProfilePage() {
     document.getElementById('imageFile').addEventListener('change', handleFileSelect);
 }
 
-export function subscribeViews() {
+export function subscribeViews(eventBus) {
     eventBus.subscribe(channelNames.errorValidation, renderValidationErrors);
     eventBus.subscribe(channelNames.registerSuccessfull, onRegisterSuccessfull);
 

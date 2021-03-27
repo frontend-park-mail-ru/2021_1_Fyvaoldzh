@@ -1,16 +1,18 @@
 'use strict';
 
-export const eventBus = {
-    channels: {},
+export class EventBus {
+    constructor() {
+        this.channels = {};
+    }
 
-    subscribe (channelName, listener) {
+    subscribe(channelName, listener) {
         if (!this.channels[channelName]) {
             this.channels[channelName] = [];
         }
         this.channels[channelName].push(listener);
-    },
+    }
 
-    publish (channelName, data = null) {
+    publish(channelName, data = null) {
         const channel = this.channels[channelName];
         if (!channel || !channel.length) {
             return;

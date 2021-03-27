@@ -1,9 +1,9 @@
 'use strict';
-import {eventBus, channelNames} from '../eventBus/eventBus.js'
+import {channelNames} from '../eventBus/eventBus.js'
 
 export class Store {
-    constructor(eventBusik = eventBus) {
-        this.eventBus = eventBusik;
+    constructor(eventBus) {
+        this.eventBus = eventBus;
         this.currentPage = 'main';
         this.userStore = null;
         this.eventsStore = null;
@@ -13,8 +13,7 @@ export class Store {
     reducer(action)  {
         if (action.eventName === 'changePage') {
             this.currentPage = action.data;
-            eventBus.publish(channelNames.pageChanged);
-            console.log(this.currentPage);
+            this.eventBus.publish(channelNames.pageChanged);
             return;
         }
 

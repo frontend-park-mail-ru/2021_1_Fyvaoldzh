@@ -2,36 +2,33 @@
 
 import {Dispatcher} from './dispatcher/dispatcher.js';
 import {actions} from './actions/actions.js';
-//import {Store} from './storage/storage.js';
-import {subscribeViews} from './views/register.js';
-
+import {subscribeViews} from './views/views.js';
 import {Store} from './storage/store.js';
 import {UserStore} from './storage/UserStore.js';
 import {EventsStore} from './storage/EventsStore.js';
 import {OneEventStore} from './storage/OneEventStore.js'
-
-const body = document.body;
+import {EventBus} from './eventBus/eventBus.js'
 
 export const dispatcher = new Dispatcher();  // Диспетчер отвечает за доставку actions до хранилища
-subscribeViews();  // Подписываем представления на сообщения об изменении хранилища
 
-for (let key in Store.storeMethods) {
-    dispatcher.register(Store.storeMethods[key]);  // Подписываем все методы хранилища на экшны.
-}
+export const eventBus = new EventBus();
+subscribeViews(eventBus); // Подписываем представления на сообщения об изменении хранилища
 
-navbar.innerHTML = navbarTemplate({});  // Начальный пустой навбар.
+export const globalStore = new Store(eventBus);
 
-
-export const globalStore = new Store();
 export const userStore = new UserStore(globalStore);
+
 export const eventsStore = new EventsStore(globalStore);
+
 export const oneEventStore = new OneEventStore(globalStore);
 
 dispatcher.register(globalStore.reducer.bind(globalStore));
 
-
+navbar.innerHTML = navbarTemplate({});  // Начальный навбар.
 actions.updateUser();  // Обновляем данные пользователя в хранилище.
 actions.changePage('events');  // Заходим на главную страницу эвентов.
+
+const body = document.body;
 
     /* Заготовка для скрытия навбара по клику куда-либо
 

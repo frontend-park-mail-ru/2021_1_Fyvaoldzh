@@ -18,7 +18,6 @@ export class EventsStore {
     reducer(action) {
         switch (action.eventName) {
             case 'events/update':
-                console.log('updateEvents');
                 this.update(action);
                 break;
         }

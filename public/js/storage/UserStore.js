@@ -67,22 +67,18 @@ export class UserStore {
     reducer(action) {
         switch (action.eventName) {
             case 'user/register':
-                console.log('registration');
                 this.register(action);
                 break;
 
             case 'user/login':
-                console.log('login');
                 this.login(action);
                 break;
 
             case 'user/update':
-                console.log('updateUser');
                 this.update(action);
                 break;
 
             case 'user/logout':
-                console.log('logout');
                 this.logout(action);
                 break;
         }
