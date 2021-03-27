@@ -5,21 +5,28 @@ import {dispatcher} from '../main.js'
 export const actions = {
     register: function(registerData) {
         dispatcher.dispatch({
-            eventName: 'register',
+            eventName: 'user/register',
             data: registerData,
         });
     },
 
     login: function(loginData) {
         dispatcher.dispatch({
-            eventName: 'login',
+            eventName: 'user/login',
             data: loginData,
         });
     },
 
     updateUser: function() {
         dispatcher.dispatch({
-            eventName: 'updateUser',
+            eventName: 'user/update',
+            data: null,
+        });
+    },
+
+    logout: function() {
+        dispatcher.dispatch({
+            eventName: 'user/logout',
             data: null,
         });
     },
@@ -33,28 +40,14 @@ export const actions = {
 
     updateEvents: function() {
         dispatcher.dispatch({
-            eventName: 'updateEvents',
-            data: null,
-        });
-    },
-
-    updateProfileData: function() {
-        dispatcher.dispatch({
-            eventName: 'updateProfileData',
-            data: null,
-        });
-    },
-
-    logout: function() {
-        dispatcher.dispatch({
-            eventName: 'logout',
+            eventName: 'events/update',
             data: null,
         });
     },
 
     eventPage: function(id) {
         dispatcher.dispatch({
-            eventName: 'eventPage',
+            eventName: 'oneEvent/update',
             data: id,
         });
     },

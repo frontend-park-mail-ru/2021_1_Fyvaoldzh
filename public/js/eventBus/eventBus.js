@@ -10,7 +10,7 @@ export const eventBus = {
         this.channels[channelName].push(listener);
     },
 
-    publish (channelName, data) {
+    publish (channelName, data = null) {
         const channel = this.channels[channelName];
         if (!channel || !channel.length) {
             return;

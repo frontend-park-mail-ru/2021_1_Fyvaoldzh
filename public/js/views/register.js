@@ -1,10 +1,11 @@
 'use strict';
 
-import {Store} from '../storage/storage.js'
-import {INPUTS} from '../validationModule/validation.js'
-import {eventBus, channelNames, pageNames} from '../eventBus/eventBus.js'
+import {INPUTS} from '../validationModule/validation.js';
+import {eventBus, channelNames, pageNames} from '../eventBus/eventBus.js';
 import {actions} from '../actions/actions.js';
-import {urlMap, SERVER_ERRORS} from '../config/config.js'
+import {urlMap, SERVER_ERRORS} from '../config/config.js';
+
+import {userStore, eventsStore, oneEventStore, globalStore} from '../main.js';
 
 // Тута все представления для отрисовки
 
@@ -29,10 +30,10 @@ export class eventComponent {
 }
 
 function renderEvents() {
-    if (Store.getCurrentPage() != pageNames.eventsPage) {
+    if (globalStore.getCurrentPage() != pageNames.eventsPage) {
         return;
     }
-    const eventsJson = Store.getEventsData();
+    const eventsJson = eventsStore.getData();
     window.scroll(0, 0);
     wrapper.innerHTML = '';
     wrapper.style.background = 'url("templates/events/img/events-background.jpg") no-repeat';
@@ -49,7 +50,7 @@ function renderEvents() {
 function renderLoggedNavbar() {
     window.scroll(0, 0);
     
-    let profileData = Store.getUserData();
+    let profileData = userStore.getData();
     navbar.innerHTML = '';
     navbar.innerHTML = navbarLoggedTemplate(profileData);
     let navbarAvatar = document.getElementById('navbar-avatar');
@@ -59,7 +60,8 @@ function renderLoggedNavbar() {
 
 
 function renderValidationErrors() {
-    const validationErrors = Store.getValidationErrors();
+    const validationErrors = userStore.getValidationErrors();
+
     document.getElementById('loginError').innerText = '';  // вопросики
     document.getElementById('passwordError').innerText = '';
     if (document.getElementById('nicknameError')) {
@@ -119,7 +121,7 @@ function renderLogout() {
     window.scroll(0, 0);
     navbar.innerHTML = '';
     navbar.innerHTML = navbarTemplate({});
-    renderEvents();
+    actions.changePage('events');
 }
 
 function renderNavbar() {
@@ -129,7 +131,7 @@ function renderNavbar() {
 }
 
 function changePage() {
-    const currentPage = Store.getCurrentPage();
+    const currentPage = globalStore.getCurrentPage();
     switch (currentPage) {
         case pageNames.eventsPage:
             actions.updateEvents();
@@ -159,7 +161,7 @@ function onRegisterSuccessfull() {
 }
 
 function renderEventPage() {
-    const eventData = Store.getEventsData();
+    const eventData = oneEventStore.getData();
     window.scroll(0, 0);
     wrapper.style.backgroundImage =  'url("templates/one-event-page/img/event-page-background.jpg") no-repeat top right';
     wrapper.innerHTML = '';
@@ -187,11 +189,11 @@ function handleFileSelect(e) {
 }
 
 function renderMyProfilePage() {
-    if (Store.getCurrentPage() != pageNames.profilePage) {
+    if (globalStore.getCurrentPage() !== pageNames.profilePage) {
         return;
     }
     window.scroll(0, 0);
-    const profileData = Store.getUserData();
+    const profileData = userStore.getData();
 
     wrapper.style.background = 'url("components/img/my-profile-background.jpg") no-repeat top / cover';
     wrapper.innerHTML = '';
@@ -215,5 +217,5 @@ export function subscribeViews() {
     eventBus.subscribe(channelNames.logoutSuccessfull, renderLogout);
     eventBus.subscribe(channelNames.userIsNotAuth, renderNavbar);
 
-    eventBus.subscribe(channelNames.eventCome, renderEventPage)
+    eventBus.subscribe(channelNames.eventCome, renderEventPage);
 }

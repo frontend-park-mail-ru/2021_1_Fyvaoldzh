@@ -1,9 +1,14 @@
 'use strict';
 
-import {Dispatcher} from './dispatcher/dispatcher.js'
+import {Dispatcher} from './dispatcher/dispatcher.js';
 import {actions} from './actions/actions.js';
-import {Store} from './storage/storage.js'
-import {subscribeViews} from './views/register.js'
+//import {Store} from './storage/storage.js';
+import {subscribeViews} from './views/register.js';
+
+import {Store} from './storage/store.js';
+import {UserStore} from './storage/UserStore.js';
+import {EventsStore} from './storage/EventsStore.js';
+import {OneEventStore} from './storage/OneEventStore.js'
 
 const body = document.body;
 
@@ -15,9 +20,18 @@ for (let key in Store.storeMethods) {
 }
 
 navbar.innerHTML = navbarTemplate({});  // Начальный пустой навбар.
+
+
+export const globalStore = new Store();
+export const userStore = new UserStore(globalStore);
+export const eventsStore = new EventsStore(globalStore);
+export const oneEventStore = new OneEventStore(globalStore);
+
+dispatcher.register(globalStore.reducer.bind(globalStore));
+
+
 actions.updateUser();  // Обновляем данные пользователя в хранилище.
 actions.changePage('events');  // Заходим на главную страницу эвентов.
-
 
     /* Заготовка для скрытия навбара по клику куда-либо
 
