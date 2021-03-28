@@ -59,6 +59,7 @@
     align-items: center;
     justify-content: space-between;
     /*align-self: stretch;*/
+    transition: all 1s linear 0.5s;
 }
 
 .event {
