@@ -1,6 +1,4 @@
-'use strict';
-
-export class EventBus {
+export default class EventBus {
     constructor() {
         this.channels = {};
     }
@@ -20,26 +18,4 @@ export class EventBus {
 
         channel.forEach(listener => listener(data));
     }
-}
-
-export const channelNames = {
-    errorValidation: 'errorValidation',
-    errorLoginIsExist: 'errorLoginIsExist',
-    errorWrongLoginOrPassword: 'errorWrongLoginOrPassword',
-    registerSuccessfull: 'registerSuccessfull',
-    userUpdated: 'userUpdated',
-    pageChanged: 'pageChanged',
-    eventsUpdated: 'eventsUpdated',
-    logoutSuccessfull: 'logoutSuccessfull',
-    userIsNotAuth: 'userIsNotAuth',
-    eventCome: 'eventCome',
-}
-
-export const pageNames = {
-    eventsPage: 'events',
-    profilePage: 'profile',
-    oneEventPage: 'eventPage',
-    registrationPage: 'registration',
-    loginPage: 'login',
-    logoutPage: 'logout',
 }

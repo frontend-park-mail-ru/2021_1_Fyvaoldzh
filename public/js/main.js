@@ -1,32 +1,56 @@
 'use strict';
 
 import {Dispatcher} from './dispatcher/dispatcher.js';
-import {actions} from './actions/actions.js';
-import {subscribeViews} from './views/views.js';
-import {Store} from './storage/store.js';
-import {UserStore} from './storage/UserStore.js';
+import Actions from './actions/actions.js';
+import Store from './storage/store.js';
+import UserStore from './storage/UserStore.js';
 import {EventsStore} from './storage/EventsStore.js';
-import {OneEventStore} from './storage/OneEventStore.js'
-import {EventBus} from './eventBus/eventBus.js'
+import {OneEventStore} from './storage/OneEventStore.js';
+import EventBus from './eventBus/eventBus.js';
+
+import EventsView from './views/EventsView/EventsView.js';
+import OneEventView from './views/OneEventView/OneEventView.js';
+import UserView from './views/UserView/UserView.js';
+import ChangePageView from './views/ChangePageView/ChangePageView.js';
+
 
 export const dispatcher = new Dispatcher();  // Диспетчер отвечает за доставку actions до хранилища
-
+export const actions = new Actions(dispatcher);
 export const eventBus = new EventBus();
-subscribeViews(eventBus); // Подписываем представления на сообщения об изменении хранилища
 
 export const globalStore = new Store(eventBus);
-
 export const userStore = new UserStore(globalStore);
-
 export const eventsStore = new EventsStore(globalStore);
-
 export const oneEventStore = new OneEventStore(globalStore);
+
+const toViews = {
+    globalStore: globalStore,
+    userStore: userStore,
+    eventsStore: eventsStore,
+    oneEventStore: oneEventStore,
+
+    actions: actions,
+    eventBus: eventBus,
+}
 
 dispatcher.register(globalStore.reducer.bind(globalStore));
 
-navbar.innerHTML = navbarTemplate({});  // Начальный навбар.
-actions.updateUser();  // Обновляем данные пользователя в хранилище.
-actions.changePage('events');  // Заходим на главную страницу эвентов.
+const eventsView = new EventsView(toViews);
+eventsView.subscribeViews();
+
+const userView = new UserView(toViews);
+userView.subscribeViews();
+
+const oneEventView = new OneEventView(toViews);
+oneEventView.subscribeViews();
+
+const changePageView = new ChangePageView(toViews);
+changePageView.subscribeViews();
+
+
+navbar.innerHTML = navbarTemplate({}); // Начальный навбар.
+actions.updateUser(); // Обновляем данные пользователя в хранилище.
+actions.changePage('events'); // Заходим на главную страницу эвентов.
 
 const body = document.body;
 

@@ -1,54 +1,54 @@
-'use strict';
+export default class Actions {
+  constructor(dispatcher) {
+    this.dispatcher = dispatcher;
+  }
 
-import {dispatcher} from '../main.js'
+  register(registerData) {
+    this.dispatcher.dispatch({
+      eventName: 'user/register',
+      data: registerData,
+    });
+  }
 
-export const actions = {
-    register: function(registerData) {
-        dispatcher.dispatch({
-            eventName: 'user/register',
-            data: registerData,
-        });
-    },
+  login(loginData) {
+    this.dispatcher.dispatch({
+      eventName: 'user/login',
+      data: loginData,
+    });
+  }
 
-    login: function(loginData) {
-        dispatcher.dispatch({
-            eventName: 'user/login',
-            data: loginData,
-        });
-    },
+  updateUser() {
+    this.dispatcher.dispatch({
+      eventName: 'user/update',
+      data: null,
+    });
+  }
 
-    updateUser: function() {
-        dispatcher.dispatch({
-            eventName: 'user/update',
-            data: null,
-        });
-    },
+  logout() {
+    this.dispatcher.dispatch({
+      eventName: 'user/logout',
+      data: null,
+    });
+  }
 
-    logout: function() {
-        dispatcher.dispatch({
-            eventName: 'user/logout',
-            data: null,
-        });
-    },
+  changePage(page) {
+    this.dispatcher.dispatch({
+      eventName: 'changePage',
+      data: page,
+    });
+  }
 
-    changePage: function(page) {
-        dispatcher.dispatch({
-            eventName: 'changePage',
-            data: page,
-        });
-    },
+  updateEvents() {
+    this.dispatcher.dispatch({
+      eventName: 'events/update',
+      data: null,
+    });
+  }
 
-    updateEvents: function() {
-        dispatcher.dispatch({
-            eventName: 'events/update',
-            data: null,
-        });
-    },
-
-    eventPage: function(id) {
-        dispatcher.dispatch({
-            eventName: 'oneEvent/update',
-            data: id,
-        });
-    },
+  eventPage(id) {
+    this.dispatcher.dispatch({
+      eventName: 'oneEvent/update',
+      data: id,
+    });
+  }
 }

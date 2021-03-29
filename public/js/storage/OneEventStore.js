@@ -1,7 +1,7 @@
 'use strict';
 
-import {getEventById} from '../networkModule/network.js';
-import {channelNames} from '../eventBus/eventBus.js'
+import { getEventById } from '../networkModule/network.js';
+import { channelNames } from '../config/config.js';
 
 export class OneEventStore {
     constructor(globalStore) {

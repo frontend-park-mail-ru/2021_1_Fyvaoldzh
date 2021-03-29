@@ -1,7 +1,7 @@
 'use strict';
 
-import {getAllEventsJson} from '../networkModule/network.js';
-import {channelNames} from '../eventBus/eventBus.js'
+import { getAllEventsJson } from '../networkModule/network.js';
+import { channelNames } from '../config/config.js';
 
 export class EventsStore {
     constructor(globalStore) {
