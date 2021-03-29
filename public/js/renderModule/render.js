@@ -1,6 +1,6 @@
 'use strict';
 
-import {getLoggedProfileData, getProfileById} from '../networkModule/network.js';
+import {getLoggedProfileData, getProfileById, putAvatar} from '../networkModule/network.js';
 import {getAllEventsJson, getEventById, logoutFunc} from '../networkModule/network.js';
 // import * as url from "url";
 
@@ -73,7 +73,7 @@ async function handleFileSelect(e) {
   reader.onload = function (evnt) {
     console.log(evnt.target.result);
     let ava = document.getElementById('profileAvatar');
-    ava.style.background = `url(${evnt.target.result}) no-repeat`;
+    ava.style.background = `url(${evnt.target.result}) no-repeat center / cover`;
   };
 
   reader.readAsDataURL(file);
@@ -93,31 +93,22 @@ export async function renderProfilePage() {
   ]);
 
   wrapper.innerHTML = profileTemplate(profileDataJson);
+  wrapper.querySelector('.profile-main-block').insertAdjacentHTML('beforeend', myProfileEventsTabTemplate());
+
   let ava = document.getElementById('profileAvatar');
   ava.style.background = `url(${imgUrl + profileDataJson.Uid}) no-repeat center / cover`;
 
   let buttons = Array.from(document.getElementsByTagName('button'));
   buttons.forEach(element => {
     if (element.dataset.buttontype === 'toggle') {
-      element.addEventListener('click', async e => {
-        let {target} = e;
-        if (target.classList.contains('button-inactive')) {
-          let curActiveElem = target.parentNode.querySelector('.button-active');
-          curActiveElem.classList.add('button-inactive');
-          curActiveElem.classList.remove('button-active');
-          target.classList.add('button-active');
-          target.classList.remove('button-inactive');
+      let buttonToggleHandlerObject = {
+        profileDataJson: profileDataJson,
+      };
+      buttonToggleHandlerObject.handlerFunc = buttonToggleHandler;
 
-          if (document.getElementById('planningEventsButton').classList.contains('button-active')) {
-            await renderEventsList(profileDataJson.events);
-          } else if (document.getElementById('visitedEventsButton').classList.contains('button-active')) {
-            await renderEventsList(null);
-          }
-        }
-      });
+      element.addEventListener('click', buttonToggleHandlerObject.handlerFunc.bind(buttonToggleHandlerObject));
     }
   });
-
   if (document.getElementById('planningEventsButton').classList.contains('button-active')) {
     await renderEventsList(profileDataJson.events);
   } else if (document.getElementById('visitedEventsButton').classList.contains('button-active')) {
@@ -125,20 +116,84 @@ export async function renderProfilePage() {
   }
 }
 
+async function buttonToggleHandler(e) {
+  let {target} = e;
+
+  if (target.classList.contains('tab-inactive')) {
+    let curActiveElem = target.parentNode.querySelector('.tab-active');
+    curActiveElem.classList.add('tab-inactive');
+    target.classList.add('tab-active');
+    target.classList.remove('tab-inactive');
+    curActiveElem.classList.remove('tab-active');
+
+    if (document.getElementById('eventsTab').classList.contains('tab-active')) {
+      await renderMyProfileEventsTab(this.profileDataJson);
+    } else if (document.getElementById('aboutTab').classList.contains('tab-active')) {
+      await renderMyProfileAboutTab(this.profileDataJson);
+    } else if (document.getElementById('settingsTab').classList.contains('tab-active')) {
+      await renderMyProfileSettingsTab();
+    }
+  }
+
+  if (target.classList.contains('button-inactive')) {
+    let curActiveElem = target.parentNode.querySelector('.button-active');
+    curActiveElem.classList.add('button-inactive');
+    target.classList.add('button-active');
+    target.classList.remove('button-inactive');
+    curActiveElem.classList.remove('button-active');
+
+    if (document.getElementById('planningEventsButton').classList.contains('button-active')) {
+      await renderEventsList(this.profileDataJson.events);
+    } else if (document.getElementById('visitedEventsButton').classList.contains('button-active')) {
+      await renderEventsList(null);
+    }
+  }
+}
+
 export async function renderEventsList(events) {
   let eventsList = document.getElementById('events-list');
-  eventsList.innerHTML = '';
+  let resultHTML = '';
   if (events === null) {
     let thereIsNothingGif = document.createElement('img');
     thereIsNothingGif.src = 'components/img/thereIsNothing.gif';
     thereIsNothingGif.style.marginBottom = '5%';
-    eventsList.appendChild(thereIsNothingGif);
+
+    let nothingRow = document.createElement('div');
+    nothingRow.className = 'profile-header';
+    nothingRow.style.height = 'auto';
+    nothingRow.style.alignItems = 'start';
+    nothingRow.style.justifyContent = 'space-around';
+    // nothingRow.style.padding = '0 5%';
+
+    let someTextBefore = document.createElement('H6');
+    someTextBefore.innerText = 'тут ничего нет';
+    someTextBefore.style.fontSize = '24px';
+    someTextBefore.style.marginTop = '40px';
+    // someTextBefore.style.width = '100%';
+    someTextBefore.style.textAlign = 'center';
+
+    let someTextAfter = document.createElement('H6');
+    someTextAfter.innerText = 'тут тоже';
+    someTextAfter.style.fontSize = '24px';
+    someTextAfter.style.marginTop = '40px';
+    // someTextAfter.style.width = '100%';
+    someTextAfter.style.textAlign = 'center';
+
+    nothingRow.appendChild(someTextBefore);
+    nothingRow.appendChild(thereIsNothingGif);
+    nothingRow.appendChild(someTextAfter);
+
+    let externalElement = document.createElement('div');
+    externalElement.appendChild(nothingRow);
+
+    resultHTML = externalElement.innerHTML;
   } else {
     for (let curEventId in events) {
       const eventJson = await getEventById(events[curEventId]);
-      eventsList.insertAdjacentHTML('beforeend', oneEventBlockTemplate(eventJson));
+      resultHTML += oneEventBlockTemplate(eventJson);
     }
   }
+  eventsList.innerHTML = resultHTML;
 }
 
 async function addDeclensionOfNumbers(number, titles) {
@@ -153,10 +208,105 @@ export async function renderMyProfilePage() {
   let profileData = await getLoggedProfileData();
   let profileDataJson = await profileData.json();
 
+  profileDataJson.followers += await addDeclensionOfNumbers(profileDataJson.followers, [
+    ' подписчик',
+    ' подписчика',
+    ' подписчиков',
+  ]);
+
   wrapper.innerHTML = myProfileTemplate(profileDataJson);
   let ava = document.getElementById('profileAvatar');
-  ava.style.background = `url(${imgUrl + profileDataJson.Uid}) no-repeat`;
-  document.getElementById('imageFile').addEventListener('change', handleFileSelect);
+  ava.style.background = `url(${imgUrl + profileDataJson.Uid}) no-repeat center / cover`;
+  // document.getElementById('postAvatarProfile').addEventListener('change', handleFileSelect);
+  document.getElementById('postAvatarProfile').addEventListener('change', changeAvatarHandler);
+
+  let buttons = Array.from(document.getElementsByTagName('button'));
+  buttons.forEach(element => {
+    if (element.dataset.buttontype === 'toggle') {
+      let buttonToggleHandlerObject = {
+        profileDataJson: profileDataJson,
+      };
+      buttonToggleHandlerObject.handlerFunc = buttonToggleHandler;
+
+      element.addEventListener('click', buttonToggleHandlerObject.handlerFunc.bind(buttonToggleHandlerObject));
+    }
+  });
+
+  if (document.getElementById('eventsTab').classList.contains('tab-active')) {
+    await renderMyProfileEventsTab(profileDataJson);
+  } else if (document.getElementById('aboutTab').classList.contains('tab-active')) {
+    await renderMyProfileAboutTab(profileDataJson);
+  } else if (document.getElementById('settingsTab').classList.contains('tab-active')) {
+    await renderMyProfileSettingsTab();
+  }
+}
+
+export async function changeAvatarHandler(e) {
+  if (!e.target.value) {
+    alert('Не выбран аватар');
+  } else if (!e.target.files[0].type.match('image.*')) {
+    alert('Только картинки, пожалуйста...');
+  } else {
+    let photo = e.target.files[0];
+    let formPut = new FormData();
+    formPut.append('avatar', photo);
+    console.log(formPut);
+    let answ = await putAvatar(formPut);
+    if (answ.ok) {
+      let loginCheck = await getLoggedProfileData();
+      let profileInfo = await loginCheck.json();
+      let navbarRow = document.getElementById('navbarRow');
+
+      let navbarAvatar = document.getElementById('navbar-avatar');
+      let avaProfile = document.getElementById('profileAvatar');
+
+      fetch(`${imgUrl + profileInfo.Uid}`)
+        .then(response => response.blob())
+        .then(blob => {
+          const reader = new FileReader();
+          reader.onload = function () {
+            navbarAvatar.style.background = `url(${this.result}) no-repeat center / cover`;
+            avaProfile.style.background = `url(${this.result}) no-repeat center / cover`;
+          };
+          reader.readAsDataURL(blob);
+        });
+    } else {
+      //alert('неведомая ошибка');
+    }
+  }
+}
+
+export async function renderMyProfileEventsTab(profileDataJson) {
+  let changingContent = document.getElementById('changing-content');
+  changingContent.innerHTML = myProfileEventsTabTemplate();
+
+  let buttons = Array.from(changingContent.getElementsByTagName('button'));
+  buttons.forEach(element => {
+    if (element.dataset.buttontype === 'toggle') {
+      let buttonToggleHandlerObject = {
+        profileDataJson: profileDataJson,
+      };
+      buttonToggleHandlerObject.handlerFunc = buttonToggleHandler;
+
+      element.addEventListener('click', buttonToggleHandlerObject.handlerFunc.bind(buttonToggleHandlerObject));
+    }
+  });
+
+  if (document.getElementById('planningEventsButton').classList.contains('button-active')) {
+    await renderEventsList(profileDataJson.events);
+  } else if (document.getElementById('visitedEventsButton').classList.contains('button-active')) {
+    await renderEventsList(null);
+  }
+}
+
+export async function renderMyProfileAboutTab(profileDataJson) {
+  let changingContent = document.getElementById('changing-content');
+  changingContent.innerHTML = myProfileAboutTabTemplate(profileDataJson);
+}
+
+export async function renderMyProfileSettingsTab() {
+  let changingContent = document.getElementById('changing-content');
+  changingContent.innerHTML = myProfileSettingsTabTemplate();
 }
 
 export function renderMyEventsPage() {

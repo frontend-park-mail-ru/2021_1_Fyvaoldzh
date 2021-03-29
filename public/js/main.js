@@ -8,7 +8,7 @@ import validation from './validationModule/inputValidation.js';
 import {init} from './initialModule/initial.js';
 import {renderLoggedNavbar, renderLoginPage, renderEvents} from './renderModule/render.js';
 
-const wrapper = document.getElementById('wrapper'); //почему document находит index.html??????
+const wrapper = document.getElementById('wrapper');
 
 //wrapper.innerHTML = upperTextTemplate({});
 
@@ -22,7 +22,6 @@ const SERVER_ERRORS = {
 };
 
 function drawServerError(error) {
-  //тут часть валидации типо?????????
   if (document.getElementById('nicknameError')) {
     document.getElementsByName('login').forEach(el => (el.style.boxShadow = '0px 0px 10px 0px #CE0E50'));
     document.getElementById('loginError').style.boxShadow = '0px 0px 10px 0px #CE0E50';
@@ -36,7 +35,7 @@ function drawServerError(error) {
 
 body.addEventListener('click', async e => {
   const navbarCheckbox = document.getElementById('toggle');
-  const {target} = e; //target = e.target??????????????????????????????????
+  const {target} = e;
 
   //console.log(Object.prototype.toString.call(target));
 
@@ -53,7 +52,7 @@ body.addEventListener('click', async e => {
 
   if (Object.prototype.toString.call(target) === '[object HTMLAnchorElement]') {
     e.preventDefault();
-    urlMap[target.dataset.direction](target.id); //в соответствующую ф-цию рендера передаем target.id (но он не является параметром ни в одной)?????
+    urlMap[target.dataset.direction](target.id);
   }
 
   if (Object.prototype.toString.call(target) === '[object HTMLButtonElement]') {
@@ -91,8 +90,8 @@ body.addEventListener('click', async e => {
     }
 
     if (target.id === 'postProfile') {
-      let dataSpanForm = new FormData(target.parentNode);
-      if (validation(target.parentNode)) {
+      let dataSpanForm = new FormData(target.closest('form'));
+      if (validation(target.closest('form'))) {
         let dataSpanFormJson = JSON.stringify(Object.fromEntries(dataSpanForm));
         console.log(dataSpanFormJson);
         let postProfileAnswer = await postProfileData(dataSpanFormJson);
@@ -100,39 +99,10 @@ body.addEventListener('click', async e => {
       }
     }
 
-    if (target.id === 'postAvatarProfile') {
-      let avatarInput = document.getElementById('imageFile');
-      if (!avatarInput.value) {
-        alert('Не выбран аватар');
-      } else {
-        let photo = avatarInput.files[0];
-        let formPut = new FormData();
-        formPut.append('avatar', photo);
-        console.log(formPut);
-        let answ = await putAvatar(formPut);
-        if (answ.ok) {
-          let loginCheck = await getLoggedProfileData();
-          let profileInfo = await loginCheck.json();
-          let navbarRow = document.getElementById('navbarRow');
-
-          let navbarAvatar = document.getElementById('navbar-avatar');
-          let avaProfile = document.getElementById('profileAvatar');
-
-          fetch(`${imgUrl + profileInfo.Uid}`)
-            .then(response => response.blob())
-            .then(blob => {
-              const reader = new FileReader();
-              reader.onload = function () {
-                navbarAvatar.style.background = `url(${this.result}) no-repeat center / cover`;
-                avaProfile.style.background = `url(${this.result}) no-repeat center / cover`;
-              };
-              reader.readAsDataURL(blob);
-            });
-        } else {
-          //alert('неведомая ошибка');
-        }
-      }
+    if (target.id === 'changeAvatarButton') {
+      document.getElementById('postAvatarProfile').click();
     }
   }
 });
+
 init();
