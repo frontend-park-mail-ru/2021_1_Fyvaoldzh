@@ -77,7 +77,7 @@ export default class UserView {
 
     let ava = document.getElementById('profileAvatar');
     ava.style.background = `url(${urlMap.imgUrl + profileData.Uid}) no-repeat`;
-    document.getElementById('imageFile').addEventListener('change', handleFileSelect);
+    document.getElementById('changeAvatarButton').addEventListener('click', handleFileSelect);
   }
 
   subscribeViews() {
@@ -88,6 +88,7 @@ export default class UserView {
 }
 
 function handleFileSelect(e) {
+  console.log('dwadawkawdkdaw');
   const file = e.target.files[0]; 
   // Только изображения.
   if (!file.type.match('image.*')) {

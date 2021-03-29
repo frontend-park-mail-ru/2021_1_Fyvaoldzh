@@ -6,15 +6,22 @@
     background: url("img/profile-background.jpg") no-repeat top / cover;
     padding-bottom: 75px;
 }
+
+.button-block {
+    width: 100%;
+    margin-bottom: 50px;
+    display: flex;
+}
+
 .profile-main-block {
     background-color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    max-width: 60%;
+    max-width: 55%;
     margin: 0px auto;
-    padding: 20px;
+    padding: 30px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
     margin-top: 60px;
     position: relative;
@@ -101,13 +108,28 @@
 }
 
 .profile-header__avatar {
-    background: url(img/avatar_nadya.png) no-repeat center / 100%;
+    background: url(img/avatar_nadya.png) no-repeat center / cover;
+    border: 9px solid #FFFFFF;
+    border-radius: 50%;
+    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.25));
     height: 175px;
     width: 175px;
     position: absolute;
     left: 0;
     transform: translate(-50%);
 }
+
+/*.profile-header__avatar::before {*/
+/*    content: '';*/
+/*    background-image: url(img/avatar.png);*/
+/*    background-size: cover;*/
+/*    background-repeat: no-repeat;*/
+/*    background-position: center;*/
+/*    border-radius: 50%;*/
+/*    height: 100%;*/
+/*    width: 100%;*/
+/*    position: absolute;*/
+/*}*/
 
 .profile-header__button-block {
     margin-top: 30px;
@@ -119,7 +141,7 @@
 }
 
 .profile-header__dialogue-cloud-img {
-    background: url(img/dialogue-cloud.svg) no-repeat center / cover;
+    background: url(img/dialogue-cloud.svg) no-repeat center / contain;
     width: 28px;
     height: 25px;
     flex-shrink: 0;
@@ -149,4 +171,57 @@
     height: 18px;
     margin-right: 9px;
     flex-shrink: 0;
+}
+
+
+.paginator {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.paginator__arrow-back {
+    text-decoration: none;
+    background: url(img/back-arrow.svg) no-repeat center / 100%;
+    height: 50px;
+    width: 50px;
+}
+
+.paginator__arrow-back:hover {
+    transition-duration: 0.5s;
+    transform: translate(-10%);
+}
+
+.paginator__page-button {
+    text-decoration: none;
+    background: url(img/page-button.svg) no-repeat center / 100%;
+    font-family: PT Serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: 0em;
+    text-align: center;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.paginator__page-button:hover {
+    transition-duration: 0.5s;
+    transform: scale(1.05);
+}
+
+.paginator__arrow-forward {
+    text-decoration: none;
+    background: url(img/forward-arrow.svg) no-repeat center / 100%;
+    height: 50px;
+    width: 50px;
+}
+
+.paginator__arrow-forward:hover {
+    transition-duration: 0.5s;
+    transform: translate(10%);
 }

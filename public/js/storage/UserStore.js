@@ -14,6 +14,7 @@ export default class UserStore {
     this.globalStore.userStore = this;
     this.data = null;
     this.validationErrors = [];
+    this.profileTab = 'about';
   }
 
   async register(action) {

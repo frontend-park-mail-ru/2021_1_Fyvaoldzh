@@ -8,5 +8,8 @@
 (pug -c -n navbarLoggedTemplate public/components/navbar/navbar-logged.pug)
 (pug -c -n profileTemplate public/templates/profile/profile.pug)
 (pug -c -n myProfileTemplate public/templates/my-profile/my-profile.pug)
+(pug -c -n myProfileAboutTabTemplate public/templates/my-profile-about-tab/my-profile-about-tab.pug)
+(pug -c -n myProfileSettingsTabTemplate public/templates/my-profile-settings-tab/my-profile-settings-tab.pug)
+(pug -c -n myProfileEventsTabTemplate public/templates/my-profile-events-tab/my-profile-events-tab.pug)
 (pug -c -n errorLoginTemplate public/templates/login/error-login.pug)
 (pug -c -n errorSignupTemplate public/templates/signup/errorSignup.pug)

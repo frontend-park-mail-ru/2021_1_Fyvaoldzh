@@ -75,6 +75,7 @@ body.addEventListener('click', async e => {
 
     if (Object.prototype.toString.call(target) === '[object HTMLAnchorElement]') {
         e.preventDefault();
+        console.log('awmnsnmdwndaw');
         
         switch (target.dataset.direction) {
             case 'logout':
@@ -90,16 +91,17 @@ body.addEventListener('click', async e => {
     }
 
     if (Object.prototype.toString.call(target) === '[object HTMLButtonElement]') {
-        e.preventDefault();
         const formBody = document.getElementById('formBody');
         
         if (target.id === 'postRegistration') {
+            e.preventDefault();
             const dataFromForm = new FormData(formBody);
             const objectDataForm = Object.fromEntries(dataFromForm);
             actions.register(objectDataForm);
         }
 
         if (target.id === 'postLogin') {
+            e.preventDefault();
             const dataFromForm = new FormData(formBody);
             const objectDataForm = Object.fromEntries(dataFromForm);
             actions.login(objectDataForm);

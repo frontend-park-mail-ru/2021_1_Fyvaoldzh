@@ -1,44 +1,34 @@
 .row
-    .my-profile-block
-        a.my-profile-block__back-button(href='#' data-direction='main')
+    .my-profile-main-block
+        a.my-profile-main-block__back-button(href='#' data-direction='main')
         .my-profile-header
-            .my-profile-header__info-segment
-                .my-profile-header__subscribers-img
-                |#{followers} Подписчиков
-            .my-profile-header__avatar(id='profileAvatar')
-                label(class="settings-block__change-avatar-img")
-                    input.settings-block__change-avatar-img(id='imageFile' type='file')
-                button.settings-block__edit-img(type='submit' id='postAvatarProfile')
-            .my-profile-header__events-segment
-                .my-profile-header__info-segment
-                    .my-profile-header__black-star-img
-                    |                         2 Планируемых
-                .my-profile-header__info-segment
-                    .my-profile-header__visited-events-img
-                    |                         11 Посещенных
-        .decor-line
-        .settings-block
-            .settings-block__one-setting
-                .settings-block__title
-                    | Меня зовут:
-                form.span-form()
-                    input.settings-block__input(type='text' placeholder='Введите' name='name' value=name class='form__input')
-                    button.settings-block__edit-img(type='submit' id='postProfile')
-            .settings-block__one-setting
-                .settings-block__title
-                    | Дата рождения:
-                form.span-form()
-                    input.settings-block__input(type='text' placeholder='Введите' name='birthday' value=birthday class='form__input')
-                    button.settings-block__edit-img(type='submit' id='postProfile')
-            .settings-block__one-setting
-                .settings-block__title
-                    | Город:
-                form.span-form()
-                    input.settings-block__input(type='text' placeholder='Введите' name='city' value=city class='form__input')
-                    button.settings-block__edit-img(type='submit' id='postProfile')
-            .settings-block__one-setting
-                .settings-block__title
-                    | Почта:
-                form.span-form()
-                    input.settings-block__input(type='text' placeholder='Введите' name='email' value=email class='form__input')
-                    button.settings-block__edit-img(type='submit' id='postProfile')
+            #profileAvatar.my-profile-header__avatar-block
+                //label(for='postAvatarProfile')
+                input#postAvatarProfile(type='file' hidden='')
+                button#changeAvatarButton.change-avatar-button
+                // <button class="change-avatar-button" id='postAvatarProfile' type='submit'></button>
+            .my-profile-header__info-block
+                .my-profile-header__title #{name}
+                .my-profile-header__login-block @#{login}
+                .my-profile-header__followers-block
+                    .my-profile-header__followers-img
+                    |#{followers}
+                .my-profile-header__events-stats-block
+                    .my-profile-header__events-stats-block_planning
+                        .my-profile-header__black-star-img
+                        |2 &pcy;&lcy;&acy;&ncy;&icy;&rcy;&ucy;&iecy;&mcy;&ycy;&khcy;
+                    .my-profile-header__events-stats-block_visited
+                        .my-profile-header__visited-events-img
+                        |11 &pcy;&ocy;&scy;&iecy;&shchcy;&iecy;&ncy;&ncy;&ycy;&khcy;
+        .my-profile__tabs-block
+            button#eventsTab.tab-active(data-buttontype='toggle')
+                .my-profile__events-img
+                |                     &Mcy;&iecy;&rcy;&ocy;&pcy;&rcy;&icy;&yacy;&tcy;&icy;&yacy;
+            button#aboutTab.tab-inactive(data-buttontype='toggle')
+                .my-profile__about-img
+                |                     &Ocy;&bcy;&ocy; &mcy;&ncy;&iecy;
+            button#settingsTab.tab-inactive(data-buttontype='toggle')
+                .my-profile__settings-img
+                |                     &Ncy;&acy;&scy;&tcy;&rcy;&ocy;&jcy;&kcy;&icy;
+        .my-profile__decor-line
+        #changing-content.changing-content-block
