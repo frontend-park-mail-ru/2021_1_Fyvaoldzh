@@ -49,16 +49,15 @@ export async function postRegistrationData(jsonString) {
  * @return {Response} answer - ответ
  */
 
-export async function postLoginData(jsonString) {
+export async function postLoginData(data) {
     let answer = await fetch(urlMap.postLoginDataUrl, {
         method: 'POST',
         credentials: 'include',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
         },
-        body: JSON.stringify(jsonString),
+        body: JSON.stringify(data),
     })
-    console.log(answer);
     return answer;
 }
 
@@ -68,17 +67,16 @@ export async function postLoginData(jsonString) {
  * @return {Response} answer - ответ
  */
 
-export async function postProfileData(jsonString) {
+export async function postProfileData(data) {
     let answer = await fetch(urlMap.currentProfileUrl, {
         method: 'PUT',
         credentials: 'include',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
         },
-        body: jsonString
+        body: JSON.stringify(data),
     })
     let a = await answer.text();
-    console.log(a);
     return answer;
 }
 

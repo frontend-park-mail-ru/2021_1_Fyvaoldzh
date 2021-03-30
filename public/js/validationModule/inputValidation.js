@@ -28,6 +28,16 @@ export const validation = (formDataObject) => {
                     errors.push(key);
                 }
                 break;
+            case 'email':
+                if (!INPUTS.email.regex.test(formDataObject[key])) {
+                    errors.push(key);
+                }
+                break;
+            case 'birthday':
+                if (!INPUTS.birthday.regex.test(formDataObject[key])) {
+                    errors.push(key);
+                }
+                break;
         }
     }
     return errors;

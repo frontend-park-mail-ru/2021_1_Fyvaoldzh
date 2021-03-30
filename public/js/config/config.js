@@ -26,6 +26,8 @@ export const channelNames = {
   logoutSuccessfull: 'logoutSuccessfull',
   userIsNotAuth: 'userIsNotAuth',
   eventCome: 'eventCome',
+  tabChanged: 'tabChanged',
+  avatarPreview: 'avatarPreview',
 }
 
 export const pageNames = {

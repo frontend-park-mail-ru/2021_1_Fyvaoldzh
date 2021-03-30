@@ -91,6 +91,34 @@ input[type="file"] {
     cursor: pointer;
 }
 
+.change-avatar-button__submit {
+    background: url(img/submit-avatar.svg) no-repeat center / cover;
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+    position: absolute;
+    left: -10px;
+    bottom: -10px;
+    cursor: pointer;
+    display: none;
+    transform: scale(1.05);
+    transition-duration: 0.5s;
+}
+
+.change-avatar-button__decline {
+    background: url(img/decline-avatar.svg) no-repeat center / cover;
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+    position: absolute;
+    left: 110px;
+    bottom: -10px;
+    cursor: pointer;
+    display: none;
+    transform: scale(1.05);
+    transition-duration: 0.5s;
+}
+
 .change-avatar-button:hover {
     transform: scale(1.05);
     transition-duration: 0.5s;
@@ -241,6 +269,16 @@ input[type="file"] {
     height: 24px;
     margin-right: 12px;
     flex-shrink: 0;
+}
+
+.settings-block__change-avatar-img {
+    background: url(img/change-avatar.svg) no-repeat center / cover;
+    width: 88px;
+    height: 88px;
+    flex-shrink: 0;
+    position: absolute;
+    left: 15px;
+    bottom: 10px;
 }
 
 .my-profile__settings-img {

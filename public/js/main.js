@@ -75,7 +75,6 @@ body.addEventListener('click', async e => {
 
     if (Object.prototype.toString.call(target) === '[object HTMLAnchorElement]') {
         e.preventDefault();
-        console.log('awmnsnmdwndaw');
         
         switch (target.dataset.direction) {
             case 'logout':

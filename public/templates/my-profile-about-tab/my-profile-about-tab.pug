@@ -1,28 +1,34 @@
-form.changing-content-block__form(action)
+form.changing-content-block__form(action, id='jsFormBody')
     .changing-content-block__one-line-setting
         .changing-content-block__one-setting
             .changing-content-block__title.
                         Меня зовут:
             input.changing-content-block__input(type='text', value=name, placeholder='Введите, как вас зовут', name='name')
+            .form-body__error_input(id="nicknameError")
     .changing-content-block__one-line-setting
         .changing-content-block__one-setting
             .changing-content-block__title.
                         Немного обо мне:
             input.changing-content-block__input(type='text', value=about, placeholder='Напишите здесь немного о себе', name='about')
+            .form-body__error_input(id="aboutError")
     .changing-content-block__one-line-setting
         .changing-content-block__one-setting
             .changing-content-block__title.
                         Я родился(-ась):
-            input.changing-content-block__input(type='text', value=birthday, placeholder='ДД месяц ГГГГ г.', name='birthday')
-        .changing-content-block__one-setting
+            input.changing-content-block__input(type='text', value=birthday, placeholder='ДД.ММ.ГГГГ', name='birthday')
+            .form-body__error_input(id="birthdayError")
+    .changing-content-block__one-line-setting
+      .changing-content-block__one-setting
             .changing-content-block__title.
                         Мой город:
             input.changing-content-block__input(type='text', value=city, placeholder='Введите ваш город', name='city')
+            .form-body__error_input(id="cityError")
     .changing-content-block__one-line-setting
         .changing-content-block__one-setting
             .changing-content-block__title.
                         Моя почта:
             input.changing-content-block__input(type='text', value=email, placeholder='Введите свою почту', name='email')
+            .form-body__error_input(id="emailError")
     .changing-content-block__one-line-setting
         .changing-content-block__one-setting
             button.button-active.changing-content-block__button_save#postProfile.

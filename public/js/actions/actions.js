@@ -51,4 +51,32 @@ export default class Actions {
       data: id,
     });
   }
+
+  changeTab(tab) {
+    this.dispatcher.dispatch({
+      eventName: 'user/changeTab',
+      data: tab,
+    });
+  }
+
+  postProfileForm(data) {
+    this.dispatcher.dispatch({
+      eventName: 'user/postProfileForm',
+      data: data,
+    });
+  }
+
+  avatarPreview(data) {
+    this.dispatcher.dispatch({
+      eventName: 'user/avatarPreview',
+      data: data,
+    });
+  } 
+
+  pushAvatar() {
+    this.dispatcher.dispatch({
+      eventName: 'user/avatarPush',
+      data: null,
+    });
+  }
 }

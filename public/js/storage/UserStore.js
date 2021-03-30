@@ -3,10 +3,19 @@ import {
   getLoggedProfileData,
   postLoginData,
   logoutFunc,
+  postProfileData,
+  putAvatar,
 } from '../networkModule/network.js';
 
 import { channelNames } from '../config/config.js'
 import { validation } from '../validationModule/inputValidation.js'
+import { actions } from '../main.js';
+
+const profileTab = {
+  about: 'aboutTab',
+  settings: 'settingsTab',
+  events: 'eventsTab',
+}
 
 export default class UserStore {
   constructor(globalStore) {
@@ -14,7 +23,8 @@ export default class UserStore {
     this.globalStore.userStore = this;
     this.data = null;
     this.validationErrors = [];
-    this.profileTab = 'about';
+    this.profileTab = profileTab.events;
+    this.avatarPreviewFile = null;
   }
 
   async register(action) {
@@ -68,6 +78,43 @@ export default class UserStore {
     this.globalStore.eventBus.publish(channelNames.logoutSuccessfull);
   }
 
+  async changeTab(action) {
+    this.profileTab = action.data;
+    this.globalStore.eventBus.publish(channelNames.tabChanged);
+  }
+
+  async postProfileForm(action) {
+    this.validationErrors = validation(action.data);
+
+    if (this.validationErrors.length) {
+      this.globalStore.eventBus.publish(channelNames.errorValidation);
+      return;
+    }
+
+    const answer = await postProfileData(action.data);
+    
+    if (answer.ok) {
+      actions.updateUser();
+    } else {
+      this.validationErrors.push('emailExist');
+      this.globalStore.eventBus.publish(channelNames.errorValidation);
+    }
+  }
+
+  avatarPreview(action) {
+    this.avatarPreviewFile = action.data;
+    this.globalStore.eventBus.publish(channelNames.avatarPreview);
+  }
+
+  async avatarPush() {
+    const fileAvatar = await urltoFile(this.getAvatarPreview());
+    let formPut = new FormData();
+    formPut.append("avatar", fileAvatar);
+    
+    putAvatar(formPut);
+    this.globalStore.eventBus.publish(channelNames.userUpdated);
+  }
+
   reducer(action) {
     switch (action.eventName) {
       case 'user/register':
@@ -86,6 +133,22 @@ export default class UserStore {
         this.logout(action);
         break;
 
+      case 'user/changeTab':
+        this.changeTab(action);
+        break;
+
+      case 'user/postProfileForm':
+        this.postProfileForm(action);
+        break;
+
+      case 'user/avatarPreview':
+        this.avatarPreview(action);
+        break;
+
+      case 'user/avatarPush':
+        this.avatarPush(action);
+        break;
+
       default:
         break;
     }
@@ -95,7 +158,22 @@ export default class UserStore {
     return this.data;
   }
 
+  getTab() {
+    return this.profileTab;
+  }
+
   getValidationErrors() {
     return this.validationErrors;
   }
+
+  getAvatarPreview() {
+    return this.avatarPreviewFile;
+  }
+}
+
+function urltoFile(url, filename, mimeType){
+  return (fetch(url)
+    .then(function(res){return res.arrayBuffer();})
+    .then(function(buf){return new File([buf], filename,{type:mimeType});})
+    );
 }

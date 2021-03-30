@@ -1,5 +1,5 @@
 .wrapper {
-    background: url("../img/login-background.jpg") no-repeat top / cover;
+    background: url("../../components/img/form-background.jpg") no-repeat top / cover;
 }
 
 .error-block-signup {
