@@ -1,38 +1,42 @@
 import { pageNames, channelNames } from '../../config/config.js';
 
 export default class ChangePageView {
-  constructor({eventBus, eventsStore, globalStore, actions}) {
+  constructor({
+    eventBus, eventsStore, globalStore, actions,
+  }) {
     this.eventBus = eventBus;
     this.eventsStore = eventsStore;
     this.globalStore = globalStore;
     this.actions = actions;
+    this.wrapper = document.getElementById('wrapper');
+    this.navbar = document.getElementById('navbar');
   }
 
   renderSignUp() {
     window.scroll(0, 0);
-    wrapper.style.background =  'url("components/img/form-background.jpg") no-repeat top / cover';
-    wrapper.innerHTML = '';
-    wrapper.innerHTML = signUpFormTemplate({});
+    this.wrapper.style.background = 'url("components/img/form-background.jpg") no-repeat top / cover';
+    this.wrapper.innerHTML = '';
+    this.wrapper.innerHTML = signUpFormTemplate({});
   }
 
   renderLoginPage() {
     window.scroll(0, 0);
-    wrapper.style.background =  'url("components/img/form-background.jpg") no-repeat top / cover';
-    wrapper.innerHTML = '';
-    wrapper.innerHTML = loginTemplate();
+    this.wrapper.style.background = 'url("components/img/form-background.jpg") no-repeat top / cover';
+    this.wrapper.innerHTML = '';
+    this.wrapper.innerHTML = loginTemplate();
   }
 
   renderLogout() {
     window.scroll(0, 0);
-    navbar.innerHTML = '';
-    navbar.innerHTML = navbarTemplate({});
+    this.navbar.innerHTML = '';
+    this.navbar.innerHTML = navbarTemplate({});
     this.actions.changePage('events');
   }
 
   renderNavbar() {
     window.scroll(0, 0);
-    navbar.innerHTML = '';
-    navbar.innerHTML = navbarTemplate({});
+    this.navbar.innerHTML = '';
+    this.navbar.innerHTML = navbarTemplate({});
   }
 
   onRegisterSuccessfull() {
@@ -46,19 +50,25 @@ export default class ChangePageView {
       case pageNames.eventsPage:
         this.actions.updateEvents();
         break;
+
       case pageNames.profilePage:
         this.actions.updateUser();
         break;
+
       case pageNames.registrationPage:
         this.renderSignUp();
         break;
+
       case pageNames.loginPage:
         this.renderLoginPage();
         break;
+
       case pageNames.logoutPage:
         this.renderLogout();
         break;
-      case pageNames.oneEventPage:
+
+      default:
+        break;
     }
   }
 

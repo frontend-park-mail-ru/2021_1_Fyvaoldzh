@@ -2,14 +2,14 @@ import { pageNames, channelNames } from '../../config/config.js';
 import EventComponent from './EventComponent.js';
 
 export default class EventsView {
-  constructor({eventBus, eventsStore, globalStore}) {
+  constructor({ eventBus, eventsStore, globalStore }) {
     this.eventBus = eventBus;
     this.eventsStore = eventsStore;
     this.globalStore = globalStore;
   }
 
   renderEvents() {
-    if (this.globalStore.getCurrentPage() != pageNames.eventsPage) {
+    if (this.globalStore.getCurrentPage() !== pageNames.eventsPage) {
       return;
     }
     const eventsJson = this.eventsStore.getData();
@@ -20,10 +20,10 @@ export default class EventsView {
 
     const eventsRow = document.getElementById('events-row');
 
-    for (let i in eventsJson) {
-      const innerEvent = new EventComponent({parent: eventsRow, data: eventsJson[i]});
+    Object.entries(eventsJson).forEach(([, val]) => {
+      const innerEvent = new EventComponent({ parent: eventsRow, data: val });
       innerEvent.render();
-    }
+    });
   }
 
   subscribeViews() {

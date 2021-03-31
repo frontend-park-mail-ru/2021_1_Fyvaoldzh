@@ -1,5 +1,4 @@
-import {INPUTS} from './validation.js'
-
+import { INPUTS } from './validation.js';
 
 /**
  * Функция для валидации форм
@@ -7,38 +6,42 @@ import {INPUTS} from './validation.js'
  * @return {boolean}
  */
 
+const validation = (formDataObject) => {
+  const errors = [];
 
-export const validation = (formDataObject) => {
-    
-    let errors = [];
-    for (let key in formDataObject) {
-        switch (key) {
-            case 'login':
-                if (!INPUTS.login.regex.test(formDataObject[key])) {
-                    errors.push(key);
-                }
-                break;
-            case 'password':
-                if (!INPUTS.password.regex.test(formDataObject[key])) {
-                    errors.push(key);
-                }
-                break;
-            case 'name':
-                if (!INPUTS.name.regex.test(formDataObject[key])) {
-                    errors.push(key);
-                }
-                break;
-            case 'email':
-                if (!INPUTS.email.regex.test(formDataObject[key])) {
-                    errors.push(key);
-                }
-                break;
-            case 'birthday':
-                if (!INPUTS.birthday.regex.test(formDataObject[key])) {
-                    errors.push(key);
-                }
-                break;
+  Object.entries(formDataObject).forEach(([key, val]) => {
+    switch (key) {
+      case 'login':
+        if (!INPUTS.login.regex.test(val)) {
+          errors.push(key);
         }
+        break;
+      case 'password':
+        if (!INPUTS.password.regex.test(val)) {
+          errors.push(key);
+        }
+        break;
+      case 'name':
+        if (!INPUTS.name.regex.test(val)) {
+          errors.push(key);
+        }
+        break;
+      case 'email':
+        if (!INPUTS.email.regex.test(val)) {
+          errors.push(key);
+        }
+        break;
+      case 'birthday':
+        if (!INPUTS.birthday.regex.test(val)) {
+          errors.push(key);
+        }
+        break;
+      default:
+        break;
     }
-    return errors;
+  });
+
+  return errors;
 };
+
+export default validation;

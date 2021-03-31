@@ -8,7 +8,7 @@ import {
 } from '../networkModule/network.js';
 
 import { channelNames } from '../config/config.js';
-import { validation } from '../validationModule/inputValidation.js';
+import validation from '../validationModule/inputValidation.js';
 
 const profileTab = {
   about: 'aboutTab',

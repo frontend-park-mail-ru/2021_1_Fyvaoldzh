@@ -20,7 +20,7 @@ export default class UserView {
     const file = e.target.files[0];
     // Только изображения.
     if (!file.type.match('image.*')) {
-      alert('Image only please....');
+      alert('Image only please....'); // TODO переделать алерт, добавить поле ошибки под аватарку.
       return;
     }
     const reader = new FileReader();

@@ -1,7 +1,3 @@
-.wrapper {
-    background: url("../../components/img/form-background.jpg") no-repeat top / cover;
-}
-
 .error-block-login {
     margin: 10px auto;
     background: grey;

@@ -2,11 +2,6 @@
     --main-gradient: linear-gradient(90deg, #2e1665 0%, #57001e 100%);
 }
 
-.wrapper {
-    background: url("img/profile-background.jpg") no-repeat top / cover;
-    padding-bottom: 75px;
-}
-
 .button-block {
     width: 100%;
     margin-bottom: 50px;

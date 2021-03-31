@@ -1,10 +1,10 @@
 /* eslint-disable no-undef */
-import { Dispatcher } from './dispatcher/dispatcher.js';
+import Dispatcher from './dispatcher/dispatcher.js';
 import Actions from './actions/actions.js';
 import Store from './storage/store.js';
 import UserStore from './storage/UserStore.js';
-import { EventsStore } from './storage/EventsStore.js';
-import { OneEventStore } from './storage/OneEventStore.js';
+import EventsStore from './storage/EventsStore.js';
+import OneEventStore from './storage/OneEventStore.js';
 import EventBus from './eventBus/eventBus.js';
 
 import EventsView from './views/EventsView/EventsView.js';
@@ -66,7 +66,7 @@ const { body } = document;
         console.log(navbarCheckbox.checked)
         navbarCheckbox.checked = !navbarCheckbox.checked;
     }
-    */
+*/
 
 body.addEventListener('click', async (e) => {
   const { target } = e;

@@ -1,29 +1,30 @@
-'use strict';
-
 import { getEventById } from '../networkModule/network.js';
 import { channelNames } from '../config/config.js';
 
-export class OneEventStore {
-    constructor(globalStore) {
-        this.globalStore = globalStore;
-        globalStore.oneEventStore = this;
-        this.data = null;
-    }
+export default class OneEventStore {
+  constructor(globalStore) {
+    this.globalStore = globalStore;
+    globalStore.oneEventStore = this;
+    this.data = null;
+  }
 
-    async update(action) {
-        this.data = await getEventById(action.data);
-        this.globalStore.eventBus.publish(channelNames.eventCome);
-    }
+  async update(action) {
+    this.data = await getEventById(action.data);
+    this.globalStore.eventBus.publish(channelNames.eventCome);
+  }
 
-    reducer(action) {
-        switch (action.eventName) {
-            case 'oneEvent/update':
-                this.update(action);
-                break;
-        }
-    }
+  reducer(action) {
+    switch (action.eventName) {
+      case 'oneEvent/update':
+        this.update(action);
+        break;
 
-    getData() {
-        return this.data;
+      default:
+        break;
     }
+  }
+
+  getData() {
+    return this.data;
+  }
 }

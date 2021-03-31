@@ -6,11 +6,6 @@ input[type="file"] {
     display: none;
 }
 
-.wrapper {
-    background: url("img/my-profile-background.jpg") no-repeat top / cover;
-    padding-bottom: 75px;
-}
-
 .my-profile-main-block {
     background-color: white;
     display: flex;

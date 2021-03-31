@@ -1,6 +1,4 @@
-'use strict';
-
-import {urlMap} from '../config/config.js'
+import { urlMap } from '../config/config.js';
 
 /**
  * Функция для получения ивентов
@@ -8,9 +6,9 @@ import {urlMap} from '../config/config.js'
  */
 
 export async function getAllEventsJson() {
-    let answer = await fetch(urlMap.allEventsUrl);
-    let jsonFile = await answer.json();
-    return jsonFile;
+  const answer = await fetch(urlMap.allEventsUrl);
+  const jsonFile = await answer.json();
+  return jsonFile;
 }
 
 /**
@@ -20,9 +18,9 @@ export async function getAllEventsJson() {
  */
 
 export async function getEventById(id) {
-    let answer = await fetch(urlMap.oneEventUrl + id);
-    let jsonFile = await answer.json();
-    return jsonFile;
+  const answer = await fetch(urlMap.oneEventUrl + id);
+  const jsonFile = await answer.json();
+  return jsonFile;
 }
 
 /**
@@ -32,15 +30,15 @@ export async function getEventById(id) {
  */
 
 export async function postRegistrationData(jsonString) {
-    let answer = await fetch(urlMap.postRegistrationDataUrl, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify(jsonString),
-    })
-    return answer;
+  const answer = await fetch(urlMap.postRegistrationDataUrl, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+    body: JSON.stringify(jsonString),
+  });
+  return answer;
 }
 
 /**
@@ -50,15 +48,15 @@ export async function postRegistrationData(jsonString) {
  */
 
 export async function postLoginData(data) {
-    let answer = await fetch(urlMap.postLoginDataUrl, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify(data),
-    })
-    return answer;
+  const answer = await fetch(urlMap.postLoginDataUrl, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+    body: JSON.stringify(data),
+  });
+  return answer;
 }
 
 /**
@@ -68,16 +66,15 @@ export async function postLoginData(data) {
  */
 
 export async function postProfileData(data) {
-    let answer = await fetch(urlMap.currentProfileUrl, {
-        method: 'PUT',
-        credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify(data),
-    })
-    let a = await answer.text();
-    return answer;
+  const answer = await fetch(urlMap.currentProfileUrl, {
+    method: 'PUT',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+    body: JSON.stringify(data),
+  });
+  return answer;
 }
 
 /**
@@ -86,9 +83,9 @@ export async function postProfileData(data) {
  */
 
 export async function getLoggedProfileData() {
-    const answer = await fetch(urlMap.currentProfileUrl, {credentials: 'include'});
-    const answerJson = await answer.json();
-    return answerJson;
+  const answer = await fetch(urlMap.currentProfileUrl, { credentials: 'include' });
+  const answerJson = await answer.json();
+  return answerJson;
 }
 
 /**
@@ -97,8 +94,8 @@ export async function getLoggedProfileData() {
  */
 
 export async function logoutFunc() {
-    let answer = await fetch(urlMap.logout, {credentials: 'include'});
-    return answer;
+  const answer = await fetch(urlMap.logout, { credentials: 'include' });
+  return answer;
 }
 
 /**
@@ -108,10 +105,10 @@ export async function logoutFunc() {
  */
 
 export async function putAvatar(file) {
-    let answer = await fetch(urlMap.putAvatarUrl, {
-        method: 'PUT',
-        credentials: 'include',
-        body: file
-    })
-    return answer;
+  const answer = await fetch(urlMap.putAvatarUrl, {
+    method: 'PUT',
+    credentials: 'include',
+    body: file,
+  });
+  return answer;
 }
