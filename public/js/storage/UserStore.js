@@ -7,24 +7,31 @@ import {
   putAvatar,
 } from '../networkModule/network.js';
 
-import { channelNames } from '../config/config.js'
-import { validation } from '../validationModule/inputValidation.js'
-import { actions } from '../main.js';
+import { channelNames } from '../config/config.js';
+import { validation } from '../validationModule/inputValidation.js';
 
 const profileTab = {
   about: 'aboutTab',
   settings: 'settingsTab',
   events: 'eventsTab',
+};
+
+function urltoFile(url, filename, mimeType) {
+  return (fetch(url)
+    .then((res) => res.arrayBuffer())
+    .then((buf) => new File([buf], filename, { type: mimeType }))
+  );
 }
 
 export default class UserStore {
-  constructor(globalStore) {
+  constructor(globalStore, actions) {
     this.globalStore = globalStore;
     this.globalStore.userStore = this;
     this.data = null;
     this.validationErrors = [];
     this.profileTab = profileTab.events;
-    this.avatarPreviewFile = null;
+    this.avatarPreviewUrl = null;
+    this.actions = actions;
   }
 
   async register(action) {
@@ -92,9 +99,9 @@ export default class UserStore {
     }
 
     const answer = await postProfileData(action.data);
-    
+
     if (answer.ok) {
-      actions.updateUser();
+      this.actions.updateUser();
     } else {
       this.validationErrors.push('emailExist');
       this.globalStore.eventBus.publish(channelNames.errorValidation);
@@ -102,17 +109,22 @@ export default class UserStore {
   }
 
   avatarPreview(action) {
-    this.avatarPreviewFile = action.data;
+    this.avatarPreviewUrl = action.data;
     this.globalStore.eventBus.publish(channelNames.avatarPreview);
   }
 
   async avatarPush() {
     const fileAvatar = await urltoFile(this.getAvatarPreview());
-    let formPut = new FormData();
-    formPut.append("avatar", fileAvatar);
-    
+    const formPut = new FormData();
+    formPut.append('avatar', fileAvatar);
+
     putAvatar(formPut);
-    this.globalStore.eventBus.publish(channelNames.userUpdated);
+    this.globalStore.eventBus.publish(channelNames.avatarPushed);
+  }
+
+  async avatarDecline() {
+    this.avatarPreviewUrl = null;
+    this.globalStore.eventBus.publish(channelNames.avatarDeclined);
   }
 
   reducer(action) {
@@ -149,6 +161,10 @@ export default class UserStore {
         this.avatarPush(action);
         break;
 
+      case 'user/avatarDecline':
+        this.avatarDecline(action);
+        break;
+
       default:
         break;
     }
@@ -167,13 +183,6 @@ export default class UserStore {
   }
 
   getAvatarPreview() {
-    return this.avatarPreviewFile;
+    return this.avatarPreviewUrl;
   }
-}
-
-function urltoFile(url, filename, mimeType){
-  return (fetch(url)
-    .then(function(res){return res.arrayBuffer();})
-    .then(function(buf){return new File([buf], filename,{type:mimeType});})
-    );
 }

@@ -62,20 +62,27 @@ export default class Actions {
   postProfileForm(data) {
     this.dispatcher.dispatch({
       eventName: 'user/postProfileForm',
-      data: data,
+      data,
     });
   }
 
   avatarPreview(data) {
     this.dispatcher.dispatch({
       eventName: 'user/avatarPreview',
-      data: data,
+      data,
     });
-  } 
+  }
 
   pushAvatar() {
     this.dispatcher.dispatch({
       eventName: 'user/avatarPush',
+      data: null,
+    });
+  }
+
+  declineAvatar() {
+    this.dispatcher.dispatch({
+      eventName: 'user/avatarDecline',
       data: null,
     });
   }

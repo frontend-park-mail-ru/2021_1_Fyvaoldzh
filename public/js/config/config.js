@@ -8,12 +8,12 @@ export const urlMap = {
   putAvatarUrl: 'http://95.163.180.8:1323/api/v1/upload_avatar',
   imgUrl: 'http://95.163.180.8:1323/api/v1/avatar/',
   imgEventUrl: 'http://95.163.180.8:1323/api/v1/event/',
-}
+};
 
 export const SERVER_ERRORS = {
   WRONG_LOGIN_OR_PASS: 'Неправильный логин или пароль',
   LOGIN_EXIST: 'Такой логин уже существует',
-}
+};
 
 export const channelNames = {
   errorValidation: 'errorValidation',
@@ -28,7 +28,9 @@ export const channelNames = {
   eventCome: 'eventCome',
   tabChanged: 'tabChanged',
   avatarPreview: 'avatarPreview',
-}
+  avatarDeclined: 'avatarDeclined',
+  avatarPushed: 'avatarPushed', // Мб имена каналов и всякое такое стоит заменить на что-то типа enum.
+};
 
 export const pageNames = {
   eventsPage: 'events',
@@ -37,4 +39,4 @@ export const pageNames = {
   registrationPage: 'registration',
   loginPage: 'login',
   logoutPage: 'logout',
-}
+};
