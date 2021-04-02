@@ -1,17 +1,25 @@
 import { getEventById } from '../networkModule/network.js';
 import { channelNames } from '../config/config.js';
 
-const oneEvent = Symbol('OneEvent');
+const oneEventDataSymbol = Symbol('oneEventDataSymbol');
+const globalStoreSymbol = Symbol('globalStoreSymbol');
 
 export default class OneEventStore {
   constructor(globalStore) {
-    this.globalStore = globalStore;
-    globalStore.oneEventStore = this;
-    this[oneEvent] = null;
+    this[globalStoreSymbol] = globalStore;
+    this[oneEventDataSymbol] = null;
+  }
+
+  get oneEventData() {
+    return this[oneEventDataSymbol];
+  }
+
+  get globalStore() {
+    return this[globalStoreSymbol];
   }
 
   async update(action) {
-    this[oneEvent] = await getEventById(action.data);
+    this[oneEventDataSymbol] = await getEventById(action.data);
     this.globalStore.eventBus.publish(channelNames.eventCome);
   }
 
@@ -24,9 +32,5 @@ export default class OneEventStore {
       default:
         break;
     }
-  }
-
-  get oneEvent() {
-    return this[oneEvent];
   }
 }

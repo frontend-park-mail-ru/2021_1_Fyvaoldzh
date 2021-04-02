@@ -7,7 +7,7 @@ import {
   putAvatar,
 } from '../networkModule/network.js';
 
-import { channelNames, profileTab, userStoreSymbols } from '../config/config.js';
+import { channelNames, profileTab } from '../config/config.js';
 import validation from '../validationModule/inputValidation.js';
 
 const urltoFile = (url, filename, mimeType) => (fetch(url)
@@ -15,54 +15,80 @@ const urltoFile = (url, filename, mimeType) => (fetch(url)
   .then((buf) => new File([buf], filename, { type: mimeType }))
 );
 
+const userDataSymbol = Symbol('UserData');
+const validationErrorsSymbol = Symbol('validationErrorsSymbol');
+const currentTabSymbol = Symbol('CurrentTabSymbol');
+const avatarPreviewUrlSymbol = Symbol('avatarPreviewUrlSymbol');
+const globalStoreSymbol = Symbol('globalStoreSymbol');
+
 export default class UserStore {
   constructor(globalStore) {
-    this.globalStore = globalStore;
-    this[userStoreSymbols.userDataSymbol] = null;
-    this[userStoreSymbols.validationErrorsSymbol] = [];
-    this[userStoreSymbols.currentTabSymbol] = profileTab.events;
-    this[userStoreSymbols.avatarPreviewUrlSymbol] = null;
+    this[globalStoreSymbol] = globalStore;
+    this[userDataSymbol] = null;
+    this[validationErrorsSymbol] = [];
+    this[currentTabSymbol] = profileTab.events;
+    this[avatarPreviewUrlSymbol] = null;
+  }
+
+  get globalStore() {
+    return this[globalStoreSymbol];
+  }
+
+  get userData() {
+    return this[userDataSymbol];
+  }
+
+  get validationErrors() {
+    return this[validationErrorsSymbol];
+  }
+
+  get currentTab() {
+    return this[currentTabSymbol];
+  }
+
+  get avatarPreviewUrl() {
+    return this[avatarPreviewUrlSymbol];
   }
 
   async register(action) {
-    this[userStoreSymbols.validationErrorsSymbol] = validation(action.data);
+    this[validationErrorsSymbol] = validation(action.data);
 
-    if (this[userStoreSymbols.validationErrorsSymbol].length) {
+    if (this.validationErrors.length) {
       this.globalStore.eventBus.publish(channelNames.errorValidation);
     } else {
       const answer = await postRegistrationData(action.data);
 
       if (answer.ok) {
-        this[userStoreSymbols.userDataSymbol] = await getLoggedProfileData();
+        this[userDataSymbol] = await getLoggedProfileData();
         this.globalStore.eventBus.publish(channelNames.registerSuccessfull);
       } else {
-        this[userStoreSymbols.validationErrorsSymbol].push('loginExist');
+        this.validationErrors.push('loginExist');
         this.globalStore.eventBus.publish(channelNames.errorValidation);
       }
     }
   }
 
   async login(action) {
-    this[userStoreSymbols.validationErrorsSymbol] = validation(action.data);
+    this[validationErrorsSymbol] = validation(action.data);
 
-    if (this[userStoreSymbols.validationErrorsSymbol].length) {
+    if (this.validationErrors.length) {
       this.globalStore.eventBus.publish(channelNames.errorValidation);
     } else {
       const answer = await postLoginData(action.data);
 
       if (answer.ok) {
-        this[userStoreSymbols.userDataSymbol] = await getLoggedProfileData();
+        this[userDataSymbol] = await getLoggedProfileData();
         this.globalStore.eventBus.publish(channelNames.registerSuccessfull);
       } else {
-        this[userStoreSymbols.validationErrorsSymbol].push('wrongLoginOrPass');
+        this.validationErrors.push('wrongLoginOrPass');
         this.globalStore.eventBus.publish(channelNames.errorValidation);
       }
     }
   }
 
   async update() {
-    this[userStoreSymbols.userDataSymbol] = await getLoggedProfileData();
-    if (this[userStoreSymbols.userDataSymbol].message === 'user is not authorized') {
+    this[userDataSymbol] = await getLoggedProfileData();
+    if (this.userData.message === 'user is not authorized') {
       this.globalStore.eventBus.publish(channelNames.userIsNotAuth);
     } else {
       this.globalStore.eventBus.publish(channelNames.userUpdated);
@@ -70,20 +96,20 @@ export default class UserStore {
   }
 
   async logout() {
-    this[userStoreSymbols.userDataSymbol] = {};
+    this[userDataSymbol] = {};
     logoutFunc();
     this.globalStore.eventBus.publish(channelNames.logoutSuccessfull);
   }
 
   async changeTab(action) {
-    this[userStoreSymbols.currentTabSymbol] = action.data;
+    this[currentTabSymbol] = action.data;
     this.globalStore.eventBus.publish(channelNames.tabChanged);
   }
 
   async postProfileForm(action) {
-    this[userStoreSymbols.validationErrorsSymbol] = validation(action.data);
+    this[validationErrorsSymbol] = validation(action.data);
 
-    if (this[userStoreSymbols.validationErrorsSymbol].length) {
+    if (this.validationErrors.length) {
       this.globalStore.eventBus.publish(channelNames.errorValidation);
       return;
     }
@@ -93,14 +119,13 @@ export default class UserStore {
     if (answer.ok) {
       this.update();
     } else {
-      this[userStoreSymbols.validationErrorsSymbol].push('emailExist');
-      alert(1);
+      this.validationErrors.push('emailExist');
       this.globalStore.eventBus.publish(channelNames.errorValidation);
     }
   }
 
   avatarPreview(action) {
-    this[userStoreSymbols.avatarPreviewUrlSymbol] = action.data;
+    this[avatarPreviewUrlSymbol] = action.data;
     this.globalStore.eventBus.publish(channelNames.avatarPreview);
   }
 
@@ -114,7 +139,7 @@ export default class UserStore {
   }
 
   async avatarDecline() {
-    this[userStoreSymbols.avatarPreviewUrlSymbol] = null;
+    this[avatarPreviewUrlSymbol] = null;
     this.globalStore.eventBus.publish(channelNames.avatarDeclined);
   }
 
@@ -159,21 +184,5 @@ export default class UserStore {
       default:
         break;
     }
-  }
-
-  get userData() {
-    return this[userStoreSymbols.userDataSymbol];
-  }
-
-  get currentTab() {
-    return this[userStoreSymbols.currentTabSymbol];
-  }
-
-  get validationErrors() {
-    return this[userStoreSymbols.validationErrorsSymbol];
-  }
-
-  get avatarPreviewUrl() {
-    return this[userStoreSymbols.avatarPreviewUrlSymbol];
   }
 }

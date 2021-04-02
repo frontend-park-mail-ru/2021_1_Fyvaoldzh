@@ -1,17 +1,22 @@
-import { pageNames, channelNames, storeSymbols } from '../../config/config.js';
+import { pageNames, channelNames } from '../../config/config.js';
 import EventComponent from './EventComponent.js';
 
+const globalStoreSymbol = Symbol('globalStoreSymbol');
+
 export default class EventsView {
-  constructor({ eventBus, globalStore }) {
-    this.eventBus = eventBus;
-    this.globalStore = globalStore;
+  constructor({ globalStore }) {
+    this[globalStoreSymbol] = globalStore;
+  }
+
+  get globalStore() {
+    return this[globalStoreSymbol];
   }
 
   renderEvents() {
     if (this.globalStore.currentPage !== pageNames.eventsPage) {
       return;
     }
-    const eventsJson = this.globalStore[storeSymbols.eventsStoreSymbol].allEvents;
+    const eventsJson = this.globalStore.eventsStore.allEvents;
     window.scroll(0, 0);
     wrapper.innerHTML = '';
     wrapper.style.background = 'url("templates/events/img/events-background.jpg") no-repeat';
@@ -26,6 +31,6 @@ export default class EventsView {
   }
 
   subscribeViews() {
-    this.eventBus.subscribe(channelNames.eventsUpdated, this.renderEvents.bind(this));
+    this.globalStore.eventBus.subscribe(channelNames.eventsUpdated, this.renderEvents.bind(this));
   }
 }

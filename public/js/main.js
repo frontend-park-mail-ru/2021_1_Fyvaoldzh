@@ -23,7 +23,6 @@ export const oneEventStore = new OneEventStore(globalStore);
 const toViews = {
   globalStore,
   actions,
-  eventBus,
 };
 
 dispatcher.register(globalStore.reducer.bind(globalStore));

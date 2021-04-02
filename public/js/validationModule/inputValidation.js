@@ -1,4 +1,4 @@
-import { INPUTS } from './validation.js';
+import INPUTS from './validation.js';
 
 /**
  * Функция для валидации форм

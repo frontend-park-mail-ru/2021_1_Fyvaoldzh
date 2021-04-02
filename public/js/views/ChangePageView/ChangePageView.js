@@ -1,14 +1,24 @@
 import { pageNames, channelNames } from '../../config/config.js';
 
+const globalStoreSymbol = Symbol('globalStoreSymbol');
+const actionsSymbol = Symbol('actionsSymbol');
+
 export default class ChangePageView {
   constructor({
-    eventBus, globalStore, actions,
+    globalStore, actions,
   }) {
-    this.eventBus = eventBus;
-    this.globalStore = globalStore;
-    this.actions = actions;
+    this[globalStoreSymbol] = globalStore;
+    this[actionsSymbol] = actions;
     this.wrapper = document.getElementById('wrapper');
     this.navbar = document.getElementById('navbar');
+  }
+
+  get globalStore() {
+    return this[globalStoreSymbol];
+  }
+
+  get actions() {
+    return this[actionsSymbol];
   }
 
   renderSignUp() {
@@ -72,9 +82,9 @@ export default class ChangePageView {
   }
 
   subscribeViews() {
-    this.eventBus.subscribe(channelNames.logoutSuccessfull, this.renderLogout.bind(this));
-    this.eventBus.subscribe(channelNames.userIsNotAuth, this.renderNavbar.bind(this));
-    this.eventBus.subscribe(channelNames.pageChanged, this.changePage.bind(this));
-    this.eventBus.subscribe(channelNames.registerSuccessfull, this.onRegisterSuccessfull.bind(this));
+    this.globalStore.eventBus.subscribe(channelNames.logoutSuccessfull, this.renderLogout.bind(this));
+    this.globalStore.eventBus.subscribe(channelNames.userIsNotAuth, this.renderNavbar.bind(this));
+    this.globalStore.eventBus.subscribe(channelNames.pageChanged, this.changePage.bind(this));
+    this.globalStore.eventBus.subscribe(channelNames.registerSuccessfull, this.onRegisterSuccessfull.bind(this));
   }
 }

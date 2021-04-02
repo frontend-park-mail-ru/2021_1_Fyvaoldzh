@@ -2,17 +2,27 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-return-assign */
 import {
-  pageNames, channelNames, urlMap, SERVER_ERRORS, storeSymbols, userStoreSymbols,
+  pageNames, channelNames, urlMap, SERVER_ERRORS,
 } from '../../config/config.js';
-import { INPUTS } from '../../validationModule/validation.js';
+import INPUTS from '../../validationModule/validation.js';
+
+const globalStoreSymbol = Symbol('globalStoreSymbol');
+const actionsSymbol = Symbol('actionsSymbol');
 
 export default class UserView {
   constructor({
-    eventBus, globalStore, actions,
+    globalStore, actions,
   }) {
-    this.eventBus = eventBus;
-    this.globalStore = globalStore;
-    this.actions = actions;
+    this[globalStoreSymbol] = globalStore;
+    this[actionsSymbol] = actions;
+  }
+
+  get globalStore() {
+    return this[globalStoreSymbol];
+  }
+
+  get actions() {
+    return this[actionsSymbol];
   }
 
   handleFileSelect(e) {
@@ -36,7 +46,7 @@ export default class UserView {
     window.scroll(0, 0);
 
     const navbar = document.getElementById('navbar');
-    const profileData = this.globalStore[storeSymbols.userStoreSymbol].userData;
+    const profileData = this.globalStore.userStore.userData;
 
     navbar.innerHTML = '';
     navbar.innerHTML = navbarLoggedTemplate(profileData);
@@ -46,7 +56,7 @@ export default class UserView {
   }
 
   renderValidationErrors() {
-    const { validationErrors } = this.globalStore[storeSymbols.userStoreSymbol];
+    const { validationErrors } = this.globalStore.userStore;
 
     if (document.getElementById('loginError')) {
       document.getElementById('loginError').innerText = '';
@@ -125,15 +135,15 @@ export default class UserView {
     }
 
     window.scroll(0, 0);
-    const profileData = this.globalStore[storeSymbols.userStoreSymbol][userStoreSymbols.userDataSymbol];
+    const { userData } = this.globalStore.userStore;
 
     const wrapper = document.getElementById('wrapper');
     wrapper.style.background = 'url("components/img/my-profile-background.jpg") no-repeat top / cover';
     wrapper.innerHTML = '';
-    wrapper.innerHTML = myProfileTemplate(profileData);
+    wrapper.innerHTML = myProfileTemplate(userData);
 
     const avatar = document.getElementById('profileAvatar');
-    avatar.style.background = `url(${urlMap.imgUrl + profileData.Uid}) no-repeat center / cover`;
+    avatar.style.background = `url(${urlMap.imgUrl + userData.Uid}) no-repeat center / cover`;
 
     document.getElementById('imageFile').addEventListener('change', this.handleFileSelect.bind(this));
     document.getElementById('jsSubmitAvatar').addEventListener('click', this.actions.pushAvatar.bind(this.actions));
@@ -147,14 +157,15 @@ export default class UserView {
   }
 
   renderChangingContent() {
-    const currentTab = this.globalStore[storeSymbols.userStoreSymbol][userStoreSymbols.currentTabSymbol];
-    const profileData = this.globalStore[storeSymbols.userStoreSymbol][userStoreSymbols.userDataSymbol];
+    console.log(this.globalStore.userStore.currentTab);
+    const { currentTab } = this.globalStore.userStore;
+    const { userData } = this.globalStore.userStore;
 
     const changingContent = document.getElementById('changing-content');
 
     switch (currentTab) {
       case 'aboutTab':
-        changingContent.innerHTML = myProfileAboutTabTemplate(profileData);
+        changingContent.innerHTML = myProfileAboutTabTemplate(userData);
         document.getElementById('postProfile').addEventListener('click', this.postProfile.bind(this));
         break;
 
@@ -163,7 +174,7 @@ export default class UserView {
         break;
 
       case 'eventsTab':
-        changingContent.innerHTML = myProfileEventsTabTemplate(profileData);
+        changingContent.innerHTML = myProfileEventsTabTemplate(userData);
         break;
 
       default:
@@ -173,8 +184,7 @@ export default class UserView {
 
   renderPreviewAvatar() {
     const avatar = document.getElementById('profileAvatar');
-    console.log('addwa');
-    avatar.style.background = `url(${this.globalStore[storeSymbols.userStoreSymbol][userStoreSymbols.avatarPreviewUrlSymbol]}) no-repeat center / cover`;
+    avatar.style.background = `url(${this.globalStore.userStore.avatarPreviewUrl}) no-repeat center / cover`;
 
     document.getElementById('jsUploadAvatar').style.display = 'none';
     document.getElementById('jsSubmitAvatar').style.display = 'inline-block';
@@ -182,9 +192,9 @@ export default class UserView {
   }
 
   renderUnPreviewAvatar() {
-    const profileData = this.globalStore[storeSymbols.userStoreSymbol][userStoreSymbols.userDataSymbol];
+    const { userData } = this.globalStore.userStore;
     const avatar = document.getElementById('profileAvatar');
-    avatar.style.background = `url(${urlMap.imgUrl + profileData.Uid}) no-repeat center / cover`;
+    avatar.style.background = `url(${urlMap.imgUrl + userData.Uid}) no-repeat center / cover`;
 
     document.getElementById('jsUploadAvatar').style.display = 'inline-block';
     document.getElementById('jsSubmitAvatar').style.display = 'none';
@@ -194,8 +204,8 @@ export default class UserView {
   renderAvatarPushed() {
     const avatar = document.getElementById('profileAvatar');
     const navbarAvatar = document.getElementById('navbar-avatar');
-    avatar.style.background = `url(${this.globalStore[storeSymbols.userStoreSymbol][userStoreSymbols.avatarPreviewUrlSymbol]}) no-repeat center / cover`;
-    navbarAvatar.style.background = `url(${this.globalStore[storeSymbols.userStoreSymbol][userStoreSymbols.avatarPreviewUrlSymbol]}) no-repeat center / cover`;
+    avatar.style.background = `url(${this.globalStore.userStore.avatarPreviewUrl}) no-repeat center / cover`;
+    navbarAvatar.style.background = `url(${this.globalStore.userStore.avatarPreviewUrl}) no-repeat center / cover`;
 
     document.getElementById('jsUploadAvatar').style.display = 'inline-block';
     document.getElementById('jsSubmitAvatar').style.display = 'none';
@@ -203,13 +213,13 @@ export default class UserView {
   }
 
   subscribeViews() {
-    this.eventBus.subscribe(channelNames.errorValidation, this.renderValidationErrors.bind(this));
-    this.eventBus.subscribe(channelNames.userUpdated, this.renderLoggedNavbar.bind(this));
-    this.eventBus.subscribe(channelNames.userUpdated, this.renderMyProfilePage.bind(this));
-    this.eventBus.subscribe(channelNames.tabChanged, this.renderChangingContent.bind(this));
-    this.eventBus.subscribe(channelNames.avatarPreview, this.renderPreviewAvatar.bind(this));
-    this.eventBus.subscribe(channelNames.avatarDeclined, this.renderUnPreviewAvatar.bind(this));
-    this.eventBus.subscribe(channelNames.avatarPushed, this.renderAvatarPushed.bind(this));
+    this[globalStoreSymbol].eventBus.subscribe(channelNames.errorValidation, this.renderValidationErrors.bind(this));
+    this[globalStoreSymbol].eventBus.subscribe(channelNames.userUpdated, this.renderLoggedNavbar.bind(this));
+    this[globalStoreSymbol].eventBus.subscribe(channelNames.userUpdated, this.renderMyProfilePage.bind(this));
+    this[globalStoreSymbol].eventBus.subscribe(channelNames.tabChanged, this.renderChangingContent.bind(this));
+    this[globalStoreSymbol].eventBus.subscribe(channelNames.avatarPreview, this.renderPreviewAvatar.bind(this));
+    this[globalStoreSymbol].eventBus.subscribe(channelNames.avatarDeclined, this.renderUnPreviewAvatar.bind(this));
+    this[globalStoreSymbol].eventBus.subscribe(channelNames.avatarPushed, this.renderAvatarPushed.bind(this));
   }
 
   buttonToggleHandler(e) {
