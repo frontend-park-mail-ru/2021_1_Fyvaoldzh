@@ -2,7 +2,7 @@ import { urlMap } from '../config/config.js';
 
 /**
  * Функция для получения ивентов
- * @return {json} - возвращает json
+ * @return {json} - возвращает массив json-ов
  */
 
 export async function getAllEventsJson() {

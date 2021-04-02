@@ -1,15 +1,17 @@
 import { getAllEventsJson } from '../networkModule/network.js';
 import { channelNames } from '../config/config.js';
 
+const allEvents = Symbol('allEvents');
+
 export default class EventsStore {
   constructor(globalStore) {
     this.globalStore = globalStore;
     this.globalStore.eventsStore = this;
-    this.data = null;
+    this[allEvents] = null;
   }
 
   async update() {
-    this.data = await getAllEventsJson();
+    this[allEvents] = await getAllEventsJson();
     this.globalStore.eventBus.publish(channelNames.eventsUpdated);
   }
 
@@ -24,7 +26,7 @@ export default class EventsStore {
     }
   }
 
-  getData() {
-    return this.data;
+  get allEvents() {
+    return this[allEvents];
   }
 }

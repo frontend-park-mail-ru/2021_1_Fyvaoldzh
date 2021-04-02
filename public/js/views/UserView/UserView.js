@@ -2,16 +2,15 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-return-assign */
 import {
-  pageNames, channelNames, urlMap, SERVER_ERRORS,
+  pageNames, channelNames, urlMap, SERVER_ERRORS, storeSymbols, userStoreSymbols,
 } from '../../config/config.js';
 import { INPUTS } from '../../validationModule/validation.js';
 
 export default class UserView {
   constructor({
-    eventBus, userStore, globalStore, actions,
+    eventBus, globalStore, actions,
   }) {
     this.eventBus = eventBus;
-    this.userStore = userStore;
     this.globalStore = globalStore;
     this.actions = actions;
   }
@@ -37,7 +36,8 @@ export default class UserView {
     window.scroll(0, 0);
 
     const navbar = document.getElementById('navbar');
-    const profileData = this.userStore.getData();
+    const profileData = this.globalStore[storeSymbols.userStoreSymbol].userData;
+
     navbar.innerHTML = '';
     navbar.innerHTML = navbarLoggedTemplate(profileData);
     const navbarAvatar = document.getElementById('navbar-avatar');
@@ -46,7 +46,7 @@ export default class UserView {
   }
 
   renderValidationErrors() {
-    const validationErrors = this.userStore.getValidationErrors();
+    const { validationErrors } = this.globalStore[storeSymbols.userStoreSymbol];
 
     if (document.getElementById('loginError')) {
       document.getElementById('loginError').innerText = '';
@@ -120,12 +120,12 @@ export default class UserView {
   }
 
   renderMyProfilePage() {
-    if (this.globalStore.getCurrentPage() !== pageNames.profilePage) {
+    if (this.globalStore.currentPage !== pageNames.profilePage) {
       return;
     }
 
     window.scroll(0, 0);
-    const profileData = this.userStore.getData();
+    const profileData = this.globalStore[storeSymbols.userStoreSymbol][userStoreSymbols.userDataSymbol];
 
     const wrapper = document.getElementById('wrapper');
     wrapper.style.background = 'url("components/img/my-profile-background.jpg") no-repeat top / cover';
@@ -147,8 +147,8 @@ export default class UserView {
   }
 
   renderChangingContent() {
-    const currentTab = this.userStore.getTab();
-    const profileData = this.userStore.getData();
+    const currentTab = this.globalStore[storeSymbols.userStoreSymbol][userStoreSymbols.currentTabSymbol];
+    const profileData = this.globalStore[storeSymbols.userStoreSymbol][userStoreSymbols.userDataSymbol];
 
     const changingContent = document.getElementById('changing-content');
 
@@ -173,7 +173,8 @@ export default class UserView {
 
   renderPreviewAvatar() {
     const avatar = document.getElementById('profileAvatar');
-    avatar.style.background = `url(${this.userStore.getAvatarPreview()}) no-repeat center / cover`;
+    console.log('addwa');
+    avatar.style.background = `url(${this.globalStore[storeSymbols.userStoreSymbol][userStoreSymbols.avatarPreviewUrlSymbol]}) no-repeat center / cover`;
 
     document.getElementById('jsUploadAvatar').style.display = 'none';
     document.getElementById('jsSubmitAvatar').style.display = 'inline-block';
@@ -181,7 +182,7 @@ export default class UserView {
   }
 
   renderUnPreviewAvatar() {
-    const profileData = this.userStore.getData();
+    const profileData = this.globalStore[storeSymbols.userStoreSymbol][userStoreSymbols.userDataSymbol];
     const avatar = document.getElementById('profileAvatar');
     avatar.style.background = `url(${urlMap.imgUrl + profileData.Uid}) no-repeat center / cover`;
 
@@ -193,8 +194,8 @@ export default class UserView {
   renderAvatarPushed() {
     const avatar = document.getElementById('profileAvatar');
     const navbarAvatar = document.getElementById('navbar-avatar');
-    avatar.style.background = `url(${this.userStore.getAvatarPreview()}) no-repeat center / cover`;
-    navbarAvatar.style.background = `url(${this.userStore.getAvatarPreview()}) no-repeat center / cover`;
+    avatar.style.background = `url(${this.globalStore[storeSymbols.userStoreSymbol][userStoreSymbols.avatarPreviewUrlSymbol]}) no-repeat center / cover`;
+    navbarAvatar.style.background = `url(${this.globalStore[storeSymbols.userStoreSymbol][userStoreSymbols.avatarPreviewUrlSymbol]}) no-repeat center / cover`;
 
     document.getElementById('jsUploadAvatar').style.display = 'inline-block';
     document.getElementById('jsSubmitAvatar').style.display = 'none';

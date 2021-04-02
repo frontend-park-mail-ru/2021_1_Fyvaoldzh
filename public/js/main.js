@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import Dispatcher from './dispatcher/dispatcher.js';
 import Actions from './actions/actions.js';
 import Store from './storage/store.js';
@@ -17,16 +16,12 @@ export const actions = new Actions(dispatcher);
 export const eventBus = new EventBus();
 
 export const globalStore = new Store(eventBus);
-export const userStore = new UserStore(globalStore, actions);
+export const userStore = new UserStore(globalStore);
 export const eventsStore = new EventsStore(globalStore);
 export const oneEventStore = new OneEventStore(globalStore);
 
 const toViews = {
   globalStore,
-  userStore,
-  eventsStore,
-  oneEventStore,
-
   actions,
   eventBus,
 };
@@ -34,21 +29,23 @@ const toViews = {
 dispatcher.register(globalStore.reducer.bind(globalStore));
 
 const eventsView = new EventsView(toViews);
-eventsView.subscribeViews();
 
 const userView = new UserView(toViews);
-userView.subscribeViews();
 
 const oneEventView = new OneEventView(toViews);
-oneEventView.subscribeViews();
 
 const changePageView = new ChangePageView(toViews);
-changePageView.subscribeViews();
 
-const navbar = document.getElementById('navbar');
-navbar.innerHTML = navbarTemplate({}); // Начальный навбар.
-actions.updateUser(); // Обновляем данные пользователя в хранилище.
-actions.changePage('events'); // Заходим на главную страницу эвентов.
+[eventsView, userView, oneEventView, changePageView].forEach((view) => view.subscribeViews());
+
+function firstRender() {
+  const navbar = document.getElementById('navbar');
+  navbar.innerHTML = navbarTemplate({}); // Начальный навбар.
+  actions.updateUser(); // Обновляем данные пользователя в хранилище.
+  actions.changePage('events'); // Заходим на главную страницу эвентов.
+}
+
+firstRender();
 
 const { body } = document;
 

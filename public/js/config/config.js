@@ -15,6 +15,12 @@ export const SERVER_ERRORS = {
   LOGIN_EXIST: 'Такой логин уже существует',
 };
 
+export const profileTab = {
+  about: 'aboutTab',
+  settings: 'settingsTab',
+  events: 'eventsTab',
+};
+
 export const channelNames = {
   errorValidation: 'errorValidation',
   errorLoginIsExist: 'errorLoginIsExist',
@@ -39,4 +45,18 @@ export const pageNames = {
   registrationPage: 'registration',
   loginPage: 'login',
   logoutPage: 'logout',
+};
+
+export const storeSymbols = {
+  currentPageSymbol: Symbol('currentPageSymbol'),
+  oneEventStoreSymbol: Symbol('oneEventStoreSymbol'),
+  userStoreSymbol: Symbol('userStoreSymbol'),
+  eventsStoreSymbol: Symbol('eventsStoreSymbol'),
+};
+
+export const userStoreSymbols = {
+  userDataSymbol: Symbol('UserData'),
+  currentTabSymbol: Symbol('CurrentTabSymbol'),
+  validationErrorsSymbol: Symbol('validationErrorsSymbol'),
+  avatarPreviewUrlSymbol: Symbol('avatarPreviewUrlSymbol'),
 };

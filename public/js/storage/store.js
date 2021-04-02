@@ -1,41 +1,40 @@
-import { channelNames } from '../config/config.js';
+import { channelNames, pageNames, storeSymbols } from '../config/config.js';
+import UserStore from './UserStore.js';
+import EventsStore from './EventsStore.js';
+import OneEventStore from './OneEventStore.js';
 
 export default class Store {
   constructor(eventBus) {
     this.eventBus = eventBus;
-    this.currentPage = 'main';
-    this.userStore = null;
-    this.eventsStore = null;
-    this.currentEventStore = null;
+    this[storeSymbols.currentPageSymbol] = pageNames.eventsPage;
+    this[storeSymbols.userStoreSymbol] = new UserStore(this);
+    this[storeSymbols.eventsStoreSymbol] = new EventsStore(this);
+    this[storeSymbols.oneEventStoreSymbol] = new OneEventStore(this);
   }
 
   reducer(action) {
     if (action.eventName === 'changePage') {
-      this.currentPage = action.data;
+      this[storeSymbols.currentPageSymbol] = action.data;
       this.eventBus.publish(channelNames.pageChanged);
       return;
     }
 
     if (action.eventName.includes('user/')) {
-      this.userStore.reducer(action);
+      this[storeSymbols.userStoreSymbol].reducer(action);
       return;
     }
 
     if (action.eventName.includes('events/')) {
-      this.eventsStore.reducer(action);
+      this[storeSymbols.eventsStoreSymbol].reducer(action);
       return;
     }
 
     if (action.eventName.includes('oneEvent/')) {
-      this.oneEventStore.reducer(action);
+      this[storeSymbols.oneEventStoreSymbol].reducer(action);
     }
   }
 
-  getValidationErrors() {
-    return this.validationErrors;
-  }
-
-  getCurrentPage() {
-    return this.currentPage;
+  get currentPage() {
+    return this[storeSymbols.currentPageSymbol];
   }
 }

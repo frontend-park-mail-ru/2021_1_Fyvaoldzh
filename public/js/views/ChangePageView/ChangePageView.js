@@ -2,10 +2,9 @@ import { pageNames, channelNames } from '../../config/config.js';
 
 export default class ChangePageView {
   constructor({
-    eventBus, eventsStore, globalStore, actions,
+    eventBus, globalStore, actions,
   }) {
     this.eventBus = eventBus;
-    this.eventsStore = eventsStore;
     this.globalStore = globalStore;
     this.actions = actions;
     this.wrapper = document.getElementById('wrapper');
@@ -45,7 +44,7 @@ export default class ChangePageView {
   }
 
   changePage() {
-    const currentPage = this.globalStore.getCurrentPage();
+    const { currentPage } = this.globalStore;
     switch (currentPage) {
       case pageNames.eventsPage:
         this.actions.updateEvents();

@@ -1,18 +1,17 @@
-import { pageNames, channelNames } from '../../config/config.js';
+import { pageNames, channelNames, storeSymbols } from '../../config/config.js';
 import EventComponent from './EventComponent.js';
 
 export default class EventsView {
-  constructor({ eventBus, eventsStore, globalStore }) {
+  constructor({ eventBus, globalStore }) {
     this.eventBus = eventBus;
-    this.eventsStore = eventsStore;
     this.globalStore = globalStore;
   }
 
   renderEvents() {
-    if (this.globalStore.getCurrentPage() !== pageNames.eventsPage) {
+    if (this.globalStore.currentPage !== pageNames.eventsPage) {
       return;
     }
-    const eventsJson = this.eventsStore.getData();
+    const eventsJson = this.globalStore[storeSymbols.eventsStoreSymbol].allEvents;
     window.scroll(0, 0);
     wrapper.innerHTML = '';
     wrapper.style.background = 'url("templates/events/img/events-background.jpg") no-repeat';
