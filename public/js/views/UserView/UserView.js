@@ -154,6 +154,7 @@ export default class UserView {
     tabsBlock.addEventListener('click', this.buttonToggleHandler.bind(this));
 
     this.renderChangingContent();
+    window.history.pushState('', '', '/profile');
   }
 
   renderChangingContent() {

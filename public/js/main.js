@@ -25,6 +25,8 @@ const toViews = {
   actions,
 };
 
+console.log(window.location);
+
 dispatcher.register(globalStore.reducer.bind(globalStore));
 
 const eventsView = new EventsView(toViews);
