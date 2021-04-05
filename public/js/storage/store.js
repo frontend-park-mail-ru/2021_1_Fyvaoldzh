@@ -1,4 +1,4 @@
-import { channelNames, pageNames } from '../config/config.js';
+import {channelNames, pageNames} from '../config/config.js';
 import UserStore from './UserStore.js';
 import EventsStore from './EventsStore.js';
 import OneEventStore from './OneEventStore.js';
@@ -8,6 +8,7 @@ const userStoreSymbol = Symbol('userStoreSymbol');
 const eventsStoreSymbol = Symbol('eventsStoreSymbol');
 const oneEventStoreSymbol = Symbol('oneEventStoreSymbol');
 const eventBusSymbol = Symbol('eventBusSymbol');
+const oneProfileStoreSymbol = Symbol('oneProfileStoreSymbol');
 
 export default class Store {
   constructor(eventBus) {
@@ -16,6 +17,7 @@ export default class Store {
     this[userStoreSymbol] = new UserStore(this);
     this[eventsStoreSymbol] = new EventsStore(this);
     this[oneEventStoreSymbol] = new OneEventStore(this);
+    this[oneProfileStoreSymbol] = new OneProfileStore(this);
   }
 
   reducer(action) {
