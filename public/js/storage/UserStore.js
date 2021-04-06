@@ -86,17 +86,31 @@ export default class UserStore {
     }
   }
 
-  async update() {
+  async update(action) {
     this[userDataSymbol] = await getLoggedProfileData();
+
     if (this.userData.message === 'user is not authorized') {
+      this[userDataSymbol] = null;
+
+      if (action?.data) {
+        this.globalStore.eventBus.publish(channelNames.firstUserIsNotAuth);
+      }
       this.globalStore.eventBus.publish(channelNames.userIsNotAuth);
     } else {
+      if (action?.data) {
+        this.globalStore.eventBus.publish(channelNames.firstUserUpdated);
+      }
       this.globalStore.eventBus.publish(channelNames.userUpdated);
+    }
+
+    const queryParamTab = this.globalStore.routerStore.currentPage.searchParams.get('tab');
+    if (queryParamTab) {
+      this[currentTabSymbol] = queryParamTab;
     }
   }
 
   async logout() {
-    this[userDataSymbol] = {};
+    this[userDataSymbol] = null;
     logoutFunc();
     this.globalStore.eventBus.publish(channelNames.logoutSuccessfull);
   }

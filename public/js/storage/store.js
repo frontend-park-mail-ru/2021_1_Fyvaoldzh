@@ -1,21 +1,54 @@
-import { channelNames, pageNames } from '../config/config.js';
+import { channelNames } from '../config/config.js';
 import UserStore from './UserStore.js';
 import EventsStore from './EventsStore.js';
 import OneEventStore from './OneEventStore.js';
+import RouterStore from './RouterStore.js';
+import SomeUserStore from './SomeUserStore.js';
 
 const currentPageSymbol = Symbol('currentPageSymbol'); // Используем символы для приватности значений класса.
 const userStoreSymbol = Symbol('userStoreSymbol');
 const eventsStoreSymbol = Symbol('eventsStoreSymbol');
 const oneEventStoreSymbol = Symbol('oneEventStoreSymbol');
 const eventBusSymbol = Symbol('eventBusSymbol');
+const routerStoreSymbol = Symbol('routerStoreSymbol');
+const someUserStoreSymbol = Symbol('routerStoreSymbol');
 
 export default class Store {
   constructor(eventBus) {
     this[eventBusSymbol] = eventBus;
-    this[currentPageSymbol] = pageNames.eventsPage;
     this[userStoreSymbol] = new UserStore(this);
     this[eventsStoreSymbol] = new EventsStore(this);
     this[oneEventStoreSymbol] = new OneEventStore(this);
+    this[routerStoreSymbol] = new RouterStore(this);
+    this[someUserStoreSymbol] = new SomeUserStore(this);
+  }
+
+  get eventBus() {
+    return this[eventBusSymbol];
+  }
+
+  get currentPage() {
+    return this[currentPageSymbol];
+  }
+
+  get userStore() {
+    return this[userStoreSymbol];
+  }
+
+  get eventsStore() {
+    return this[eventsStoreSymbol];
+  }
+
+  get oneEventStore() {
+    return this[oneEventStoreSymbol];
+  }
+
+  get routerStore() {
+    return this[routerStoreSymbol];
+  }
+
+  get someUserStore() {
+    return this[someUserStoreSymbol];
   }
 
   reducer(action) {
@@ -37,26 +70,16 @@ export default class Store {
 
     if (action.eventName.includes('oneEvent/')) {
       this[oneEventStoreSymbol].reducer(action);
+      return;
     }
-  }
 
-  get eventBus() {
-    return this[eventBusSymbol];
-  }
+    if (action.eventName.includes('router/')) {
+      this.routerStore.reducer(action);
+      return;
+    }
 
-  get currentPage() {
-    return this[currentPageSymbol];
-  }
-
-  get userStore() {
-    return this[userStoreSymbol];
-  }
-
-  get eventsStore() {
-    return this[eventsStoreSymbol];
-  }
-
-  get oneEventStore() {
-    return this[oneEventStoreSymbol];
+    if (action.eventName.includes('someUser/')) {
+      this.someUserStore.reducer(action);
+    }
   }
 }

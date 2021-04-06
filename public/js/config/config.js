@@ -8,6 +8,7 @@ export const urlMap = {
   putAvatarUrl: 'http://95.163.180.8:1323/api/v1/upload_avatar',
   imgUrl: 'http://95.163.180.8:1323/api/v1/avatar/',
   imgEventUrl: 'http://95.163.180.8:1323/api/v1/event/',
+  apiUrl: 'http://95.163.180.8:1323/api/v1',
 };
 
 export const SERVER_ERRORS = {
@@ -35,14 +36,27 @@ export const channelNames = {
   tabChanged: 'tabChanged',
   avatarPreview: 'avatarPreview',
   avatarDeclined: 'avatarDeclined',
-  avatarPushed: 'avatarPushed', // Мб имена каналов и всякое такое стоит заменить на что-то типа enum.
+  avatarPushed: 'avatarPushed',
+  routerPageChanged: 'routerPageChanged',
+  someUserUpdated: 'someUserUpdated',
 };
 
-export const pageNames = {
+/* const pageNames = {
   eventsPage: 'events',
   profilePage: 'profile',
   oneEventPage: 'eventPage',
   registrationPage: 'registration',
   loginPage: 'login',
   logoutPage: 'logout',
+};
+*/
+
+export const routes = {
+  main: '/',
+  events: '/events',
+  profile: '/profile',
+  oneEvent: '/event/{eventId}',
+  signup: '/signup',
+  login: '/login',
+  logout: '/logout',
 };

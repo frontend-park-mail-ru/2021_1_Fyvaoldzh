@@ -1,4 +1,4 @@
-import { pageNames, channelNames } from '../../config/config.js';
+import { channelNames } from '../../config/config.js';
 import EventComponent from './EventComponent.js';
 
 const globalStoreSymbol = Symbol('globalStoreSymbol');
@@ -13,9 +13,10 @@ export default class EventsView {
   }
 
   renderEvents() {
-    if (this.globalStore.currentPage !== pageNames.eventsPage) {
+    /* if (this.globalStore.currentPage !== pageNames.eventsPage) {
       return;
     }
+    */
     const eventsJson = this.globalStore.eventsStore.allEvents;
     window.scroll(0, 0);
     wrapper.innerHTML = '';

@@ -1,4 +1,4 @@
-import { pageNames, channelNames } from '../../config/config.js';
+import { channelNames, routes } from '../../config/config.js';
 
 const globalStoreSymbol = Symbol('globalStoreSymbol');
 const actionsSymbol = Symbol('actionsSymbol');
@@ -39,7 +39,7 @@ export default class ChangePageView {
     window.scroll(0, 0);
     this.navbar.innerHTML = '';
     this.navbar.innerHTML = navbarTemplate({});
-    this.actions.changePage('events');
+    this.actions.routerChangePage('/events');
   }
 
   renderNavbar() {
@@ -50,29 +50,59 @@ export default class ChangePageView {
 
   onRegisterSuccessfull() {
     this.actions.updateUser();
-    this.actions.changePage(pageNames.eventsPage);
+    this.actions.routerChangePage(routes.events);
+  }
+
+  renderAlreadyLoginError() {
+    // ...
   }
 
   changePage() {
-    const { currentPage } = this.globalStore;
-    switch (currentPage) {
-      case pageNames.eventsPage:
+    const { currentPage } = this.globalStore.routerStore;
+    const { userData } = this.globalStore.userStore;
+
+    if (currentPage.pathname.includes('event') && currentPage.pathname !== routes.events) { // Заменить на регулярку
+      this.actions.eventPage(Number(currentPage.pathname.substr(6)));
+      return;
+    }
+
+    if (currentPage.pathname.includes('profile') && currentPage.pathname !== routes.profile) { // Заменить на регулярку
+      this.actions.updateSomeUser(Number(currentPage.pathname.substr(8)));
+      return;
+    }
+
+    switch (currentPage.pathname) {
+      case routes.events:
         this.actions.updateEvents();
         break;
 
-      case pageNames.profilePage:
+      case routes.main:
+        this.actions.updateEvents();
+        break;
+
+      case routes.profile:
         this.actions.updateUser();
         break;
 
-      case pageNames.registrationPage:
+      case routes.signup:
+        if (userData) {
+          alert('ухади'); // Затычка
+          this.actions.routerChangePage(routes.events); // Редирект пока на эвенты
+          return;
+        }
         this.renderSignUp();
         break;
 
-      case pageNames.loginPage:
+      case routes.login:
+        if (userData) { // Если юзер уже зашел, но пытается зайти на страницу логина/регистрации.
+          alert('аташел'); // Затычка
+          this.actions.routerChangePage(routes.events); // Редирект пока на эвенты
+          return;
+        }
         this.renderLoginPage();
         break;
 
-      case pageNames.logoutPage:
+      case routes.logout:
         this.renderLogout();
         break;
 

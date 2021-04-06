@@ -1,31 +1,25 @@
 import Dispatcher from './dispatcher/dispatcher.js';
 import Actions from './actions/actions.js';
 import Store from './storage/store.js';
-import UserStore from './storage/UserStore.js';
-import EventsStore from './storage/EventsStore.js';
-import OneEventStore from './storage/OneEventStore.js';
 import EventBus from './eventBus/eventBus.js';
 
 import EventsView from './views/EventsView/EventsView.js';
 import OneEventView from './views/OneEventView/OneEventView.js';
 import UserView from './views/UserView/UserView.js';
 import ChangePageView from './views/ChangePageView/ChangePageView.js';
+import { channelNames } from './config/config.js';
+import SomeUserView from './views/SomeUserView/SomeUserView.js';
 
 export const dispatcher = new Dispatcher(); // Диспетчер отвечает за доставку actions до хранилища
 export const actions = new Actions(dispatcher);
 export const eventBus = new EventBus();
 
 export const globalStore = new Store(eventBus);
-export const userStore = new UserStore(globalStore);
-export const eventsStore = new EventsStore(globalStore);
-export const oneEventStore = new OneEventStore(globalStore);
 
 const toViews = {
   globalStore,
   actions,
 };
-
-console.log(window.location);
 
 dispatcher.register(globalStore.reducer.bind(globalStore));
 
@@ -37,16 +31,26 @@ const oneEventView = new OneEventView(toViews);
 
 const changePageView = new ChangePageView(toViews);
 
-[eventsView, userView, oneEventView, changePageView].forEach((view) => view.subscribeViews());
+const someUserView = new SomeUserView(toViews);
+
+[eventsView, userView, oneEventView, changePageView, someUserView].forEach((view) => view.subscribeViews());
 
 function firstRender() {
   const navbar = document.getElementById('navbar');
   navbar.innerHTML = navbarTemplate({}); // Начальный навбар.
-  actions.updateUser(); // Обновляем данные пользователя в хранилище.
-  actions.changePage('events'); // Заходим на главную страницу эвентов.
+  actions.updateUser(true); // Обновляем данные пользователя в хранилище. true = первый раз
 }
 
 firstRender();
+
+/* Как обновятся данные пользователя,
+ Так мы переходим по урлу в адресной строке, так как нам надо знать, залогинен пользователь,
+ или нет, чтобы скрыть от него некоторые страницы
+*/
+eventBus.subscribe(channelNames.firstUserUpdated, actions.routerChangePage.bind(actions, window.location.href));
+eventBus.subscribe(channelNames.firstUserIsNotAuth, actions.routerChangePage.bind(actions, window.location.href));
+
+window.onpopstate = () => actions.routerChangePage(document.location);
 
 const { body } = document;
 
@@ -77,12 +81,9 @@ body.addEventListener('click', async (e) => {
         actions.logout();
         break;
 
-      case 'eventPage':
-        actions.eventPage(target.id);
-        break;
-
       default:
-        actions.changePage(target.dataset.direction);
+        const toUrl = new URL(target.href);
+        actions.routerChangePage(toUrl.pathname);
         break;
     }
   }

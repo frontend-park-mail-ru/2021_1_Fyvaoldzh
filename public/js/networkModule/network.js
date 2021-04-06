@@ -112,3 +112,9 @@ export async function putAvatar(file) {
   });
   return answer;
 }
+
+export async function getProfileDataById(id) {
+  const answer = await fetch(`${urlMap.apiUrl}/profile/${id}`, { credentials: 'include' });
+  const answerJson = await answer.json();
+  return answerJson;
+}

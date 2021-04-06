@@ -17,10 +17,10 @@ export default class Actions {
     });
   }
 
-  updateUser() {
+  updateUser(first = null) {
     this.dispatcher.dispatch({
       eventName: 'user/update',
-      data: null,
+      data: first,
     });
   }
 
@@ -84,6 +84,20 @@ export default class Actions {
     this.dispatcher.dispatch({
       eventName: 'user/avatarDecline',
       data: null,
+    });
+  }
+
+  routerChangePage(page) {
+    this.dispatcher.dispatch({
+      eventName: 'router/changePage',
+      data: page,
+    });
+  }
+
+  updateSomeUser(id) {
+    this.dispatcher.dispatch({
+      eventName: 'someUser/update',
+      data: id,
     });
   }
 }

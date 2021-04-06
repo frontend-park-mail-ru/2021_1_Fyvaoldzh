@@ -5,11 +5,11 @@
       .navbar-menu__list
       .profile-nav
         .navbar-profile-avatar(id='navbar-avatar')
-        a.navbar-profile-name(href='#' data-direction='profile')
+        a.navbar-profile-name(href='profile')
           | #{name}
         input(type="checkbox" id="toggle")
         label(for="toggle")
         .dropdown-menu
-          a.dropdown-menu__settings.dropdown-menu__text-label(href="#" data-direction="profile") Настройки
+          a.dropdown-menu__settings.dropdown-menu__text-label(href="profile" data-direction="profile") Настройки
           a.dropdown-menu__events.dropdown-menu__text-label(href="#") Мои события
           a.dropdown-menu__logout.dropdown-menu__text-label(href="#" data-direction="logout") Выйти

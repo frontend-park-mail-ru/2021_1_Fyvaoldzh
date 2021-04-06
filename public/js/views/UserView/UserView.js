@@ -2,12 +2,22 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-return-assign */
 import {
-  pageNames, channelNames, urlMap, SERVER_ERRORS,
+  channelNames, urlMap, SERVER_ERRORS, routes,
 } from '../../config/config.js';
 import INPUTS from '../../validationModule/validation.js';
 
 const globalStoreSymbol = Symbol('globalStoreSymbol');
 const actionsSymbol = Symbol('actionsSymbol');
+
+function activateTab(button) {
+  document.getElementById(button).classList.add('tab-active');
+  document.getElementById(button).classList.remove('tab-inactive');
+}
+
+function deactivateTab(button) {
+  document.getElementById(button).classList.add('tab-inactive');
+  document.getElementById(button).classList.remove('tab-active');
+}
 
 export default class UserView {
   constructor({
@@ -130,7 +140,7 @@ export default class UserView {
   }
 
   renderMyProfilePage() {
-    if (this.globalStore.currentPage !== pageNames.profilePage) {
+    if (this.globalStore.routerStore.currentPage.pathname !== routes.profile) {
       return;
     }
 
@@ -154,28 +164,31 @@ export default class UserView {
     tabsBlock.addEventListener('click', this.buttonToggleHandler.bind(this));
 
     this.renderChangingContent();
-    window.history.pushState('', '', '/profile');
   }
 
   renderChangingContent() {
-    console.log(this.globalStore.userStore.currentTab);
     const { currentTab } = this.globalStore.userStore;
     const { userData } = this.globalStore.userStore;
 
     const changingContent = document.getElementById('changing-content');
-
     switch (currentTab) {
       case 'aboutTab':
         changingContent.innerHTML = myProfileAboutTabTemplate(userData);
         document.getElementById('postProfile').addEventListener('click', this.postProfile.bind(this));
+        window.history.pushState('', '', `profile?tab=${currentTab}`);
+        activateTab(currentTab);
         break;
 
       case 'settingsTab':
         changingContent.innerHTML = myProfileSettingsTabTemplate();
+        window.history.pushState('', '', `profile?tab=${currentTab}`);
+        activateTab(currentTab);
         break;
 
       case 'eventsTab':
         changingContent.innerHTML = myProfileEventsTabTemplate(userData);
+        window.history.pushState('', '', `profile?tab=${currentTab}`);
+        activateTab(currentTab);
         break;
 
       default:
@@ -228,10 +241,8 @@ export default class UserView {
 
     if (target.classList.contains('tab-inactive')) {
       const curActiveElem = target.parentNode.querySelector('.tab-active');
-      curActiveElem.classList.add('tab-inactive');
-      target.classList.add('tab-active');
-      target.classList.remove('tab-inactive');
-      curActiveElem.classList.remove('tab-active');
+      activateTab(target.id);
+      deactivateTab(curActiveElem.id);
       this.actions.changeTab(target.id);
     }
 
