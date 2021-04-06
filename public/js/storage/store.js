@@ -2,6 +2,7 @@ import {channelNames, pageNames} from '../config/config.js';
 import UserStore from './UserStore.js';
 import EventsStore from './EventsStore.js';
 import OneEventStore from './OneEventStore.js';
+import OneProfileStore from './OneProfileStore.js';
 
 const currentPageSymbol = Symbol('currentPageSymbol'); // Используем символы для приватности значений класса.
 const userStoreSymbol = Symbol('userStoreSymbol');
@@ -39,6 +40,10 @@ export default class Store {
 
     if (action.eventName.includes('oneEvent/')) {
       this[oneEventStoreSymbol].reducer(action);
+    }
+
+    if (action.eventName.includes('oneProfile/')) {
+      this[oneProfileStoreSymbol].reducer(action);
     }
   }
 

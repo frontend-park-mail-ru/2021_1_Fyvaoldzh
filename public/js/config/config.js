@@ -21,6 +21,11 @@ export const profileTab = {
   events: 'eventsTab',
 };
 
+export const profileEventsButton = {
+  planning: 'planning',
+  visited: 'visited',
+};
+
 export const channelNames = {
   errorValidation: 'errorValidation',
   errorLoginIsExist: 'errorLoginIsExist',
@@ -36,6 +41,8 @@ export const channelNames = {
   avatarPreview: 'avatarPreview',
   avatarDeclined: 'avatarDeclined',
   avatarPushed: 'avatarPushed', // Мб имена каналов и всякое такое стоит заменить на что-то типа enum.
+  updateOneProfileEvents: 'updateOneProfileEvents',
+  eventsButtonChanged: 'eventsButtonChanged',
 };
 
 export const pageNames = {
@@ -45,4 +52,5 @@ export const pageNames = {
   registrationPage: 'registration',
   loginPage: 'login',
   logoutPage: 'logout',
+  oneProfilePage: 'oneProfile',
 };

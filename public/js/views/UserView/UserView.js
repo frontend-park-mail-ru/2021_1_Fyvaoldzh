@@ -125,7 +125,7 @@ export default class UserView {
     });
   }
 
-  renderMyProfilePage() {
+  renderProfilePage() {
     if (this.globalStore.currentPage !== pageNames.profilePage) {
       return;
     }
@@ -134,9 +134,16 @@ export default class UserView {
     const {userData} = this.globalStore.userStore;
 
     const wrapper = document.getElementById('wrapper');
-    wrapper.style.background = 'url("components/img/my-profile-background.jpg") no-repeat top / cover';
+    wrapper.style.background = 'url("components/img/profile-background.jpg") no-repeat top / cover';
+
+    userData.followers += this.addDeclensionOfNumbers(userData.followers, [
+      ' подписчик',
+      ' подписчика',
+      ' подписчиков',
+    ]);
+
     wrapper.innerHTML = '';
-    wrapper.innerHTML = myProfileTemplate(userData);
+    wrapper.innerHTML = profileTemplate(userData);
 
     const avatar = document.getElementById('profileAvatar');
     avatar.style.background = `url(${urlMap.imgUrl + userData.Uid}) no-repeat center / cover`;
@@ -149,9 +156,29 @@ export default class UserView {
       .getElementById('jsDeclineAvatar')
       .addEventListener('click', this.actions.declineAvatar.bind(this.actions));
 
+    // let buttons = Array.from(document.getElementsByTagName('button'));
+    // buttons.forEach(element => {
+    //   if (element.dataset.buttontype === 'toggle') {
+    //     let buttonToggleHandlerObject = {
+    //       profileDataJson: profileDataJson,
+    //     };
+    //     buttonToggleHandlerObject.handlerFunc = buttonToggleHandler;
+    //
+    //     element.addEventListener('click', buttonToggleHandlerObject.handlerFunc.bind(buttonToggleHandlerObject));
+    //   }
+    // });
+
     const tabsBlock = document.getElementById('jsTabsBlock');
 
     tabsBlock.addEventListener('click', this.buttonToggleHandler.bind(this));
+
+    // if (document.getElementById('eventsTab').classList.contains('tab-active')) {
+    //   await renderMyProfileEventsTab(profileDataJson);
+    // } else if (document.getElementById('aboutTab').classList.contains('tab-active')) {
+    //   await renderMyProfileAboutTab(profileDataJson);
+    // } else if (document.getElementById('settingsTab').classList.contains('tab-active')) {
+    //   await renderMyProfileSettingsTab();
+    // }
 
     this.renderChangingContent();
     window.history.pushState('', '', '/profile');
@@ -166,21 +193,46 @@ export default class UserView {
 
     switch (currentTab) {
       case 'aboutTab':
-        changingContent.innerHTML = myProfileAboutTabTemplate(userData);
+        changingContent.innerHTML = profileAboutTabTemplate(userData);
         document.getElementById('postProfile').addEventListener('click', this.postProfile.bind(this));
         break;
 
       case 'settingsTab':
-        changingContent.innerHTML = myProfileSettingsTabTemplate();
+        changingContent.innerHTML = profileSettingsTabTemplate();
         break;
 
       case 'eventsTab':
-        changingContent.innerHTML = myProfileEventsTabTemplate(userData);
+        changingContent.innerHTML = profileEventsTabTemplate();
+        this.renderOneProfileEventsTab();
         break;
 
       default:
         break;
     }
+  }
+
+  renderOneProfileEventsTab() {
+    // let buttons = Array.from(changingContent.getElementsByTagName('button'));
+    // buttons.forEach(element => {
+    //   if (element.dataset.buttontype === 'toggle') {
+    //     let buttonToggleHandlerObject = {
+    //       profileDataJson: profileDataJson,
+    //     };
+    //     buttonToggleHandlerObject.handlerFunc = buttonToggleHandler;
+    //
+    //     element.addEventListener('click', buttonToggleHandlerObject.handlerFunc.bind(buttonToggleHandlerObject));
+    //   }
+    // });
+
+    const eventsButtonsBlock = document.getElementById('jsEventsButtonsBlock');
+
+    eventsButtonsBlock.addEventListener('click', this.buttonToggleHandler.bind(this));
+
+    // if (document.getElementById('planningEventsButton').classList.contains('button-active')) {
+    //   await renderEventsList(profileDataJson.events);
+    // } else if (document.getElementById('visitedEventsButton').classList.contains('button-active')) {
+    //   await renderEventsList(null);
+    // }
   }
 
   renderPreviewAvatar() {
@@ -219,11 +271,20 @@ export default class UserView {
       this.renderValidationErrors.bind(this)
     );
     this[globalStoreSymbol].eventBus.subscribe(channelNames.userUpdated, this.renderLoggedNavbar.bind(this));
-    this[globalStoreSymbol].eventBus.subscribe(channelNames.userUpdated, this.renderMyProfilePage.bind(this));
+    this[globalStoreSymbol].eventBus.subscribe(channelNames.userUpdated, this.renderProfilePage.bind(this));
     this[globalStoreSymbol].eventBus.subscribe(channelNames.tabChanged, this.renderChangingContent.bind(this));
     this[globalStoreSymbol].eventBus.subscribe(channelNames.avatarPreview, this.renderPreviewAvatar.bind(this));
     this[globalStoreSymbol].eventBus.subscribe(channelNames.avatarDeclined, this.renderUnPreviewAvatar.bind(this));
     this[globalStoreSymbol].eventBus.subscribe(channelNames.avatarPushed, this.renderAvatarPushed.bind(this));
+    this[globalStoreSymbol].eventBus.subscribe(
+      channelNames.eventsButtonChanged,
+      this.renderOneProfileEventsTab.bind(this)
+    );
+  }
+
+  addDeclensionOfNumbers(number, titles) {
+    let cases = [2, 0, 1, 1, 1, 2];
+    return titles[number % 100 > 4 && number % 100 < 20 ? 2 : cases[number % 10 < 5 ? number % 10 : 5]];
   }
 
   buttonToggleHandler(e) {
@@ -243,6 +304,7 @@ export default class UserView {
       target.classList.add('button-active');
       target.classList.remove('button-inactive');
       curActiveElem.classList.remove('button-active');
+      this.actions.changeEventsButton(target.id);
     }
   }
 

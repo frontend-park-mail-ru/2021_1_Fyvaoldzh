@@ -86,4 +86,18 @@ export default class Actions {
       data: null,
     });
   }
+
+  updateOneProfileEvents() {
+    this.dispatcher.dispatch({
+      eventName: 'oneProfile/updateEvents',
+      data: null,
+    });
+  }
+
+  changeEventsButton(buttonId) {
+    this.dispatcher.dispatch({
+      eventName: 'user/changeEventsButton',
+      data: buttonId,
+    });
+  }
 }

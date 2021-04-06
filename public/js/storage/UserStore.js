@@ -7,19 +7,20 @@ import {
   putAvatar,
 } from '../networkModule/network.js';
 
-import { channelNames, profileTab } from '../config/config.js';
+import {channelNames, profileEventsButton, profileTab} from '../config/config.js';
 import validation from '../validationModule/inputValidation.js';
 
-const urltoFile = (url, filename, mimeType) => (fetch(url)
-  .then((res) => res.arrayBuffer())
-  .then((buf) => new File([buf], filename, { type: mimeType }))
-);
+const urltoFile = (url, filename, mimeType) =>
+  fetch(url)
+    .then(res => res.arrayBuffer())
+    .then(buf => new File([buf], filename, {type: mimeType}));
 
 const userDataSymbol = Symbol('UserData');
 const validationErrorsSymbol = Symbol('validationErrorsSymbol');
 const currentTabSymbol = Symbol('CurrentTabSymbol');
 const avatarPreviewUrlSymbol = Symbol('avatarPreviewUrlSymbol');
 const globalStoreSymbol = Symbol('globalStoreSymbol');
+const currentEventsButtonSymbol = Symbol('currentEventsButtonSymbol');
 
 export default class UserStore {
   constructor(globalStore) {
@@ -27,6 +28,7 @@ export default class UserStore {
     this[userDataSymbol] = null;
     this[validationErrorsSymbol] = [];
     this[currentTabSymbol] = profileTab.events;
+    this[currentEventsButtonSymbol] = profileEventsButton.planning;
     this[avatarPreviewUrlSymbol] = null;
   }
 
@@ -44,6 +46,10 @@ export default class UserStore {
 
   get currentTab() {
     return this[currentTabSymbol];
+  }
+
+  get currentEventsButton() {
+    return this[currentEventsButtonSymbol];
   }
 
   get avatarPreviewUrl() {
@@ -104,6 +110,11 @@ export default class UserStore {
   async changeTab(action) {
     this[currentTabSymbol] = action.data;
     this.globalStore.eventBus.publish(channelNames.tabChanged);
+  }
+
+  async changeEventsButton(action) {
+    this[currentEventsButtonSymbol] = action.data;
+    this.globalStore.eventBus.publish(channelNames.eventsButtonChanged);
   }
 
   async postProfileForm(action) {
@@ -179,6 +190,10 @@ export default class UserStore {
 
       case 'user/avatarDecline':
         this.avatarDecline(action);
+        break;
+
+      case 'user/changeEventsButton':
+        this.changeEventsButton(action);
         break;
 
       default:

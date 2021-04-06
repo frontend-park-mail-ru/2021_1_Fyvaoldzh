@@ -18,12 +18,14 @@ const urltoFile = (url, filename, mimeType) =>
 const oneProfileDataSymbol = Symbol('oneProfileData');
 const currentTabSymbol = Symbol('CurrentTabSymbol');
 const globalStoreSymbol = Symbol('globalStoreSymbol');
+const profileEventsSymbol = Symbol('profileEventsSymbol');
 
 export default class oneProfileStore {
   constructor(globalStore) {
     this[globalStoreSymbol] = globalStore;
     this[oneProfileDataSymbol] = null;
     this[currentTabSymbol] = profileTab.events;
+    this[profileEventsSymbol] = [];
   }
 
   get globalStore() {
@@ -43,10 +45,19 @@ export default class oneProfileStore {
     this.globalStore.eventBus.publish(channelNames.tabChanged);
   }
 
+  async updateEvents(action) {
+    this[profileEventsSymbol] = Array.from(action.data);
+    this.globalStore.eventBus.publish(channelNames.updateOneProfileEvents); //тут же вызываем все функции из этого ченнела(?)
+  }
+
   reducer(action) {
     switch (action.eventName) {
       case 'user/changeTab':
         this.changeTab(action);
+        break;
+
+      case 'oneProfile/updateEvents':
+        this.updateEvents(action);
         break;
 
       default:

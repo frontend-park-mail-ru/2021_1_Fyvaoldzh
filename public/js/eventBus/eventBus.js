@@ -16,6 +16,6 @@ export default class EventBus {
       return;
     }
 
-    channel.forEach((listener) => listener(data));
+    channel.forEach(listener => listener(data));
   }
 }
