@@ -130,7 +130,9 @@ export default class UserView {
       return;
     }
 
-    this.actions.updateUserEvents();
+    this.actions.updateUserEvents(); //явно позже первого прохода по отрисовке, поэтому сейчас лучше не делать стартовой вкладкой мероприятия
+
+    console.log(this.globalStore.userStore.profileEvents.length);
 
     window.scroll(0, 0);
     const {userData} = this.globalStore.userStore;
@@ -232,12 +234,13 @@ export default class UserView {
     const eventsButtonsBlock = document.getElementById('jsEventsButtonsBlock');
 
     eventsButtonsBlock.addEventListener('click', this.buttonToggleHandler.bind(this));
+
     switch (currentEventsButton) {
-      case 'planning':
+      case 'planningEventsButton':
         this.renderEventsList(profileEvents);
         break;
 
-      case 'visited':
+      case 'visitedEventsButton':
         this.renderEventsList([]);
         break;
 
@@ -253,8 +256,6 @@ export default class UserView {
   }
 
   renderEventsList(profileEvents) {
-    console.log(this.globalStore.userStore.profileEvents);
-
     let eventsList = document.getElementById('events-list');
     let resultHTML = '';
     if (!profileEvents.length) {
@@ -267,20 +268,17 @@ export default class UserView {
       nothingRow.style.height = 'auto';
       nothingRow.style.alignItems = 'start';
       nothingRow.style.justifyContent = 'space-around';
-      // nothingRow.style.padding = '0 5%';
 
       let someTextBefore = document.createElement('H6');
       someTextBefore.innerText = 'тут ничего нет';
       someTextBefore.style.fontSize = '24px';
       someTextBefore.style.marginTop = '40px';
-      // someTextBefore.style.width = '100%';
       someTextBefore.style.textAlign = 'center';
 
       let someTextAfter = document.createElement('H6');
       someTextAfter.innerText = 'тут тоже';
       someTextAfter.style.fontSize = '24px';
       someTextAfter.style.marginTop = '40px';
-      // someTextAfter.style.width = '100%';
       someTextAfter.style.textAlign = 'center';
 
       nothingRow.appendChild(someTextBefore);
@@ -292,11 +290,9 @@ export default class UserView {
 
       resultHTML = externalElement.innerHTML;
     } else {
-      for (const event in profileEvents) {
-        // const eventJson = await getEventById(events[curEventId]);
-        // const {oneEventData} = this.globalStore.userStore;
+      profileEvents.forEach(event => {
         resultHTML += oneEventBlockTemplate(event);
-      }
+      });
     }
     eventsList.innerHTML = resultHTML;
   }

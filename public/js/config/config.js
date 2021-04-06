@@ -22,8 +22,8 @@ export const profileTab = {
 };
 
 export const profileEventsButton = {
-  planning: 'planning',
-  visited: 'visited',
+  planning: 'planningEventsButton',
+  visited: 'visitedEventsButton',
 };
 
 export const channelNames = {

@@ -29,7 +29,7 @@ export default class UserStore {
     this[globalStoreSymbol] = globalStore;
     this[userDataSymbol] = null;
     this[validationErrorsSymbol] = [];
-    this[currentTabSymbol] = profileTab.events;
+    this[currentTabSymbol] = profileTab.events; //нельзя менять - верстка то не подстраивается, в ней всегда ивенты поначалу выбраны
     this[currentEventsButtonSymbol] = profileEventsButton.planning;
     this[avatarPreviewUrlSymbol] = null;
     this[profileEventsSymbol] = [];
@@ -121,19 +121,28 @@ export default class UserStore {
 
   async changeEventsButton(action) {
     this[currentEventsButtonSymbol] = action.data;
-    this.globalStore.eventBus.publish(channelNames.eventsButtonChanged);
+    this.globalStore.eventBus.publish(
+      channelNames.eventsButtonChanged,
+      this.currentEventsButton === 'planningEventsButton' ? this.profileEvents : []
+    );
   }
 
   async updateEvents() {
+    this.profileEvents.length = 0;
+
+    let eventJson = await getEventById(125);
+    this.profileEvents.push(eventJson);
+    eventJson = await getEventById(126);
+    this.profileEvents.push(eventJson);
+    eventJson = await getEventById(127);
+    this.profileEvents.push(eventJson);
+
     for (const eventId in this.userData.events) {
       const eventJson = await getEventById(eventId);
-      this[profileEventsSymbol].push(eventJson);
+      this.profileEvents.push(eventJson);
     }
-    // this.userData.events.forEach(eventId => {
-    //   const eventJson = await getEventById(eventId);
-    //   this[profileEventsSymbol].push(eventJson);
-    // });
-    // this.globalStore.eventBus.publish(channelNames.updateProfileEvents);
+
+    console.log('filled');
   }
 
   async postProfileForm(action) {
