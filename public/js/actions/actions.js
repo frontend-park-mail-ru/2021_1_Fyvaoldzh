@@ -94,6 +94,13 @@ export default class Actions {
     });
   }
 
+  updateUserEvents() {
+    this.dispatcher.dispatch({
+      eventName: 'user/updateEvents',
+      data: null,
+    });
+  }
+
   changeEventsButton(buttonId) {
     this.dispatcher.dispatch({
       eventName: 'user/changeEventsButton',

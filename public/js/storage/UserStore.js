@@ -5,6 +5,7 @@ import {
   logoutFunc,
   postProfileData,
   putAvatar,
+  getEventById,
 } from '../networkModule/network.js';
 
 import {channelNames, profileEventsButton, profileTab} from '../config/config.js';
@@ -21,6 +22,7 @@ const currentTabSymbol = Symbol('CurrentTabSymbol');
 const avatarPreviewUrlSymbol = Symbol('avatarPreviewUrlSymbol');
 const globalStoreSymbol = Symbol('globalStoreSymbol');
 const currentEventsButtonSymbol = Symbol('currentEventsButtonSymbol');
+const profileEventsSymbol = Symbol('profileEventsSymbol');
 
 export default class UserStore {
   constructor(globalStore) {
@@ -30,6 +32,7 @@ export default class UserStore {
     this[currentTabSymbol] = profileTab.events;
     this[currentEventsButtonSymbol] = profileEventsButton.planning;
     this[avatarPreviewUrlSymbol] = null;
+    this[profileEventsSymbol] = [];
   }
 
   get globalStore() {
@@ -54,6 +57,10 @@ export default class UserStore {
 
   get avatarPreviewUrl() {
     return this[avatarPreviewUrlSymbol];
+  }
+
+  get profileEvents() {
+    return this[profileEventsSymbol];
   }
 
   async register(action) {
@@ -115,6 +122,18 @@ export default class UserStore {
   async changeEventsButton(action) {
     this[currentEventsButtonSymbol] = action.data;
     this.globalStore.eventBus.publish(channelNames.eventsButtonChanged);
+  }
+
+  async updateEvents() {
+    for (const eventId in this.userData.events) {
+      const eventJson = await getEventById(eventId);
+      this[profileEventsSymbol].push(eventJson);
+    }
+    // this.userData.events.forEach(eventId => {
+    //   const eventJson = await getEventById(eventId);
+    //   this[profileEventsSymbol].push(eventJson);
+    // });
+    // this.globalStore.eventBus.publish(channelNames.updateProfileEvents);
   }
 
   async postProfileForm(action) {
@@ -194,6 +213,10 @@ export default class UserStore {
 
       case 'user/changeEventsButton':
         this.changeEventsButton(action);
+        break;
+
+      case 'user/updateEvents':
+        this.updateEvents(action);
         break;
 
       default:

@@ -130,6 +130,8 @@ export default class UserView {
       return;
     }
 
+    this.actions.updateUserEvents();
+
     window.scroll(0, 0);
     const {userData} = this.globalStore.userStore;
 
@@ -185,7 +187,7 @@ export default class UserView {
   }
 
   renderChangingContent() {
-    console.log(this.globalStore.userStore.currentTab);
+    // console.log(this.globalStore.userStore.currentTab);
     const {currentTab} = this.globalStore.userStore;
     const {userData} = this.globalStore.userStore;
 
@@ -212,6 +214,9 @@ export default class UserView {
   }
 
   renderOneProfileEventsTab() {
+    const {currentEventsButton} = this.globalStore.userStore;
+    const {profileEvents} = this.globalStore.userStore;
+
     // let buttons = Array.from(changingContent.getElementsByTagName('button'));
     // buttons.forEach(element => {
     //   if (element.dataset.buttontype === 'toggle') {
@@ -227,12 +232,73 @@ export default class UserView {
     const eventsButtonsBlock = document.getElementById('jsEventsButtonsBlock');
 
     eventsButtonsBlock.addEventListener('click', this.buttonToggleHandler.bind(this));
+    switch (currentEventsButton) {
+      case 'planning':
+        this.renderEventsList(profileEvents);
+        break;
+
+      case 'visited':
+        this.renderEventsList([]);
+        break;
+
+      default:
+        break;
+    }
 
     // if (document.getElementById('planningEventsButton').classList.contains('button-active')) {
     //   await renderEventsList(profileDataJson.events);
     // } else if (document.getElementById('visitedEventsButton').classList.contains('button-active')) {
     //   await renderEventsList(null);
     // }
+  }
+
+  renderEventsList(profileEvents) {
+    console.log(this.globalStore.userStore.profileEvents);
+
+    let eventsList = document.getElementById('events-list');
+    let resultHTML = '';
+    if (!profileEvents.length) {
+      let thereIsNothingGif = document.createElement('img');
+      thereIsNothingGif.src = 'templates/one-event-block/img/thereIsNothing.gif';
+      thereIsNothingGif.style.marginBottom = '5%';
+
+      let nothingRow = document.createElement('div');
+      nothingRow.className = 'profile-header';
+      nothingRow.style.height = 'auto';
+      nothingRow.style.alignItems = 'start';
+      nothingRow.style.justifyContent = 'space-around';
+      // nothingRow.style.padding = '0 5%';
+
+      let someTextBefore = document.createElement('H6');
+      someTextBefore.innerText = 'тут ничего нет';
+      someTextBefore.style.fontSize = '24px';
+      someTextBefore.style.marginTop = '40px';
+      // someTextBefore.style.width = '100%';
+      someTextBefore.style.textAlign = 'center';
+
+      let someTextAfter = document.createElement('H6');
+      someTextAfter.innerText = 'тут тоже';
+      someTextAfter.style.fontSize = '24px';
+      someTextAfter.style.marginTop = '40px';
+      // someTextAfter.style.width = '100%';
+      someTextAfter.style.textAlign = 'center';
+
+      nothingRow.appendChild(someTextBefore);
+      nothingRow.appendChild(thereIsNothingGif);
+      nothingRow.appendChild(someTextAfter);
+
+      let externalElement = document.createElement('div');
+      externalElement.appendChild(nothingRow);
+
+      resultHTML = externalElement.innerHTML;
+    } else {
+      for (const event in profileEvents) {
+        // const eventJson = await getEventById(events[curEventId]);
+        // const {oneEventData} = this.globalStore.userStore;
+        resultHTML += oneEventBlockTemplate(event);
+      }
+    }
+    eventsList.innerHTML = resultHTML;
   }
 
   renderPreviewAvatar() {
@@ -276,10 +342,8 @@ export default class UserView {
     this[globalStoreSymbol].eventBus.subscribe(channelNames.avatarPreview, this.renderPreviewAvatar.bind(this));
     this[globalStoreSymbol].eventBus.subscribe(channelNames.avatarDeclined, this.renderUnPreviewAvatar.bind(this));
     this[globalStoreSymbol].eventBus.subscribe(channelNames.avatarPushed, this.renderAvatarPushed.bind(this));
-    this[globalStoreSymbol].eventBus.subscribe(
-      channelNames.eventsButtonChanged,
-      this.renderOneProfileEventsTab.bind(this)
-    );
+    this[globalStoreSymbol].eventBus.subscribe(channelNames.eventsButtonChanged, this.renderEventsList.bind(this));
+    // this[globalStoreSymbol].eventBus.subscribe(channelNames.eventsButtonChanged, this.renderOneProfileEventsTab.bind(this));
   }
 
   addDeclensionOfNumbers(number, titles) {

@@ -103,7 +103,7 @@ export default class OneProfileView {
       for (let curEventId in events) {
         // const eventJson = getEventById(events[curEventId]);
         // this.actions.eventPage(curEventId);
-        const {oneEventData} = this.globalStore.oneProfileStore; //сделать этот стор
+        const {oneEventData} = this.globalStore.oneProfileStore;
         resultHTML += oneEventBlockTemplate(eventJson);
       }
     }

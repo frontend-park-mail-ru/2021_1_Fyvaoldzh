@@ -42,6 +42,7 @@ export const channelNames = {
   avatarDeclined: 'avatarDeclined',
   avatarPushed: 'avatarPushed', // Мб имена каналов и всякое такое стоит заменить на что-то типа enum.
   updateOneProfileEvents: 'updateOneProfileEvents',
+  updateProfileEvents: 'updateProfileEvents',
   eventsButtonChanged: 'eventsButtonChanged',
 };
 

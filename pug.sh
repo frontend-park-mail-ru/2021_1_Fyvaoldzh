@@ -7,6 +7,7 @@
 (pug -c -E tmpl -n navbarTemplate public/components/navbar/navbar.pug)
 (pug -c -E tmpl -n navbarLoggedTemplate public/components/navbar/navbar-logged.pug)
 (pug -c -E tmpl -n oneProfileTemplate public/templates/one-profile/one-profile.pug)
+(pug -c -E tmpl -n oneEventBlockTemplate public/templates/one-event-block/one-event-block.pug)
 (pug -c -E tmpl -n profileTemplate public/templates/profile/profile.pug)
 (pug -c -E tmpl -n profileAboutTabTemplate public/templates/profile-about-tab/profile-about-tab.pug)
 (pug -c -E tmpl -n profileSettingsTabTemplate public/templates/profile-settings-tab/profile-settings-tab.pug)
