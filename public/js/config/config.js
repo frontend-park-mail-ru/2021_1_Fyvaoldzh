@@ -1,6 +1,7 @@
 export const urlMap = {
   allEventsUrl: 'http://95.163.180.8:1323/api/v1/',
   oneEventUrl: 'http://95.163.180.8:1323/api/v1/event/',
+  oneProfileUrl: 'http://95.163.180.8:1323/api/v1/profile/',
   postLoginDataUrl: 'http://95.163.180.8:1323/api/v1/login',
   postRegistrationDataUrl: 'http://95.163.180.8:1323/api/v1/register',
   currentProfileUrl: 'http://95.163.180.8:1323/api/v1/profile',
@@ -41,9 +42,9 @@ export const channelNames = {
   avatarPreview: 'avatarPreview',
   avatarDeclined: 'avatarDeclined',
   avatarPushed: 'avatarPushed', // Мб имена каналов и всякое такое стоит заменить на что-то типа enum.
-  updateOneProfileEvents: 'updateOneProfileEvents',
-  updateProfileEvents: 'updateProfileEvents',
-  eventsButtonChanged: 'eventsButtonChanged',
+  oneProfileUpdated: 'oneProfileUpdated',
+  userEventsButtonChanged: 'userEventsButtonChanged',
+  oneProfileEventsButtonChanged: 'oneProfileEventsButtonChanged',
 };
 
 export const pageNames = {

@@ -1,12 +1,10 @@
-import { pageNames, channelNames } from '../../config/config.js';
+import {pageNames, channelNames} from '../../config/config.js';
 
 const globalStoreSymbol = Symbol('globalStoreSymbol');
 const actionsSymbol = Symbol('actionsSymbol');
 
 export default class ChangePageView {
-  constructor({
-    globalStore, actions,
-  }) {
+  constructor({globalStore, actions}) {
     this[globalStoreSymbol] = globalStore;
     this[actionsSymbol] = actions;
     this.wrapper = document.getElementById('wrapper');
@@ -54,7 +52,7 @@ export default class ChangePageView {
   }
 
   changePage() {
-    const { currentPage } = this.globalStore;
+    const {currentPage} = this.globalStore;
     switch (currentPage) {
       case pageNames.eventsPage:
         this.actions.updateEvents();

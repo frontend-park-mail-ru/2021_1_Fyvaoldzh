@@ -3,6 +3,11 @@
 /* eslint-disable no-return-assign */
 import {pageNames, channelNames, urlMap, SERVER_ERRORS} from '../../config/config.js';
 import INPUTS from '../../validationModule/validation.js';
+import {
+  renderEventsList,
+  addDeclensionOfNumbers,
+  buttonToggleHandler,
+} from '../../allProfilesUtils/allProfilesUtils.js';
 
 const globalStoreSymbol = Symbol('globalStoreSymbol');
 const actionsSymbol = Symbol('actionsSymbol');
@@ -20,6 +25,8 @@ export default class UserView {
   get actions() {
     return this[actionsSymbol];
   }
+
+  renderEventsList = renderEventsList; //так вообще нормально?
 
   handleFileSelect(e) {
     const file = e.target.files[0];
@@ -130,17 +137,15 @@ export default class UserView {
       return;
     }
 
-    this.actions.updateUserEvents(); //явно позже первого прохода по отрисовке, поэтому сейчас лучше не делать стартовой вкладкой мероприятия
-
-    console.log(this.globalStore.userStore.profileEvents.length);
+    // this.actions.updateUserEvents(); //не успевает обновиться до первой отрисовки(поэтому сейчас в UserStore внутри update() вызывается updateEvents())
 
     window.scroll(0, 0);
     const {userData} = this.globalStore.userStore;
 
     const wrapper = document.getElementById('wrapper');
-    wrapper.style.background = 'url("components/img/profile-background.jpg") no-repeat top / cover';
+    wrapper.style.background = 'url("templates/profile/img/profile-background.jpg") no-repeat top / 100%';
 
-    userData.followers += this.addDeclensionOfNumbers(userData.followers, [
+    userData.followers += addDeclensionOfNumbers(userData.followers, [
       ' подписчик',
       ' подписчика',
       ' подписчиков',
@@ -160,29 +165,9 @@ export default class UserView {
       .getElementById('jsDeclineAvatar')
       .addEventListener('click', this.actions.declineAvatar.bind(this.actions));
 
-    // let buttons = Array.from(document.getElementsByTagName('button'));
-    // buttons.forEach(element => {
-    //   if (element.dataset.buttontype === 'toggle') {
-    //     let buttonToggleHandlerObject = {
-    //       profileDataJson: profileDataJson,
-    //     };
-    //     buttonToggleHandlerObject.handlerFunc = buttonToggleHandler;
-    //
-    //     element.addEventListener('click', buttonToggleHandlerObject.handlerFunc.bind(buttonToggleHandlerObject));
-    //   }
-    // });
-
     const tabsBlock = document.getElementById('jsTabsBlock');
 
-    tabsBlock.addEventListener('click', this.buttonToggleHandler.bind(this));
-
-    // if (document.getElementById('eventsTab').classList.contains('tab-active')) {
-    //   await renderMyProfileEventsTab(profileDataJson);
-    // } else if (document.getElementById('aboutTab').classList.contains('tab-active')) {
-    //   await renderMyProfileAboutTab(profileDataJson);
-    // } else if (document.getElementById('settingsTab').classList.contains('tab-active')) {
-    //   await renderMyProfileSettingsTab();
-    // }
+    tabsBlock.addEventListener('click', buttonToggleHandler.bind(this));
 
     this.renderChangingContent();
     window.history.pushState('', '', '/profile');
@@ -219,21 +204,9 @@ export default class UserView {
     const {currentEventsButton} = this.globalStore.userStore;
     const {profileEvents} = this.globalStore.userStore;
 
-    // let buttons = Array.from(changingContent.getElementsByTagName('button'));
-    // buttons.forEach(element => {
-    //   if (element.dataset.buttontype === 'toggle') {
-    //     let buttonToggleHandlerObject = {
-    //       profileDataJson: profileDataJson,
-    //     };
-    //     buttonToggleHandlerObject.handlerFunc = buttonToggleHandler;
-    //
-    //     element.addEventListener('click', buttonToggleHandlerObject.handlerFunc.bind(buttonToggleHandlerObject));
-    //   }
-    // });
-
     const eventsButtonsBlock = document.getElementById('jsEventsButtonsBlock');
 
-    eventsButtonsBlock.addEventListener('click', this.buttonToggleHandler.bind(this));
+    eventsButtonsBlock.addEventListener('click', buttonToggleHandler.bind(this));
 
     switch (currentEventsButton) {
       case 'planningEventsButton':
@@ -247,54 +220,6 @@ export default class UserView {
       default:
         break;
     }
-
-    // if (document.getElementById('planningEventsButton').classList.contains('button-active')) {
-    //   await renderEventsList(profileDataJson.events);
-    // } else if (document.getElementById('visitedEventsButton').classList.contains('button-active')) {
-    //   await renderEventsList(null);
-    // }
-  }
-
-  renderEventsList(profileEvents) {
-    let eventsList = document.getElementById('events-list');
-    let resultHTML = '';
-    if (!profileEvents.length) {
-      let thereIsNothingGif = document.createElement('img');
-      thereIsNothingGif.src = 'templates/one-event-block/img/thereIsNothing.gif';
-      thereIsNothingGif.style.marginBottom = '5%';
-
-      let nothingRow = document.createElement('div');
-      nothingRow.className = 'profile-header';
-      nothingRow.style.height = 'auto';
-      nothingRow.style.alignItems = 'start';
-      nothingRow.style.justifyContent = 'space-around';
-
-      let someTextBefore = document.createElement('H6');
-      someTextBefore.innerText = 'тут ничего нет';
-      someTextBefore.style.fontSize = '24px';
-      someTextBefore.style.marginTop = '40px';
-      someTextBefore.style.textAlign = 'center';
-
-      let someTextAfter = document.createElement('H6');
-      someTextAfter.innerText = 'тут тоже';
-      someTextAfter.style.fontSize = '24px';
-      someTextAfter.style.marginTop = '40px';
-      someTextAfter.style.textAlign = 'center';
-
-      nothingRow.appendChild(someTextBefore);
-      nothingRow.appendChild(thereIsNothingGif);
-      nothingRow.appendChild(someTextAfter);
-
-      let externalElement = document.createElement('div');
-      externalElement.appendChild(nothingRow);
-
-      resultHTML = externalElement.innerHTML;
-    } else {
-      profileEvents.forEach(event => {
-        resultHTML += oneEventBlockTemplate(event);
-      });
-    }
-    eventsList.innerHTML = resultHTML;
   }
 
   renderPreviewAvatar() {
@@ -338,34 +263,10 @@ export default class UserView {
     this[globalStoreSymbol].eventBus.subscribe(channelNames.avatarPreview, this.renderPreviewAvatar.bind(this));
     this[globalStoreSymbol].eventBus.subscribe(channelNames.avatarDeclined, this.renderUnPreviewAvatar.bind(this));
     this[globalStoreSymbol].eventBus.subscribe(channelNames.avatarPushed, this.renderAvatarPushed.bind(this));
-    this[globalStoreSymbol].eventBus.subscribe(channelNames.eventsButtonChanged, this.renderEventsList.bind(this));
-    // this[globalStoreSymbol].eventBus.subscribe(channelNames.eventsButtonChanged, this.renderOneProfileEventsTab.bind(this));
-  }
-
-  addDeclensionOfNumbers(number, titles) {
-    let cases = [2, 0, 1, 1, 1, 2];
-    return titles[number % 100 > 4 && number % 100 < 20 ? 2 : cases[number % 10 < 5 ? number % 10 : 5]];
-  }
-
-  buttonToggleHandler(e) {
-    const {target} = e;
-    if (target.classList.contains('tab-inactive')) {
-      const curActiveElem = target.parentNode.querySelector('.tab-active');
-      curActiveElem.classList.add('tab-inactive');
-      target.classList.add('tab-active');
-      target.classList.remove('tab-inactive');
-      curActiveElem.classList.remove('tab-active');
-      this.actions.changeTab(target.id);
-    }
-
-    if (target.classList.contains('button-inactive')) {
-      const curActiveElem = target.parentNode.querySelector('.button-active');
-      curActiveElem.classList.add('button-inactive');
-      target.classList.add('button-active');
-      target.classList.remove('button-inactive');
-      curActiveElem.classList.remove('button-active');
-      this.actions.changeEventsButton(target.id);
-    }
+    this[globalStoreSymbol].eventBus.subscribe(
+      channelNames.userEventsButtonChanged,
+      this.renderEventsList.bind(this)
+    );
   }
 
   postProfile(e) {

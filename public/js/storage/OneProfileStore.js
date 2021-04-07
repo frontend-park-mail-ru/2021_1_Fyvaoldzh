@@ -1,31 +1,27 @@
 import {
   postRegistrationData,
   getLoggedProfileData,
+  getProfileById,
   postLoginData,
   logoutFunc,
   postProfileData,
   putAvatar,
+  getEventById,
 } from '../networkModule/network.js';
 
-import {channelNames, profileTab} from '../config/config.js';
-import validation from '../validationModule/inputValidation.js';
-
-const urltoFile = (url, filename, mimeType) =>
-  fetch(url)
-    .then(res => res.arrayBuffer())
-    .then(buf => new File([buf], filename, {type: mimeType}));
+import {channelNames, profileEventsButton, profileTab} from '../config/config.js';
 
 const oneProfileDataSymbol = Symbol('oneProfileData');
-const currentTabSymbol = Symbol('CurrentTabSymbol');
+const currentEventsButtonSymbol = Symbol('CurrentEventButtonSymbol');
 const globalStoreSymbol = Symbol('globalStoreSymbol');
-const profileEventsSymbol = Symbol('profileEventsSymbol');
+const oneProfileEventsSymbol = Symbol('oneProfileEventsSymbol');
 
 export default class oneProfileStore {
   constructor(globalStore) {
     this[globalStoreSymbol] = globalStore;
     this[oneProfileDataSymbol] = null;
-    this[currentTabSymbol] = profileTab.events;
-    this[profileEventsSymbol] = [];
+    this[currentEventsButtonSymbol] = profileEventsButton.planning;
+    this[oneProfileEventsSymbol] = [];
   }
 
   get globalStore() {
@@ -36,24 +32,48 @@ export default class oneProfileStore {
     return this[oneProfileDataSymbol];
   }
 
-  get currentTab() {
-    return this[currentTabSymbol];
+  get currentEventsButton() {
+    return this[currentEventsButtonSymbol];
   }
 
-  async changeTab(action) {
-    this[currentTabSymbol] = action.data;
-    this.globalStore.eventBus.publish(channelNames.tabChanged);
+  get oneProfileEvents() {
+    return this[oneProfileEventsSymbol];
   }
 
-  async updateEvents(action) {
-    this[profileEventsSymbol] = Array.from(action.data);
-    this.globalStore.eventBus.publish(channelNames.updateOneProfileEvents); //тут же вызываем все функции из этого ченнела(?)
+  async update(action) {
+    this[oneProfileDataSymbol] = await getProfileById(action.data);
+    this[currentEventsButtonSymbol] = profileEventsButton.planning;
+    await this.updateEvents();
+    this.globalStore.eventBus.publish(channelNames.oneProfileUpdated);
+  }
+
+  async changeEventsButton(action) {
+    this[currentEventsButtonSymbol] = action.data;
+    this.globalStore.eventBus.publish(
+      channelNames.oneProfileEventsButtonChanged,
+      this.currentEventsButton === 'planningEventsButton' ? this.oneProfileEvents : []
+    );
+  }
+
+  async updateEvents() {
+    this.oneProfileEvents.length = 0;
+
+    if (this.oneProfileData.events !== null) {
+      for (const event of this.oneProfileData.events) {
+        const eventJson = await getEventById(event);
+        this.oneProfileEvents.push(eventJson);
+      }
+    }
   }
 
   reducer(action) {
     switch (action.eventName) {
-      case 'user/changeTab':
-        this.changeTab(action);
+      case 'oneProfile/changeEventsButton':
+        this.changeEventsButton(action);
+        break;
+
+      case 'oneProfile/update':
+        this.update(action);
         break;
 
       case 'oneProfile/updateEvents':

@@ -101,9 +101,12 @@ export default class UserStore {
 
   async update() {
     this[userDataSymbol] = await getLoggedProfileData();
+    this[currentTabSymbol] = profileTab.events;
+    this[currentEventsButtonSymbol] = profileEventsButton.planning;
     if (this.userData.message === 'user is not authorized') {
       this.globalStore.eventBus.publish(channelNames.userIsNotAuth);
     } else {
+      await this.updateEvents();
       this.globalStore.eventBus.publish(channelNames.userUpdated);
     }
   }
@@ -116,13 +119,16 @@ export default class UserStore {
 
   async changeTab(action) {
     this[currentTabSymbol] = action.data;
+    if (this[currentTabSymbol] === profileTab.events) {
+      this[currentEventsButtonSymbol] = profileEventsButton.planning;
+    }
     this.globalStore.eventBus.publish(channelNames.tabChanged);
   }
 
   async changeEventsButton(action) {
     this[currentEventsButtonSymbol] = action.data;
     this.globalStore.eventBus.publish(
-      channelNames.eventsButtonChanged,
+      channelNames.userEventsButtonChanged,
       this.currentEventsButton === 'planningEventsButton' ? this.profileEvents : []
     );
   }
@@ -130,19 +136,10 @@ export default class UserStore {
   async updateEvents() {
     this.profileEvents.length = 0;
 
-    let eventJson = await getEventById(125);
-    this.profileEvents.push(eventJson);
-    eventJson = await getEventById(126);
-    this.profileEvents.push(eventJson);
-    eventJson = await getEventById(127);
-    this.profileEvents.push(eventJson);
-
     for (const eventId in this.userData.events) {
       const eventJson = await getEventById(eventId);
       this.profileEvents.push(eventJson);
     }
-
-    console.log('filled');
   }
 
   async postProfileForm(action) {
@@ -153,6 +150,7 @@ export default class UserStore {
       return;
     }
 
+    console.log(action.data);
     const answer = await postProfileData(action.data);
 
     if (answer.ok) {

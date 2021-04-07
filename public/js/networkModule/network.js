@@ -1,4 +1,4 @@
-import { urlMap } from '../config/config.js';
+import {urlMap} from '../config/config.js';
 
 /**
  * Функция для получения ивентов
@@ -20,6 +20,17 @@ export async function getAllEventsJson() {
 export async function getEventById(id) {
   const answer = await fetch(urlMap.oneEventUrl + id);
   const jsonFile = await answer.json();
+  return jsonFile;
+}
+
+/**
+ * Функция для получения профиля по id
+ * @return {json} - json профиля
+ */
+
+export async function getProfileById(id) {
+  let answer = await fetch(urlMap.oneProfileUrl + id);
+  let jsonFile = await answer.json();
   return jsonFile;
 }
 
@@ -83,7 +94,7 @@ export async function postProfileData(data) {
  */
 
 export async function getLoggedProfileData() {
-  const answer = await fetch(urlMap.currentProfileUrl, { credentials: 'include' });
+  const answer = await fetch(urlMap.currentProfileUrl, {credentials: 'include'});
   const answerJson = await answer.json();
   return answerJson;
 }
@@ -94,7 +105,7 @@ export async function getLoggedProfileData() {
  */
 
 export async function logoutFunc() {
-  const answer = await fetch(urlMap.logout, { credentials: 'include' });
+  const answer = await fetch(urlMap.logout, {credentials: 'include'});
   return answer;
 }
 

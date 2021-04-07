@@ -75,13 +75,19 @@ body.addEventListener('click', async e => {
   if (Object.prototype.toString.call(target) === '[object HTMLAnchorElement]') {
     e.preventDefault();
 
-    switch (target.dataset.direction) {
+    switch (
+      target.dataset.direction //значение поля с текущей страничкой обновляется только при default?
+    ) {
       case 'logout':
         actions.logout();
         break;
 
       case 'eventPage':
         actions.eventPage(target.id);
+        break;
+
+      case 'oneProfile':
+        actions.updateOneProfile(target.id);
         break;
 
       default:

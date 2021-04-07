@@ -66,4 +66,8 @@ export default class Store {
   get oneEventStore() {
     return this[oneEventStoreSymbol];
   }
+
+  get oneProfileStore() {
+    return this[oneProfileStoreSymbol];
+  }
 }
