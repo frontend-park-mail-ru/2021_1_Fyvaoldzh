@@ -8,14 +8,15 @@ const express = require('express');
 const app = express();
 const path = require('path');
 
-const publicDir = path.resolve(__dirname, '..', 'public');
+const srcDir = path.resolve(__dirname, '..', 'src');
+const distDir = path.resolve(__dirname, '..', 'dist');
 
-app.use('/public', express.static('public'));
+app.use('/src', express.static('src'));
 
-app.use(express.static('public'));
+app.use(express.static(distDir));
 
 app.get('*', (req, res) => {
-  res.sendFile(`${publicDir}/index.html`);
+  res.sendFile(`${distDir}/index.html`);
 });
 
 const port = process.env.PORT || 3000;

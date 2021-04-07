@@ -1,5 +1,9 @@
 import { channelNames, routes } from '../../config/config.js';
 
+const signUpFormTemplate = require('Templates/signup/signup.pug');
+const loginTemplate = require('Templates/login/login.pug');
+const navbarTemplate = require('Components/navbar/navbar.pug');
+
 const globalStoreSymbol = Symbol('globalStoreSymbol');
 const actionsSymbol = Symbol('actionsSymbol');
 
@@ -32,7 +36,7 @@ export default class ChangePageView {
     window.scroll(0, 0);
     this.wrapper.style.background = 'url("components/img/form-background.jpg") no-repeat top / cover';
     this.wrapper.innerHTML = '';
-    this.wrapper.innerHTML = loginTemplate();
+    this.wrapper.innerHTML = loginTemplate({});
   }
 
   renderLogout() {

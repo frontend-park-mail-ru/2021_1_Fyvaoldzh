@@ -1,5 +1,7 @@
 import { urlMap } from '../../config/config.js';
 
+const oneTableEventTemplate = require('Templates/events/one-table-event.pug');
+
 export default class EventComponent {
   constructor({
     parent = document.body,

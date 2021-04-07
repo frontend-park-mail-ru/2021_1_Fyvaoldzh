@@ -1,5 +1,7 @@
 import { channelNames } from '../../config/config.js';
 
+const profileTemplate = require('Templates/profile/profile.pug');
+
 const globalStoreSymbol = Symbol('globalStoreSymbol');
 const actionsSymbol = Symbol('actionsSymbol');
 

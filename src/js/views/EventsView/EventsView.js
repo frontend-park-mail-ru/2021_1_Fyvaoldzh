@@ -1,6 +1,8 @@
 import { channelNames } from '../../config/config.js';
 import EventComponent from './EventComponent.js';
 
+const upperTextTemplate = require('Templates/events/upper-text.pug');
+
 const globalStoreSymbol = Symbol('globalStoreSymbol');
 
 export default class EventsView {

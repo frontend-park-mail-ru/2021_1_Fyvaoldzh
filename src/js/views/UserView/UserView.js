@@ -1,10 +1,16 @@
-/* eslint-disable no-undef */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-return-assign */
 import {
   channelNames, urlMap, SERVER_ERRORS, routes,
 } from '../../config/config.js';
 import INPUTS from '../../validationModule/validation.js';
+
+const navbarLoggedTemplate = require('Components/navbar/navbar-logged.pug');
+const myProfileTemplate = require('Templates/my-profile/my-profile.pug');
+const myProfileAboutTabTemplate = require('Templates/my-profile-about-tab/my-profile-about-tab.pug');
+const myProfileSettingsTabTemplate = require('Templates/my-profile-settings-tab/my-profile-settings-tab.pug');
+const myProfileEventsTabTemplate = require('Templates/my-profile-events-tab/my-profile-events-tab.pug');
+
 
 const globalStoreSymbol = Symbol('globalStoreSymbol');
 const actionsSymbol = Symbol('actionsSymbol');

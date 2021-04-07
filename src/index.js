@@ -1,14 +1,17 @@
-import Dispatcher from './dispatcher/dispatcher.js';
-import Actions from './actions/actions.js';
-import Store from './storage/store.js';
-import EventBus from './eventBus/eventBus.js';
+import './css/style.css';
+import './templates/templates.js';
 
-import EventsView from './views/EventsView/EventsView.js';
-import OneEventView from './views/OneEventView/OneEventView.js';
-import UserView from './views/UserView/UserView.js';
-import ChangePageView from './views/ChangePageView/ChangePageView.js';
-import { channelNames } from './config/config.js';
-import SomeUserView from './views/SomeUserView/SomeUserView.js';
+import Dispatcher from './js/dispatcher/dispatcher.js';
+import Actions from './js/actions/actions.js';
+import Store from './js/storage/store.js';
+import EventBus from './js/eventBus/eventBus.js';
+
+import EventsView from './js/views/EventsView/EventsView.js';
+import OneEventView from './js/views/OneEventView/OneEventView.js';
+import UserView from './js/views/UserView/UserView.js';
+import ChangePageView from './js/views/ChangePageView/ChangePageView.js';
+import { channelNames } from './js/config/config.js';
+import SomeUserView from './js/views/SomeUserView/SomeUserView.js';
 
 export const dispatcher = new Dispatcher(); // Диспетчер отвечает за доставку actions до хранилища
 export const actions = new Actions(dispatcher);
@@ -34,6 +37,8 @@ const changePageView = new ChangePageView(toViews);
 const someUserView = new SomeUserView(toViews);
 
 [eventsView, userView, oneEventView, changePageView, someUserView].forEach((view) => view.subscribeViews());
+
+const navbarTemplate = require('Components/navbar/navbar.pug');
 
 function firstRender() {
   const navbar = document.getElementById('navbar');
