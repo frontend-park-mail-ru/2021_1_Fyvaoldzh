@@ -1,4 +1,4 @@
-import './css/style.css';
+import './css/style.scss';
 import './templates/templates.js';
 
 import Dispatcher from './js/dispatcher/dispatcher.js';
