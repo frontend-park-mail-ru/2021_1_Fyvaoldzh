@@ -1,3 +1,4 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 const src = path.resolve(__dirname, 'src');
@@ -10,6 +11,12 @@ module.exports = {
     filename: 'main.js',
     path: dist,
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: path.join(src, 'index.html'),
+    }),
+  ],
   resolve: {
     extensions: ['.js', '.pug'],
     alias: {
@@ -22,7 +29,7 @@ module.exports = {
     rules: [
       {
         test: /\.scss$/i,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
       },
       {
         test: /\.(png|jpg|jpeg|svg)$/,

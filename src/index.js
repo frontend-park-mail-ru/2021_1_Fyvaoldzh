@@ -19,6 +19,8 @@ export const eventBus = new EventBus();
 
 export const globalStore = new Store(eventBus);
 
+
+
 const toViews = {
   globalStore,
   actions,
