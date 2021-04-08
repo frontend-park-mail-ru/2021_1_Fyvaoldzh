@@ -5,7 +5,7 @@ const src = path.resolve(__dirname, 'src');
 const dist = path.resolve(__dirname, 'dist');
 
 module.exports = {
-  entry: path.join(src, 'index.js'),
+  entry: path.join(src, 'index.ts'),
   mode: 'development',
   output: {
     filename: 'main.js',
@@ -18,7 +18,7 @@ module.exports = {
     }),
   ],
   resolve: {
-    extensions: ['.js', '.pug'],
+    extensions: ['.ts', '.pug'],
     alias: {
       Components: path.join(src, 'components'),
       Css: path.join(src, 'css'),
@@ -27,6 +27,11 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        test: /\.ts?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
       {
         test: /\.scss$/i,
         use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
