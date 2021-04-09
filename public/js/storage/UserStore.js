@@ -5,29 +5,34 @@ import {
   logoutFunc,
   postProfileData,
   putAvatar,
+  getEventById,
 } from '../networkModule/network.js';
 
-import { channelNames, profileTab } from '../config/config.js';
+import {channelNames, profileEventsButton, profileTab} from '../config/config.js';
 import validation from '../validationModule/inputValidation.js';
 
-const urltoFile = (url, filename, mimeType) => (fetch(url)
-  .then((res) => res.arrayBuffer())
-  .then((buf) => new File([buf], filename, { type: mimeType }))
-);
+const urltoFile = (url, filename, mimeType) =>
+  fetch(url)
+    .then(res => res.arrayBuffer())
+    .then(buf => new File([buf], filename, {type: mimeType}));
 
 const userDataSymbol = Symbol('UserData');
 const validationErrorsSymbol = Symbol('validationErrorsSymbol');
 const currentTabSymbol = Symbol('CurrentTabSymbol');
 const avatarPreviewUrlSymbol = Symbol('avatarPreviewUrlSymbol');
 const globalStoreSymbol = Symbol('globalStoreSymbol');
+const currentEventsButtonSymbol = Symbol('currentEventsButtonSymbol');
+const profileEventsSymbol = Symbol('profileEventsSymbol');
 
 export default class UserStore {
   constructor(globalStore) {
     this[globalStoreSymbol] = globalStore;
     this[userDataSymbol] = null;
     this[validationErrorsSymbol] = [];
-    this[currentTabSymbol] = profileTab.events;
+    this[currentTabSymbol] = profileTab.events; //нельзя менять - верстка то не подстраивается, в ней всегда ивенты поначалу выбраны
+    this[currentEventsButtonSymbol] = profileEventsButton.planning;
     this[avatarPreviewUrlSymbol] = null;
+    this[profileEventsSymbol] = [];
   }
 
   get globalStore() {
@@ -46,8 +51,16 @@ export default class UserStore {
     return this[currentTabSymbol];
   }
 
+  get currentEventsButton() {
+    return this[currentEventsButtonSymbol];
+  }
+
   get avatarPreviewUrl() {
     return this[avatarPreviewUrlSymbol];
+  }
+
+  get profileEvents() {
+    return this[profileEventsSymbol];
   }
 
   async register(action) {
@@ -88,9 +101,12 @@ export default class UserStore {
 
   async update() {
     this[userDataSymbol] = await getLoggedProfileData();
+    this[currentTabSymbol] = profileTab.events;
+    this[currentEventsButtonSymbol] = profileEventsButton.planning;
     if (this.userData.message === 'user is not authorized') {
       this.globalStore.eventBus.publish(channelNames.userIsNotAuth);
     } else {
+      await this.updateEvents();
       this.globalStore.eventBus.publish(channelNames.userUpdated);
     }
   }
@@ -103,7 +119,27 @@ export default class UserStore {
 
   async changeTab(action) {
     this[currentTabSymbol] = action.data;
+    if (this[currentTabSymbol] === profileTab.events) {
+      this[currentEventsButtonSymbol] = profileEventsButton.planning;
+    }
     this.globalStore.eventBus.publish(channelNames.tabChanged);
+  }
+
+  async changeEventsButton(action) {
+    this[currentEventsButtonSymbol] = action.data;
+    this.globalStore.eventBus.publish(
+      channelNames.userEventsButtonChanged,
+      this.currentEventsButton === 'planningEventsButton' ? this.profileEvents : []
+    );
+  }
+
+  async updateEvents() {
+    this.profileEvents.length = 0;
+
+    for (const eventId in this.userData.events) {
+      const eventJson = await getEventById(eventId);
+      this.profileEvents.push(eventJson);
+    }
   }
 
   async postProfileForm(action) {
@@ -179,6 +215,14 @@ export default class UserStore {
 
       case 'user/avatarDecline':
         this.avatarDecline(action);
+        break;
+
+      case 'user/changeEventsButton':
+        this.changeEventsButton(action);
+        break;
+
+      case 'user/updateEvents':
+        this.updateEvents(action);
         break;
 
       default:

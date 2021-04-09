@@ -10,6 +10,7 @@ import EventsView from './views/EventsView/EventsView.js';
 import OneEventView from './views/OneEventView/OneEventView.js';
 import UserView from './views/UserView/UserView.js';
 import ChangePageView from './views/ChangePageView/ChangePageView.js';
+import OneProfileView from './views/OneProfileView/OneProfileView.js';
 
 export const dispatcher = new Dispatcher(); // Диспетчер отвечает за доставку actions до хранилища
 export const actions = new Actions(dispatcher);
@@ -37,7 +38,9 @@ const oneEventView = new OneEventView(toViews);
 
 const changePageView = new ChangePageView(toViews);
 
-[eventsView, userView, oneEventView, changePageView].forEach((view) => view.subscribeViews());
+const oneProfileView = new OneProfileView(toViews);
+
+[eventsView, userView, oneEventView, changePageView, oneProfileView].forEach(view => view.subscribeViews());
 
 function firstRender() {
   const navbar = document.getElementById('navbar');
@@ -48,7 +51,7 @@ function firstRender() {
 
 firstRender();
 
-const { body } = document;
+const {body} = document;
 
 /* Заготовка для скрытия навбара по клику куда-либо
 
@@ -66,19 +69,25 @@ const { body } = document;
     }
 */
 
-body.addEventListener('click', async (e) => {
-  const { target } = e;
+body.addEventListener('click', async e => {
+  const {target} = e;
 
   if (Object.prototype.toString.call(target) === '[object HTMLAnchorElement]') {
     e.preventDefault();
 
-    switch (target.dataset.direction) {
+    switch (
+      target.dataset.direction //значение поля с текущей страничкой обновляется только при default?
+    ) {
       case 'logout':
         actions.logout();
         break;
 
       case 'eventPage':
         actions.eventPage(target.id);
+        break;
+
+      case 'oneProfile':
+        actions.updateOneProfile(target.id);
         break;
 
       default:

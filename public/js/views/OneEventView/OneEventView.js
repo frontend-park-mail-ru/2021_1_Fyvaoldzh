@@ -1,9 +1,9 @@
-import { channelNames } from '../../config/config.js';
+import {channelNames} from '../../config/config.js';
 
 const globalStoreSymbol = Symbol('globalStoreSymbol');
 
 export default class OneEventView {
-  constructor({ globalStore }) {
+  constructor({globalStore}) {
     this[globalStoreSymbol] = globalStore;
   }
 
@@ -13,8 +13,9 @@ export default class OneEventView {
 
   renderEventPage() {
     window.scroll(0, 0);
-    const { oneEventData } = this.globalStore.oneEventStore;
-    wrapper.style.backgroundImage = 'url("templates/one-event-page/img/event-page-background.jpg") no-repeat top right';
+    const {oneEventData} = this.globalStore.oneEventStore;
+    wrapper.style.backgroundImage =
+      'url("templates/one-event-page/img/event-page-background.jpg") no-repeat top right';
     wrapper.innerHTML = '';
     wrapper.innerHTML = oneEventPageTemplate(oneEventData);
   }

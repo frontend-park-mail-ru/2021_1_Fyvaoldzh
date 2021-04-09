@@ -1,13 +1,15 @@
-import { channelNames, pageNames } from '../config/config.js';
+import {channelNames, pageNames} from '../config/config.js';
 import UserStore from './UserStore.js';
 import EventsStore from './EventsStore.js';
 import OneEventStore from './OneEventStore.js';
+import OneProfileStore from './OneProfileStore.js';
 
 const currentPageSymbol = Symbol('currentPageSymbol'); // Используем символы для приватности значений класса.
 const userStoreSymbol = Symbol('userStoreSymbol');
 const eventsStoreSymbol = Symbol('eventsStoreSymbol');
 const oneEventStoreSymbol = Symbol('oneEventStoreSymbol');
 const eventBusSymbol = Symbol('eventBusSymbol');
+const oneProfileStoreSymbol = Symbol('oneProfileStoreSymbol');
 
 export default class Store {
   constructor(eventBus) {
@@ -16,6 +18,7 @@ export default class Store {
     this[userStoreSymbol] = new UserStore(this);
     this[eventsStoreSymbol] = new EventsStore(this);
     this[oneEventStoreSymbol] = new OneEventStore(this);
+    this[oneProfileStoreSymbol] = new OneProfileStore(this);
   }
 
   reducer(action) {
@@ -38,6 +41,10 @@ export default class Store {
     if (action.eventName.includes('oneEvent/')) {
       this[oneEventStoreSymbol].reducer(action);
     }
+
+    if (action.eventName.includes('oneProfile/')) {
+      this[oneProfileStoreSymbol].reducer(action);
+    }
   }
 
   get eventBus() {
@@ -58,5 +65,9 @@ export default class Store {
 
   get oneEventStore() {
     return this[oneEventStoreSymbol];
+  }
+
+  get oneProfileStore() {
+    return this[oneProfileStoreSymbol];
   }
 }
