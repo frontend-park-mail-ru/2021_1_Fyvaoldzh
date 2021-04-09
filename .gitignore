@@ -318,5 +318,6 @@ dist
 
 .idea
 node_modules
+*.tmpl
 
 # End of https://www.toptal.com/developers/gitignore/api/webstorm,macos,jetbrains,node
