@@ -67,7 +67,7 @@ export default class ChangePageView {
     }
 
     if (currentPage.pathname.includes('profile') && currentPage.pathname !== routes.profile) { // Заменить на регулярку
-      this.actions.updateSomeUser(Number(currentPage.pathname.substr(8)));
+      this.actions.updateOneProfile(Number(currentPage.pathname.substr(8)));
       return;
     }
 

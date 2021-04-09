@@ -113,8 +113,8 @@ export async function putAvatar(file) {
   return answer;
 }
 
-export async function getProfileDataById(id) {
-  const answer = await fetch(`${urlMap.apiUrl}/profile/${id}`, { credentials: 'include' });
-  const answerJson = await answer.json();
-  return answerJson;
+export async function getProfileById(id) {
+  const answer = await fetch(urlMap.oneProfileUrl + id);
+  const jsonFile = await answer.json();
+  return jsonFile;
 }

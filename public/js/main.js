@@ -7,8 +7,8 @@ import EventsView from './views/EventsView/EventsView.js';
 import OneEventView from './views/OneEventView/OneEventView.js';
 import UserView from './views/UserView/UserView.js';
 import ChangePageView from './views/ChangePageView/ChangePageView.js';
+import OneProfileView from './views/OneProfileView/OneProfileView.js';
 import { channelNames } from './config/config.js';
-import SomeUserView from './views/SomeUserView/SomeUserView.js';
 
 export const dispatcher = new Dispatcher(); // Диспетчер отвечает за доставку actions до хранилища
 export const actions = new Actions(dispatcher);
@@ -31,9 +31,9 @@ const oneEventView = new OneEventView(toViews);
 
 const changePageView = new ChangePageView(toViews);
 
-const someUserView = new SomeUserView(toViews);
+const oneProfileView = new OneProfileView(toViews);
 
-[eventsView, userView, oneEventView, changePageView, someUserView].forEach((view) => view.subscribeViews());
+[eventsView, userView, oneEventView, changePageView, oneProfileView].forEach((view) => view.subscribeViews());
 
 function firstRender() {
   const navbar = document.getElementById('navbar');

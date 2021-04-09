@@ -150,7 +150,7 @@ export default class UserView {
     const wrapper = document.getElementById('wrapper');
     wrapper.style.background = 'url("components/img/my-profile-background.jpg") no-repeat top / cover';
     wrapper.innerHTML = '';
-    wrapper.innerHTML = myProfileTemplate(userData);
+    wrapper.innerHTML = profileTemplate(userData);
 
     const avatar = document.getElementById('profileAvatar');
     avatar.style.background = `url(${urlMap.imgUrl + userData.Uid}) no-repeat center / cover`;
@@ -173,20 +173,20 @@ export default class UserView {
     const changingContent = document.getElementById('changing-content');
     switch (currentTab) {
       case 'aboutTab':
-        changingContent.innerHTML = myProfileAboutTabTemplate(userData);
+        changingContent.innerHTML = profileAboutTabTemplate(userData);
         document.getElementById('postProfile').addEventListener('click', this.postProfile.bind(this));
         window.history.pushState('', '', `profile?tab=${currentTab}`);
         activateTab(currentTab);
         break;
 
       case 'settingsTab':
-        changingContent.innerHTML = myProfileSettingsTabTemplate();
+        changingContent.innerHTML = profileSettingsTabTemplate();
         window.history.pushState('', '', `profile?tab=${currentTab}`);
         activateTab(currentTab);
         break;
 
       case 'eventsTab':
-        changingContent.innerHTML = myProfileEventsTabTemplate(userData);
+        changingContent.innerHTML = profileEventsTabTemplate(userData);
         window.history.pushState('', '', `profile?tab=${currentTab}`);
         activateTab(currentTab);
         break;

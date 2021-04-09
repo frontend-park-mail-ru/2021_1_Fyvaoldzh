@@ -3,7 +3,7 @@ import UserStore from './UserStore.js';
 import EventsStore from './EventsStore.js';
 import OneEventStore from './OneEventStore.js';
 import RouterStore from './RouterStore.js';
-import SomeUserStore from './SomeUserStore.js';
+import OneProfileStore from './OneProfileStore.js';
 
 const currentPageSymbol = Symbol('currentPageSymbol'); // Используем символы для приватности значений класса.
 const userStoreSymbol = Symbol('userStoreSymbol');
@@ -11,7 +11,7 @@ const eventsStoreSymbol = Symbol('eventsStoreSymbol');
 const oneEventStoreSymbol = Symbol('oneEventStoreSymbol');
 const eventBusSymbol = Symbol('eventBusSymbol');
 const routerStoreSymbol = Symbol('routerStoreSymbol');
-const someUserStoreSymbol = Symbol('routerStoreSymbol');
+const oneProfileStoreSymbol = Symbol('oneProfileStoreSymbol');
 
 export default class Store {
   constructor(eventBus) {
@@ -20,7 +20,7 @@ export default class Store {
     this[eventsStoreSymbol] = new EventsStore(this);
     this[oneEventStoreSymbol] = new OneEventStore(this);
     this[routerStoreSymbol] = new RouterStore(this);
-    this[someUserStoreSymbol] = new SomeUserStore(this);
+    this[oneProfileStoreSymbol] = new OneProfileStore(this);
   }
 
   get eventBus() {
@@ -51,6 +51,10 @@ export default class Store {
     return this[someUserStoreSymbol];
   }
 
+  get oneProfileStore() {
+    return this[oneProfileStoreSymbol];
+  }
+
   reducer(action) {
     if (action.eventName === 'changePage') {
       this[currentPageSymbol] = action.data;
@@ -78,8 +82,8 @@ export default class Store {
       return;
     }
 
-    if (action.eventName.includes('someUser/')) {
-      this.someUserStore.reducer(action);
+    if (action.eventName.includes('oneProfile/')) {
+      this.oneProfileStore.reducer(action);
     }
   }
 }

@@ -1,6 +1,7 @@
 export const urlMap = {
   allEventsUrl: 'http://95.163.180.8:1323/api/v1/',
   oneEventUrl: 'http://95.163.180.8:1323/api/v1/event/',
+  oneProfileUrl: 'http://95.163.180.8:1323/api/v1/profile/',
   postLoginDataUrl: 'http://95.163.180.8:1323/api/v1/login',
   postRegistrationDataUrl: 'http://95.163.180.8:1323/api/v1/register',
   currentProfileUrl: 'http://95.163.180.8:1323/api/v1/profile',
@@ -11,15 +12,20 @@ export const urlMap = {
   apiUrl: 'http://95.163.180.8:1323/api/v1',
 };
 
-export const SERVER_ERRORS = {
-  WRONG_LOGIN_OR_PASS: 'Неправильный логин или пароль',
-  LOGIN_EXIST: 'Такой логин уже существует',
+export const profileEventsButton = {
+  planning: 'planningEventsButton',
+  visited: 'visitedEventsButton',
 };
 
 export const profileTab = {
   about: 'aboutTab',
   settings: 'settingsTab',
   events: 'eventsTab',
+};
+
+export const SERVER_ERRORS = {
+  WRONG_LOGIN_OR_PASS: 'Неправильный логин или пароль',
+  LOGIN_EXIST: 'Такой логин уже существует',
 };
 
 export const channelNames = {
@@ -36,12 +42,13 @@ export const channelNames = {
   tabChanged: 'tabChanged',
   avatarPreview: 'avatarPreview',
   avatarDeclined: 'avatarDeclined',
-  avatarPushed: 'avatarPushed',
-  routerPageChanged: 'routerPageChanged',
-  someUserUpdated: 'someUserUpdated',
+  avatarPushed: 'avatarPushed', // Мб имена каналов и всякое такое стоит заменить на что-то типа enum.
+  oneProfileUpdated: 'oneProfileUpdated',
+  userEventsButtonChanged: 'userEventsButtonChanged',
+  oneProfileEventsButtonChanged: 'oneProfileEventsButtonChanged',
 };
 
-/* const pageNames = {
+export const pageNames = {
   eventsPage: 'events',
   profilePage: 'profile',
   oneEventPage: 'eventPage',
@@ -49,7 +56,7 @@ export const channelNames = {
   loginPage: 'login',
   logoutPage: 'logout',
 };
-*/
+
 
 export const routes = {
   main: '/',

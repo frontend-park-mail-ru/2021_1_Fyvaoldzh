@@ -1,28 +1,35 @@
 .row
-    .profile-main-block
-        .profile-header
-            #profileAvatar.profile-header__avatar
-            .profile-header__info-block
-                .profile-header__title
-                    | #{name}
-                .profile-header__about
-                    .profile-header__dialogue-cloud-img
-                    | #{about}
-                .profile-header__other-info
-                    .profile-header__info-segment
-                        .profile-header__age-img
-                        | #{age}
-                    .profile-header__info-segment
-                        .profile-header__city-img
-                        | #{city}
-                    .profile-header__info-segment
-                        .profile-header__subscribers-img
-                        | #{followers}
-            .profile-header__button-block
-                button.button-inactive &Pcy;&ocy;&dcy;&pcy;&icy;&scy;&acy;&tcy;&softcy;&scy;&yacy;
-                button.button-inactive &Ncy;&acy;&pcy;&icy;&scy;&acy;&tcy;&softcy;
-        .decor-line
-        //.button-block
-        //    button#planningEventsButton.button-active(data-buttontype='toggle') &Pcy;&lcy;&acy;&ncy;&icy;&rcy;&ucy;&iecy;&mcy;&ycy;&iecy;
-        //    button#visitedEventsButton.button-inactive(data-buttontype='toggle') &Pcy;&ocy;&scy;&iecy;&shchcy;&iecy;&ncy;&ncy;&ycy;&iecy;
-        //#events-list.smbs-events-block
+    .my-profile-main-block
+        a.my-profile-main-block__back-button(href='#' data-direction='main')
+        .my-profile-header
+            #profileAvatar.my-profile-header__avatar-block
+                label.change-avatar-button(id='jsUploadAvatar')
+                    input.settings-block__change-avatar-img(id='imageFile' type='file')
+                button.change-avatar-button__submit(id='jsSubmitAvatar')
+                button.change-avatar-button__decline(id='jsDeclineAvatar')
+                // <button class="change-avatar-button" id='postAvatarProfile' type='submit'></button>
+            .my-profile-header__info-block
+                .my-profile-header__title #{name}
+                .my-profile-header__login-block @#{login}
+                .my-profile-header__followers-block
+                    .my-profile-header__followers-img
+                    |#{followers}
+                .my-profile-header__events-stats-block
+                    .my-profile-header__events-stats-block_planning
+                        .my-profile-header__black-star-img
+                        |2 &pcy;&lcy;&acy;&ncy;&icy;&rcy;&ucy;&iecy;&mcy;&ycy;&khcy;
+                    .my-profile-header__events-stats-block_visited
+                        .my-profile-header__visited-events-img
+                        |11 &pcy;&ocy;&scy;&iecy;&shchcy;&iecy;&ncy;&ncy;&ycy;&khcy;
+        .my-profile__tabs-block(id='jsTabsBlock')
+            button#eventsTab.tab-inactive(data-buttontype='toggle')
+                .my-profile__events-img
+                |                     &Mcy;&iecy;&rcy;&ocy;&pcy;&rcy;&icy;&yacy;&tcy;&icy;&yacy;
+            button#aboutTab.tab-inactive(data-buttontype='toggle')
+                .my-profile__about-img
+                |                     &Ocy;&bcy;&ocy; &mcy;&ncy;&iecy;
+            button#settingsTab.tab-inactive(data-buttontype='toggle')
+                .my-profile__settings-img
+                |                     &Ncy;&acy;&scy;&tcy;&rcy;&ocy;&jcy;&kcy;&icy;
+        .my-profile__decor-line
+        #changing-content.changing-content-block
