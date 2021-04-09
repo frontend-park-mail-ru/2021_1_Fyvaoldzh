@@ -2,17 +2,15 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-return-assign */
 import {pageNames, channelNames, urlMap, SERVER_ERRORS} from '../../config/config.js';
-import {
-  renderEventsList,
-  addDeclensionOfNumbers,
-  buttonToggleHandler,
-} from '../../allProfilesUtils/allProfilesUtils.js';
+import {addDeclensionOfNumbers, buttonToggleHandler} from '../utils/utils.js';
+import ProfilesBaseView from '../ProfilesBaseView/ProfilesBaseView.js';
 
 const globalStoreSymbol = Symbol('globalStoreSymbol');
 const actionsSymbol = Symbol('actionsSymbol');
 
-export default class OneProfileView {
+export default class OneProfileView extends ProfilesBaseView {
   constructor({globalStore, actions}) {
+    super();
     this[globalStoreSymbol] = globalStore;
     this[actionsSymbol] = actions;
   }
@@ -24,8 +22,6 @@ export default class OneProfileView {
   get actions() {
     return this[actionsSymbol];
   }
-
-  renderEventsList = renderEventsList; //так вообще нормально?
 
   renderOneProfilePage() {
     // if (this.globalStore.currentPage !== pageNames.oneProfilePage) {
@@ -40,11 +36,11 @@ export default class OneProfileView {
     const wrapper = document.getElementById('wrapper');
     wrapper.style.background = 'url("templates/one-profile/img/one-profile-background.jpg") no-repeat top / 100%';
 
-    oneProfileData.age += addDeclensionOfNumbers(oneProfileData.age, [' год', ' года', ' лет']);
+    oneProfileData.age += addDeclensionOfNumbers(oneProfileData.age, ['год', 'года', 'лет']);
     oneProfileData.followers += addDeclensionOfNumbers(oneProfileData.followers, [
-      ' подписчик',
-      ' подписчика',
-      ' подписчиков',
+      'подписчик',
+      'подписчика',
+      'подписчиков',
     ]);
 
     wrapper.innerHTML = '';

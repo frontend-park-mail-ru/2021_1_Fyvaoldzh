@@ -150,7 +150,6 @@ export default class UserStore {
       return;
     }
 
-    console.log(action.data);
     const answer = await postProfileData(action.data);
 
     if (answer.ok) {

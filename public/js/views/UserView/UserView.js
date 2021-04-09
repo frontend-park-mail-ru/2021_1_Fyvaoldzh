@@ -3,17 +3,15 @@
 /* eslint-disable no-return-assign */
 import {pageNames, channelNames, urlMap, SERVER_ERRORS} from '../../config/config.js';
 import INPUTS from '../../validationModule/validation.js';
-import {
-  renderEventsList,
-  addDeclensionOfNumbers,
-  buttonToggleHandler,
-} from '../../allProfilesUtils/allProfilesUtils.js';
+import {addDeclensionOfNumbers, buttonToggleHandler} from '../utils/utils.js';
+import ProfilesBaseView from '../ProfilesBaseView/ProfilesBaseView.js';
 
 const globalStoreSymbol = Symbol('globalStoreSymbol');
 const actionsSymbol = Symbol('actionsSymbol');
 
-export default class UserView {
+export default class UserView extends ProfilesBaseView {
   constructor({globalStore, actions}) {
+    super();
     this[globalStoreSymbol] = globalStore;
     this[actionsSymbol] = actions;
   }
@@ -25,8 +23,6 @@ export default class UserView {
   get actions() {
     return this[actionsSymbol];
   }
-
-  renderEventsList = renderEventsList; //так вообще нормально?
 
   handleFileSelect(e) {
     const file = e.target.files[0];
@@ -145,11 +141,7 @@ export default class UserView {
     const wrapper = document.getElementById('wrapper');
     wrapper.style.background = 'url("templates/profile/img/profile-background.jpg") no-repeat top / 100%';
 
-    userData.followers += addDeclensionOfNumbers(userData.followers, [
-      ' подписчик',
-      ' подписчика',
-      ' подписчиков',
-    ]);
+    userData.followers += addDeclensionOfNumbers(userData.followers, ['подписчик', 'подписчика', 'подписчиков']);
 
     wrapper.innerHTML = '';
     wrapper.innerHTML = profileTemplate(userData);
@@ -166,8 +158,10 @@ export default class UserView {
       .addEventListener('click', this.actions.declineAvatar.bind(this.actions));
 
     const tabsBlock = document.getElementById('jsTabsBlock');
-
-    tabsBlock.addEventListener('click', buttonToggleHandler.bind(this));
+    let tabs = Array.from(tabsBlock.querySelectorAll('button[data-buttontype="toggle"]'));
+    tabs.forEach(tab => {
+      tab.addEventListener('click', buttonToggleHandler.bind(this));
+    });
 
     this.renderChangingContent();
     window.history.pushState('', '', '/profile');
@@ -204,9 +198,15 @@ export default class UserView {
     const {currentEventsButton} = this.globalStore.userStore;
     const {profileEvents} = this.globalStore.userStore;
 
-    const eventsButtonsBlock = document.getElementById('jsEventsButtonsBlock');
+    // const eventsButtonsBlock = document.getElementById('jsEventsButtonsBlock');
+    //
+    // eventsButtonsBlock.addEventListener('click', buttonToggleHandler.bind(this));
 
-    eventsButtonsBlock.addEventListener('click', buttonToggleHandler.bind(this));
+    const changingContent = document.getElementById('changing-content');
+    let buttons = Array.from(changingContent.querySelectorAll('button[data-buttontype="toggle"]'));
+    buttons.forEach(button => {
+      button.addEventListener('click', buttonToggleHandler.bind(this));
+    });
 
     switch (currentEventsButton) {
       case 'planningEventsButton':

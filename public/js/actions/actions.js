@@ -87,6 +87,20 @@ export default class Actions {
     });
   }
 
+  updateUserEvents() {
+    this.dispatcher.dispatch({
+      eventName: 'user/updateEvents',
+      data: null,
+    });
+  }
+
+  changeUserEventsButton(buttonId) {
+    this.dispatcher.dispatch({
+      eventName: 'user/changeEventsButton',
+      data: buttonId,
+    });
+  }
+
   updateOneProfile(id) {
     this.dispatcher.dispatch({
       eventName: 'oneProfile/update',
@@ -104,20 +118,6 @@ export default class Actions {
   changeOneProfileEventsButton(buttonId) {
     this.dispatcher.dispatch({
       eventName: 'oneProfile/changeEventsButton',
-      data: buttonId,
-    });
-  }
-
-  updateUserEvents() {
-    this.dispatcher.dispatch({
-      eventName: 'user/updateEvents',
-      data: null,
-    });
-  }
-
-  changeUserEventsButton(buttonId) {
-    this.dispatcher.dispatch({
-      eventName: 'user/changeEventsButton',
       data: buttonId,
     });
   }
