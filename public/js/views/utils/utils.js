@@ -24,7 +24,11 @@ export function buttonToggleHandler(event) {
     target.classList.add('tab-active');
     target.classList.remove('tab-inactive');
     curActiveElem.classList.remove('tab-active');
-    this.actions.changeTab(target.id);
+    if (this.constructor.name === 'UserView') {
+      this.actions.changeTab(target.id);
+    } else if (this.constructor.name === 'SearchView') {
+      this.actions.searchChangeTab(target.id);
+    }
   }
 
   if (target.classList.contains('button-inactive')) {
@@ -38,6 +42,8 @@ export function buttonToggleHandler(event) {
       this.actions.changeUserEventsButton(target.id);
     } else if (this.constructor.name === 'OneProfileView') {
       this.actions.changeOneProfileEventsButton(target.id);
+    } else if (this.constructor.name === 'SearchView') {
+      this.actions.changeSearchEventsButton(target.id);
     }
   }
 }

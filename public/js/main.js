@@ -4,6 +4,8 @@ import Store from './storage/store.js';
 import UserStore from './storage/UserStore.js';
 import EventsStore from './storage/EventsStore.js';
 import OneEventStore from './storage/OneEventStore.js';
+import OneProfileStore from './storage/OneProfileStore.js';
+import SearchStore from './storage/SearchStore.js';
 import EventBus from './eventBus/eventBus.js';
 
 import EventsView from './views/EventsView/EventsView.js';
@@ -11,6 +13,7 @@ import OneEventView from './views/OneEventView/OneEventView.js';
 import UserView from './views/UserView/UserView.js';
 import ChangePageView from './views/ChangePageView/ChangePageView.js';
 import OneProfileView from './views/OneProfileView/OneProfileView.js';
+import SearchView from './views/SearchView/SearchView.js';
 
 export const dispatcher = new Dispatcher(); // Диспетчер отвечает за доставку actions до хранилища
 export const actions = new Actions(dispatcher);
@@ -20,6 +23,8 @@ export const globalStore = new Store(eventBus);
 export const userStore = new UserStore(globalStore);
 export const eventsStore = new EventsStore(globalStore);
 export const oneEventStore = new OneEventStore(globalStore);
+export const oneProfileStore = new OneProfileStore(globalStore);
+export const searchStore = new SearchStore(globalStore);
 
 const toViews = {
   globalStore,
@@ -40,7 +45,11 @@ const changePageView = new ChangePageView(toViews);
 
 const oneProfileView = new OneProfileView(toViews);
 
-[eventsView, userView, oneEventView, changePageView, oneProfileView].forEach(view => view.subscribeViews());
+const searchView = new SearchView(toViews);
+
+[eventsView, userView, oneEventView, changePageView, oneProfileView, searchView].forEach(view =>
+  view.subscribeViews()
+);
 
 function firstRender() {
   const navbar = document.getElementById('navbar');
@@ -87,7 +96,11 @@ body.addEventListener('click', async e => {
         break;
 
       case 'oneProfile':
-        actions.updateOneProfile(target.id);
+        actions.updateOneProfile();
+        break;
+
+      case 'search':
+        actions.searchUpdate();
         break;
 
       default:

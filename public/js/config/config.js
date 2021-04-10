@@ -22,9 +22,25 @@ export const profileTab = {
   events: 'eventsTab',
 };
 
+export const searchTab = {
+  events: 'eventsTab',
+  users: 'usersTab',
+};
+
 export const profileEventsButton = {
   planning: 'planningEventsButton',
   visited: 'visitedEventsButton',
+};
+
+export const searchButton = {
+  exhibition: 'exhibitionButton',
+  concert: 'concertButton',
+  theatre: 'theatreButton',
+  entertainment: 'entertainmentButton',
+  training: 'trainingButton',
+  movie: 'movieButton',
+  festival: 'festivalButton',
+  excursion: 'excursionButton',
 };
 
 export const channelNames = {
@@ -45,6 +61,9 @@ export const channelNames = {
   oneProfileUpdated: 'oneProfileUpdated',
   userEventsButtonChanged: 'userEventsButtonChanged',
   oneProfileEventsButtonChanged: 'oneProfileEventsButtonChanged',
+  searchUpdated: 'searchUpdated',
+  searchEventsButtonChanged: 'searchEventsButtonChanged',
+  searchTabChanged: 'searchTabChanged',
 };
 
 export const pageNames = {
@@ -55,4 +74,5 @@ export const pageNames = {
   loginPage: 'login',
   logoutPage: 'logout',
   oneProfilePage: 'oneProfile',
+  searchPage: 'searchPage',
 };

@@ -1,18 +1,9 @@
-import {
-  postRegistrationData,
-  getLoggedProfileData,
-  getProfileById,
-  postLoginData,
-  logoutFunc,
-  postProfileData,
-  putAvatar,
-  getEventById,
-} from '../networkModule/network.js';
+import {getProfileById, getEventById} from '../networkModule/network.js';
 
 import {channelNames, profileEventsButton, profileTab} from '../config/config.js';
 
 const oneProfileDataSymbol = Symbol('oneProfileData');
-const currentEventsButtonSymbol = Symbol('CurrentEventButtonSymbol');
+const currentEventsButtonSymbol = Symbol('CurrentEventsButtonSymbol');
 const globalStoreSymbol = Symbol('globalStoreSymbol');
 const oneProfileEventsSymbol = Symbol('oneProfileEventsSymbol');
 

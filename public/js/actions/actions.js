@@ -121,4 +121,32 @@ export default class Actions {
       data: buttonId,
     });
   }
+
+  changeSearchEventsButton(buttonId) {
+    this.dispatcher.dispatch({
+      eventName: 'search/changeEventsButton',
+      data: buttonId,
+    });
+  }
+
+  searchChangeTab(tabId) {
+    this.dispatcher.dispatch({
+      eventName: 'search/changeTab',
+      data: tabId,
+    });
+  }
+
+  searchUpdate(data) {
+    this.dispatcher.dispatch({
+      eventName: 'search/update',
+      data: data,
+    });
+  }
+
+  updateSearchResults() {
+    this.dispatcher.dispatch({
+      eventName: 'search/updateResults',
+      data: null,
+    });
+  }
 }

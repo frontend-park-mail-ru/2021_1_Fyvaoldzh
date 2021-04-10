@@ -3,6 +3,7 @@ import UserStore from './UserStore.js';
 import EventsStore from './EventsStore.js';
 import OneEventStore from './OneEventStore.js';
 import OneProfileStore from './OneProfileStore.js';
+import SearchStore from './SearchStore.js';
 
 const currentPageSymbol = Symbol('currentPageSymbol'); // Используем символы для приватности значений класса.
 const userStoreSymbol = Symbol('userStoreSymbol');
@@ -10,6 +11,7 @@ const eventsStoreSymbol = Symbol('eventsStoreSymbol');
 const oneEventStoreSymbol = Symbol('oneEventStoreSymbol');
 const eventBusSymbol = Symbol('eventBusSymbol');
 const oneProfileStoreSymbol = Symbol('oneProfileStoreSymbol');
+const searchStoreSymbol = Symbol('searchStoreSymbol');
 
 export default class Store {
   constructor(eventBus) {
@@ -19,6 +21,7 @@ export default class Store {
     this[eventsStoreSymbol] = new EventsStore(this);
     this[oneEventStoreSymbol] = new OneEventStore(this);
     this[oneProfileStoreSymbol] = new OneProfileStore(this);
+    this[searchStoreSymbol] = new SearchStore(this);
   }
 
   reducer(action) {
@@ -45,6 +48,10 @@ export default class Store {
     if (action.eventName.includes('oneProfile/')) {
       this[oneProfileStoreSymbol].reducer(action);
     }
+
+    if (action.eventName.includes('search/')) {
+      this[searchStoreSymbol].reducer(action);
+    }
   }
 
   get eventBus() {
@@ -69,5 +76,9 @@ export default class Store {
 
   get oneProfileStore() {
     return this[oneProfileStoreSymbol];
+  }
+
+  get searchStore() {
+    return this[searchStoreSymbol];
   }
 }

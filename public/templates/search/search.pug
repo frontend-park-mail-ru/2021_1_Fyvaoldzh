@@ -1,0 +1,16 @@
+.row
+    .search-main-block
+        a.search-main-block__back-button(href='#')
+        form.search-block__form(action='')
+            .search-line-block
+                input#searchInput.search-line-block__input.form__input(type='text' value='Какая-то очень красивая интересная выставка' placeholder='Введите что-нибудь' name='search-request')
+                label#jsSearchRequest.search-button(for='searchInput')
+        #jsTabsBlock.search__tabs-block
+            button#eventsTab.tab-active(data-buttontype='toggle')
+                .search__events-img
+                | Мероприятия
+            button#usersTab.tab-inactive(data-buttontype='toggle')
+                .search__people-img
+                | Люди
+        .search__decor-line
+        #changing-content.changing-content-block
