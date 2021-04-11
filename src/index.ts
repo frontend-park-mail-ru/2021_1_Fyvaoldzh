@@ -13,6 +13,8 @@ import ChangePageView from './ts/views/ChangePageView/ChangePageView';
 import { channelNames } from './ts/config/config';
 import SomeUserView from './ts/views/SomeUserView/SomeUserView';
 
+console.log('111');
+
 export const dispatcher = new Dispatcher(); // Диспетчер отвечает за доставку actions до хранилища
 export const actions = new Actions(dispatcher);
 export const eventBus = new EventBus();
@@ -22,11 +24,6 @@ export const globalStore = new Store(eventBus);
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js', { scope: '/' }).then(() => console.log('sw reg'));
 }
-
-const toViews = {
-  globalStore,
-  actions,
-};
 
 dispatcher.register(globalStore.reducer.bind(globalStore));
 
