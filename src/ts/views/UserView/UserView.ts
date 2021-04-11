@@ -145,7 +145,11 @@ export default class UserView {
     });
   }
 
-  renderMyProfilePage() {
+  renderMyProfilePage(currentTab?: string) {
+    if (!currentTab) {
+      currentTab = this.globalStore.userStore.currentTab;
+    }
+
     if (this.globalStore.routerStore.currentUrl.pathname !== routes.profile) {
       return;
     }
@@ -169,13 +173,16 @@ export default class UserView {
 
     tabsBlock.addEventListener('click', this.buttonToggleHandler.bind(this));
 
-    const { currentTab } = this.globalStore.userStore;
-    this.renderChangingContent();
+    this.renderChangingContent(currentTab);
   }
 
-  renderChangingContent() {
+  renderChangingContent(currentTab?: string) {
+    if (!currentTab) {
+      currentTab = this.globalStore.userStore.currentTab;
+    }
+
     const { userData } = this.globalStore.userStore;
-    const { currentTab } = this.globalStore.userStore;
+
 
     const changingContent = document.getElementById('changing-content');
     switch (currentTab) {

@@ -62,7 +62,7 @@ export default class ChangePageView {
         break
 
       case routes.profile:
-        this.userView.renderMyProfilePage();
+        this.userView.renderMyProfilePage(state.parameter);
         break;
 
       case routes.main:
