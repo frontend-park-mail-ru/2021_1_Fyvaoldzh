@@ -9,8 +9,7 @@ import {
 
 import { channelNames, profileTab } from '../config/config';
 import validation from '../validationModule/inputValidation';
-import Store from "./store";
-import { ActionsInterface } from "../actions/actions";
+import { ActionsInterface } from "../interfaces";
 
 const urltoFile = (url: string, filename?: string, mimeType?: string) => (fetch(url)
   .then((res) => res.arrayBuffer())
@@ -29,16 +28,17 @@ interface userDataInterface {
   about: string;
   avatar: string;
   events: string;
+  message?: string;
 }
 
 export default class UserStore {
-  public globalStore: Store;
+  public globalStore: any;
   public userData: userDataInterface;
   public validationErrors: Array<String>;
   public currentTab: string;
   public avatarPreviewUrl: string;
 
-  constructor(globalStore: Store) {
+  constructor(globalStore: any) {
     this.globalStore = globalStore;
     this.userData = null;
     this.validationErrors = [];
@@ -85,7 +85,11 @@ export default class UserStore {
   async update(action: ActionsInterface) {
     this.userData = await getLoggedProfileData();
 
-    // @ts-ignore
+    const queryParamTab = this.globalStore.routerStore.currentUrl?.searchParams.get('tab');
+    if (queryParamTab) {
+      this.currentTab = queryParamTab;
+    }
+
     if (this.userData.message === 'user is not authorized') {
       this.userData = null;
 
@@ -99,20 +103,16 @@ export default class UserStore {
       }
       this.globalStore.eventBus.publish(channelNames.userUpdated);
     }
-
-    const queryParamTab = this.globalStore.routerStore.currentUrl.searchParams.get('tab');
-    if (queryParamTab) {
-      this.currentTab = queryParamTab;
-    }
   }
 
   async logout() {
     this.userData = null;
-    logoutFunc();
+    await logoutFunc();
     this.globalStore.eventBus.publish(channelNames.logoutSuccessfull);
   }
 
   async changeTab(action: ActionsInterface) {
+    history.pushState({page: '/profile', parameter: action.data}, null, `profile?tab=${action.data}`);
     this.currentTab = <string><unknown>action.data;
     this.globalStore.eventBus.publish(channelNames.tabChanged);
   }
@@ -128,7 +128,7 @@ export default class UserStore {
     const answer = await postProfileData(action.data);
 
     if (answer.ok) {
-      this.update(null);
+      await this.update(null);
     } else {
       this.validationErrors.push('emailExist');
       this.globalStore.eventBus.publish(channelNames.errorValidation);

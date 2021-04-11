@@ -1,12 +1,9 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-return-assign */
 import {
   channelNames, urlMap, SERVER_ERRORS, routes, profileTab,
 } from '../../config/config';
 import INPUTS from '../../validationModule/validation';
 import Store from "../../storage/store";
 import Actions from "../../actions/actions";
-import {globalStore} from "../../../index";
 
 const navbarLoggedTemplate = require('Components/navbar/navbar-logged.pug');
 const myProfileTemplate = require('Templates/my-profile/my-profile.pug');
@@ -53,7 +50,6 @@ export default class UserView {
       return;
     }
     const reader = new FileReader();
-    // Closure to capture the file information.
 
     reader.onload = (evnt) => {
       this.actions.avatarPreview(<string>evnt.target.result);
@@ -173,31 +169,29 @@ export default class UserView {
 
     tabsBlock.addEventListener('click', this.buttonToggleHandler.bind(this));
 
+    const { currentTab } = this.globalStore.userStore;
     this.renderChangingContent();
   }
 
   renderChangingContent() {
-    const { currentTab } = this.globalStore.userStore;
     const { userData } = this.globalStore.userStore;
+    const { currentTab } = this.globalStore.userStore;
 
     const changingContent = document.getElementById('changing-content');
     switch (currentTab) {
       case 'aboutTab':
         changingContent.innerHTML = myProfileAboutTabTemplate(userData);
         document.getElementById('postProfile').addEventListener('click', this.postProfile.bind(this));
-        window.history.pushState('', '', `profile?tab=${currentTab}`);
         activateTab(currentTab);
         break;
 
       case 'settingsTab':
         changingContent.innerHTML = myProfileSettingsTabTemplate();
-        window.history.pushState('', '', `profile?tab=${currentTab}`);
         activateTab(currentTab);
         break;
 
       case 'eventsTab':
         changingContent.innerHTML = myProfileEventsTabTemplate(userData);
-        window.history.pushState('', '', `profile?tab=${currentTab}`);
         activateTab(currentTab);
         break;
 
@@ -273,27 +267,27 @@ export default class UserView {
     let dataToPost: postUserDataInterface = {};
 
     const newName = <string>dataFromForm.get('name');
-    if (newName !== globalStore.userStore.userData.name) {
+    if (newName !== this.globalStore.userStore.userData.name) {
       dataToPost.name = newName;
     }
 
     const newAbout = <string>dataFromForm.get('about');
-    if (newAbout !== globalStore.userStore.userData.about) {
+    if (newAbout !== this.globalStore.userStore.userData.about) {
       dataToPost.about = newAbout;
     }
 
     const newBirthday = <string>dataFromForm.get('birthday');
-    if (newBirthday !== globalStore.userStore.userData.about) {
+    if (newBirthday !== this.globalStore.userStore.userData.about) {
       dataToPost.birthday = newBirthday;
     }
 
     const newCity = <string>dataFromForm.get('city');
-    if (newCity !== globalStore.userStore.userData.city) {
+    if (newCity !== this.globalStore.userStore.userData.city) {
       dataToPost.city = newCity;
     }
 
     const newEmail = <string>dataFromForm.get('email');
-    if (newEmail !== globalStore.userStore.userData.email) {
+    if (newEmail !== this.globalStore.userStore.userData.email) {
       dataToPost.email = newEmail;
     }
 

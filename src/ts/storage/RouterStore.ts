@@ -1,22 +1,18 @@
 import { channelNames } from '../config/config';
-import Store from "./store";
-import {ActionsInterface} from "../actions/actions";
-
-const globalStoreSymbol = Symbol('globalStoreSymbol');
-const currentUrlSymbol = Symbol('currentUrlSymbol');
+import { ActionsInterface } from '../interfaces'
 
 export default class RouterStore {
-  public globalStore: Store;
+  public globalStore: any;
   public currentUrl: URL;
 
-  constructor(globalStore: Store) {
+  constructor(globalStore: any) {
     this.globalStore = globalStore;
     this.currentUrl = null;
   }
 
   changePage(action: ActionsInterface) {
     this.currentUrl = new URL(<string><unknown>action.data, 'http://localhost:3000/');
-    window.history.pushState(null, '', this.currentUrl.href);
+    window.history.pushState({page: this.currentUrl.pathname, parameter: this.currentUrl.search}, '', this.currentUrl.href);
     this.globalStore.eventBus.publish(channelNames.pageChanged);
   }
 

@@ -2,17 +2,13 @@ import { channelNames } from '../config/config';
 import {
   getProfileDataById,
 } from '../networkModule/network';
-import Store from "./store";
-import {ActionsInterface} from "../actions/actions";
-
-const someUserDataSymbol = Symbol('someUserDataSymbol');
-const globalStoreSymbol = Symbol('globalStoreSymbol');
+import { ActionsInterface } from "../interfaces";
 
 export default class SomeUserStore {
-  public globalStore: Store;
+  public globalStore: any;
   public someUserData: object;
 
-  constructor(globalStore: Store) {
+  constructor(globalStore: any) {
     this.globalStore = globalStore;
     this.someUserData = null;
   }

@@ -1,16 +1,12 @@
 import { getAllEventsJson } from '../networkModule/network';
 import { channelNames } from '../config/config';
-import Store from "./store";
-import Actions, {ActionsInterface} from "../actions/actions";
-
-const allEventsSymbol = Symbol('allEventsSymbol');
-const globalStoreSymbol = Symbol('globalStoreSymbol');
+import {ActionsInterface} from "../interfaces";
 
 export default class EventsStore {
-  public globalStore: Store;
+  public globalStore: any;
   public allEvents: object;
 
-  constructor(globalStore: Store) {
+  constructor(globalStore: any) {
     this.globalStore = globalStore;
     this.allEvents = {};
   }

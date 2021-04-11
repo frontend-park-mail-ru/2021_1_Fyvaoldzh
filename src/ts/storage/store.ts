@@ -1,11 +1,10 @@
-import { channelNames } from '../config/config';
 import UserStore from './UserStore';
 import EventsStore from './EventsStore';
 import OneEventStore from './OneEventStore';
 import RouterStore from './RouterStore';
 import SomeUserStore from './SomeUserStore';
 import EventBus from "../eventBus/eventBus";
-import {ActionsInterface} from "../actions/actions";
+import { ActionsInterface } from "../interfaces";
 
 export default class Store {
   public eventBus: EventBus;

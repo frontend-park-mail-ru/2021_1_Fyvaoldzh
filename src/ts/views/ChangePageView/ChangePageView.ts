@@ -1,25 +1,78 @@
 import { channelNames, routes } from '../../config/config';
 import Store from "../../storage/store";
 import Actions from "../../actions/actions";
+import UserView from "../UserView/UserView";
+import EventsView from "../EventsView/EventsView";
+import OneEventView from "../OneEventView/OneEventView";
+import { historyState } from '../../interfaces';
 
 const signUpFormTemplate = require('Templates/signup/signup.pug');
 const loginTemplate = require('Templates/login/login.pug');
 const navbarTemplate = require('Components/navbar/navbar.pug');
 
-const globalStoreSymbol = Symbol('globalStoreSymbol');
-const actionsSymbol = Symbol('actionsSymbol');
 
 export default class ChangePageView {
   public globalStore: Store;
   public actions: Actions;
   public wrapper: HTMLElement;
   public navbar: HTMLElement;
+  public userView: UserView;
+  public eventsView: EventsView;
+  public oneEventView: OneEventView;
 
-  constructor(globalStore: Store, actions: Actions) {
+  constructor(globalStore: Store,
+              actions: Actions,
+              userView: UserView,
+              eventsView: EventsView,
+              oneEventView: OneEventView) {
     this.globalStore = globalStore;
     this.actions = actions;
     this.wrapper = document.getElementById('wrapper');
     this.navbar = document.getElementById('navbar');
+    this.userView = userView;
+    this.eventsView = eventsView;
+    this.oneEventView = oneEventView;
+
+    window.onpopstate = (ev: any) => {
+      if (ev.state) {
+        this.render(ev.state);
+      }
+    };
+  }
+
+  async render(state: historyState) {
+    if (state.page.includes('event') && state.page !== routes.events) {
+      await this.actions.eventPage(<number><unknown>state.page.substr(6));
+      this.oneEventView.renderEventPage();
+      return;
+    }
+
+    if (state.page.includes('profile') && state.page !== routes.profile) {
+      this.actions.updateSomeUser(Number(state.page.substr(8)));
+      return;
+    }
+
+    switch (state.page) {
+      case routes.login:
+        this.renderLoginPage();
+        break;
+
+      case routes.signup:
+        this.renderSignUp();
+        break
+
+      case routes.profile:
+        this.userView.renderMyProfilePage();
+        break;
+
+      case routes.main:
+        this.eventsView.renderEvents();
+        break;
+
+      case routes.events:
+        this.eventsView.renderEvents();
+        break;
+    }
   }
 
   renderSignUp() {

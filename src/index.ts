@@ -13,13 +13,11 @@ import ChangePageView from './ts/views/ChangePageView/ChangePageView';
 import { channelNames } from './ts/config/config';
 import SomeUserView from './ts/views/SomeUserView/SomeUserView';
 
-console.log('111');
+const dispatcher = new Dispatcher(); // Диспетчер отвечает за доставку actions до хранилища
+const actions = new Actions(dispatcher);
+const eventBus = new EventBus();
 
-export const dispatcher = new Dispatcher(); // Диспетчер отвечает за доставку actions до хранилища
-export const actions = new Actions(dispatcher);
-export const eventBus = new EventBus();
-
-export const globalStore = new Store(eventBus);
+const globalStore = new Store(eventBus);
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js', { scope: '/' }).then(() => console.log('sw reg'));
@@ -33,7 +31,7 @@ const userView = new UserView(globalStore, actions);
 
 const oneEventView = new OneEventView(globalStore);
 
-const changePageView = new ChangePageView(globalStore, actions);
+const changePageView = new ChangePageView(globalStore, actions, userView, eventsView, oneEventView);
 
 const someUserView = new SomeUserView(globalStore, actions);
 
@@ -55,8 +53,6 @@ firstRender();
 */
 eventBus.subscribe(channelNames.firstUserUpdated, actions.routerChangePage.bind(actions, window.location.href));
 eventBus.subscribe(channelNames.firstUserIsNotAuth, actions.routerChangePage.bind(actions, window.location.href));
-
-window.onpopstate = () => actions.routerChangePage(document.location.pathname);
 
 const { body } = document;
 
@@ -90,7 +86,7 @@ body.addEventListener('click', async (e) => {
 
       default:
         const toUrl = new URL(target.href);
-        actions.routerChangePage(toUrl.pathname);
+        actions.routerChangePage(toUrl.pathname + toUrl.search);
         break;
     }
   }
