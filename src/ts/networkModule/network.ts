@@ -6,9 +6,15 @@ import { urlMap } from '../config/config';
  */
 
 export async function getAllEventsJson() {
-  const answer = await fetch(urlMap.allEventsUrl);
-  const jsonFile = await answer.json();
-  return jsonFile;
+  try {
+    const answer = await fetch(urlMap.allEventsUrl);
+    const jsonFile = await answer.json();
+    return jsonFile;
+  } catch(err) {
+    if (!navigator.onLine) {
+      location.reload();
+    }
+  }
 }
 
 /**
@@ -18,9 +24,15 @@ export async function getAllEventsJson() {
  */
 
 export async function getEventById(id: number) {
-  const answer = await fetch(urlMap.oneEventUrl + id);
-  const jsonFile = await answer.json();
-  return jsonFile;
+  try {
+    const answer = await fetch(urlMap.oneEventUrl + id);
+    const jsonFile = await answer.json();
+    return jsonFile;
+  } catch(err) {
+    if (!navigator.onLine) {
+      location.reload();
+    }
+  }
 }
 
 /**
@@ -30,15 +42,21 @@ export async function getEventById(id: number) {
  */
 
 export async function postRegistrationData(toPost: object) {
-  const answer = await fetch(urlMap.postRegistrationDataUrl, {
-    method: 'POST',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json;charset=utf-8',
-    },
-    body: JSON.stringify(toPost),
-  });
-  return answer;
+  try {
+    const answer = await fetch(urlMap.postRegistrationDataUrl, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
+      body: JSON.stringify(toPost),
+    });
+    return answer;
+  } catch(err) {
+    if (!navigator.onLine) {
+      location.reload();
+    }
+  }
 }
 
 /**
@@ -48,15 +66,22 @@ export async function postRegistrationData(toPost: object) {
  */
 
 export async function postLoginData(data: object) {
-  const answer = await fetch(urlMap.postLoginDataUrl, {
-    method: 'POST',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json;charset=utf-8',
-    },
-    body: JSON.stringify(data),
-  });
-  return answer;
+  try {
+    const answer = await fetch(urlMap.postLoginDataUrl, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
+      body: JSON.stringify(data),
+    });
+    return answer;
+  } catch(err) {
+    if (!navigator.onLine) {
+      location.reload();
+    }
+  }
+
 }
 
 /**
@@ -66,15 +91,22 @@ export async function postLoginData(data: object) {
  */
 
 export async function postProfileData(data: object) {
-  const answer = await fetch(urlMap.currentProfileUrl, {
-    method: 'PUT',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json;charset=utf-8',
-    },
-    body: JSON.stringify(data),
-  });
-  return answer;
+  try {
+    const answer = await fetch(urlMap.currentProfileUrl, {
+      method: 'PUT',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
+      body: JSON.stringify(data),
+    });
+    return answer;
+  } catch(err) {
+    if (!navigator.onLine) {
+      location.reload();
+    }
+  }
+
 }
 
 /**
@@ -83,9 +115,15 @@ export async function postProfileData(data: object) {
  */
 
 export async function getLoggedProfileData() {
-  const answer = await fetch(urlMap.currentProfileUrl, { credentials: 'include' });
-  const answerJson = await answer.json();
-  return answerJson;
+  try {
+    const answer = await fetch(urlMap.currentProfileUrl, { credentials: 'include' });
+    const answerJson = await answer.json();
+    return answerJson;
+  } catch(err) {
+    if (!navigator.onLine) {
+      location.reload();
+    }
+  }
 }
 
 /**
@@ -94,8 +132,14 @@ export async function getLoggedProfileData() {
  */
 
 export async function logoutFunc() {
-  const answer = await fetch(urlMap.logout, { credentials: 'include' });
-  return answer;
+  try {
+    const answer = await fetch(urlMap.logout, { credentials: 'include' });
+    return answer;
+  } catch(err) {
+    if (!navigator.onLine) {
+      location.reload();
+    }
+  }
 }
 
 /**
@@ -105,16 +149,28 @@ export async function logoutFunc() {
  */
 
 export async function putAvatar(form: FormData) {
-  const answer = await fetch(urlMap.putAvatarUrl, {
-    method: 'PUT',
-    credentials: 'include',
-    body: form,
-  });
-  return answer;
+  try {
+    const answer = await fetch(urlMap.putAvatarUrl, {
+      method: 'PUT',
+      credentials: 'include',
+      body: form,
+    });
+    return answer;
+  } catch(err) {
+    if (!navigator.onLine) {
+      location.reload();
+    }
+  }
 }
 
 export async function getProfileDataById(id: Number) {
-  const answer = await fetch(`${urlMap.apiUrl}/profile/${id}`, { credentials: 'include' });
-  const answerJson = await answer.json();
-  return answerJson;
+  try {
+    const answer = await fetch(`${urlMap.apiUrl}/profile/${id}`, { credentials: 'include' });
+    const answerJson = await answer.json();
+    return answerJson;
+  } catch(err) {
+    if (!navigator.onLine) {
+      location.reload();
+    }
+  }
 }

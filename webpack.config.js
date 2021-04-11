@@ -5,16 +5,23 @@ const src = path.resolve(__dirname, 'src');
 const dist = path.resolve(__dirname, 'dist');
 
 module.exports = {
-  entry: path.join(src, 'index.ts'),
+  entry: {
+    app: path.join(src, 'index.ts'),
+    sw: path.join(src, 'sw.ts'),
+  },
   mode: 'development',
   output: {
-    filename: 'main.js',
+    filename: '[name].js',
     path: dist,
   },
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: path.join(src, 'index.html'),
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'fallback.html',
+      template: path.join(src, 'fallback.html'),
     }),
   ],
   resolve: {
@@ -25,6 +32,7 @@ module.exports = {
       Templates: path.join(src, 'templates'),
     },
   },
+
   module: {
     rules: [
       {

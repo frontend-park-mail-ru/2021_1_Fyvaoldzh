@@ -19,7 +19,9 @@ export const eventBus = new EventBus();
 
 export const globalStore = new Store(eventBus);
 
-
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js', { scope: '/' }).then(() => console.log('sw reg'));
+}
 
 const toViews = {
   globalStore,
@@ -134,5 +136,4 @@ interface registrationDataInterface {
   password: string;
   name: string;
 }
-
 

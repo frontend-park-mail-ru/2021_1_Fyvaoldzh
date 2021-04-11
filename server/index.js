@@ -11,8 +11,6 @@ const path = require('path');
 const srcDir = path.resolve(__dirname, '..', 'src');
 const distDir = path.resolve(__dirname, '..', 'dist');
 
-app.use('/src', express.static('src'));
-
 app.use(express.static(distDir));
 
 app.get('*', (req, res) => {
