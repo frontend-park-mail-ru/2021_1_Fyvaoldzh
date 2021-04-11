@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-return-assign */
-import {pageNames, channelNames, urlMap, SERVER_ERRORS} from '../../config/config.js';
+import {channelNames} from '../../config/config.js';
 import {addDeclensionOfNumbers, buttonToggleHandler} from '../utils/utils.js';
 import ProfilesBaseView from '../ProfilesBaseView/ProfilesBaseView.js';
 
@@ -49,6 +49,7 @@ export default class SearchView extends ProfilesBaseView {
   renderChangingContent() {
     const {currentTab} = this.globalStore.searchStore;
     const {searchData} = this.globalStore.searchStore;
+    const {searchResultUsers} = this.globalStore.searchStore;
     const changingContent = document.getElementById('changing-content');
 
     switch (currentTab) {
@@ -59,7 +60,7 @@ export default class SearchView extends ProfilesBaseView {
 
       case 'usersTab':
         changingContent.innerHTML = searchUsersTabTemplate();
-        this.renderUsersList([]);
+        this.renderUsersList(searchResultUsers);
         break;
 
       default:
@@ -116,7 +117,7 @@ export default class SearchView extends ProfilesBaseView {
   }
 
   renderUsersList = users => {
-    const usersList = document.getElementById('events-list');
+    const usersList = document.getElementById('users-list');
     let resultHTML = '';
     if (!users.length) {
       const nothingRow = document.createElement('div');
@@ -139,6 +140,11 @@ export default class SearchView extends ProfilesBaseView {
       resultHTML = externalElement.innerHTML;
     } else {
       users.forEach(user => {
+        user.age += addDeclensionOfNumbers(user.age, ['год', 'года', 'лет']);
+        user.followers += addDeclensionOfNumbers(user.followers, ['подписчик', 'подписчика', 'подписчиков']);
+        if (!user.city) {
+          user.city = 'Хзвиль';
+        }
         resultHTML += oneUserBlockTemplate(user);
       });
     }

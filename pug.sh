@@ -15,5 +15,6 @@
 (pug -c -E tmpl -n searchTemplate public/templates/search/search.pug)
 (pug -c -E tmpl -n searchEventsTabTemplate public/templates/search-events-tab/search-events-tab.pug)
 (pug -c -E tmpl -n searchUsersTabTemplate public/templates/search-users-tab/search-users-tab.pug)
+(pug -c -E tmpl -n oneUserBlockTemplate public/templates/one-user-block/one-user-block.pug)
 (pug -c -E tmpl -n errorLoginTemplate public/templates/login/error-login.pug)
 (pug -c -E tmpl -n errorSignupTemplate public/templates/signup/errorSignup.pug)

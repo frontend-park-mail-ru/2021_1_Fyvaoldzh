@@ -96,7 +96,7 @@ body.addEventListener('click', async e => {
         break;
 
       case 'oneProfile':
-        actions.updateOneProfile();
+        actions.updateOneProfile(target.id);
         break;
 
       case 'search':

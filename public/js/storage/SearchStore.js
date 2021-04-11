@@ -2,7 +2,7 @@ import {getProfileById, getEventById} from '../networkModule/network.js';
 
 import {channelNames, searchButton, searchTab} from '../config/config.js';
 
-const searchDataSymbol = Symbol('SearchData');
+const searchDataSymbol = Symbol('SearchDataSymbol');
 const currentEventsButtonSymbol = Symbol('CurrentEventsButtonSymbol');
 const currentTabSymbol = Symbol('CurrentTabSymbol');
 const globalStoreSymbol = Symbol('globalStoreSymbol');
@@ -12,7 +12,7 @@ const searchResultUsersSymbol = Symbol('searchResultUsersSymbol');
 export default class searchStore {
   constructor(globalStore) {
     this[globalStoreSymbol] = globalStore;
-    this[searchDataSymbol] = 'Музей';
+    this[searchDataSymbol] = '';
     this[currentEventsButtonSymbol] = searchButton.exhibition;
     this[currentTabSymbol] = searchTab.events;
     this[searchResultEventsSymbol] = [];
@@ -48,7 +48,7 @@ export default class searchStore {
   }
 
   async update(action) {
-    this[searchDataSymbol] = action.data;
+    // this[searchDataSymbol] = action.data;
     this[currentEventsButtonSymbol] = searchButton.exhibition;
     this[currentTabSymbol] = searchTab.events;
     await this.updateResults();
@@ -77,8 +77,7 @@ export default class searchStore {
 
     for (let i = 124; i < 129; ++i) {
       const eventJson = await getEventById(i);
-      console.log(eventJson);
-      if (eventJson !== {} && eventJson.title.includes('Музей')) {
+      if (eventJson.title && eventJson.title.includes(this.searchData)) {
         this.searchResultEvents.push(eventJson);
       }
     }
