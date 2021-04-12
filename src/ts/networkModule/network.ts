@@ -1,13 +1,35 @@
 import { urlMap } from '../config/config';
 
+function getCsrf() {
+  const name = '_csrf';
+  const matches = document.cookie.match(new RegExp(
+    '(?:^|\s)' + name.replace(/([.$?*+\\\/{}|()\[\]^])/g, '\\$1') + '=(.*?)(?:;|$)'
+));
+  return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
+
 /**
  * Функция для получения ивентов
  * @return {json} - возвращает массив json-ов
  */
 
-export async function getAllEventsJson() {
+export async function getAllEventsJson(page?: number, category?: string) {
+  if (!page) {
+    page = 1;
+  }
+
+  if (!category) {
+    category='';
+  }
+
   try {
-    const answer = await fetch(urlMap.allEventsUrl);
+    const answer = await fetch(`${urlMap.allEventsUrl}?page=${page}&category=${category}`, {
+      credentials: 'include',
+      headers: {
+        'Cache-Control': 'no-cache'
+      }
+    });
     const jsonFile = await answer.json();
     return jsonFile;
   } catch(err) {
@@ -41,13 +63,18 @@ export async function getEventById(id: number) {
  * @return {Response} answer - ответ
  */
 
+
 export async function postRegistrationData(toPost: object) {
+  const csrf = getCsrf();
+
+  console.log(csrf);
   try {
     const answer = await fetch(urlMap.postRegistrationDataUrl, {
       method: 'POST',
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
+        'X-XSRF-TOKEN': csrf,
       },
       body: JSON.stringify(toPost),
     });
@@ -66,12 +93,14 @@ export async function postRegistrationData(toPost: object) {
  */
 
 export async function postLoginData(data: object) {
+  const csrf = getCsrf();
   try {
     const answer = await fetch(urlMap.postLoginDataUrl, {
       method: 'POST',
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
+        'X-XSRF-TOKEN': csrf,
       },
       body: JSON.stringify(data),
     });
@@ -91,12 +120,14 @@ export async function postLoginData(data: object) {
  */
 
 export async function postProfileData(data: object) {
+  const csrf = getCsrf();
   try {
     const answer = await fetch(urlMap.currentProfileUrl, {
       method: 'PUT',
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
+        'X-XSRF-TOKEN': csrf,
       },
       body: JSON.stringify(data),
     });
@@ -149,10 +180,14 @@ export async function logoutFunc() {
  */
 
 export async function putAvatar(form: FormData) {
+  const csrf = getCsrf();
   try {
     const answer = await fetch(urlMap.putAvatarUrl, {
       method: 'PUT',
       credentials: 'include',
+      headers: {
+        'X-XSRF-TOKEN': csrf,
+      },
       body: form,
     });
     return answer;

@@ -98,4 +98,11 @@ export default class Actions {
       data: id,
     });
   }
+
+  uploadEventsContent() {
+    this.dispatcher.dispatch({
+      eventName: 'events/uploadEventsContent',
+      data: null,
+    });
+  }
 }

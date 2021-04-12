@@ -59,8 +59,6 @@ export default class UserView {
   }
 
   renderLoggedNavbar() {
-    window.scroll(0, 0);
-
     const navbar = document.getElementById('navbar');
     const profileData = this.globalStore.userStore.userData;
 
@@ -154,7 +152,6 @@ export default class UserView {
       return;
     }
 
-    window.scroll(0, 0);
     const { userData } = this.globalStore.userStore;
 
     const wrapper = document.getElementById('wrapper');

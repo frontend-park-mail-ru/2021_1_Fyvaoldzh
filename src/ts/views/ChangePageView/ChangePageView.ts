@@ -54,50 +54,52 @@ export default class ChangePageView {
 
     switch (state.page) {
       case routes.login:
+        window.scroll(0, 0);
         this.renderLoginPage();
         break;
 
       case routes.signup:
+        window.scroll(0, 0);
         this.renderSignUp();
         break
 
       case routes.profile:
+        window.scroll(0, 0);
+        console.log('dawawdda');
         this.userView.renderMyProfilePage(state.parameter);
         break;
 
       case routes.main:
+        window.scroll(0, 0);
         this.eventsView.renderEvents();
         break;
 
       case routes.events:
+        window.scroll(0, 0);
         this.eventsView.renderEvents();
         break;
     }
   }
 
   renderSignUp() {
-    window.scroll(0, 0);
     this.wrapper.style.background = 'url("components/img/form-background.jpg") no-repeat top / cover';
     this.wrapper.innerHTML = '';
     this.wrapper.innerHTML = signUpFormTemplate({});
   }
 
   renderLoginPage() {
-    window.scroll(0, 0);
     this.wrapper.style.background = 'url("components/img/form-background.jpg") no-repeat top / cover';
     this.wrapper.innerHTML = '';
     this.wrapper.innerHTML = loginTemplate({});
   }
 
   renderLogout() {
-    window.scroll(0, 0);
     this.navbar.innerHTML = '';
     this.navbar.innerHTML = navbarTemplate({});
     this.actions.routerChangePage('/events');
   }
 
   renderNavbar() {
-    window.scroll(0, 0);
     this.navbar.innerHTML = '';
     this.navbar.innerHTML = navbarTemplate({});
   }
@@ -124,32 +126,35 @@ export default class ChangePageView {
       this.actions.updateSomeUser(Number(currentUrl.pathname.substr(8)));
       return;
     }
-
+    
     switch (currentUrl.pathname) {
       case routes.events:
+        window.scroll(0, 0);
         this.actions.updateEvents();
         break;
 
       case routes.main:
+        window.scroll(0, 0);
         this.actions.updateEvents();
         break;
 
       case routes.profile:
+        window.scroll(0, 0);
         this.actions.updateUser();
         break;
 
       case routes.signup:
+        window.scroll(0, 0);
         if (userData) {
-          alert('ухади'); // Затычка
-          this.actions.routerChangePage(routes.events); // Редирект пока на эвенты
+          this.actions.routerChangePage(routes.events); // Редирект
           return;
         }
         this.renderSignUp();
         break;
 
       case routes.login:
+        window.scroll(0, 0);
         if (userData) { // Если юзер уже зашел, но пытается зайти на страницу логина/регистрации.
-          alert('аташел'); // Затычка
           this.actions.routerChangePage(routes.events); // Редирект пока на эвенты
           return;
         }
@@ -157,6 +162,7 @@ export default class ChangePageView {
         break;
 
       case routes.logout:
+        window.scroll(0, 0);
         this.renderLogout();
         break;
 

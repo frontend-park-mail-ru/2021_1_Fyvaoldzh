@@ -25,7 +25,7 @@ if ('serviceWorker' in navigator) {
 
 dispatcher.register(globalStore.reducer.bind(globalStore));
 
-const eventsView = new EventsView(globalStore);
+const eventsView = new EventsView(globalStore, actions);
 
 const userView = new UserView(globalStore, actions);
 

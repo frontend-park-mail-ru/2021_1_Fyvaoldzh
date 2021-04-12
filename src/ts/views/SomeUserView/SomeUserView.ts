@@ -19,7 +19,6 @@ export default class SomeUserView {
   }
 
   renderSomeUser() {
-    window.scroll(0, 0);
     const { someUserData } = this.globalStore.someUserStore;
     this.wrapper.innerHTML = profileTemplate(someUserData);
 
