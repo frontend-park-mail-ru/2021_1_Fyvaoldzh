@@ -68,7 +68,7 @@ export async function getRecommendEvents(page?: number) {
 
 export async function getEventById(id: number) {
   try {
-    const answer = await fetch(urlMap.oneEventUrl + id);
+    const answer = await fetch(urlMap.oneEventUrl + id, { credentials: 'include' });
     const jsonFile = await answer.json();
     return jsonFile;
   } catch(err) {
@@ -204,7 +204,7 @@ export async function putAvatar(form: FormData) {
   const csrf = getCsrf();
   try {
     const answer = await fetch(urlMap.putAvatarUrl, {
-      method: 'PUT',
+      method: 'POST',
       credentials: 'include',
       headers: {
         'X-XSRF-TOKEN': csrf,
