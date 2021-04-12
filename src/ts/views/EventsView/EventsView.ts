@@ -2,12 +2,7 @@ import { channelNames } from '../../config/config';
 import EventComponent from './EventComponent';
 import Store from "../../storage/store";
 import Actions from "../../actions/actions";
-
 const upperTextTemplate = require('Templates/events/upper-text.pug');
-
-function timeout(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
 
 export default class EventsView {
   public globalStore: Store;
@@ -25,6 +20,8 @@ export default class EventsView {
       return;
     }
     */
+    document.getElementById('wrapper').style.background = '../../../components/img/form-background.jpg';
+
     const eventsJson = this.globalStore.eventsStore.allEvents;
     this.wrapper.innerHTML = '';
     this.wrapper.style.background = 'url("templates/events/img/events-background.jpg") no-repeat';
@@ -37,10 +34,11 @@ export default class EventsView {
       innerEvent.render();
     });
 
+    this.renderCategoryButtons();
     window.addEventListener('scroll', this.infinityScroll.bind(this));
   }
 
-  async infinityScroll() {
+  infinityScroll() {
     const eventsRow = document.getElementById('events-row');
 
     const contentHeight = eventsRow.offsetHeight;
@@ -51,6 +49,32 @@ export default class EventsView {
     if (windowOffsetY + windowHeight > contentHeight) {
       this.actions.uploadEventsContent();
     }
+  }
+
+  renderCategoryButtons() {
+    if (!this.globalStore.userStore.userData) {
+      document.getElementById('jsRecommendButton').style.display = 'none';
+    }
+    const categoryButtons = document.getElementsByClassName('category-button');
+    Object.entries(categoryButtons).forEach(([key, val]:any) => {
+      val.addEventListener('click', this.categoryButtonHandler.bind(this))
+      if (val.dataset.category === this.globalStore.eventsStore.eventCategory) {
+        this.toggleButton(val);
+      }
+    });
+  }
+
+  categoryButtonHandler(ev: MouseEvent) {
+    const { target } = ev;
+    if (target instanceof HTMLButtonElement && target.classList.contains('button-inactive')) {
+      this.toggleButton(target);
+      this.actions.changeEventCategory(target.dataset.category);
+    }
+  }
+
+  toggleButton(button: HTMLButtonElement) {
+    button.classList.toggle('button-inactive');
+    button.classList.toggle('button-active');
   }
 
   subscribeViews() {

@@ -105,4 +105,25 @@ export default class Actions {
       data: null,
     });
   }
+
+  changeEventCategory(category: string) {
+    this.dispatcher.dispatch({
+      eventName: 'events/changeCategory',
+      data: category,
+    });
+  }
+
+  addPlanningEvent(id: number) {
+    this.dispatcher.dispatch({
+      eventName: 'oneEvent/add',
+      data: id,
+    });
+  }
+
+  removePlanningEvent(id: number) {
+    this.dispatcher.dispatch({
+      eventName: 'oneEvent/remove',
+      data: id,
+    });
+  }
 }

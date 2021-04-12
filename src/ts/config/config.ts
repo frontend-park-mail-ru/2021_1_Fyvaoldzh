@@ -1,14 +1,20 @@
+const baseApi = 'http://95.163.180.8:1323';
+
 export const urlMap = {
-  allEventsUrl: 'http://95.163.180.8:1323/api/v1/',
-  oneEventUrl: 'http://95.163.180.8:1323/api/v1/event/',
-  postLoginDataUrl: 'http://95.163.180.8:1323/api/v1/login',
-  postRegistrationDataUrl: 'http://95.163.180.8:1323/api/v1/register',
-  currentProfileUrl: 'http://95.163.180.8:1323/api/v1/profile',
-  logout: 'http://95.163.180.8:1323/api/v1/logout',
-  putAvatarUrl: 'http://95.163.180.8:1323/api/v1/upload_avatar',
-  imgUrl: 'http://95.163.180.8:1323/api/v1/avatar/',
-  imgEventUrl: 'http://95.163.180.8:1323/api/v1/event/',
-  apiUrl: 'http://95.163.180.8:1323/api/v1',
+  allEventsUrl: `${baseApi}/api/v1/event`,
+  oneEventUrl: `${baseApi}/api/v1/event/`,
+  postLoginDataUrl: `${baseApi}/api/v1/login`,
+  postRegistrationDataUrl: `${baseApi}/api/v1/register`,
+  currentProfileUrl: `${baseApi}/api/v1/profile`,
+  logout: `${baseApi}/api/v1/logout`,
+  putAvatarUrl: `${baseApi}/api/v1/upload_avatar`,
+  imgUrl: `${baseApi}/api/v1/avatar`,
+  imgEventUrl: `${baseApi}/api/v1/event`,
+  apiUrl: `${baseApi}/api/v1`,
+  recommendationsEventsUrl: `${baseApi}/api/v1/recomend`,
+  addPlanningEventUrl: `${baseApi}/api/v1/add/planning`,
+  removePlanningEventUrl: `${baseApi}/api/v1/remove/planning`,
+  checkPlanningEventUrl: `${baseApi}/api/v1/event/is_added`,
 };
 
 export const SERVER_ERRORS = {

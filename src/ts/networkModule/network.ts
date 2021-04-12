@@ -39,6 +39,27 @@ export async function getAllEventsJson(page?: number, category?: string) {
   }
 }
 
+export async function getRecommendEvents(page?: number) {
+  if (!page) {
+    page = 1;
+  }
+
+  try {
+    const answer = await fetch(`${urlMap.recommendationsEventsUrl}?page=${page}`, {
+      credentials: 'include',
+      headers: {
+        'Cache-Control': 'no-cache'
+      }
+    });
+    const jsonFile = await answer.json();
+    return jsonFile;
+  } catch(err) {
+    if (!navigator.onLine) {
+      location.reload();
+    }
+  }
+}
+
 /**
  * Функция для получения ивента по id
  * @param {uint64} id - форма для валидации
@@ -198,9 +219,64 @@ export async function putAvatar(form: FormData) {
   }
 }
 
-export async function getProfileDataById(id: Number) {
+export async function getProfileDataById(id: number) {
   try {
     const answer = await fetch(`${urlMap.apiUrl}/profile/${id}`, { credentials: 'include' });
+    const answerJson = await answer.json();
+    return answerJson;
+  } catch(err) {
+    if (!navigator.onLine) {
+      location.reload();
+    }
+  }
+}
+
+export async function addPlanning(id: number) {
+  const csrf = getCsrf();
+  try {
+    const answer = await fetch(`${urlMap.addPlanningEventUrl}/${id}`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'X-XSRF-TOKEN': csrf,
+      },
+    });
+    return answer;
+  } catch(err) {
+    if (!navigator.onLine) {
+      location.reload();
+    }
+  }
+}
+
+export async function removePlanning(id: number) {
+  const csrf = getCsrf();
+  try {
+    const answer = await fetch(`${urlMap.removePlanningEventUrl}/${id}`, {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: {
+        'X-XSRF-TOKEN': csrf,
+      },
+    });
+    return answer;
+  } catch(err) {
+    if (!navigator.onLine) {
+      location.reload();
+    }
+  }
+}
+
+export async function checkPlanningEvent(id: number) {
+  const csrf = getCsrf();
+  try {
+    const answer = await fetch(`${urlMap.checkPlanningEventUrl}/${id}`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'X-XSRF-TOKEN': csrf,
+      },
+    });
     const answerJson = await answer.json();
     return answerJson;
   } catch(err) {

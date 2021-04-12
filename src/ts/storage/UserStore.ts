@@ -136,7 +136,6 @@ export default class UserStore {
   }
 
   avatarPreview(action: ActionsInterface) {
-
     this.avatarPreviewUrl = <string><unknown>action.data;
     this.globalStore.eventBus.publish(channelNames.avatarPreview);
   }

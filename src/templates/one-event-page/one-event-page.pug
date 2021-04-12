@@ -2,7 +2,7 @@
   .container
     .left-row
       .event-description
-        .event-description__star
+        button.event-description__star_inactive(id='jsEventStar')
         .event-description__title
           | #{title}
         .decor-line
@@ -34,13 +34,3 @@
         .underground-text
           | #{subway}
       .geolocation-image
-      .decor-line
-  .reviews-block
-    .container
-      .title Отзывы
-      .rewiew-form
-        .center-row
-          .rate-stars
-          textarea(name='rewiew-text' placeholder='Начните писать отзыв')
-          button.confirm-rewiew-button
-            span.button-label Отправить

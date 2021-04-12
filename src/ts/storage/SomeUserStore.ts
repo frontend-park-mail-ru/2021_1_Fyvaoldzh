@@ -14,7 +14,7 @@ export default class SomeUserStore {
   }
 
   async update(action: ActionsInterface) {
-    this.someUserData = await getProfileDataById(<Number>action.data);
+    this.someUserData = await getProfileDataById(<number>action.data);
 
     this.globalStore.eventBus.publish(channelNames.someUserUpdated);
   }

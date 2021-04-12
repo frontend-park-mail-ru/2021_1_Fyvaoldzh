@@ -31,6 +31,6 @@ export default class EventComponent {
     this.parent.insertAdjacentHTML('beforeend', template)
     const eventGet = document.getElementById(<string><unknown>this.data.id);
 
-    eventGet.style.background = `url(${urlMap.imgEventUrl + this.data.id}/image) no-repeat top / cover`;
+    eventGet.style.background = `url(${urlMap.imgEventUrl}/${this.data.id}/image) no-repeat top / cover`;
   }
 }

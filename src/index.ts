@@ -1,5 +1,4 @@
 import './css/style.scss';
-import './templates/templates.js';
 
 import Dispatcher from './ts/dispatcher/dispatcher';
 import Actions from './ts/actions/actions';
@@ -29,7 +28,7 @@ const eventsView = new EventsView(globalStore, actions);
 
 const userView = new UserView(globalStore, actions);
 
-const oneEventView = new OneEventView(globalStore);
+const oneEventView = new OneEventView(globalStore, actions);
 
 const changePageView = new ChangePageView(globalStore, actions, userView, eventsView, oneEventView);
 

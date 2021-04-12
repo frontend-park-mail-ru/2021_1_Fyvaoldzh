@@ -1,4 +1,4 @@
-import { getAllEventsJson } from '../networkModule/network';
+import {getAllEventsJson, getRecommendEvents} from '../networkModule/network';
 import { channelNames } from '../config/config';
 import { ActionsInterface } from "../interfaces";
 
@@ -11,12 +11,16 @@ export default class EventsStore {
   public allEvents: object;
   public pageNumber: number;
   public updatingEvents: boolean;
+  public eventCategory: string;
+  public endOfPage: boolean;
 
   constructor(globalStore: any) {
     this.globalStore = globalStore;
     this.allEvents = {};
     this.pageNumber = 1;
     this.updatingEvents = false;
+    this.eventCategory = '';
+    this.endOfPage = false;
   }
 
   async update() {
@@ -25,12 +29,30 @@ export default class EventsStore {
   }
 
   async uploadEventsContent() {
-    if (this.updatingEvents) {
+    if (this.updatingEvents || this.endOfPage) {
       return;
     }
     this.updatingEvents = true;
     ++this.pageNumber;
-    const newEvents = await getAllEventsJson(this.pageNumber);
+
+    if (this.eventCategory === 'Рекомендации') {
+
+    }
+
+    let newEvents;
+    if (this.eventCategory === 'Рекомендации') {
+      newEvents = await getRecommendEvents(this.pageNumber);
+    } else {
+      newEvents = await getAllEventsJson(this.pageNumber, this.eventCategory);
+    }
+
+    if (newEvents?.length < 6) {
+      this.endOfPage = true;
+    }
+
+    if (!newEvents) {
+      return;
+    }
 
     const resultEvents = Array.prototype.concat(this.allEvents, newEvents);
 
@@ -38,6 +60,20 @@ export default class EventsStore {
     this.globalStore.eventBus.publish(channelNames.eventsUpdated);
     await timeout(3);
     this.updatingEvents = false;
+  }
+
+  async changeCategory(action: ActionsInterface) {
+    this.eventCategory = action.data;
+    this.pageNumber = 1;
+    this.endOfPage = false;
+
+    if (this.eventCategory === 'Рекомендации') {
+      this.allEvents = await getRecommendEvents(this.pageNumber);
+    } else {
+      this.allEvents = await getAllEventsJson(this.pageNumber, this.eventCategory);
+    }
+
+    this.globalStore.eventBus.publish(channelNames.eventsUpdated);
   }
 
   reducer(action: ActionsInterface) {
@@ -48,6 +84,11 @@ export default class EventsStore {
 
       case 'events/uploadEventsContent':
         this.uploadEventsContent();
+        break;
+
+      case 'events/changeCategory':
+        this.changeCategory(action);
+        break;
 
       default:
         break;

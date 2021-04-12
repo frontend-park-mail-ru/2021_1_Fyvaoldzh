@@ -12,11 +12,15 @@
       .title
         | Находите события
         .right-arrow
-      .left-row
-        button.button-active
-          span.button-label Концерты
-        button.button-inactive
-          span.button-label_inactive Выставки
-        button.button-inactive
-          span.button-label_inactive Кино
+      .left-row.category-buttons-row
+        button.button-inactive.category-button(data-category='')
+          | Все
+        button.button-inactive.category-button(data-category='Выставка')
+          | Выставки
+        button.button-inactive.category-button(data-category='Кино')
+          | Кино
+        button.button-inactive.category-button(data-category='Музей')
+          | Музеи
+        button.button-inactive.category-button(data-category='Рекомендации', id='jsRecommendButton')
+          | Рекомендации
       #events-row(class="center-row")

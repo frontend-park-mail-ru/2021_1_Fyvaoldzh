@@ -117,16 +117,18 @@ export default class ChangePageView {
     const { currentUrl } = this.globalStore.routerStore;
     const { userData } = this.globalStore.userStore;
 
-    if (currentUrl.pathname.includes('event') && currentUrl.pathname !== routes.events) { // Заменить на регулярку
+    if (currentUrl.pathname.includes('event') && currentUrl.pathname !== routes.events) {
+      window.scroll(0, 0);
       this.actions.eventPage(Number(currentUrl.pathname.substr(6)));
       return;
     }
 
-    if (currentUrl.pathname.includes('profile') && currentUrl.pathname !== routes.profile) { // Заменить на регулярку
+    if (currentUrl.pathname.includes('profile') && currentUrl.pathname !== routes.profile) {
+      window.scroll(0, 0);
       this.actions.updateSomeUser(Number(currentUrl.pathname.substr(8)));
       return;
     }
-    
+
     switch (currentUrl.pathname) {
       case routes.events:
         window.scroll(0, 0);
