@@ -3,6 +3,12 @@ import Store from "../../storage/store";
 import Actions from "../../actions/actions";
 
 const oneEventPageTemplate = require('Templates/one-event-page/one-event-page.pug');
+const oneTagTemplate = require('Templates/one-event-page/tagTemplate.pug');
+
+interface tagInterface {
+  id: number;
+  name: string;
+}
 
 export default class OneEventView {
   public globalStore: Store;
@@ -28,10 +34,19 @@ export default class OneEventView {
       document.getElementById('jsEventStar').style.display = 'none';
     }
 
+    this.renderTags();
+
     if (this.globalStore.oneEventStore.isPlanning) {
       eventStar.classList.add('event-description__star_active');
       eventStar.classList.remove('event-description__star_inactive');
     }
+  }
+
+  renderTags() {
+    const tags = this.globalStore.oneEventStore.oneEventData.tags;
+    const tagsRow = document.getElementById('jsTagsRow');
+
+    tags.forEach((tag: tagInterface) => tagsRow.insertAdjacentHTML('beforeend', oneTagTemplate({name: tag.name})));
   }
 
   starHandler(ev: MouseEvent) {
