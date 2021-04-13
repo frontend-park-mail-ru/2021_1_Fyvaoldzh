@@ -1,39 +1,24 @@
-'use strict';
-
 /**
  * приложение на экспресс
  * nmp i - установка пакетов
  */
 
-const express = require('express')
+const express = require('express');
 
-const app = express()
+const app = express();
 const path = require('path');
 
-app.use(express.static(path.resolve(__dirname, '..', 'public')));
+const srcDir = path.resolve(__dirname, '..', 'src');
+const distDir = path.resolve(__dirname, '..', 'dist');
 
-app.get('/', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '..', 'public/index.html'));
-})
+app.use(express.static(distDir));
 
-app.get('/login', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '..', 'public/login.html'));
-})
-
-app.get('/signup', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '..', 'public/signup.html'));
-})
-
-app.get('/events', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '..', 'public/index.html'));
-})
-
-app.get('/event', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '..', 'public/one-event.html'));
-})
+app.get('*', (req, res) => {
+  res.sendFile(`${distDir}/index.html`);
+});
 
 const port = process.env.PORT || 3000;
 
-app.listen(port, function () {
+app.listen(port, () => {
   console.log(`Server listening port ${port}`);
 });
