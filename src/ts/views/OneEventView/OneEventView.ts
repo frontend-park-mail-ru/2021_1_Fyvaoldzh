@@ -29,8 +29,9 @@ export default class OneEventView {
     }
 
     if (this.globalStore.oneEventStore.isPlanning) {
-      eventStar.classList.remove('event-description__star_inactive');
+      console.log('im alive');
       eventStar.classList.add('event-description__star_active');
+      eventStar.classList.remove('event-description__star_inactive');
     }
   }
 
