@@ -44,12 +44,10 @@ export default class OneEventStore {
 
   async add(action: ActionsInterface) {
     await addPlanning(action.data);
-    this.globalStore.eventBus.publish(channelNames.eventCome);
   }
 
   async remove(action: ActionsInterface) {
     await removePlanning(action.data);
-    this.globalStore.eventBus.publish(channelNames.eventCome);
   }
 
   reducer(action: ActionsInterface) {
