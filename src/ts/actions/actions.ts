@@ -84,7 +84,6 @@ export default class Actions {
     });
   }
 
-<<<<<<< HEAD:src/ts/actions/actions.ts
   routerChangePage(page: string) {
     this.dispatcher.dispatch({
       eventName: 'router/changePage',
@@ -124,40 +123,6 @@ export default class Actions {
     this.dispatcher.dispatch({
       eventName: 'oneEvent/remove',
       data: id,
-=======
-  updateUserEvents() {
-    this.dispatcher.dispatch({
-      eventName: 'user/updateEvents',
-      data: null,
-    });
-  }
-
-  changeUserEventsButton(buttonId) {
-    this.dispatcher.dispatch({
-      eventName: 'user/changeEventsButton',
-      data: buttonId,
-    });
-  }
-
-  updateOneProfile(id) {
-    this.dispatcher.dispatch({
-      eventName: 'oneProfile/update',
-      data: id,
-    });
-  }
-
-  updateOneProfileEvents() {
-    this.dispatcher.dispatch({
-      eventName: 'oneProfile/updateEvents',
-      data: null,
-    });
-  }
-
-  changeOneProfileEventsButton(buttonId) {
-    this.dispatcher.dispatch({
-      eventName: 'oneProfile/changeEventsButton',
-      data: buttonId,
->>>>>>> origin/dev:public/js/actions/actions.js
     });
   }
 }

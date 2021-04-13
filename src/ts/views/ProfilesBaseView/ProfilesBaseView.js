@@ -1,7 +1,3 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-return-assign */
-
 export default class ProfilesBaseView {
   constructor() {}
 

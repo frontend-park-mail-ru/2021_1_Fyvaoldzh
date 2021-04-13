@@ -1,6 +1,3 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-return-assign */
 import {pageNames, channelNames, urlMap, SERVER_ERRORS} from '../../config/config.js';
 import {addDeclensionOfNumbers, buttonToggleHandler} from '../utils/utils.js';
 import ProfilesBaseView from '../ProfilesBaseView/ProfilesBaseView.js';
