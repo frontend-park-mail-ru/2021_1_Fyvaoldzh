@@ -1,9 +1,9 @@
 import {
-  channelNames, urlMap, SERVER_ERRORS, routes, profileTab,
+  ChannelNames, urlMap, SERVER_ERRORS, routes,
 } from '../../config/config';
 import INPUTS from '../../validationModule/validation';
-import Store from "../../storage/store";
-import Actions from "../../actions/actions";
+import Store from '../../storage/store';
+import Actions from '../../actions/actions';
 
 const navbarLoggedTemplate = require('Components/navbar/navbar-logged.pug');
 const myProfileTemplate = require('Templates/my-profile/my-profile.pug');
@@ -11,7 +11,7 @@ const myProfileAboutTabTemplate = require('Templates/my-profile-about-tab/my-pro
 const myProfileSettingsTabTemplate = require('Templates/my-profile-settings-tab/my-profile-settings-tab.pug');
 const myProfileEventsTabTemplate = require('Templates/my-profile-events-tab/my-profile-events-tab.pug');
 
-interface postUserDataInterface {
+interface PostUserDataInterface {
   name?: string;
   city?: string;
   about?: string;
@@ -35,6 +35,7 @@ interface HTMLInputEvent extends Event {
 
 export default class UserView {
   public globalStore: Store;
+
   public actions: Actions;
 
   constructor(globalStore: Store, actions: Actions) {
@@ -46,7 +47,7 @@ export default class UserView {
     const file = e.target.files[0];
     // Только изображения.
     if (!file.type.match('image.*')) {
-      alert('Image only please....'); // TODO переделать алерт, добавить поле ошибки под аватарку.
+      // TODO переделать алерт, добавить поле ошибки под аватарку.
       return;
     }
     const reader = new FileReader();
@@ -180,7 +181,6 @@ export default class UserView {
 
     const { userData } = this.globalStore.userStore;
 
-
     const changingContent = document.getElementById('changing-content');
     switch (currentTab) {
       case 'aboutTab':
@@ -235,13 +235,13 @@ export default class UserView {
   }
 
   subscribeViews() {
-    this.globalStore.eventBus.subscribe(channelNames.errorValidation, this.renderValidationErrors.bind(this));
-    this.globalStore.eventBus.subscribe(channelNames.userUpdated, this.renderLoggedNavbar.bind(this));
-    this.globalStore.eventBus.subscribe(channelNames.userUpdated, this.renderMyProfilePage.bind(this));
-    this.globalStore.eventBus.subscribe(channelNames.tabChanged, this.renderChangingContent.bind(this));
-    this.globalStore.eventBus.subscribe(channelNames.avatarPreview, this.renderPreviewAvatar.bind(this));
-    this.globalStore.eventBus.subscribe(channelNames.avatarDeclined, this.renderUnPreviewAvatar.bind(this));
-    this.globalStore.eventBus.subscribe(channelNames.avatarPushed, this.renderAvatarPushed.bind(this));
+    this.globalStore.eventBus.subscribe(ChannelNames.errorValidation, this.renderValidationErrors.bind(this));
+    this.globalStore.eventBus.subscribe(ChannelNames.userUpdated, this.renderLoggedNavbar.bind(this));
+    this.globalStore.eventBus.subscribe(ChannelNames.userUpdated, this.renderMyProfilePage.bind(this));
+    this.globalStore.eventBus.subscribe(ChannelNames.tabChanged, this.renderChangingContent.bind(this));
+    this.globalStore.eventBus.subscribe(ChannelNames.avatarPreview, this.renderPreviewAvatar.bind(this));
+    this.globalStore.eventBus.subscribe(ChannelNames.avatarDeclined, this.renderUnPreviewAvatar.bind(this));
+    this.globalStore.eventBus.subscribe(ChannelNames.avatarPushed, this.renderAvatarPushed.bind(this));
   }
 
   buttonToggleHandler(e: MouseEvent) {
@@ -268,7 +268,7 @@ export default class UserView {
     const formBody = <HTMLFormElement>document.getElementById('jsFormBody');
     const dataFromForm = new FormData(formBody);
 
-    let dataToPost: postUserDataInterface = {};
+    const dataToPost: PostUserDataInterface = {};
 
     const newName = <string>dataFromForm.get('name');
     if (newName !== this.globalStore.userStore.userData.name) {
@@ -298,5 +298,3 @@ export default class UserView {
     this.actions.postProfileForm(dataToPost);
   }
 }
-
-

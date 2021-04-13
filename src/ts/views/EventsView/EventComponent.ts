@@ -2,7 +2,7 @@ import { urlMap } from '../../config/config';
 
 const oneTableEventTemplate = require('Templates/events/one-table-event.pug');
 
-interface eventComponentInterface {
+interface EventComponentInterface {
   id: number;
   title: string;
   place: string;
@@ -15,11 +15,12 @@ interface eventComponentInterface {
 
 export default class EventComponent {
   public parent: HTMLElement;
-  public data: eventComponentInterface;
+
+  public data: EventComponentInterface;
 
   constructor(
     parent = document.body,
-    data: eventComponentInterface,
+    data: EventComponentInterface,
   ) {
     this.parent = parent;
     this.data = data;
@@ -28,8 +29,8 @@ export default class EventComponent {
   render() {
     const template = oneTableEventTemplate(this.data);
 
-    this.parent.insertAdjacentHTML('beforeend', template)
-    const eventGet = document.getElementById(<string><unknown>this.data.id);
+    this.parent.insertAdjacentHTML('beforeend', template);
+    const eventGet = document.getElementById(<string><unknown> this.data.id);
 
     eventGet.style.background = `url(${urlMap.imgEventUrl}/${this.data.id}/image) no-repeat top / cover`;
   }

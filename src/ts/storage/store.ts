@@ -3,15 +3,20 @@ import EventsStore from './EventsStore';
 import OneEventStore from './OneEventStore';
 import RouterStore from './RouterStore';
 import SomeUserStore from './SomeUserStore';
-import EventBus from "../eventBus/eventBus";
-import { ActionsInterface } from "../interfaces";
+import EventBus from '../eventBus/eventBus';
+import { ActionsInterface } from '../interfaces';
 
 export default class Store {
   public eventBus: EventBus;
+
   public userStore: UserStore;
+
   public eventsStore: EventsStore;
+
   public oneEventStore: OneEventStore;
+
   public routerStore: RouterStore;
+
   public someUserStore: SomeUserStore;
 
   constructor(eventBus: EventBus) {

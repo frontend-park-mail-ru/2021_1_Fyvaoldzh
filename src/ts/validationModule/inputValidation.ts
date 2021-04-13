@@ -2,8 +2,8 @@ import INPUTS from './validation';
 
 /**
  * Функция для валидации форм
- * @param {Object} form - объект с полями для валидации
  * @return {boolean}
+ * @param formDataObject
  */
 
 const validation = (formDataObject: object) => {

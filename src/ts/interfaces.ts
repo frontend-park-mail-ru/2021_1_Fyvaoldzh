@@ -3,7 +3,7 @@ export interface ActionsInterface {
   data: any,
 }
 
-export interface historyState {
+export interface HistoryState {
   page: string;
   parameter: string;
 }

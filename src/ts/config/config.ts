@@ -28,7 +28,7 @@ export const profileTab = {
   events: 'eventsTab',
 };
 
-export enum channelNames {
+export enum ChannelNames {
   errorValidation,
   errorLoginIsExist,
   errorWrongLoginOrPassword,

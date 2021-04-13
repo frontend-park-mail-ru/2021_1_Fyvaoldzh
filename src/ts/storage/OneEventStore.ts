@@ -1,8 +1,10 @@
-import { getEventById, checkPlanningEvent, addPlanning, removePlanning } from '../networkModule/network';
-import { channelNames } from '../config/config';
-import { ActionsInterface } from "../interfaces";
+import {
+  getEventById, checkPlanningEvent, addPlanning, removePlanning,
+} from '../networkModule/network';
+import { ChannelNames } from '../config/config';
+import { ActionsInterface } from '../interfaces';
 
-interface oneEventDataInterface {
+interface OneEventDataInterface {
   id: number;
   place: string;
   description: string;
@@ -15,7 +17,7 @@ interface oneEventDataInterface {
   followers: Array<object>;
 }
 
-interface planningAnswer {
+interface PlanningAnswer {
   userId: number;
   eventId: number;
   isAdded: boolean;
@@ -23,7 +25,9 @@ interface planningAnswer {
 
 export default class OneEventStore {
   public globalStore: any;
-  public oneEventData: oneEventDataInterface;
+
+  public oneEventData: OneEventDataInterface;
+
   public isPlanning: boolean;
 
   constructor(globalStore: any) {
@@ -34,12 +38,12 @@ export default class OneEventStore {
 
   async update(action: ActionsInterface) {
     this.oneEventData = await getEventById(<number><unknown>action.data);
-    const checkPlanningAnswer: planningAnswer = await checkPlanningEvent(this.oneEventData.id)
+    const checkPlanningAnswer: PlanningAnswer = await checkPlanningEvent(this.oneEventData.id);
 
     if (this.globalStore.userStore.userData && checkPlanningAnswer.isAdded) {
       this.isPlanning = true;
     }
-    this.globalStore.eventBus.publish(channelNames.eventCome);
+    this.globalStore.eventBus.publish(ChannelNames.eventCome);
   }
 
   async add(action: ActionsInterface) {

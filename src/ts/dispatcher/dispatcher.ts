@@ -1,4 +1,4 @@
-import {ActionsInterface} from '../interfaces';
+import { ActionsInterface } from '../interfaces';
 
 export default class Dispatcher {
   public channel: Array<Function>;

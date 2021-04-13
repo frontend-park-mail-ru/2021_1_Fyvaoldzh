@@ -1,11 +1,12 @@
-import { channelNames } from '../config/config';
+import { ChannelNames } from '../config/config';
 import {
   getProfileDataById,
 } from '../networkModule/network';
-import { ActionsInterface } from "../interfaces";
+import { ActionsInterface } from '../interfaces';
 
 export default class SomeUserStore {
   public globalStore: any;
+
   public someUserData: object;
 
   constructor(globalStore: any) {
@@ -16,7 +17,7 @@ export default class SomeUserStore {
   async update(action: ActionsInterface) {
     this.someUserData = await getProfileDataById(<number>action.data);
 
-    this.globalStore.eventBus.publish(channelNames.someUserUpdated);
+    this.globalStore.eventBus.publish(ChannelNames.someUserUpdated);
   }
 
   reducer(action: ActionsInterface) {

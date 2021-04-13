@@ -3,11 +3,10 @@ import { urlMap } from '../config/config';
 function getCsrf() {
   const name = '_csrf';
   const matches = document.cookie.match(new RegExp(
-    '(?:^|\s)' + name.replace(/([.$?*+\\\/{}|()\[\]^])/g, '\\$1') + '=(.*?)(?:;|$)'
-));
+    `(?:^|s)${name.replace(/([.$?*+\\/{}|()[\]^])/g, '\\$1')}=(.*?)(?:;|$)`,
+  ));
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
-
 
 /**
  * Функция для получения ивентов
@@ -20,19 +19,18 @@ export async function getAllEventsJson(page?: number, category?: string) {
   }
 
   if (!category) {
-    category='';
+    category = '';
   }
 
   try {
     const answer = await fetch(`${urlMap.allEventsUrl}?page=${page}&category=${category}`, {
       credentials: 'include',
       headers: {
-        'Cache-Control': 'no-cache'
-      }
+        'Cache-Control': 'no-cache',
+      },
     });
-    const jsonFile = await answer.json();
-    return jsonFile;
-  } catch(err) {
+    return await answer.json();
+  } catch (err) {
     if (!navigator.onLine) {
       location.reload();
     }
@@ -48,12 +46,11 @@ export async function getRecommendEvents(page?: number) {
     const answer = await fetch(`${urlMap.recommendationsEventsUrl}?page=${page}`, {
       credentials: 'include',
       headers: {
-        'Cache-Control': 'no-cache'
-      }
+        'Cache-Control': 'no-cache',
+      },
     });
-    const jsonFile = await answer.json();
-    return jsonFile;
-  } catch(err) {
+    return await answer.json();
+  } catch (err) {
     if (!navigator.onLine) {
       location.reload();
     }
@@ -62,16 +59,15 @@ export async function getRecommendEvents(page?: number) {
 
 /**
  * Функция для получения ивента по id
- * @param {uint64} id - форма для валидации
+ * @param {number} id - форма для валидации
  * @return {json} - json ивента
  */
 
 export async function getEventById(id: number) {
   try {
     const answer = await fetch(urlMap.oneEventUrl + id, { credentials: 'include' });
-    const jsonFile = await answer.json();
-    return jsonFile;
-  } catch(err) {
+    return await answer.json();
+  } catch (err) {
     if (!navigator.onLine) {
       location.reload();
     }
@@ -84,13 +80,11 @@ export async function getEventById(id: number) {
  * @return {Response} answer - ответ
  */
 
-
 export async function postRegistrationData(toPost: object) {
   const csrf = getCsrf();
 
-  console.log(csrf);
   try {
-    const answer = await fetch(urlMap.postRegistrationDataUrl, {
+    return await fetch(urlMap.postRegistrationDataUrl, {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -99,8 +93,7 @@ export async function postRegistrationData(toPost: object) {
       },
       body: JSON.stringify(toPost),
     });
-    return answer;
-  } catch(err) {
+  } catch (err) {
     if (!navigator.onLine) {
       location.reload();
     }
@@ -109,14 +102,14 @@ export async function postRegistrationData(toPost: object) {
 
 /**
  * Функция для логина
- * @param {json} jsonString - данные в формате json
  * @return {Response} answer - ответ
+ * @param data
  */
 
 export async function postLoginData(data: object) {
   const csrf = getCsrf();
   try {
-    const answer = await fetch(urlMap.postLoginDataUrl, {
+    return await fetch(urlMap.postLoginDataUrl, {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -125,25 +118,23 @@ export async function postLoginData(data: object) {
       },
       body: JSON.stringify(data),
     });
-    return answer;
-  } catch(err) {
+  } catch (err) {
     if (!navigator.onLine) {
       location.reload();
     }
   }
-
 }
 
 /**
  * Функция для обновления профиля
- * @param {json} jsonString - данные обновленные в формате json
  * @return {Response} answer - ответ
+ * @param data
  */
 
 export async function postProfileData(data: object) {
   const csrf = getCsrf();
   try {
-    const answer = await fetch(urlMap.currentProfileUrl, {
+    return await fetch(urlMap.currentProfileUrl, {
       method: 'PUT',
       credentials: 'include',
       headers: {
@@ -152,13 +143,11 @@ export async function postProfileData(data: object) {
       },
       body: JSON.stringify(data),
     });
-    return answer;
-  } catch(err) {
+  } catch (err) {
     if (!navigator.onLine) {
       location.reload();
     }
   }
-
 }
 
 /**
@@ -169,9 +158,8 @@ export async function postProfileData(data: object) {
 export async function getLoggedProfileData() {
   try {
     const answer = await fetch(urlMap.currentProfileUrl, { credentials: 'include' });
-    const answerJson = await answer.json();
-    return answerJson;
-  } catch(err) {
+    return await answer.json();
+  } catch (err) {
     if (!navigator.onLine) {
       location.reload();
     }
@@ -185,9 +173,8 @@ export async function getLoggedProfileData() {
 
 export async function logoutFunc() {
   try {
-    const answer = await fetch(urlMap.logout, { credentials: 'include' });
-    return answer;
-  } catch(err) {
+    return await fetch(urlMap.logout, { credentials: 'include' });
+  } catch (err) {
     if (!navigator.onLine) {
       location.reload();
     }
@@ -196,14 +183,14 @@ export async function logoutFunc() {
 
 /**
  * Функция для обновления аватара
- * @param {FormData} file -
  * @return {Response} answer - ответ
+ * @param form
  */
 
 export async function putAvatar(form: FormData) {
   const csrf = getCsrf();
   try {
-    const answer = await fetch(urlMap.putAvatarUrl, {
+    return await fetch(urlMap.putAvatarUrl, {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -211,8 +198,7 @@ export async function putAvatar(form: FormData) {
       },
       body: form,
     });
-    return answer;
-  } catch(err) {
+  } catch (err) {
     if (!navigator.onLine) {
       location.reload();
     }
@@ -222,9 +208,8 @@ export async function putAvatar(form: FormData) {
 export async function getProfileDataById(id: number) {
   try {
     const answer = await fetch(`${urlMap.apiUrl}/profile/${id}`, { credentials: 'include' });
-    const answerJson = await answer.json();
-    return answerJson;
-  } catch(err) {
+    return await answer.json();
+  } catch (err) {
     if (!navigator.onLine) {
       location.reload();
     }
@@ -234,15 +219,14 @@ export async function getProfileDataById(id: number) {
 export async function addPlanning(id: number) {
   const csrf = getCsrf();
   try {
-    const answer = await fetch(`${urlMap.addPlanningEventUrl}/${id}`, {
+    return await fetch(`${urlMap.addPlanningEventUrl}/${id}`, {
       method: 'POST',
       credentials: 'include',
       headers: {
         'X-XSRF-TOKEN': csrf,
       },
     });
-    return answer;
-  } catch(err) {
+  } catch (err) {
     if (!navigator.onLine) {
       location.reload();
     }
@@ -252,15 +236,14 @@ export async function addPlanning(id: number) {
 export async function removePlanning(id: number) {
   const csrf = getCsrf();
   try {
-    const answer = await fetch(`${urlMap.removePlanningEventUrl}/${id}`, {
+    return await fetch(`${urlMap.removePlanningEventUrl}/${id}`, {
       method: 'DELETE',
       credentials: 'include',
       headers: {
         'X-XSRF-TOKEN': csrf,
       },
     });
-    return answer;
-  } catch(err) {
+  } catch (err) {
     if (!navigator.onLine) {
       location.reload();
     }
@@ -277,9 +260,8 @@ export async function checkPlanningEvent(id: number) {
         'X-XSRF-TOKEN': csrf,
       },
     });
-    const answerJson = await answer.json();
-    return answerJson;
-  } catch(err) {
+    return await answer.json();
+  } catch (err) {
     if (!navigator.onLine) {
       location.reload();
     }

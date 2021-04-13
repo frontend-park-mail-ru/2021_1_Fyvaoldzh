@@ -1,17 +1,22 @@
-import {getAllEventsJson, getRecommendEvents} from '../networkModule/network';
-import { channelNames } from '../config/config';
-import { ActionsInterface } from "../interfaces";
+import { getAllEventsJson, getRecommendEvents } from '../networkModule/network';
+import { ChannelNames } from '../config/config';
+import { ActionsInterface } from '../interfaces';
 
 function timeout(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export default class EventsStore {
   public globalStore: any;
+
   public allEvents: object;
+
   public pageNumber: number;
+
   public updatingEvents: boolean;
+
   public eventCategory: string;
+
   public endOfPage: boolean;
 
   constructor(globalStore: any) {
@@ -25,7 +30,7 @@ export default class EventsStore {
 
   async update() {
     this.allEvents = await getAllEventsJson();
-    this.globalStore.eventBus.publish(channelNames.eventsUpdated);
+    this.globalStore.eventBus.publish(ChannelNames.eventsUpdated);
   }
 
   async uploadEventsContent() {
@@ -33,11 +38,7 @@ export default class EventsStore {
       return;
     }
     this.updatingEvents = true;
-    ++this.pageNumber;
-
-    if (this.eventCategory === 'Рекомендации') {
-
-    }
+    this.pageNumber += 1;
 
     let newEvents;
     if (this.eventCategory === 'Рекомендации') {
@@ -54,10 +55,8 @@ export default class EventsStore {
       return;
     }
 
-    const resultEvents = Array.prototype.concat(this.allEvents, newEvents);
-
-    this.allEvents = resultEvents;
-    this.globalStore.eventBus.publish(channelNames.eventsUpdated);
+    this.allEvents = Array.prototype.concat(this.allEvents, newEvents);
+    this.globalStore.eventBus.publish(ChannelNames.eventsUpdated);
     await timeout(3);
     this.updatingEvents = false;
   }
@@ -73,7 +72,7 @@ export default class EventsStore {
       this.allEvents = await getAllEventsJson(this.pageNumber, this.eventCategory);
     }
 
-    this.globalStore.eventBus.publish(channelNames.eventsUpdated);
+    this.globalStore.eventBus.publish(ChannelNames.eventsUpdated);
   }
 
   reducer(action: ActionsInterface) {

@@ -1,30 +1,35 @@
-import { channelNames, routes } from '../../config/config';
-import Store from "../../storage/store";
-import Actions from "../../actions/actions";
-import UserView from "../UserView/UserView";
-import EventsView from "../EventsView/EventsView";
-import OneEventView from "../OneEventView/OneEventView";
-import { historyState } from '../../interfaces';
+import { ChannelNames, routes } from '../../config/config';
+import Store from '../../storage/store';
+import Actions from '../../actions/actions';
+import UserView from '../UserView/UserView';
+import EventsView from '../EventsView/EventsView';
+import OneEventView from '../OneEventView/OneEventView';
+import { HistoryState } from '../../interfaces';
 
 const signUpFormTemplate = require('Templates/signup/signup.pug');
 const loginTemplate = require('Templates/login/login.pug');
 const navbarTemplate = require('Components/navbar/navbar.pug');
 
-
 export default class ChangePageView {
   public globalStore: Store;
+
   public actions: Actions;
+
   public wrapper: HTMLElement;
+
   public navbar: HTMLElement;
+
   public userView: UserView;
+
   public eventsView: EventsView;
+
   public oneEventView: OneEventView;
 
   constructor(globalStore: Store,
-              actions: Actions,
-              userView: UserView,
-              eventsView: EventsView,
-              oneEventView: OneEventView) {
+    actions: Actions,
+    userView: UserView,
+    eventsView: EventsView,
+    oneEventView: OneEventView) {
     this.globalStore = globalStore;
     this.actions = actions;
     this.wrapper = document.getElementById('wrapper');
@@ -40,7 +45,7 @@ export default class ChangePageView {
     };
   }
 
-  async render(state: historyState) {
+  async render(state: HistoryState) {
     if (state.page.includes('event') && state.page !== routes.events) {
       await this.actions.eventPage(<number><unknown>state.page.substr(6));
       this.oneEventView.renderEventPage();
@@ -61,11 +66,10 @@ export default class ChangePageView {
       case routes.signup:
         window.scroll(0, 0);
         this.renderSignUp();
-        break
+        break;
 
       case routes.profile:
         window.scroll(0, 0);
-        console.log('dawawdda');
         this.userView.renderMyProfilePage(state.parameter);
         break;
 
@@ -77,6 +81,9 @@ export default class ChangePageView {
       case routes.events:
         window.scroll(0, 0);
         this.eventsView.renderEvents();
+        break;
+
+      default:
         break;
     }
   }
@@ -107,10 +114,6 @@ export default class ChangePageView {
   onRegisterSuccessfull() {
     this.actions.updateUser();
     this.actions.routerChangePage(routes.events);
-  }
-
-  renderAlreadyLoginError() {
-    // ...
   }
 
   changePage() {
@@ -165,6 +168,7 @@ export default class ChangePageView {
 
       case routes.logout:
         window.scroll(0, 0);
+        this.actions.logout();
         this.renderLogout();
         break;
 
@@ -174,9 +178,9 @@ export default class ChangePageView {
   }
 
   subscribeViews() {
-    this.globalStore.eventBus.subscribe(channelNames.logoutSuccessfull, this.renderLogout.bind(this));
-    this.globalStore.eventBus.subscribe(channelNames.userIsNotAuth, this.renderNavbar.bind(this));
-    this.globalStore.eventBus.subscribe(channelNames.pageChanged, this.changePage.bind(this));
-    this.globalStore.eventBus.subscribe(channelNames.registerSuccessfull, this.onRegisterSuccessfull.bind(this));
+    this.globalStore.eventBus.subscribe(ChannelNames.logoutSuccessfull, this.renderLogout.bind(this));
+    this.globalStore.eventBus.subscribe(ChannelNames.userIsNotAuth, this.renderNavbar.bind(this));
+    this.globalStore.eventBus.subscribe(ChannelNames.pageChanged, this.changePage.bind(this));
+    this.globalStore.eventBus.subscribe(ChannelNames.registerSuccessfull, this.onRegisterSuccessfull.bind(this));
   }
 }

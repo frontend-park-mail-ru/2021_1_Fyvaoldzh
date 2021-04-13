@@ -1,15 +1,14 @@
-import { channelNames } from '../../config/config';
-import Store from "../../storage/store";
-import Actions from "../../actions/actions";
+import { ChannelNames } from '../../config/config';
+import Store from '../../storage/store';
+import Actions from '../../actions/actions';
 
 const profileTemplate = require('Templates/profile/profile.pug');
 
-const globalStoreSymbol = Symbol('globalStoreSymbol');
-const actionsSymbol = Symbol('actionsSymbol');
-
 export default class SomeUserView {
   public globalStore: Store;
+
   public actions: Actions;
+
   public wrapper: HTMLElement;
 
   constructor(globalStore: Store, actions: Actions) {
@@ -26,6 +25,6 @@ export default class SomeUserView {
   }
 
   subscribeViews() {
-    this.globalStore.eventBus.subscribe(channelNames.someUserUpdated, this.renderSomeUser.bind(this));
+    this.globalStore.eventBus.subscribe(ChannelNames.someUserUpdated, this.renderSomeUser.bind(this));
   }
 }

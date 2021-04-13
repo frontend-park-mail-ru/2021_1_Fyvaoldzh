@@ -9,7 +9,7 @@ import EventsView from './ts/views/EventsView/EventsView';
 import OneEventView from './ts/views/OneEventView/OneEventView';
 import UserView from './ts/views/UserView/UserView';
 import ChangePageView from './ts/views/ChangePageView/ChangePageView';
-import { channelNames } from './ts/config/config';
+import { ChannelNames } from './ts/config/config';
 import SomeUserView from './ts/views/SomeUserView/SomeUserView';
 
 const dispatcher = new Dispatcher(); // Диспетчер отвечает за доставку actions до хранилища
@@ -19,7 +19,7 @@ const eventBus = new EventBus();
 const globalStore = new Store(eventBus);
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js', { scope: '/' }).then(() => console.log('sw reg'));
+  navigator.serviceWorker.register('sw.js', { scope: '/' }).then();
 }
 
 dispatcher.register(globalStore.reducer.bind(globalStore));
@@ -50,8 +50,8 @@ firstRender();
  Так мы переходим по урлу в адресной строке, так как нам надо знать, залогинен пользователь,
  или нет, чтобы скрыть от него некоторые страницы
 */
-eventBus.subscribe(channelNames.firstUserUpdated, actions.routerChangePage.bind(actions, window.location.href));
-eventBus.subscribe(channelNames.firstUserIsNotAuth, actions.routerChangePage.bind(actions, window.location.href));
+eventBus.subscribe(ChannelNames.firstUserUpdated, actions.routerChangePage.bind(actions, window.location.href));
+eventBus.subscribe(ChannelNames.firstUserIsNotAuth, actions.routerChangePage.bind(actions, window.location.href));
 
 const { body } = document;
 
@@ -74,20 +74,11 @@ const { body } = document;
 body.addEventListener('click', async (e) => {
   const { target } = e;
 
-
   if (target instanceof HTMLAnchorElement) {
     e.preventDefault();
 
-    switch (target.dataset.direction) {
-      case 'logout':
-        actions.logout();
-        break;
-
-      default:
-        const toUrl = new URL(target.href);
-        actions.routerChangePage(toUrl.pathname + toUrl.search);
-        break;
-    }
+    const toUrl = new URL(target.href);
+    actions.routerChangePage(toUrl.pathname + toUrl.search);
   }
 
   if (target instanceof HTMLButtonElement) {
@@ -97,10 +88,11 @@ body.addEventListener('click', async (e) => {
       e.preventDefault();
       const dataFromForm = new FormData(formBody);
 
-      const registrationData: registrationDataInterface =
-            {login: <string>dataFromForm.get('login'),
-            password: <string>dataFromForm.get('password'),
-            name: <string>dataFromForm.get('name')};
+      const registrationData: RegistrationDataInterface = {
+        login: <string>dataFromForm.get('login'),
+        password: <string>dataFromForm.get('password'),
+        name: <string>dataFromForm.get('name'),
+      };
 
       actions.register(registrationData);
     }
@@ -109,23 +101,23 @@ body.addEventListener('click', async (e) => {
       e.preventDefault();
       const dataFromForm = new FormData(formBody);
 
-      const loginData: loginDataInterface =
-          {login: <string>dataFromForm.get('login'),
-          password: <string>dataFromForm.get('password')};
+      const loginData: LoginDataInterface = {
+        login: <string>dataFromForm.get('login'),
+        password: <string>dataFromForm.get('password'),
+      };
 
       actions.login(loginData);
     }
   }
 });
 
-interface loginDataInterface {
+interface LoginDataInterface {
   login: string;
   password: string;
 }
 
-interface registrationDataInterface {
+interface RegistrationDataInterface {
   login: string;
   password: string;
   name: string;
 }
-

@@ -1,4 +1,4 @@
-import Dispatcher from "../dispatcher/dispatcher";
+import Dispatcher from '../dispatcher/dispatcher';
 
 export default class Actions {
   private dispatcher: Dispatcher;
@@ -85,7 +85,6 @@ export default class Actions {
   }
 
   routerChangePage(page: string) {
-    console.log(`page is ${page}`);
     this.dispatcher.dispatch({
       eventName: 'router/changePage',
       data: page,
