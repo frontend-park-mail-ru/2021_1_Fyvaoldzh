@@ -142,6 +142,8 @@ body.addEventListener('click', async e => {
       target.classList.toggle('close');
       if (searchBarInput.classList.contains('square')) {
         searchBarInput.value = '';
+      } else {
+        searchBarInput.focus();
       }
       searchBarInput.classList.toggle('square');
     }

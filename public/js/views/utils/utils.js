@@ -1,4 +1,4 @@
-import {searchTab, searchButton} from '../../config/config.js';
+import {searchTab, searchButton, profileEventsButton} from '../../config/config.js';
 
 /**
  * Функция для склонения слов, стоящих после чисел
@@ -60,17 +60,20 @@ export function buttonToggleHandler(event) {
 export function paginatorHandler(event) {
   const {target} = event;
   let currentPaginatorValue;
-  let resultsAmount = 6;
+  let resultsAmount, pagBackAction, pagForwardAction;
 
   switch (this.constructor.name) {
-    case 'SearchView':
-      const {currentTab} = this.globalStore.searchStore;
+    case 'SearchView': {
+      // const {currentTab} = this.globalStore.searchStore;
       const {
+        currentTab,
         currentEventsPage,
         currentUsersPage,
         searchResultEvents,
         searchResultUsers,
       } = this.globalStore.searchStore;
+      // pagBackAction = this.actions.searchPageBack.bind(this.globalStore.SearchView);
+      // pagForwardAction = this.actions.searchPageForward.bind(this.globalStore.SearchView);
 
       if (currentTab === searchTab.events) {
         currentPaginatorValue = currentEventsPage;
@@ -80,19 +83,47 @@ export function paginatorHandler(event) {
         resultsAmount = searchResultUsers.length;
       }
       break;
+    }
+
+    case 'OneProfileView': {
+      const {
+        currentEventsPage,
+        currentEventsButton,
+        oneProfilePlanningEvents,
+        oneProfileVisitedEvents,
+      } = this.globalStore.oneProfileStore;
+      // pagBackAction = this.actions.oneProfilePageBack.bind(this.globalStore.OneProfileView);
+      // pagForwardAction = this.actions.oneProfilePageForward.bind(this.globalStore.OneProfileView);
+      currentPaginatorValue = currentEventsPage;
+
+      if (currentEventsButton === profileEventsButton.planning) {
+        resultsAmount = oneProfilePlanningEvents.length;
+      } else if (currentEventsButton === profileEventsButton.visited) {
+        resultsAmount = oneProfileVisitedEvents.length;
+      }
+      break;
+    }
   }
 
   switch (target.id) {
     case 'paginationBack':
       if (currentPaginatorValue > 1) {
-        updatePaginationState(--currentPaginatorValue, resultsAmount);
-        this.actions.searchPageBack();
+        updatePaginationState(currentPaginatorValue, resultsAmount); //было --currentPaginatorValue
+        if (this.constructor.name === 'SearchView') {
+          this.actions.searchPageBack();
+        } else if (this.constructor.name === 'OneProfileView') {
+          this.actions.oneProfilePageBack();
+        }
       }
       break;
 
     case 'paginationForward':
-      updatePaginationState(++currentPaginatorValue, resultsAmount);
-      this.actions.searchPageForward();
+      updatePaginationState(currentPaginatorValue, resultsAmount); //было ++currentPaginatorValue
+      if (this.constructor.name === 'SearchView') {
+        this.actions.searchPageForward();
+      } else if (this.constructor.name === 'OneProfileView') {
+        this.actions.oneProfilePageForward();
+      }
       break;
   }
 }
@@ -104,6 +135,7 @@ export function paginatorHandler(event) {
  */
 
 export function updatePaginationState(currentPaginatorValue, resultsAmount = 6) {
+  console.log(resultsAmount);
   const pagBack = document.getElementById('paginationBack');
   const pagForward = document.getElementById('paginationForward');
 

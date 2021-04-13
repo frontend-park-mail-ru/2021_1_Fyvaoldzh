@@ -1,18 +1,22 @@
 import {getProfileById, getEventById} from '../networkModule/network.js';
 
-import {channelNames, profileEventsButton, profileTab} from '../config/config.js';
+import {channelNames, profileEventsButton, profileTab, searchTab} from '../config/config.js';
 
 const oneProfileDataSymbol = Symbol('oneProfileData');
 const currentEventsButtonSymbol = Symbol('CurrentEventsButtonSymbol');
 const globalStoreSymbol = Symbol('globalStoreSymbol');
-const oneProfileEventsSymbol = Symbol('oneProfileEventsSymbol');
+const oneProfilePlanningEventsSymbol = Symbol('oneProfilePlanningEventsSymbol');
+const oneProfileVisitedEventsSymbol = Symbol('oneProfileVisitedEventsSymbol');
+const currentEventsPageSymbol = Symbol('currentEventsPageSymbol');
 
 export default class oneProfileStore {
   constructor(globalStore) {
     this[globalStoreSymbol] = globalStore;
     this[oneProfileDataSymbol] = null;
     this[currentEventsButtonSymbol] = profileEventsButton.planning;
-    this[oneProfileEventsSymbol] = [];
+    this[oneProfilePlanningEventsSymbol] = [];
+    this[oneProfileVisitedEventsSymbol] = [];
+    this[currentEventsPageSymbol] = 1;
   }
 
   get globalStore() {
@@ -27,11 +31,24 @@ export default class oneProfileStore {
     return this[currentEventsButtonSymbol];
   }
 
-  get oneProfileEvents() {
-    return this[oneProfileEventsSymbol];
+  get oneProfilePlanningEvents() {
+    return this[oneProfilePlanningEventsSymbol];
+  }
+
+  get oneProfileVisitedEvents() {
+    return this[oneProfileVisitedEventsSymbol];
+  }
+
+  get currentEventsPage() {
+    return this[currentEventsPageSymbol];
+  }
+
+  set currentEventsPage(value) {
+    this[currentEventsPageSymbol] = value;
   }
 
   async update(action) {
+    this[currentEventsPageSymbol] = 1;
     this[oneProfileDataSymbol] = await getProfileById(action.data);
     this[currentEventsButtonSymbol] = profileEventsButton.planning;
     await this.updateEvents();
@@ -39,21 +56,67 @@ export default class oneProfileStore {
   }
 
   async changeEventsButton(action) {
+    this[currentEventsPageSymbol] = 1;
     this[currentEventsButtonSymbol] = action.data;
-    this.globalStore.eventBus.publish(
-      channelNames.oneProfileEventsButtonChanged,
-      this.currentEventsButton === 'planningEventsButton' ? this.oneProfileEvents : []
-    );
+    switch (this.currentEventsButton) {
+      case profileEventsButton.planning:
+        this.globalStore.eventBus.publish(
+          channelNames.oneProfileEventsButtonChanged,
+          this.oneProfilePlanningEvents
+        );
+        break;
+      case profileEventsButton.visited:
+        this.globalStore.eventBus.publish(
+          channelNames.oneProfileEventsButtonChanged,
+          this.oneProfileVisitedEvents
+        );
+        break;
+    }
   }
 
   async updateEvents() {
-    this.oneProfileEvents.length = 0;
+    this.oneProfilePlanningEvents.length = 0;
+    this.oneProfileVisitedEvents.length = 0;
 
-    if (this.oneProfileData.events !== null) {
-      for (const event of this.oneProfileData.events) {
-        const eventJson = await getEventById(event);
-        this.oneProfileEvents.push(eventJson);
+    if (this.oneProfileData.planning !== null) {
+      for (const event of this.oneProfileData.planning) {
+        this.oneProfilePlanningEvents.push(event);
       }
+    }
+
+    if (this.oneProfileData.visited !== null) {
+      for (const event of this.oneProfileData.visited) {
+        this.oneProfileVisitedEvents.push(event);
+      }
+    }
+  }
+
+  async pageForward() {
+    this.currentEventsPage++;
+    await this.updateEvents();
+    switch (this.currentEventsButton) {
+      case profileEventsButton.planning:
+        this.globalStore.eventBus.publish(channelNames.oneProfilePageChanged, this.oneProfilePlanningEvents);
+        break;
+
+      case profileEventsButton.visited:
+        this.globalStore.eventBus.publish(channelNames.oneProfilePageChanged, this.oneProfileVisitedEvents);
+        break;
+    }
+  }
+
+  async pageBack() {
+    this.currentEventsPage--;
+    await this.updateEvents();
+
+    switch (this.currentEventsButton) {
+      case profileEventsButton.planning:
+        this.globalStore.eventBus.publish(channelNames.oneProfilePageChanged, this.oneProfilePlanningEvents);
+        break;
+
+      case profileEventsButton.visited:
+        this.globalStore.eventBus.publish(channelNames.oneProfilePageChanged, this.oneProfileVisitedEvents);
+        break;
     }
   }
 
@@ -69,6 +132,14 @@ export default class oneProfileStore {
 
       case 'oneProfile/updateEvents':
         this.updateEvents(action);
+        break;
+
+      case 'oneProfile/pageForward':
+        this.pageForward();
+        break;
+
+      case 'oneProfile/pageBack':
+        this.pageBack();
         break;
 
       default:

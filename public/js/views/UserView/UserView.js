@@ -196,7 +196,8 @@ export default class UserView extends ProfilesBaseView {
 
   renderOneProfileEventsTab() {
     const {currentEventsButton} = this.globalStore.userStore;
-    const {profileEvents} = this.globalStore.userStore;
+    const {profilePlanningEvents} = this.globalStore.userStore;
+    const {profileVisitedEvents} = this.globalStore.userStore;
 
     // const eventsButtonsBlock = document.getElementById('jsEventsButtonsBlock');
     //
@@ -210,11 +211,11 @@ export default class UserView extends ProfilesBaseView {
 
     switch (currentEventsButton) {
       case 'planningEventsButton':
-        this.renderEventsList(profileEvents);
+        this.renderEventsList(profilePlanningEvents);
         break;
 
       case 'visitedEventsButton':
-        this.renderEventsList([]);
+        this.renderEventsList(profileVisitedEvents);
         break;
 
       default:

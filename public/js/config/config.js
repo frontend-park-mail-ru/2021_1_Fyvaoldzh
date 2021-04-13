@@ -69,6 +69,7 @@ export const channelNames = {
   searchTabChanged: 'searchTabChanged',
   searchEventsPageChanged: 'searchEventsPageChanged',
   searchUsersPageChanged: 'searchUsersPageChanged',
+  oneProfilePageChanged: 'oneProfilePageChanged',
 };
 
 export const pageNames = {

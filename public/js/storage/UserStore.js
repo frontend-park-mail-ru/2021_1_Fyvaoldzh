@@ -22,7 +22,8 @@ const currentTabSymbol = Symbol('CurrentTabSymbol');
 const avatarPreviewUrlSymbol = Symbol('avatarPreviewUrlSymbol');
 const globalStoreSymbol = Symbol('globalStoreSymbol');
 const currentEventsButtonSymbol = Symbol('currentEventsButtonSymbol');
-const profileEventsSymbol = Symbol('profileEventsSymbol');
+const profilePlanningEventsSymbol = Symbol('profilePlanningEventsSymbol');
+const profileVisitedEventsSymbol = Symbol('profileVisitedEventsSymbol');
 
 export default class UserStore {
   constructor(globalStore) {
@@ -32,7 +33,8 @@ export default class UserStore {
     this[currentTabSymbol] = profileTab.events; //нельзя менять - верстка то не подстраивается, в ней всегда ивенты поначалу выбраны
     this[currentEventsButtonSymbol] = profileEventsButton.planning;
     this[avatarPreviewUrlSymbol] = null;
-    this[profileEventsSymbol] = [];
+    this[profilePlanningEventsSymbol] = [];
+    this[profileVisitedEventsSymbol] = [];
   }
 
   get globalStore() {
@@ -59,8 +61,20 @@ export default class UserStore {
     return this[avatarPreviewUrlSymbol];
   }
 
-  get profileEvents() {
-    return this[profileEventsSymbol];
+  get profilePlanningEvents() {
+    return this[profilePlanningEventsSymbol];
+  }
+
+  set profilePlanningEvents(value) {
+    this[profilePlanningEventsSymbol] = value;
+  }
+
+  get profileVisitedEvents() {
+    return this[profileVisitedEventsSymbol];
+  }
+
+  set profileVisitedEvents(value) {
+    this[profileVisitedEventsSymbol] = value;
   }
 
   async register(action) {
@@ -127,18 +141,25 @@ export default class UserStore {
 
   async changeEventsButton(action) {
     this[currentEventsButtonSymbol] = action.data;
-    this.globalStore.eventBus.publish(
-      channelNames.userEventsButtonChanged,
-      this.currentEventsButton === 'planningEventsButton' ? this.profileEvents : []
-    );
+    switch (this.currentEventsButton) {
+      case profileEventsButton.planning:
+        this.globalStore.eventBus.publish(channelNames.userEventsButtonChanged, this.profilePlanningEvents);
+        break;
+      case profileEventsButton.visited:
+        this.globalStore.eventBus.publish(channelNames.userEventsButtonChanged, this.profileVisitedEvents);
+        break;
+    }
   }
 
   async updateEvents() {
-    this.profileEvents.length = 0;
+    this.profilePlanningEvents.length = 0;
+    this.profileVisitedEvents.length = 0;
 
-    for (const eventId in this.userData.events) {
-      const eventJson = await getEventById(eventId);
-      this.profileEvents.push(eventJson);
+    for (const event of this.userData.planning) {
+      this.profilePlanningEvents.push(event);
+    }
+    for (const event of this.userData.visited) {
+      this.profileVisitedEvents.push(event);
     }
   }
 

@@ -163,4 +163,18 @@ export default class Actions {
       data: null,
     });
   }
+
+  oneProfilePageForward() {
+    this.dispatcher.dispatch({
+      eventName: 'oneProfile/pageForward',
+      data: null,
+    });
+  }
+
+  oneProfilePageBack() {
+    this.dispatcher.dispatch({
+      eventName: 'oneProfile/pageBack',
+      data: null,
+    });
+  }
 }
