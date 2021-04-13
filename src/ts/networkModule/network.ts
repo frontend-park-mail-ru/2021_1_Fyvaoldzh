@@ -172,8 +172,16 @@ export async function getLoggedProfileData() {
  */
 
 export async function logoutFunc() {
+  const csrf = getCsrf();
   try {
-    return await fetch(urlMap.logout, { credentials: 'include' });
+    return await fetch(urlMap.logout, {
+      credentials: 'include',
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'X-XSRF-TOKEN': csrf,
+      },
+    });
   } catch (err) {
     if (!navigator.onLine) {
       location.reload();
