@@ -1,6 +1,5 @@
-:root {
-  --main-gradient: linear-gradient(90deg, #2e1665 0%, #57001e 100%);
-}
+@import "../../components/css/variables";
+@import "../../components/css/mixins";
 
 .tags {
   margin-top: 60px;
@@ -8,86 +7,50 @@
 
 .event-info {
   margin-top: 60px;
-}
 
-.event-info__location {
-  font-family: PT Serif;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 21px;
-  letter-spacing: 0em;
-  text-align: left;
-}
+  &__title {
+    font: $title-event;
+    margin-top: 20px;
+  }
 
-.location-text {
-  font-family: PT Serif;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 21px;
-  letter-spacing: 0em;
-  text-align: left;
-  margin-top: 19px;
-}
+  &__date {
+    margin-top: 20px;
+    font: $little-font;
+  }
 
-.location-text:before {
-  content: "";
-  display: block;
-  background: url("img/location-icon.svg") no-repeat center / cover;
-  width: 20px;
-  height: 20px;
-  float: left;
-  margin: 0 6px 0 0;
-}
+  &__location {
+    @extend .event-info__date;
 
-.street-text {
-  font-family: PT Serif;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 21px;
-  letter-spacing: 0em;
-  text-align: left;
-  margin-top: 19px;
-}
+    &_place {
+      margin-top: 20px;
+      &:before {
+        @include before-event-info("../templates/one-event-page/img/location-icon.svg");
+      }
+    }
 
-.street-text:before {
-  content: "";
-  display: block;
-  background: url("img/street-icon.svg") no-repeat center / cover;
-  width: 20px;
-  height: 20px;
-  float: left;
-  margin: 0 6px 0 0;
-}
+    &_street {
+      margin-top: 20px;
 
-.underground-text {
-  font-family: PT Serif;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 21px;
-  letter-spacing: 0em;
-  text-align: left;
-  margin-top: 19px;
-}
+      &:before {
+        @include before-event-info("../templates/one-event-page/img/street-icon.svg");
+      }
+    }
 
-.underground-text:before {
-  content: "";
-  display: block;
-  background: url("img/subway-icon.svg") no-repeat center / cover;
-  width: 20px;
-  height: 20px;
-  float: left;
-  margin: 0 6px 0 0;
+    &_subway {
+      margin-top: 20px;
+
+      &:before {
+        @include before-event-info("../templates/one-event-page/img/subway-icon.svg");
+      }
+    }
+  }
 }
 
 .geolocation-image {
   margin-top: 47px;
   width: 500px;
   height: 500px;
-  background: url("img/geolocation.jpg") no-repeat center;
+  background: url("../templates/one-event-page/img/geolocation.jpg") no-repeat center;
 }
 
 
@@ -103,144 +66,63 @@
   position: relative;
 }
 
-.rewiew-form {
-  margin-top: 40px;
-}
-
-.rewiew-form__input {
-  padding: 21px;
-  width: 67%;
-  height: 120px;
-  background: #ffffff;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
-  position: relative;
-}
-
-.rewiew-form__input::placeholder {
-  font-family: PT Serif;
-  font-size: 20px;
-  left: 5px;
-  color: #8986ac;
-}
-
 .event-description {
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  @include flex-mixin(column, center);
+  box-shadow: $project-box-shadow;
   justify-content: space-between;
   max-width: 570px;
   padding: 20px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
   margin-top: 60px;
   position: relative;
+
+  &__title {
+    font: $title-event;
+    color: $project-black;
+  }
+
+  &__body {
+    margin-top: 20px;
+    font: $main-font;
+  }
+
+  &__star {
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    right: 0;
+    transform: translate(50%);
+
+    &_active {
+      @extend .event-description__star;
+      background: url("../templates/one-event-page/img/description-star_active.svg") no-repeat center / cover;
+    }
+
+    &_inactive {
+      @extend .event-description__star;
+      background: url("../templates/one-event-page/img/description-star_inactive.svg") no-repeat center / 100%;
+    }
+
+    &:hover {
+      transition-duration: 0.5s;
+      transform: translate(60%);
+    }
+  }
 }
 
-.event-description__title {
-  width: 510px;
-  height: 50px;
-  font-family: PT Serif;
-  font-weight: bold;
-  font-size: 50px;
-  line-height: 66px;
-  text-align: center;
-  color: #000000;
-}
+.going-user {
+  width: 150px;
+  height: 150px;
+  margin-left: 15px;
 
-.event-description__body {
-  font-family: PT Serif;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 22px;
-  letter-spacing: 0em;
-  text-align: left;
-}
+  &__photo {
+    display: block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 0 auto;
+  }
 
-.event-description__star_active {
-  background: url("img/description-star_active.svg") no-repeat center / 100%;
-  height: 50px;
-  width: 50px;
-  position: absolute;
-  right: 0;
-  transform: translate(50%);
-}
-
-.event-description__star_inactive {
-  background: url("img/description-star_inactive.svg") no-repeat center / 100%;
-  height: 50px;
-  width: 50px;
-  position: absolute;
-  right: 0;
-  transform: translate(50%);
-}
-
-.event-description__star:hover {
-  transition-duration: 0.5s;
-  transform: translate(60%);
-}
-
-.event-info__date {
-  margin-top: 20px;
-  margin-bottom: 40px;
-  font-family: PT Serif;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 21px;
-  letter-spacing: 0em;
-  text-align: left;
-}
-
-.rate-stars {
-  background: url("img/stars.svg") no-repeat center / 100%;
-  height: 28px;
-  width: 120px;
-  position: absolute;
-  right: 400px;
-  top: 15px;
-}
-
-.rewiew {
-  margin-top: 60px;
-  display: flex;
-  position: relative;
-}
-
-.rewiew-body {
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
-  margin-left: 40px;
-  height: 170px;
-  flex: 1 1 auto;
-  padding: 30px;
-}
-
-.rewiew__name {
-  font-family: PT Serif;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 32px;
-  letter-spacing: 0em;
-  text-align: left;
-}
-
-.rewiew__text {
-  margin-top: 19px;
-  font-family: PT Serif;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 32px;
-  letter-spacing: 0em;
-  text-align: left;
-}
-
-.rewiew-rate-stars {
-  background: url("img/stars.svg") no-repeat center / 100%;
-  height: 28px;
-  width: 120px;
-  position: absolute;
-  right: 20px;
-  top: 20px;
+  &__name {
+    font: $little-font;
+  }
 }

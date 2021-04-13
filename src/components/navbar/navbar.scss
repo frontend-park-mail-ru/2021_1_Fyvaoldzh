@@ -32,13 +32,13 @@
 .navbar-menu__signup {
   width: 22px;
   height: 22px;
-  background: url("img/signup.svg") no-repeat center / 100%;
+  background: url("../components/navbar/img/signup.svg") no-repeat center / 100%;
 }
 
 .navbar-menu__logout {
   width: 22px;
   height: 22px;
-  background: url("img/logout.svg") no-repeat center / 100%;
+  background: url("../components/navbar/img/logout.svg") no-repeat center / 100%;
 }
 
 .navbar-profile-name {
@@ -60,7 +60,7 @@
   border-radius: 50%;
   margin-right: 20px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
-  background: url("img/avatar.jpeg") no-repeat center / 100%;
+  //background: url("img/avatar.jpeg") no-repeat center / 100%;
 }
 
 .navbar-menu__list {
@@ -123,14 +123,14 @@
   font-size: 16px;
   line-height: 50px;
   text-align: right;
-  
+
   color: #FFFFFF;
 }
 
 .dropdown-menu__logout:before {
   content: "";
   display: block;
-  background: url("img/logout.svg") no-repeat center / cover;
+  background: url("../components/navbar/img/logout.svg") no-repeat center / cover;
   width: 19px;
   height: 19px;
   float: left;
@@ -141,7 +141,7 @@
 .dropdown-menu__events:before {
   content: "";
   display: block;
-  background: url("img/events.svg") no-repeat center / cover;
+  background: url("../components/navbar/img/events.svg") no-repeat center / cover;
   width: 19px;
   height: 19px;
   float: left;
@@ -152,7 +152,7 @@
 .dropdown-menu__settings:before {
   content: "";
   display: block;
-  background: url("img/settings.svg") no-repeat center / cover;
+  background: url("../components/navbar/img/settings.svg") no-repeat center / cover;
   width: 19px;
   height: 19px;
   float: left;
@@ -171,7 +171,7 @@ input[type=checkbox] {
 label[for=toggle] {
   width: 19px;
   height: 19px;
-  background: url("img/dropdown.svg") no-repeat center / cover;
+  background: url("../components/navbar/img/dropdown.svg") no-repeat center / cover;
   cursor: pointer;
 }
 

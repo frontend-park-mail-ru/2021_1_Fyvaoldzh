@@ -66,7 +66,7 @@ export default class UserView {
     navbar.innerHTML = navbarLoggedTemplate(profileData);
     const navbarAvatar = document.getElementById('navbar-avatar');
 
-    navbarAvatar.style.background = `url(${urlMap.imgUrl + profileData.Uid}) no-repeat center / cover`;
+    navbarAvatar.style.background = `url(${urlMap.imgUrl}/${profileData.Uid}) no-repeat center / cover`;
   }
 
   renderValidationErrors() {

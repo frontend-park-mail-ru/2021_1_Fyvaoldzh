@@ -1,69 +1,38 @@
-:root {
-  --main-gradient: linear-gradient(90deg, #2e1665 0%, #57001e 100%);
+@import "variables";
+
+.button-category {
+  font-size: 24px;
+  text-align: center;
+  vertical-align: center;
+  box-shadow: $project-box-shadow;
+  margin-left: 5px;
+  padding: 10px;
+
+  &_active {
+    @extend .button-category;
+    background: $main-gradient;
+    color: $project-white;
+  }
+
+  &_inactive {
+    @extend .button-category;
+    background: $project-white;
+    color: $project-black;
+    &:hover {
+      transform: translateY(-5px);
+      transition-duration: 0.5s;
+    }
+  }
 }
 
 .confirm-button {
+  @extend .button-category_active;
   width: 510px;
   height: 60px;
   margin-top: 58px;
-  background: var(--main-gradient);
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
 
-.confirm-button:hover {
-  transform: scale(1.05);
-  transition-duration: 0.5s;
-}
-
-.button-active {
-  font-family: PT Serif;
-  font-size: 24px;
-  line-height: 32px;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  color: #ffffff;
-  background: var(--main-gradient);
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  margin-right: 10px;
-}
-
-.button-inactive {
-  background: white;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  margin-right: 10px;
-  font-family: PT Serif;
-  font-size: 24px;
-  line-height: 32px;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  color: black;
-}
-
-.button-inactive:hover {
-  transform: scale(1.05);
-  transition-duration: 0.5s;
-}
-
-.button-active:hover {
-  transform: scale(1.05);
-  transition-duration: 0.5s;
-}
-
-.confirm-rewiew-button:hover {
-  transform: scale(1.05);
-  transition-duration: 0.5s;
+  &:hover {
+    transform: translateY(-5px);
+    transition-duration: 0.5s;
+  }
 }

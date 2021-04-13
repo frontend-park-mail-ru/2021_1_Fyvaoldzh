@@ -66,15 +66,15 @@ export default class EventsView {
 
   categoryButtonHandler(ev: MouseEvent) {
     const { target } = ev;
-    if (target instanceof HTMLButtonElement && target.classList.contains('button-inactive')) {
+    if (target instanceof HTMLButtonElement && target.classList.contains('button-category_inactive')) {
       this.toggleButton(target);
       this.actions.changeEventCategory(target.dataset.category);
     }
   }
 
   toggleButton(button: HTMLButtonElement) {
-    button.classList.toggle('button-inactive');
-    button.classList.toggle('button-active');
+    button.classList.toggle('button-category_inactive');
+    button.classList.toggle('button-category_active');
   }
 
   subscribeViews() {

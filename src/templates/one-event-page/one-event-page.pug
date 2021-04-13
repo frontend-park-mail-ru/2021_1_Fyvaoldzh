@@ -13,16 +13,19 @@
       .left-row(id='jsTagsRow')
   .event-info
     .container
-      .title
+      .event-info__title
         | Когда?
       .event-info__date
-        | #{date}
-      .title Где?
+        | #{startDate}
+      .event-info__title Где?
       .event-info__location
-        .location-text
+        .event-info__location_place
           | #{place}
-        .street-text
+        .event-info__location_street
           | #{street}
-        .underground-text
+        .event-info__location_subway
           | #{subway}
       .geolocation-image
+  .title
+    | Уже идут
+    .left-row(id='jsPlanningUsers')

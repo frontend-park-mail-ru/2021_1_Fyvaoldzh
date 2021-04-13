@@ -1,12 +1,15 @@
-:root {
-  --main-gradient: linear-gradient(90deg, #2e1665 0%, #57001e 100%);
+@import "mixins";
+@import "variables";
+
+.body {
+  font: $main-font;
+  background: $project-white;
 }
 
 .wrapper {
+  @include flex-mixin(column, center);
   min-height: 100%;
-  display: flex;
   overflow: hidden;
-  flex-direction: column;
   padding: 30px 0;
   transition: background 1.5s ease-in-out;
 }
@@ -14,67 +17,33 @@
 .decor-line {
   height: 1px;
   width: 100%;
-  background-color: #8986AC;
-  margin: 50px 0;
+  background-color: $project-grey;
+  margin-top: 50px;
 }
 
 ::placeholder {
-  font-family: PT Serif;
-  font-size: 20px;
+  font: $main-font;
   left: 5px;
-  color: #8986ac;
+  color: $project-grey;
 }
 
 input {
+  font: $main-font;
   position: relative;
-  font-family: PT Serif;
-  font-size: 20px;
   left: 5px;
-  color: black;
+  color: $project-black;
 }
 
 .container {
-  max-width: 1200px;
-  margin: 0px auto;
-  padding: 0px 15px;
-}
-
-@media (max-width:1200px) {
-  .container {
-    max-width: 970px;
-  }
-}
-
-@media (max-width:992px) {
-  .container {
-    max-width: 750px;
-  }
-}
-
-@media (max-width:767px) {
-  .container {
-    max-width: none;
-  }
+  width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
 }
 
 .title {
   width: 510px;
   height: 73px;
-  font-family: PT Serif;
   font-weight: bold;
   font-size: 50px;
-  line-height: 66px;
-  color: #000000;
-}
-
-textarea {
-  font-family: PT Serif;
-  font-size: 20px;
-  left: 5px;
-  color: black;
-  resize: none;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
-  margin-right: 40px;
-  padding: 20px;
-  flex: 1 1 auto;
+  color: $project-black;
 }
