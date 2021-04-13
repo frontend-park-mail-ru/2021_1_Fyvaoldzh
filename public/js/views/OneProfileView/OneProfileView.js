@@ -96,7 +96,7 @@ export default class OneProfileView extends ProfilesBaseView {
         break;
     }
 
-    //рнедерим пагинатор:
+    //ренедерим пагинатор:
     const oneProfilePaginator = document.getElementById('paginator');
     oneProfilePaginator.innerHTML = paginationBlockTemplate();
 

@@ -92,7 +92,7 @@ export function oneProfilePaginatorHandler(event) {
   const {target} = event;
   let currentPaginatorValue;
 
-  const {currentEventsButton, currentEventsPage} = this.globalStore.oneProfileStore;
+  const {currentEventsPage} = this.globalStore.oneProfileStore;
 
   currentPaginatorValue = currentEventsPage; //вне зависимости от нажатой кнопки планируемых/посещенных ивентов
   // текущая страница выбранного раздела хранится в currentEventsPage
@@ -112,6 +112,33 @@ export function oneProfilePaginatorHandler(event) {
 }
 
 /**
+ * Функция-обработчик кликов по пагинатору для страницы своего профиля
+ * @param {Object} event - ивент
+ */
+export function profilePaginatorHandler(event) {
+  const {target} = event;
+  let currentPaginatorValue;
+
+  const {currentEventsPage} = this.globalStore.userStore;
+
+  currentPaginatorValue = currentEventsPage; //вне зависимости от нажатой кнопки планируемых/посещенных ивентов
+  // текущая страница выбранного раздела хранится в currentEventsPage
+
+  switch (target.id) {
+    case 'paginationBack':
+      if (currentPaginatorValue > 1) {
+        //если текущая страница не 1, то обрабатываем клик по кнопке "назад" (если 1, то она все равно скрыта, но дополнительная проверка не помешает)
+        this.actions.userPageBack();
+      }
+      break;
+
+    case 'paginationForward':
+      this.actions.userPageForward();
+      break;
+  }
+}
+
+/**
  * Функция, обновляющая состояние пагинатора
  * @param {Number} currentPaginatorValue - номер текущей страницы
  * @param {Number} resultsAmount - количество результатов на странице
@@ -120,6 +147,7 @@ export function oneProfilePaginatorHandler(event) {
 export function updatePaginationState(currentPaginatorValue, resultsAmount = 6) {
   const pagBack = document.getElementById('paginationBack');
   const pagForward = document.getElementById('paginationForward');
+  const pagIndicator = document.getElementById('paginationCurrent');
 
   if (!pagBack) return;
   if (currentPaginatorValue < 2) {
@@ -143,7 +171,21 @@ export function updatePaginationState(currentPaginatorValue, resultsAmount = 6) 
     pagForward.classList.remove('paginator__element_hide');
   }
 
-  document.getElementById('paginationCurrent').innerText = currentPaginatorValue; //обновляем значение в пагинаторе
+  if (
+    pagForward.classList.contains('paginator__element_hide') &&
+    pagBack.classList.contains('paginator__element_hide')
+  ) {
+    //если обе кнопки: "назад" и "вперед" скрыты,
+    //то скрываем и блок с номером страницы - т.к. он в любом случае будет содержать только "1"
+    if (!pagIndicator.classList.contains('paginator__element_hide')) {
+      pagIndicator.classList.add('paginator__element_hide');
+    }
+  } else if (pagIndicator.classList.contains('paginator__element_hide')) {
+    //иначе показываем его, если он скрыт
+    pagIndicator.classList.remove('paginator__element_hide');
+  }
+
+  pagIndicator.innerText = currentPaginatorValue; //обновляем значение в пагинаторе
 }
 
 /**

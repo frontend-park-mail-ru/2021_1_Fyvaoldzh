@@ -111,11 +111,6 @@ export default class searchStore {
     this.searchResultEvents.length = 0;
     this.searchResultUsers.length = 0;
 
-    // const eventsJsonArray = await getAllEventsJson();
-    // Object.entries(eventsJsonArray).forEach(([, eventJson]) => {
-    //   this.searchResultEvents.push(eventJson);
-    // });
-
     const eventsJsonArray = await getEventsByParams(
       this.searchData,
       this.getCategoryCyrillic(this.currentEventsButton),
@@ -126,12 +121,6 @@ export default class searchStore {
         this.searchResultEvents.push(eventJson);
       });
     }
-    // for (let i = 1; i < 63; ++i) {
-    //   const userJson = await getProfileById(i);
-    //   if (userJson.name && userJson.name.toUpperCase().includes(this.searchData.toUpperCase())) {
-    //     this.searchResultUsers.push(userJson);
-    //   }
-    // }
 
     const usersJsonArray = await getUsersByParams(this.currentUsersPage);
     if (usersJsonArray !== null) {
@@ -139,7 +128,6 @@ export default class searchStore {
         this.searchResultUsers.push(userJson);
       });
     }
-    // this.globalStore.eventBus.publish(channelNames.searchUpdated);
   }
 
   async pageForward() {

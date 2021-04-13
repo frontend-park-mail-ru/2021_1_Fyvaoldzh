@@ -9,8 +9,9 @@
     background: url(img/pagination-back-button.svg) no-repeat center / 100%;
     height: 50px;
     width: 50px;
-    transition-timing-function: linear;
-    transition-duration: 0.3s;
+    /*transition-timing-function: linear;*/
+    /*transition-duration: 0.3s;*/
+    transition: transform 0.3s linear 0s;;
 }
 
 .paginator__arrow-back:hover {
@@ -44,8 +45,9 @@
     background: url(img/pagination-forward-button.svg) no-repeat center / 100%;
     height: 50px;
     width: 50px;
-    transition-timing-function: linear;
-    transition-duration: 0.3s;
+    /*transition-timing-function: linear;*/
+    /*transition-duration: 0.3s;*/
+    transition: transform 0.3s linear 0s;;
 }
 
 .paginator__arrow-forward:hover {
@@ -55,4 +57,5 @@
 .paginator__element_hide {
     height: 0;
     width: 0;
+    font-size: 0;
 }

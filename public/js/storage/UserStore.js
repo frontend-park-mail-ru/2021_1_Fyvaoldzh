@@ -24,6 +24,7 @@ const globalStoreSymbol = Symbol('globalStoreSymbol');
 const currentEventsButtonSymbol = Symbol('currentEventsButtonSymbol');
 const profilePlanningEventsSymbol = Symbol('profilePlanningEventsSymbol');
 const profileVisitedEventsSymbol = Symbol('profileVisitedEventsSymbol');
+const currentEventsPageSymbol = Symbol('currentEventsPageSymbol');
 
 export default class UserStore {
   constructor(globalStore) {
@@ -35,6 +36,7 @@ export default class UserStore {
     this[avatarPreviewUrlSymbol] = null;
     this[profilePlanningEventsSymbol] = [];
     this[profileVisitedEventsSymbol] = [];
+    this[currentEventsPageSymbol] = 1;
   }
 
   get globalStore() {
@@ -75,6 +77,14 @@ export default class UserStore {
 
   set profileVisitedEvents(value) {
     this[profileVisitedEventsSymbol] = value;
+  }
+
+  get currentEventsPage() {
+    return this[currentEventsPageSymbol];
+  }
+
+  set currentEventsPage(value) {
+    this[currentEventsPageSymbol] = value;
   }
 
   async register(action) {
@@ -200,6 +210,36 @@ export default class UserStore {
     this.globalStore.eventBus.publish(channelNames.avatarDeclined);
   }
 
+  async pageForward() {
+    this.currentEventsPage++;
+    await this.updateEvents();
+
+    switch (this.currentEventsButton) {
+      case profileEventsButton.planning:
+        this.globalStore.eventBus.publish(channelNames.profilePageChanged, this.profilePlanningEvents);
+        break;
+
+      case profileEventsButton.visited:
+        this.globalStore.eventBus.publish(channelNames.profilePageChanged, this.profileVisitedEvents);
+        break;
+    }
+  }
+
+  async pageBack() {
+    this.currentEventsPage--;
+    await this.updateEvents();
+
+    switch (this.currentEventsButton) {
+      case profileEventsButton.planning:
+        this.globalStore.eventBus.publish(channelNames.profilePageChanged, this.profilePlanningEvents);
+        break;
+
+      case profileEventsButton.visited:
+        this.globalStore.eventBus.publish(channelNames.profilePageChanged, this.profileVisitedEvents);
+        break;
+    }
+  }
+
   reducer(action) {
     switch (action.eventName) {
       case 'user/register':
@@ -244,6 +284,14 @@ export default class UserStore {
 
       case 'user/updateEvents':
         this.updateEvents(action);
+        break;
+
+      case 'user/pageForward':
+        this.pageForward();
+        break;
+
+      case 'user/pageBack':
+        this.pageBack();
         break;
 
       default:

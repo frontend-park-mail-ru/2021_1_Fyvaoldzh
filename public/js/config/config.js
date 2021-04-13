@@ -70,6 +70,7 @@ export const channelNames = {
   searchEventsPageChanged: 'searchEventsPageChanged',
   searchUsersPageChanged: 'searchUsersPageChanged',
   oneProfilePageChanged: 'oneProfilePageChanged',
+  profilePageChanged: 'profilePageChanged',
 };
 
 export const pageNames = {

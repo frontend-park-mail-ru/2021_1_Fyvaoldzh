@@ -1,9 +1,15 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-return-assign */
-import {pageNames, channelNames, urlMap, SERVER_ERRORS} from '../../config/config.js';
+import {pageNames, channelNames, urlMap, SERVER_ERRORS, profileEventsButton} from '../../config/config.js';
 import INPUTS from '../../validationModule/validation.js';
-import {addDeclensionOfNumbers, buttonToggleHandler} from '../utils/utils.js';
+import {
+  addDeclensionOfNumbers,
+  buttonToggleHandler,
+  profilePaginatorHandler,
+  searchPaginatorHandler,
+  updatePaginationState,
+} from '../utils/utils.js';
 import ProfilesBaseView from '../ProfilesBaseView/ProfilesBaseView.js';
 
 const globalStoreSymbol = Symbol('globalStoreSymbol');
@@ -22,6 +28,25 @@ export default class UserView extends ProfilesBaseView {
 
   get actions() {
     return this[actionsSymbol];
+  }
+
+  renderEventsList(events) {
+    super.renderEventsList(events);
+
+    //вне зависимости от нажатой кнопки планируемых/посещенных ивентов текущая страница выбранного раздела хранится в currentEventsPage
+    const {currentEventsPage, currentEventsButton} = this.globalStore.userStore;
+
+    //обновляем состояние пагинатора после отрисовки списка
+    switch (currentEventsButton) {
+      case profileEventsButton.planning:
+        const {profilePlanningEvents} = this.globalStore.userStore;
+        updatePaginationState(currentEventsPage, profilePlanningEvents.length);
+        break;
+      case profileEventsButton.visited:
+        const {profileVisitedEvents} = this.globalStore.userStore;
+        updatePaginationState(currentEventsPage, profileVisitedEvents.length);
+        break;
+    }
   }
 
   handleFileSelect(e) {
@@ -165,6 +190,27 @@ export default class UserView extends ProfilesBaseView {
 
     this.renderChangingContent();
     window.history.pushState('', '', '/profile');
+
+    //ренедерим пагинатор:
+    const {currentEventsButton, currentEventsPage} = this.globalStore.userStore;
+    const profilePaginator = document.getElementById('paginator');
+    profilePaginator.innerHTML = paginationBlockTemplate();
+
+    switch (currentEventsButton) {
+      case profileEventsButton.planning:
+        // updatePaginationState(currentEventsPage, profilePlanningEvents.length);  //использовать, когда на бэке будет пагинация,
+        // а пока что в качестве количества результатов закидываем 1 (<6), чтобы скрыть кнопку "вперед"
+        updatePaginationState(currentEventsPage, 1);
+
+        break;
+      case profileEventsButton.visited:
+        // updatePaginationState(currentEventsPage, profileVisitedEvents.length);  //то же самое для посещенных мероприятий
+        updatePaginationState(currentEventsPage, 1);
+        break;
+    }
+
+    document.getElementById('paginationBack').addEventListener('click', profilePaginatorHandler.bind(this));
+    document.getElementById('paginationForward').addEventListener('click', profilePaginatorHandler.bind(this));
   }
 
   renderChangingContent() {
@@ -187,6 +233,25 @@ export default class UserView extends ProfilesBaseView {
       case 'eventsTab':
         changingContent.innerHTML = profileEventsTabTemplate();
         this.renderOneProfileEventsTab();
+
+        const {currentEventsPage, currentEventsButton} = this.globalStore.userStore;
+        const eventsPaginator = document.getElementById('paginator');
+        eventsPaginator.innerHTML = paginationBlockTemplate();
+
+        switch (currentEventsButton) {
+          case profileEventsButton.planning:
+            // updatePaginationState(currentEventsPage, profilePlanningEvents.length);  //использовать, когда на бэке будет пагинация,
+            // а пока что в качестве количества результатов закидываем 1 (<6), чтобы скрыть кнопку "вперед"
+            updatePaginationState(currentEventsPage, 1);
+            break;
+          case profileEventsButton.visited:
+            // updatePaginationState(currentEventsPage, profileVisitedEvents.length);  //то же самое для посещенных мероприятий
+            updatePaginationState(currentEventsPage, 1);
+            break;
+        }
+
+        document.getElementById('paginationBack').addEventListener('click', profilePaginatorHandler.bind(this));
+        document.getElementById('paginationForward').addEventListener('click', profilePaginatorHandler.bind(this));
         break;
 
       default:
@@ -268,6 +333,7 @@ export default class UserView extends ProfilesBaseView {
       channelNames.userEventsButtonChanged,
       this.renderEventsList.bind(this)
     );
+    this[globalStoreSymbol].eventBus.subscribe(channelNames.profilePageChanged, this.renderEventsList.bind(this));
   }
 
   postProfile(e) {

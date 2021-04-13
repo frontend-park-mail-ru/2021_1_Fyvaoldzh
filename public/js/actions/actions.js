@@ -101,6 +101,20 @@ export default class Actions {
     });
   }
 
+  userPageForward() {
+    this.dispatcher.dispatch({
+      eventName: 'user/pageForward',
+      data: null,
+    });
+  }
+
+  userPageBack() {
+    this.dispatcher.dispatch({
+      eventName: 'user/pageBack',
+      data: null,
+    });
+  }
+
   updateOneProfile(id) {
     this.dispatcher.dispatch({
       eventName: 'oneProfile/update',
