@@ -1,3 +1,4 @@
+<<<<<<< HEAD:src/ts/views/UserView/UserView.ts
 import {
   ChannelNames, urlMap, SERVER_ERRORS, routes,
 } from '../../config/config';
@@ -23,6 +24,15 @@ function activateTab(button: string) {
   document.getElementById(button).classList.add('tab-active');
   document.getElementById(button).classList.remove('tab-inactive');
 }
+=======
+/* eslint-disable no-undef */
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-return-assign */
+import {pageNames, channelNames, urlMap, SERVER_ERRORS} from '../../config/config.js';
+import INPUTS from '../../validationModule/validation.js';
+import {addDeclensionOfNumbers, buttonToggleHandler} from '../utils/utils.js';
+import ProfilesBaseView from '../ProfilesBaseView/ProfilesBaseView.js';
+>>>>>>> origin/dev:public/js/views/UserView/UserView.js
 
 function deactivateTab(button: string) {
   document.getElementById(button).classList.add('tab-inactive');
@@ -33,8 +43,17 @@ interface HTMLInputEvent extends Event {
   target: HTMLInputElement & EventTarget;
 }
 
+<<<<<<< HEAD:src/ts/views/UserView/UserView.ts
 export default class UserView {
   public globalStore: Store;
+=======
+export default class UserView extends ProfilesBaseView {
+  constructor({globalStore, actions}) {
+    super();
+    this[globalStoreSymbol] = globalStore;
+    this[actionsSymbol] = actions;
+  }
+>>>>>>> origin/dev:public/js/views/UserView/UserView.js
 
   public actions: Actions;
 
@@ -52,8 +71,13 @@ export default class UserView {
     }
     const reader = new FileReader();
 
+<<<<<<< HEAD:src/ts/views/UserView/UserView.ts
     reader.onload = (evnt) => {
       this.actions.avatarPreview(<string>evnt.target.result);
+=======
+    reader.onload = evnt => {
+      this.actions.avatarPreview(evnt.target.result);
+>>>>>>> origin/dev:public/js/views/UserView/UserView.js
     };
 
     reader.readAsDataURL(file);
@@ -71,7 +95,7 @@ export default class UserView {
   }
 
   renderValidationErrors() {
-    const { validationErrors } = this.globalStore.userStore;
+    const {validationErrors} = this.globalStore.userStore;
 
     if (document.getElementById('loginError')) {
       document.getElementById('loginError').innerText = '';
@@ -93,48 +117,57 @@ export default class UserView {
       document.getElementById('emailError').innerText = '';
     }
 
+<<<<<<< HEAD:src/ts/views/UserView/UserView.ts
     document.getElementsByName('login').forEach((el) => el.style.all = null);
     document.getElementsByName('password').forEach((el) => el.style.all = null);
     document.getElementsByName('name').forEach((el) => el.style.all = null);
     document.getElementsByName('birthday').forEach((el) => el.style.all = null);
     document.getElementsByName('city').forEach((el) => el.style.all = null);
     document.getElementsByName('email').forEach((el) => el.style.all = null);
+=======
+    document.getElementsByName('login').forEach(el => (el.style = null));
+    document.getElementsByName('password').forEach(el => (el.style = null));
+    document.getElementsByName('name').forEach(el => (el.style = null));
+    document.getElementsByName('birthday').forEach(el => (el.style = null));
+    document.getElementsByName('city').forEach(el => (el.style = null));
+    document.getElementsByName('email').forEach(el => (el.style = null));
+>>>>>>> origin/dev:public/js/views/UserView/UserView.js
 
-    validationErrors.forEach((error) => {
+    validationErrors.forEach(error => {
       switch (error) {
         case 'login':
-          document.getElementsByName('login').forEach((el) => el.style.boxShadow = '0px 0px 10px 0px #CE0E50');
+          document.getElementsByName('login').forEach(el => (el.style.boxShadow = '0px 0px 10px 0px #CE0E50'));
           document.getElementById('loginError').innerText = INPUTS.login.errorMsg;
           break;
 
         case 'password':
-          document.getElementsByName('password').forEach((el) => el.style.boxShadow = '0px 0px 10px 0px #CE0E50');
+          document.getElementsByName('password').forEach(el => (el.style.boxShadow = '0px 0px 10px 0px #CE0E50'));
           document.getElementById('passwordError').innerText = INPUTS.password.errorMsg;
           break;
 
         case 'name': // Nickname / name исправить все на одно
-          document.getElementsByName('name').forEach((el) => el.style.boxShadow = '0px 0px 10px 0px #CE0E50');
+          document.getElementsByName('name').forEach(el => (el.style.boxShadow = '0px 0px 10px 0px #CE0E50'));
           document.getElementById('nicknameError').innerText = INPUTS.name.errorMsg;
           break;
 
         case 'loginExist':
-          document.getElementsByName('login').forEach((el) => el.style.boxShadow = '0px 0px 10px 0px #CE0E50');
+          document.getElementsByName('login').forEach(el => (el.style.boxShadow = '0px 0px 10px 0px #CE0E50'));
           document.getElementById('nicknameError').innerText = SERVER_ERRORS.LOGIN_EXIST;
           break;
 
         case 'wrongLoginOrPass':
-          document.getElementsByName('login').forEach((el) => el.style.boxShadow = '0px 0px 10px 0px #CE0E50');
-          document.getElementsByName('password').forEach((el) => el.style.boxShadow = '0px 0px 10px 0px #CE0E50');
+          document.getElementsByName('login').forEach(el => (el.style.boxShadow = '0px 0px 10px 0px #CE0E50'));
+          document.getElementsByName('password').forEach(el => (el.style.boxShadow = '0px 0px 10px 0px #CE0E50'));
           document.getElementById('passwordError').innerText = SERVER_ERRORS.WRONG_LOGIN_OR_PASS;
           break;
 
         case 'birthday':
-          document.getElementsByName('birthday').forEach((el) => el.style.boxShadow = '0px 0px 10px 0px #CE0E50');
+          document.getElementsByName('birthday').forEach(el => (el.style.boxShadow = '0px 0px 10px 0px #CE0E50'));
           document.getElementById('birthdayError').innerText = INPUTS.birthday.errorMsg;
           break;
 
         case 'email':
-          document.getElementsByName('email').forEach((el) => el.style.boxShadow = '0px 0px 10px 0px #CE0E50');
+          document.getElementsByName('email').forEach(el => (el.style.boxShadow = '0px 0px 10px 0px #CE0E50'));
           document.getElementById('emailError').innerText = INPUTS.email.errorMsg;
           break;
 
@@ -144,6 +177,7 @@ export default class UserView {
     });
   }
 
+<<<<<<< HEAD:src/ts/views/UserView/UserView.ts
   renderMyProfilePage(currentTab?: string) {
     if (!currentTab) {
       currentTab = this.globalStore.userStore.currentTab;
@@ -154,42 +188,70 @@ export default class UserView {
     }
 
     const { userData } = this.globalStore.userStore;
+=======
+  renderProfilePage() {
+    if (this.globalStore.currentPage !== pageNames.profilePage) {
+      return;
+    }
+
+    // this.actions.updateUserEvents(); //не успевает обновиться до первой отрисовки(поэтому сейчас в UserStore внутри update() вызывается updateEvents())
+
+    window.scroll(0, 0);
+    const {userData} = this.globalStore.userStore;
+>>>>>>> origin/dev:public/js/views/UserView/UserView.js
 
     const wrapper = document.getElementById('wrapper');
-    wrapper.style.background = 'url("components/img/my-profile-background.jpg") no-repeat top / cover';
+    wrapper.style.background = 'url("templates/profile/img/profile-background.jpg") no-repeat top / 100%';
+
+    userData.followers += addDeclensionOfNumbers(userData.followers, ['подписчик', 'подписчика', 'подписчиков']);
+
     wrapper.innerHTML = '';
-    wrapper.innerHTML = myProfileTemplate(userData);
+    wrapper.innerHTML = profileTemplate(userData);
 
     const avatar = document.getElementById('profileAvatar');
     avatar.style.background = `url(${urlMap.imgUrl + userData.Uid}) no-repeat center / cover`;
 
     document.getElementById('imageFile').addEventListener('change', this.handleFileSelect.bind(this));
-    document.getElementById('jsSubmitAvatar').addEventListener('click', this.actions.pushAvatar.bind(this.actions));
-    document.getElementById('jsDeclineAvatar').addEventListener('click', this.actions.declineAvatar.bind(this.actions));
+    document
+      .getElementById('jsSubmitAvatar')
+      .addEventListener('click', this.actions.pushAvatar.bind(this.actions));
+    document
+      .getElementById('jsDeclineAvatar')
+      .addEventListener('click', this.actions.declineAvatar.bind(this.actions));
 
     const tabsBlock = document.getElementById('jsTabsBlock');
-
-    tabsBlock.addEventListener('click', this.buttonToggleHandler.bind(this));
+    let tabs = Array.from(tabsBlock.querySelectorAll('button[data-buttontype="toggle"]'));
+    tabs.forEach(tab => {
+      tab.addEventListener('click', buttonToggleHandler.bind(this));
+    });
 
     this.renderChangingContent(currentTab);
   }
 
+<<<<<<< HEAD:src/ts/views/UserView/UserView.ts
   renderChangingContent(currentTab?: string) {
     if (!currentTab) {
       currentTab = this.globalStore.userStore.currentTab;
     }
 
     const { userData } = this.globalStore.userStore;
+=======
+  renderChangingContent() {
+    // console.log(this.globalStore.userStore.currentTab);
+    const {currentTab} = this.globalStore.userStore;
+    const {userData} = this.globalStore.userStore;
+>>>>>>> origin/dev:public/js/views/UserView/UserView.js
 
     const changingContent = document.getElementById('changing-content');
     switch (currentTab) {
       case 'aboutTab':
-        changingContent.innerHTML = myProfileAboutTabTemplate(userData);
+        changingContent.innerHTML = profileAboutTabTemplate(userData);
         document.getElementById('postProfile').addEventListener('click', this.postProfile.bind(this));
         activateTab(currentTab);
         break;
 
       case 'settingsTab':
+<<<<<<< HEAD:src/ts/views/UserView/UserView.ts
         changingContent.innerHTML = myProfileSettingsTabTemplate();
         activateTab(currentTab);
         break;
@@ -197,6 +259,42 @@ export default class UserView {
       case 'eventsTab':
         changingContent.innerHTML = myProfileEventsTabTemplate(userData);
         activateTab(currentTab);
+=======
+        changingContent.innerHTML = profileSettingsTabTemplate();
+        break;
+
+      case 'eventsTab':
+        changingContent.innerHTML = profileEventsTabTemplate();
+        this.renderOneProfileEventsTab();
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  renderOneProfileEventsTab() {
+    const {currentEventsButton} = this.globalStore.userStore;
+    const {profileEvents} = this.globalStore.userStore;
+
+    // const eventsButtonsBlock = document.getElementById('jsEventsButtonsBlock');
+    //
+    // eventsButtonsBlock.addEventListener('click', buttonToggleHandler.bind(this));
+
+    const changingContent = document.getElementById('changing-content');
+    let buttons = Array.from(changingContent.querySelectorAll('button[data-buttontype="toggle"]'));
+    buttons.forEach(button => {
+      button.addEventListener('click', buttonToggleHandler.bind(this));
+    });
+
+    switch (currentEventsButton) {
+      case 'planningEventsButton':
+        this.renderEventsList(profileEvents);
+        break;
+
+      case 'visitedEventsButton':
+        this.renderEventsList([]);
+>>>>>>> origin/dev:public/js/views/UserView/UserView.js
         break;
 
       default:
@@ -214,7 +312,7 @@ export default class UserView {
   }
 
   renderUnPreviewAvatar() {
-    const { userData } = this.globalStore.userStore;
+    const {userData} = this.globalStore.userStore;
     const avatar = document.getElementById('profileAvatar');
     avatar.style.background = `url(${urlMap.imgUrl + userData.Uid}) no-repeat center / cover`;
 
@@ -235,6 +333,7 @@ export default class UserView {
   }
 
   subscribeViews() {
+<<<<<<< HEAD:src/ts/views/UserView/UserView.ts
     this.globalStore.eventBus.subscribe(ChannelNames.errorValidation, this.renderValidationErrors.bind(this));
     this.globalStore.eventBus.subscribe(ChannelNames.userUpdated, this.renderLoggedNavbar.bind(this));
     this.globalStore.eventBus.subscribe(ChannelNames.userUpdated, this.renderMyProfilePage.bind(this));
@@ -261,6 +360,22 @@ export default class UserView {
       target.classList.remove('button-inactive');
       curActiveElem.classList.remove('button-active');
     }
+=======
+    this[globalStoreSymbol].eventBus.subscribe(
+      channelNames.errorValidation,
+      this.renderValidationErrors.bind(this)
+    );
+    this[globalStoreSymbol].eventBus.subscribe(channelNames.userUpdated, this.renderLoggedNavbar.bind(this));
+    this[globalStoreSymbol].eventBus.subscribe(channelNames.userUpdated, this.renderProfilePage.bind(this));
+    this[globalStoreSymbol].eventBus.subscribe(channelNames.tabChanged, this.renderChangingContent.bind(this));
+    this[globalStoreSymbol].eventBus.subscribe(channelNames.avatarPreview, this.renderPreviewAvatar.bind(this));
+    this[globalStoreSymbol].eventBus.subscribe(channelNames.avatarDeclined, this.renderUnPreviewAvatar.bind(this));
+    this[globalStoreSymbol].eventBus.subscribe(channelNames.avatarPushed, this.renderAvatarPushed.bind(this));
+    this[globalStoreSymbol].eventBus.subscribe(
+      channelNames.userEventsButtonChanged,
+      this.renderEventsList.bind(this)
+    );
+>>>>>>> origin/dev:public/js/views/UserView/UserView.js
   }
 
   postProfile(e: MouseEvent) {
