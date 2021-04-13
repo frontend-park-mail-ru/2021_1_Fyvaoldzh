@@ -31,8 +31,6 @@ const toViews = {
   actions,
 };
 
-console.log(window.location);
-
 dispatcher.register(globalStore.reducer.bind(globalStore));
 
 const eventsView = new EventsView(toViews);
@@ -78,6 +76,19 @@ const {body} = document;
     }
 */
 
+// const searchBarButton = document.getElementById('JSsearchBarButton'); //Достаем кнопку бара поиска.
+// searchBarButton.addEventListener('click', searchBarHandler); //Вешаем на нее обработчик клика.
+//
+// let searchBarInput = document.getElementById('JSsearchBarInput');
+// console.log(searchBarInput);
+// searchBarInput.addEventListener('click', e => {
+//   if (e.key === 'Enter') {
+//     // e.preventDefault();
+//     alert('pressed');
+//     // Do more work
+//   }
+// });
+
 body.addEventListener('click', async e => {
   const {target} = e;
 
@@ -100,7 +111,7 @@ body.addEventListener('click', async e => {
         break;
 
       case 'search':
-        actions.searchUpdate();
+        actions.searchUpdate('');
         break;
 
       default:
@@ -124,6 +135,36 @@ body.addEventListener('click', async e => {
       const dataFromForm = new FormData(formBody);
       const objectDataForm = Object.fromEntries(dataFromForm);
       actions.login(objectDataForm);
+    }
+
+    if (target.id === 'JSsearchBarButton') {
+      const searchBarInput = document.getElementById('JSsearchBarInput');
+      target.classList.toggle('close');
+      if (searchBarInput.classList.contains('square')) {
+        searchBarInput.value = '';
+      }
+      searchBarInput.classList.toggle('square');
+    }
+  }
+});
+
+body.addEventListener('keydown', async e => {
+  const {target} = e;
+
+  if (Object.prototype.toString.call(target) === '[object HTMLInputElement]') {
+    if (target.id === 'JSsearchBarInput') {
+      if (e.key === 'Enter') {
+        const tempValue = target.value;
+        target.blur();
+        document.getElementById('JSsearchBarButton').click();
+        actions.searchUpdate(tempValue);
+      }
+    }
+
+    if (target.id === 'searchInput') {
+      if (e.key === 'Enter') {
+        actions.newSearchInputData(document.getElementById('searchInput').value);
+      }
     }
   }
 });

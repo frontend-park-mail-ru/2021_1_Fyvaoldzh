@@ -143,9 +143,23 @@ export default class Actions {
     });
   }
 
-  updateSearchResults() {
+  newSearchInputData(data) {
     this.dispatcher.dispatch({
-      eventName: 'search/updateResults',
+      eventName: 'search/newInputData',
+      data,
+    });
+  }
+
+  searchPageForward() {
+    this.dispatcher.dispatch({
+      eventName: 'search/pageForward',
+      data: null,
+    });
+  }
+
+  searchPageBack() {
+    this.dispatcher.dispatch({
+      eventName: 'search/pageBack',
       data: null,
     });
   }

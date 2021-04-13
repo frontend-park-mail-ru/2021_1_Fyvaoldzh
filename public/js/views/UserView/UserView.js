@@ -141,7 +141,7 @@ export default class UserView extends ProfilesBaseView {
     const wrapper = document.getElementById('wrapper');
     wrapper.style.background = 'url("templates/profile/img/profile-background.jpg") no-repeat top / 100%';
 
-    userData.followers += addDeclensionOfNumbers(userData.followers, ['подписчик', 'подписчика', 'подписчиков']);
+    userData.followers = addDeclensionOfNumbers(userData.followers, ['подписчик', 'подписчика', 'подписчиков']);
 
     wrapper.innerHTML = '';
     wrapper.innerHTML = profileTemplate(userData);

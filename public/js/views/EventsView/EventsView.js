@@ -1,10 +1,10 @@
-import { pageNames, channelNames } from '../../config/config.js';
+import {pageNames, channelNames} from '../../config/config.js';
 import EventComponent from './EventComponent.js';
 
 const globalStoreSymbol = Symbol('globalStoreSymbol');
 
 export default class EventsView {
-  constructor({ globalStore }) {
+  constructor({globalStore}) {
     this[globalStoreSymbol] = globalStore;
   }
 
@@ -25,7 +25,7 @@ export default class EventsView {
     const eventsRow = document.getElementById('events-row');
 
     Object.entries(eventsJson).forEach(([, val]) => {
-      const innerEvent = new EventComponent({ parent: eventsRow, data: val });
+      const innerEvent = new EventComponent({parent: eventsRow, data: val});
       innerEvent.render();
     });
   }

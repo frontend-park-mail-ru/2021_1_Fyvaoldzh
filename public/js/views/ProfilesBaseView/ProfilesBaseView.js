@@ -2,12 +2,21 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-return-assign */
 
+import {updatePaginationState} from '../utils/utils.js';
+
 export default class ProfilesBaseView {
   constructor() {}
 
   renderEventsList = events => {
+    const {currentEventsPage} = this.globalStore.searchStore;
+    const {searchResultEvents} = this.globalStore.searchStore;
+
+    window.scroll(0, 0);
+    updatePaginationState(currentEventsPage, searchResultEvents.length);
     const eventsList = document.getElementById('events-list');
     let resultHTML = '';
+    // console.log(events);
+    // console.log(events.length);
     if (!events.length) {
       const nothingRow = document.createElement('div');
       nothingRow.className = 'profile-header';
@@ -16,7 +25,7 @@ export default class ProfilesBaseView {
       nothingRow.style.justifyContent = 'center';
 
       const thereIsNothing = document.createElement('H6');
-      thereIsNothing.innerText = `Тут пока пусто =(`;
+      thereIsNothing.innerText = `Ничего не найдено =(`;
       thereIsNothing.style.fontSize = '24px';
       thereIsNothing.style.textAlign = 'center';
       thereIsNothing.style.marginBottom = '30px';
@@ -29,6 +38,9 @@ export default class ProfilesBaseView {
       resultHTML = externalElement.innerHTML;
     } else {
       events.forEach(event => {
+        if (event.startDate.includes(' +')) {
+          event.startDate = event.startDate.split(' +', 1);
+        }
         resultHTML += oneEventBlockTemplate(event);
       });
     }

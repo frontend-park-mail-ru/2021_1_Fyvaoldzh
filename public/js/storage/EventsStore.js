@@ -1,5 +1,5 @@
-import { getAllEventsJson } from '../networkModule/network.js';
-import { channelNames } from '../config/config.js';
+import {getAllEventsJson} from '../networkModule/network.js';
+import {channelNames} from '../config/config.js';
 
 const allEventsSymbol = Symbol('allEventsSymbol');
 const globalStoreSymbol = Symbol('globalStoreSymbol');

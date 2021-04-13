@@ -1,7 +1,8 @@
 <div class="button-block">
-    <button class="button-active" id="exhibitionButton" data-buttontype="toggle">Выставки</button>
+    <button class="button-active" id="allEventsButton" data-buttontype="toggle">Все</button>
+    <button class="inbutton-active" id="exhibitionButton" data-buttontype="toggle">Выставки</button>
     <button class="button-inactive" id="concertButton" data-buttontype="toggle">Концерты</button>
-    <button class="button-inactive" id="theatreButton" data-buttontype="toggle">Театр</button>
+    <button class="button-inactive" id="museumButton" data-buttontype="toggle">Музеи</button>
     <button class="button-inactive" id="entertainmentButton" data-buttontype="toggle">Развлечения</button>
     <button class="button-inactive" id="trainingButton" data-buttontype="toggle">Обучение</button>
     <button class="button-inactive" id="movieButton" data-buttontype="toggle">Кино</button>
@@ -9,8 +10,5 @@
     <button class="button-inactive" id="excursionButton" data-buttontype="toggle">Экскурсии</button>
 </div>
 <div class="smbs-events-block" id="events-list"></div>
-<div class="paginator">
-    <a href="#" class="paginator__arrow-back"></a>
-    <a href="#" class="paginator__page-button">1</a>
-    <a href="#" class="paginator__arrow-forward"></a>
-</div>
+<div class="paginator" id="paginator"></div>
+

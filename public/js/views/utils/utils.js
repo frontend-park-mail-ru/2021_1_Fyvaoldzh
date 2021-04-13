@@ -1,3 +1,5 @@
+import {searchTab, searchButton} from '../../config/config.js';
+
 /**
  * Функция для склонения слов, стоящих после чисел
  * @param {Number} number - само число
@@ -6,14 +8,16 @@
  */
 
 export const addDeclensionOfNumbers = (number, titles) => {
+  if (isNaN(number)) return number;
   const cases = [2, 0, 1, 1, 1, 2];
-  return ' ' + titles[number % 100 > 4 && number % 100 < 20 ? 2 : cases[number % 10 < 5 ? number % 10 : 5]];
+  return (
+    number + ' ' + titles[number % 100 > 4 && number % 100 < 20 ? 2 : cases[number % 10 < 5 ? number % 10 : 5]]
+  );
 };
 
 /**
  * Функция-обработчик нажатия по кнопке-переключателю
  * @param {Object} event - ивент
- * @return {Response} answer - ответ
  */
 
 export function buttonToggleHandler(event) {
@@ -46,4 +50,91 @@ export function buttonToggleHandler(event) {
       this.actions.changeSearchEventsButton(target.id);
     }
   }
+}
+
+/**
+ * Функция-обработчик нажатий на пагинатор
+ * @param {Object} event - ивент
+ */
+
+export function paginatorHandler(event) {
+  const {target} = event;
+  let currentPaginatorValue;
+  let resultsAmount = 6;
+
+  switch (this.constructor.name) {
+    case 'SearchView':
+      const {currentTab} = this.globalStore.searchStore;
+      const {
+        currentEventsPage,
+        currentUsersPage,
+        searchResultEvents,
+        searchResultUsers,
+      } = this.globalStore.searchStore;
+
+      if (currentTab === searchTab.events) {
+        currentPaginatorValue = currentEventsPage;
+        resultsAmount = searchResultEvents.length;
+      } else if (currentTab === searchTab.users) {
+        currentPaginatorValue = currentUsersPage;
+        resultsAmount = searchResultUsers.length;
+      }
+      break;
+  }
+
+  switch (target.id) {
+    case 'paginationBack':
+      if (currentPaginatorValue > 1) {
+        updatePaginationState(--currentPaginatorValue, resultsAmount);
+        this.actions.searchPageBack();
+      }
+      break;
+
+    case 'paginationForward':
+      updatePaginationState(++currentPaginatorValue, resultsAmount);
+      this.actions.searchPageForward();
+      break;
+  }
+}
+
+/**
+ * Функция, обновляющая состояние пагинатора
+ * @param {Number} currentPaginatorValue - номер текущей страницы
+ * @param {Number} resultsAmount - количество результатов на странице
+ */
+
+export function updatePaginationState(currentPaginatorValue, resultsAmount = 6) {
+  const pagBack = document.getElementById('paginationBack');
+  const pagForward = document.getElementById('paginationForward');
+
+  if (!pagBack) return;
+  if (currentPaginatorValue < 2) {
+    if (!pagBack.classList.contains('paginator__element_hide')) {
+      pagBack.classList.add('paginator__element_hide');
+    }
+  } else if (pagBack.classList.contains('paginator__element_hide')) {
+    pagBack.classList.remove('paginator__element_hide');
+  }
+
+  if (resultsAmount < 6) {
+    if (!pagForward.classList.contains('paginator__element_hide')) {
+      pagForward.classList.add('paginator__element_hide');
+    }
+  } else if (pagForward.classList.contains('paginator__element_hide')) {
+    pagForward.classList.remove('paginator__element_hide');
+  }
+
+  document.getElementById('paginationCurrent').innerText = currentPaginatorValue;
+}
+
+/**
+ * Функция-обработчик нажатий кнопку поиска в навбаре
+ * @param {Object} event - ивент
+ */
+
+export function searchBarHandler(event) {
+  const {target} = event;
+  const searchBarinput = document.getElementById('JSsearchBarInput');
+  target.classList.toggle('close');
+  searchBarinput.classList.toggle('square');
 }

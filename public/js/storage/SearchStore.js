@@ -1,4 +1,10 @@
-import {getProfileById, getEventById} from '../networkModule/network.js';
+import {
+  getProfileById,
+  getEventById,
+  getEventsByParams,
+  getUsersByParams,
+  getAllEventsJson,
+} from '../networkModule/network.js';
 
 import {channelNames, searchButton, searchTab} from '../config/config.js';
 
@@ -8,15 +14,19 @@ const currentTabSymbol = Symbol('CurrentTabSymbol');
 const globalStoreSymbol = Symbol('globalStoreSymbol');
 const searchResultEventsSymbol = Symbol('searchResultEventsSymbol');
 const searchResultUsersSymbol = Symbol('searchResultUsersSymbol');
+const currentEventsPageSymbol = Symbol('currentEventsPageSymbol');
+const currentUsersPageSymbol = Symbol('currentUsersPageSymbol');
 
 export default class searchStore {
   constructor(globalStore) {
     this[globalStoreSymbol] = globalStore;
     this[searchDataSymbol] = '';
-    this[currentEventsButtonSymbol] = searchButton.exhibition;
+    this[currentEventsButtonSymbol] = searchButton.allEvents;
     this[currentTabSymbol] = searchTab.events;
     this[searchResultEventsSymbol] = [];
     this[searchResultUsersSymbol] = [];
+    this[currentEventsPageSymbol] = 1;
+    this[currentUsersPageSymbol] = 1;
   }
 
   get globalStore() {
@@ -47,46 +57,153 @@ export default class searchStore {
     return this[searchResultUsersSymbol];
   }
 
+  get currentEventsPage() {
+    return this[currentEventsPageSymbol];
+  }
+
+  set currentEventsPage(value) {
+    this[currentEventsPageSymbol] = value;
+  }
+
+  get currentUsersPage() {
+    return this[currentUsersPageSymbol];
+  }
+
+  set currentUsersPage(value) {
+    this[currentUsersPageSymbol] = value;
+  }
+
   async update(action) {
-    // this[searchDataSymbol] = action.data;
-    this[currentEventsButtonSymbol] = searchButton.exhibition;
+    this[searchDataSymbol] = action.data;
+    this[currentEventsButtonSymbol] = searchButton.allEvents;
     this[currentTabSymbol] = searchTab.events;
+    this[currentEventsPageSymbol] = 1;
+    this[currentUsersPageSymbol] = 1;
+    // this[currentEventsButtonSymbol] = searchButton.allEvents;
+    // this[currentTabSymbol] = searchTab.events;
     await this.updateResults();
+
     this.globalStore.eventBus.publish(channelNames.searchUpdated);
   }
 
   async changeEventsButton(action) {
+    this[currentEventsPageSymbol] = 1;
     this[currentEventsButtonSymbol] = action.data;
-    this.globalStore.eventBus.publish(
-      channelNames.searchEventsButtonChanged,
-      this.currentEventsButton === 'exhibitionButton' ? this.searchResultEvents : []
-    );
+    await this.updateResults();
+    this.globalStore.eventBus.publish(channelNames.searchEventsButtonChanged, this.searchResultEvents);
   }
 
   async changeTab(action) {
     this[currentTabSymbol] = action.data;
-    if (this[currentTabSymbol] === searchTab.events) {
-      this[currentEventsButtonSymbol] = searchButton.exhibition;
-    }
+    // await this.updateResults(); //нужно ли...
     this.globalStore.eventBus.publish(channelNames.searchTabChanged);
+  }
+
+  async newInputData(action) {
+    this.searchData = action.data;
+    this[currentEventsPageSymbol] = 1;
+    this[currentUsersPageSymbol] = 1;
+    await this.updateResults();
+    this.globalStore.eventBus.publish(channelNames.searchUpdated);
   }
 
   async updateResults() {
     this.searchResultEvents.length = 0;
     this.searchResultUsers.length = 0;
 
-    for (let i = 124; i < 129; ++i) {
-      const eventJson = await getEventById(i);
-      if (eventJson.title && eventJson.title.includes(this.searchData)) {
-        this.searchResultEvents.push(eventJson);
-      }
-    }
+    // const eventsJsonArray = await getAllEventsJson();
+    // Object.entries(eventsJsonArray).forEach(([, eventJson]) => {
+    //   this.searchResultEvents.push(eventJson);
+    // });
 
-    for (let i = 1; i < 63; ++i) {
-      const userJson = await getProfileById(i);
-      this.searchResultUsers.push(userJson);
+    const eventsJsonArray = await getEventsByParams(
+      this.searchData,
+      this.getCategoryCyrillic(this.currentEventsButton),
+      this.currentEventsPage
+    );
+    if (eventsJsonArray !== null) {
+      Object.entries(eventsJsonArray).forEach(([, eventJson]) => {
+        this.searchResultEvents.push(eventJson);
+      });
+    }
+    // for (let i = 1; i < 63; ++i) {
+    //   const userJson = await getProfileById(i);
+    //   if (userJson.name && userJson.name.toUpperCase().includes(this.searchData.toUpperCase())) {
+    //     this.searchResultUsers.push(userJson);
+    //   }
+    // }
+
+    const usersJsonArray = await getUsersByParams(this.currentUsersPage);
+    if (usersJsonArray !== null) {
+      Object.entries(usersJsonArray).forEach(([, userJson]) => {
+        this.searchResultUsers.push(userJson);
+      });
     }
     // this.globalStore.eventBus.publish(channelNames.searchUpdated);
+  }
+
+  async pageForward() {
+    switch (this.currentTab) {
+      case searchTab.events:
+        this.currentEventsPage++;
+        await this.updateResults();
+        this.globalStore.eventBus.publish(channelNames.searchEventsPageChanged, this.searchResultEvents);
+        break;
+
+      case searchTab.users:
+        this.currentUsersPage++;
+        await this.updateResults();
+        this.globalStore.eventBus.publish(channelNames.searchUsersPageChanged, this.searchResultUsers);
+
+        break;
+    }
+  }
+
+  async pageBack() {
+    switch (this.currentTab) {
+      case searchTab.events:
+        this.currentEventsPage--;
+        await this.updateResults();
+        this.globalStore.eventBus.publish(channelNames.searchEventsPageChanged, this.searchResultEvents);
+        break;
+
+      case searchTab.users:
+        this.currentUsersPage--;
+        await this.updateResults();
+        this.globalStore.eventBus.publish(channelNames.searchUsersPageChanged, this.searchResultUsers);
+        break;
+    }
+  }
+
+  getCategoryCyrillic(categoryName) {
+    switch (categoryName) {
+      case searchButton.allEvents:
+        return '';
+
+      case searchButton.exhibition:
+        return 'Выставка';
+
+      case searchButton.concert:
+        return 'Концерт';
+
+      case searchButton.museum:
+        return 'Музей';
+
+      case searchButton.entertainment:
+        return 'Развлечения';
+
+      case searchButton.training:
+        return 'Обучение';
+
+      case searchButton.movie:
+        return 'Кино';
+
+      case searchButton.festival:
+        return 'Фестиваль';
+
+      case searchButton.excursion:
+        return 'Экскурсия';
+    }
   }
 
   reducer(action) {
@@ -103,8 +220,16 @@ export default class searchStore {
         this.update(action);
         break;
 
-      case 'search/updateResults':
-        this.updateResults(action);
+      case 'search/newInputData':
+        this.newInputData(action);
+        break;
+
+      case 'search/pageForward':
+        this.pageForward();
+        break;
+
+      case 'search/pageBack':
+        this.pageBack();
         break;
 
       default:

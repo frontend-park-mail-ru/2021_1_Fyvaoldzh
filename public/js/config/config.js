@@ -1,7 +1,9 @@
 export const urlMap = {
   allEventsUrl: 'http://95.163.180.8:1323/api/v1/',
   oneEventUrl: 'http://95.163.180.8:1323/api/v1/event/',
+  customEventUrl: 'http://95.163.180.8:1323/api/v1/search',
   oneProfileUrl: 'http://95.163.180.8:1323/api/v1/profile/',
+  customUserUrl: 'http://95.163.180.8:1323/api/v1/users',
   postLoginDataUrl: 'http://95.163.180.8:1323/api/v1/login',
   postRegistrationDataUrl: 'http://95.163.180.8:1323/api/v1/register',
   currentProfileUrl: 'http://95.163.180.8:1323/api/v1/profile',
@@ -33,9 +35,10 @@ export const profileEventsButton = {
 };
 
 export const searchButton = {
+  allEvents: 'allEventsButton',
   exhibition: 'exhibitionButton',
   concert: 'concertButton',
-  theatre: 'theatreButton',
+  museum: 'museumButton',
   entertainment: 'entertainmentButton',
   training: 'trainingButton',
   movie: 'movieButton',
@@ -64,6 +67,8 @@ export const channelNames = {
   searchUpdated: 'searchUpdated',
   searchEventsButtonChanged: 'searchEventsButtonChanged',
   searchTabChanged: 'searchTabChanged',
+  searchEventsPageChanged: 'searchEventsPageChanged',
+  searchUsersPageChanged: 'searchUsersPageChanged',
 };
 
 export const pageNames = {

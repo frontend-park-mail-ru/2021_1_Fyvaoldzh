@@ -24,6 +24,38 @@ export async function getEventById(id) {
 }
 
 /**
+ * Функция для получения ивентов по части названия, номеру страницы и категории
+ * @param {String} find - часть названия ивента
+ * @param {String} category - категория ивента
+ * @param {Number | String} page - номер текущей страницы поиска
+ * @return {json} - json, содержащий найденные ивенты
+ */
+
+export async function getEventsByParams(find = '', category = '', page = '') {
+  let url = new URL(urlMap.customEventUrl);
+  const params = {find: find, page: page, category: category};
+  url.search = new URLSearchParams(params).toString();
+  const answer = await fetch(url);
+  const jsonFile = await answer.json();
+  return jsonFile;
+}
+
+/**
+ * Функция для получения пользователей по номеру страницы
+ * @param {Number | String} page - номер текущей страницы поиска
+ * @return {json} - json, содержащий найденных пользователей
+ */
+
+export async function getUsersByParams(page = '') {
+  let url = new URL(urlMap.customUserUrl);
+  const params = {page: page};
+  url.search = new URLSearchParams(params).toString();
+  const answer = await fetch(url);
+  const jsonFile = await answer.json();
+  return jsonFile;
+}
+
+/**
  * Функция для получения профиля по id
  * @return {json} - json профиля
  */
