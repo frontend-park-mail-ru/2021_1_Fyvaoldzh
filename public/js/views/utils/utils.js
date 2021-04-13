@@ -53,77 +53,60 @@ export function buttonToggleHandler(event) {
 }
 
 /**
- * Функция-обработчик нажатий на пагинатор
+ * Функция-обработчик кликов по пагинатору для страницы поиска
  * @param {Object} event - ивент
  */
 
-export function paginatorHandler(event) {
+export function searchPaginatorHandler(event) {
   const {target} = event;
   let currentPaginatorValue;
-  let resultsAmount, pagBackAction, pagForwardAction;
 
-  switch (this.constructor.name) {
-    case 'SearchView': {
-      // const {currentTab} = this.globalStore.searchStore;
-      const {
-        currentTab,
-        currentEventsPage,
-        currentUsersPage,
-        searchResultEvents,
-        searchResultUsers,
-      } = this.globalStore.searchStore;
-      // pagBackAction = this.actions.searchPageBack.bind(this.globalStore.SearchView);
-      // pagForwardAction = this.actions.searchPageForward.bind(this.globalStore.SearchView);
+  const {currentTab, currentEventsPage, currentUsersPage} = this.globalStore.searchStore;
 
-      if (currentTab === searchTab.events) {
-        currentPaginatorValue = currentEventsPage;
-        resultsAmount = searchResultEvents.length;
-      } else if (currentTab === searchTab.users) {
-        currentPaginatorValue = currentUsersPage;
-        resultsAmount = searchResultUsers.length;
-      }
-      break;
-    }
-
-    case 'OneProfileView': {
-      const {
-        currentEventsPage,
-        currentEventsButton,
-        oneProfilePlanningEvents,
-        oneProfileVisitedEvents,
-      } = this.globalStore.oneProfileStore;
-      // pagBackAction = this.actions.oneProfilePageBack.bind(this.globalStore.OneProfileView);
-      // pagForwardAction = this.actions.oneProfilePageForward.bind(this.globalStore.OneProfileView);
-      currentPaginatorValue = currentEventsPage;
-
-      if (currentEventsButton === profileEventsButton.planning) {
-        resultsAmount = oneProfilePlanningEvents.length;
-      } else if (currentEventsButton === profileEventsButton.visited) {
-        resultsAmount = oneProfileVisitedEvents.length;
-      }
-      break;
-    }
+  if (currentTab === searchTab.events) {
+    currentPaginatorValue = currentEventsPage;
+  } else if (currentTab === searchTab.users) {
+    currentPaginatorValue = currentUsersPage;
   }
 
   switch (target.id) {
     case 'paginationBack':
       if (currentPaginatorValue > 1) {
-        updatePaginationState(currentPaginatorValue, resultsAmount); //было --currentPaginatorValue
-        if (this.constructor.name === 'SearchView') {
-          this.actions.searchPageBack();
-        } else if (this.constructor.name === 'OneProfileView') {
-          this.actions.oneProfilePageBack();
-        }
+        //если текущая страница не 1, то обрабатываем клик по кнопке "назад" (если 1, то она все равно скрыта, но лишняя проверка не помешает)
+        this.actions.searchPageBack();
       }
       break;
 
     case 'paginationForward':
-      updatePaginationState(currentPaginatorValue, resultsAmount); //было ++currentPaginatorValue
-      if (this.constructor.name === 'SearchView') {
-        this.actions.searchPageForward();
-      } else if (this.constructor.name === 'OneProfileView') {
-        this.actions.oneProfilePageForward();
+      this.actions.searchPageForward();
+      break;
+  }
+}
+
+/**
+ * Функция-обработчик кликов по пагинатору для страницы чужого профиля
+ * @param {Object} event - ивент
+ */
+
+export function oneProfilePaginatorHandler(event) {
+  const {target} = event;
+  let currentPaginatorValue;
+
+  const {currentEventsButton, currentEventsPage} = this.globalStore.oneProfileStore;
+
+  currentPaginatorValue = currentEventsPage; //вне зависимости от нажатой кнопки планируемых/посещенных ивентов
+  // текущая страница выбранного раздела хранится в currentEventsPage
+
+  switch (target.id) {
+    case 'paginationBack':
+      if (currentPaginatorValue > 1) {
+        //если текущая страница не 1, то обрабатываем клик по кнопке "назад" (если 1, то она все равно скрыта, но лишняя проверка не помешает)
+        this.actions.oneProfilePageBack();
       }
+      break;
+
+    case 'paginationForward':
+      this.actions.oneProfilePageForward();
       break;
   }
 }
@@ -135,28 +118,32 @@ export function paginatorHandler(event) {
  */
 
 export function updatePaginationState(currentPaginatorValue, resultsAmount = 6) {
-  console.log(resultsAmount);
   const pagBack = document.getElementById('paginationBack');
   const pagForward = document.getElementById('paginationForward');
 
   if (!pagBack) return;
   if (currentPaginatorValue < 2) {
+    //если страница 1 или (каким-то образом) меньше, то скрываем кнопку "назад", если она еще не скрыта
     if (!pagBack.classList.contains('paginator__element_hide')) {
       pagBack.classList.add('paginator__element_hide');
     }
   } else if (pagBack.classList.contains('paginator__element_hide')) {
+    //если же страница больше 1, то, если кнопка "назад" скрыта, показываем её
     pagBack.classList.remove('paginator__element_hide');
   }
 
   if (resultsAmount < 6) {
+    //временная заглушка, пока на бэке не реализовано возвращение кол-ва страниц - если на данной сранице меньше шести
+    // результатов, то скрываем кнопку "вперед", если она еще не скрыта
     if (!pagForward.classList.contains('paginator__element_hide')) {
       pagForward.classList.add('paginator__element_hide');
     }
   } else if (pagForward.classList.contains('paginator__element_hide')) {
+    //если же как минимум 6 рез-тов, то показываем кнопку "вперед", если она скрыта
     pagForward.classList.remove('paginator__element_hide');
   }
 
-  document.getElementById('paginationCurrent').innerText = currentPaginatorValue;
+  document.getElementById('paginationCurrent').innerText = currentPaginatorValue; //обновляем значение в пагинаторе
 }
 
 /**

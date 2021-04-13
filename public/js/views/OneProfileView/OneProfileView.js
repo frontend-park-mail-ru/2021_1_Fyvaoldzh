@@ -5,7 +5,7 @@ import {profileEventsButton, pageNames, channelNames, urlMap, SERVER_ERRORS} fro
 import {
   addDeclensionOfNumbers,
   buttonToggleHandler,
-  paginatorHandler,
+  oneProfilePaginatorHandler,
   updatePaginationState,
 } from '../utils/utils.js';
 import ProfilesBaseView from '../ProfilesBaseView/ProfilesBaseView.js';
@@ -26,6 +26,25 @@ export default class OneProfileView extends ProfilesBaseView {
 
   get actions() {
     return this[actionsSymbol];
+  }
+
+  renderEventsList(events) {
+    super.renderEventsList(events);
+
+    //вне зависимости от нажатой кнопки планируемых/посещенных ивентов текущая страница выбранного раздела хранится в currentEventsPage
+    const {currentEventsPage, currentEventsButton} = this.globalStore.oneProfileStore;
+
+    //обновляем состояние пагинатора после отрисовки списка
+    switch (currentEventsButton) {
+      case profileEventsButton.planning:
+        const {oneProfilePlanningEvents} = this.globalStore.oneProfileStore;
+        updatePaginationState(currentEventsPage, oneProfilePlanningEvents.length);
+        break;
+      case profileEventsButton.visited:
+        const {oneProfileVisitedEvents} = this.globalStore.oneProfileStore;
+        updatePaginationState(currentEventsPage, oneProfileVisitedEvents.length);
+        break;
+    }
   }
 
   renderOneProfilePage() {
@@ -55,32 +74,10 @@ export default class OneProfileView extends ProfilesBaseView {
 
     const {currentEventsPage} = this.globalStore.oneProfileStore;
 
-    const eventsPaginator = document.getElementById('paginator');
-    eventsPaginator.innerHTML = paginationBlockTemplate({page: currentEventsPage});
-
-    switch (currentEventsButton) {
-      case profileEventsButton.planning:
-        // updatePaginationState(currentEventsPage, oneProfilePlanningEvents.length);  //использовать, когда на бэке будет пагинация
-        updatePaginationState(currentEventsPage, 1);
-
-        break;
-      case profileEventsButton.visited:
-        // updatePaginationState(currentEventsPage, oneProfileVisitedEvents.length);  //тоже
-        updatePaginationState(currentEventsPage, 1);
-        break;
-    }
-
-    document.getElementById('paginationBack').addEventListener('click', paginatorHandler.bind(this));
-    document.getElementById('paginationForward').addEventListener('click', paginatorHandler.bind(this));
-
-    // const eventsList = document.getElementById('events-list');
-    // eventsList.innerHTML = profileEventsTabTemplate();
-
     let ava = document.getElementById('profileAvatar');
     ava.style.background = `url(${urlMap.imgUrl + oneProfileData.Uid}) no-repeat center / cover`;
 
     const eventsButtonsBlock = document.getElementById('jsEventsButtonsBlock');
-    // eventsButtonsBlock.addEventListener('click', buttonToggleHandler.bind(this));
     let buttons = Array.from(eventsButtonsBlock.querySelectorAll('button[data-buttontype="toggle"]'));
     buttons.forEach(button => {
       button.addEventListener('click', buttonToggleHandler.bind(this));
@@ -98,6 +95,26 @@ export default class OneProfileView extends ProfilesBaseView {
       default:
         break;
     }
+
+    //рнедерим пагинатор:
+    const oneProfilePaginator = document.getElementById('paginator');
+    oneProfilePaginator.innerHTML = paginationBlockTemplate();
+
+    switch (currentEventsButton) {
+      case profileEventsButton.planning:
+        // updatePaginationState(currentEventsPage, oneProfilePlanningEvents.length);  //использовать, когда на бэке будет пагинация,
+        // а пока что в качестве количества результатов закидываем 1 (<6), чтобы скрыть кнопку "вперед"
+        updatePaginationState(currentEventsPage, 1);
+
+        break;
+      case profileEventsButton.visited:
+        // updatePaginationState(currentEventsPage, oneProfileVisitedEvents.length);  //то же самое для посещенных мероприятий
+        updatePaginationState(currentEventsPage, 1);
+        break;
+    }
+
+    document.getElementById('paginationBack').addEventListener('click', oneProfilePaginatorHandler.bind(this));
+    document.getElementById('paginationForward').addEventListener('click', oneProfilePaginatorHandler.bind(this));
   }
 
   subscribeViews() {

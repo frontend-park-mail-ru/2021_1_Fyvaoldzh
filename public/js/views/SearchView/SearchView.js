@@ -1,11 +1,11 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-return-assign */
-import {channelNames, urlMap, searchButton} from '../../config/config.js';
+import {channelNames, urlMap, searchButton, searchTab} from '../../config/config.js';
 import {
   addDeclensionOfNumbers,
   buttonToggleHandler,
-  paginatorHandler,
+  searchPaginatorHandler,
   updatePaginationState,
 } from '../utils/utils.js';
 import ProfilesBaseView from '../ProfilesBaseView/ProfilesBaseView.js';
@@ -26,6 +26,15 @@ export default class SearchView extends ProfilesBaseView {
 
   get actions() {
     return this[actionsSymbol];
+  }
+
+  renderEventsList(events) {
+    super.renderEventsList(events);
+
+    //т.к. renderEventsList может быть только на вкладке поиска ивентов, результаты вкладки поиска пользователей не чекаем:
+    const {currentEventsPage} = this.globalStore.searchStore;
+    const {searchResultEvents} = this.globalStore.searchStore;
+    updatePaginationState(currentEventsPage, searchResultEvents.length); //обновляем состояние пагинатора после отрисовки основной части странички
   }
 
   renderSearchPage() {
@@ -71,9 +80,7 @@ export default class SearchView extends ProfilesBaseView {
         this.renderSearchEventsTab();
 
         const eventsPaginator = document.getElementById('paginator');
-        eventsPaginator.innerHTML = paginationBlockTemplate({
-          page: this.globalStore.searchStore.currentEventsPage,
-        });
+        eventsPaginator.innerHTML = paginationBlockTemplate();
         updatePaginationState(currentEventsPage, searchResultEvents.length);
 
         break;
@@ -82,16 +89,15 @@ export default class SearchView extends ProfilesBaseView {
         changingContent.innerHTML = searchUsersTabTemplate();
         this.renderUsersList(searchResultUsers);
         const usersPaginator = document.getElementById('paginator');
-        usersPaginator.innerHTML = paginationBlockTemplate({page: this.globalStore.searchStore.currentUsersPage});
+        usersPaginator.innerHTML = paginationBlockTemplate();
         updatePaginationState(currentUsersPage, searchResultUsers.length);
-
         break;
 
       default:
         break;
     }
-    document.getElementById('paginationBack').addEventListener('click', paginatorHandler.bind(this));
-    document.getElementById('paginationForward').addEventListener('click', paginatorHandler.bind(this));
+    document.getElementById('paginationBack').addEventListener('click', searchPaginatorHandler.bind(this));
+    document.getElementById('paginationForward').addEventListener('click', searchPaginatorHandler.bind(this));
   }
 
   renderSearchEventsTab() {
@@ -117,7 +123,7 @@ export default class SearchView extends ProfilesBaseView {
     this.renderEventsList(searchResultEvents);
   }
 
-  renderUsersList = users => {
+  renderUsersList(users) {
     window.scroll(0, 0);
     const usersList = document.getElementById('users-list');
     let resultHTML = '';
@@ -145,6 +151,7 @@ export default class SearchView extends ProfilesBaseView {
         if (user !== 'Not Found') {
           user.age = addDeclensionOfNumbers(user.age, ['год', 'года', 'лет']);
           user.followers = addDeclensionOfNumbers(user.followers, ['подписчик', 'подписчика', 'подписчиков']);
+          //пока бэк не отдает город, возраст и подписчиков для юзеров в поиске, заглушки:
           if (!user.city) {
             user.city = 'Москва';
           }
@@ -159,7 +166,11 @@ export default class SearchView extends ProfilesBaseView {
       });
     }
     usersList.innerHTML = resultHTML;
-  };
+    //т.к. renderUsersList может быть только на вкладке поиска пользователей, результаты вкладки поиска ивентов не чекаем:
+    const {currentUsersPage} = this.globalStore.searchStore;
+    const {searchResultUsers} = this.globalStore.searchStore;
+    updatePaginationState(currentUsersPage, searchResultUsers.length); //обновляем состояние пагинатора после отрисовки основной части странички
+  }
 
   subscribeViews() {
     this[globalStoreSymbol].eventBus.subscribe(channelNames.searchUpdated, this.renderSearchPage.bind(this));
