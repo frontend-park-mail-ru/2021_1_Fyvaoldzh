@@ -29,7 +29,6 @@ export default class OneEventView {
     }
 
     if (this.globalStore.oneEventStore.isPlanning) {
-      console.log('im alive');
       eventStar.classList.add('event-description__star_active');
       eventStar.classList.remove('event-description__star_inactive');
     }
@@ -39,11 +38,15 @@ export default class OneEventView {
     const { target } = ev;
 
     if (target instanceof HTMLButtonElement && target.classList.contains('event-description__star_inactive')) {
+      target.classList.add('event-description__star_active');
+      target.classList.remove('event-description__star_inactive');
       this.actions.addPlanningEvent(this.globalStore.oneEventStore.oneEventData.id);
       return;
     }
 
     if (target instanceof HTMLButtonElement && target.classList.contains('event-description__star_active')) {
+      target.classList.add('event-description__star_inactive');
+      target.classList.remove('event-description__star_active');
       this.actions.removePlanningEvent(this.globalStore.oneEventStore.oneEventData.id);
       return;
     }
