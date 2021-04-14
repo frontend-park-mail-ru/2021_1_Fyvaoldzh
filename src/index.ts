@@ -1,16 +1,16 @@
-import './css/style.scss';
+import "./css/style.scss";
 
-import Dispatcher from './ts/dispatcher/dispatcher';
-import Actions from './ts/actions/actions';
-import Store from './ts/storage/store';
-import EventBus from './ts/eventBus/eventBus';
+import Dispatcher from "./ts/dispatcher/dispatcher";
+import Actions from "./ts/actions/actions";
+import Store from "./ts/storage/store";
+import EventBus from "./ts/eventBus/eventBus";
 
-import EventsView from './ts/views/EventsView/EventsView';
-import OneEventView from './ts/views/OneEventView/OneEventView';
-import UserView from './ts/views/UserView/UserView';
-import ChangePageView from './ts/views/ChangePageView/ChangePageView';
-import { ChannelNames } from './ts/config/config';
-import SomeUserView from './ts/views/SomeUserView/SomeUserView';
+import EventsView from "./ts/views/EventsView/EventsView";
+import OneEventView from "./ts/views/OneEventView/OneEventView";
+import UserView from "./ts/views/UserView/UserView";
+import ChangePageView from "./ts/views/ChangePageView/ChangePageView";
+import { ChannelNames } from "./ts/config/config";
+import OneProfileView from "./ts/views/SomeUserView/OneProfileView";
 
 const dispatcher = new Dispatcher(); // Диспетчер отвечает за доставку actions до хранилища
 const actions = new Actions(dispatcher);
@@ -18,8 +18,8 @@ const eventBus = new EventBus();
 
 const globalStore = new Store(eventBus);
 
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js', { scope: '/' }).then();
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js", { scope: "/" }).then();
 }
 
 dispatcher.register(globalStore.reducer.bind(globalStore));
@@ -30,16 +30,28 @@ const userView = new UserView(globalStore, actions);
 
 const oneEventView = new OneEventView(globalStore, actions);
 
-const changePageView = new ChangePageView(globalStore, actions, userView, eventsView, oneEventView);
+const changePageView = new ChangePageView(
+  globalStore,
+  actions,
+  userView,
+  eventsView,
+  oneEventView
+);
 
-const someUserView = new SomeUserView(globalStore, actions);
+const someUserView = new OneProfileView(globalStore, actions);
 
-[eventsView, userView, oneEventView, changePageView, someUserView].forEach((view) => view.subscribeViews());
+[
+  eventsView,
+  userView,
+  oneEventView,
+  changePageView,
+  someUserView,
+].forEach((view) => view.subscribeViews());
 
-const navbarTemplate = require('Components/navbar/navbar.pug');
+const navbarTemplate = require("Components/navbar/navbar.pug");
 
 function firstRender() {
-  const navbar = document.getElementById('navbar');
+  const navbar = document.getElementById("navbar");
   navbar.innerHTML = navbarTemplate({}); // Начальный навбар.
   actions.updateUser(true); // Обновляем данные пользователя в хранилище. true = первый раз
 }
@@ -50,8 +62,14 @@ firstRender();
  Так мы переходим по урлу в адресной строке, так как нам надо знать, залогинен пользователь,
  или нет, чтобы скрыть от него некоторые страницы
 */
-eventBus.subscribe(ChannelNames.firstUserUpdated, actions.routerChangePage.bind(actions, window.location.href));
-eventBus.subscribe(ChannelNames.firstUserIsNotAuth, actions.routerChangePage.bind(actions, window.location.href));
+eventBus.subscribe(
+  ChannelNames.firstUserUpdated,
+  actions.routerChangePage.bind(actions, window.location.href)
+);
+eventBus.subscribe(
+  ChannelNames.firstUserIsNotAuth,
+  actions.routerChangePage.bind(actions, window.location.href)
+);
 
 const { body } = document;
 
@@ -71,7 +89,7 @@ const { body } = document;
     }
 */
 
-body.addEventListener('click', async (e) => {
+body.addEventListener("click", async (e) => {
   const { target } = e;
 
   if (target instanceof HTMLAnchorElement) {
@@ -82,28 +100,30 @@ body.addEventListener('click', async (e) => {
   }
 
   if (target instanceof HTMLButtonElement) {
-    const formBody: HTMLFormElement = <HTMLFormElement>document.getElementById('formBody');
+    const formBody: HTMLFormElement = <HTMLFormElement>(
+      document.getElementById("formBody")
+    );
 
-    if (target.id === 'postRegistration') {
+    if (target.id === "postRegistration") {
       e.preventDefault();
       const dataFromForm = new FormData(formBody);
 
       const registrationData: RegistrationDataInterface = {
-        login: <string>dataFromForm.get('login'),
-        password: <string>dataFromForm.get('password'),
-        name: <string>dataFromForm.get('name'),
+        login: <string>dataFromForm.get("login"),
+        password: <string>dataFromForm.get("password"),
+        name: <string>dataFromForm.get("name"),
       };
 
       actions.register(registrationData);
     }
 
-    if (target.id === 'postLogin') {
+    if (target.id === "postLogin") {
       e.preventDefault();
       const dataFromForm = new FormData(formBody);
 
       const loginData: LoginDataInterface = {
-        login: <string>dataFromForm.get('login'),
-        password: <string>dataFromForm.get('password'),
+        login: <string>dataFromForm.get("login"),
+        password: <string>dataFromForm.get("password"),
       };
 
       actions.login(loginData);

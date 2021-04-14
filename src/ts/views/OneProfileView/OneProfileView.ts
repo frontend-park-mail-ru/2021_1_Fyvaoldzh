@@ -1,35 +1,33 @@
-import {
-  profileEventsButton,
-  channelNames,
-  urlMap,
-} from "../../config/config.js";
+import { profileEventsButton, ChannelNames, urlMap } from "../../config/config";
+import Store from "../../storage/store";
+import Actions from "../../actions/actions";
+
 import {
   addDeclensionOfNumbers,
   buttonToggleHandler,
   oneProfilePaginatorHandler,
   updatePaginationState,
 } from "../utils/utils.js";
+
 import ProfilesBaseView from "../ProfilesBaseView/ProfilesBaseView.js";
 
-const globalStoreSymbol = Symbol("globalStoreSymbol");
-const actionsSymbol = Symbol("actionsSymbol");
+const profileTemplate = require("Templates/profile/profile.pug");
 
 export default class OneProfileView extends ProfilesBaseView {
-  constructor({ globalStore, actions }) {
+  public globalStore: Store;
+
+  public actions: Actions;
+
+  public wrapper: HTMLElement;
+
+  constructor(globalStore: Store, actions: Actions) {
     super();
-    this[globalStoreSymbol] = globalStore;
-    this[actionsSymbol] = actions;
+    this.globalStore = globalStore;
+    this.actions = actions;
+    this.wrapper = document.getElementById("wrapper");
   }
 
-  get globalStore() {
-    return this[globalStoreSymbol];
-  }
-
-  get actions() {
-    return this[actionsSymbol];
-  }
-
-  renderEventsList(events) {
+  renderEventsList(events: Array<Object>) {
     super.renderEventsList(events);
 
     //вне зависимости от нажатой кнопки планируемых/посещенных ивентов текущая страница выбранного раздела хранится в currentEventsPage
@@ -138,16 +136,16 @@ export default class OneProfileView extends ProfilesBaseView {
   }
 
   subscribeViews() {
-    this[globalStoreSymbol].eventBus.subscribe(
-      channelNames.oneProfileUpdated,
+    this.globalStore.eventBus.subscribe(
+      ChannelNames.oneProfileUpdated,
       this.renderOneProfilePage.bind(this)
     );
-    this[globalStoreSymbol].eventBus.subscribe(
-      channelNames.oneProfilePageChanged,
+    this.globalStore.eventBus.subscribe(
+      ChannelNames.oneProfilePageChanged,
       this.renderEventsList.bind(this)
     );
-    this[globalStoreSymbol].eventBus.subscribe(
-      channelNames.oneProfileEventsButtonChanged,
+    this.globalStore.eventBus.subscribe(
+      ChannelNames.oneProfileEventsButtonChanged,
       this.renderEventsList.bind(this)
     );
   }

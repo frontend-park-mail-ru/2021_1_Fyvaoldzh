@@ -1,13 +1,18 @@
-import {getProfileById, getEventById} from '../networkModule/network.js';
+import { getProfileById, getEventById } from "../networkModule/network";
 
-import {channelNames, profileEventsButton, profileTab, searchTab} from '../config/config.js';
+import {
+  channelNames,
+  profileEventsButton,
+  profileTab,
+  searchTab,
+} from "../config/config";
 
-const oneProfileDataSymbol = Symbol('oneProfileData');
-const currentEventsButtonSymbol = Symbol('CurrentEventsButtonSymbol');
-const globalStoreSymbol = Symbol('globalStoreSymbol');
-const oneProfilePlanningEventsSymbol = Symbol('oneProfilePlanningEventsSymbol');
-const oneProfileVisitedEventsSymbol = Symbol('oneProfileVisitedEventsSymbol');
-const currentEventsPageSymbol = Symbol('currentEventsPageSymbol');
+const oneProfileDataSymbol = Symbol("oneProfileData");
+const currentEventsButtonSymbol = Symbol("CurrentEventsButtonSymbol");
+const globalStoreSymbol = Symbol("globalStoreSymbol");
+const oneProfilePlanningEventsSymbol = Symbol("oneProfilePlanningEventsSymbol");
+const oneProfileVisitedEventsSymbol = Symbol("oneProfileVisitedEventsSymbol");
+const currentEventsPageSymbol = Symbol("currentEventsPageSymbol");
 
 export default class oneProfileStore {
   constructor(globalStore) {
@@ -96,11 +101,17 @@ export default class oneProfileStore {
     await this.updateEvents();
     switch (this.currentEventsButton) {
       case profileEventsButton.planning:
-        this.globalStore.eventBus.publish(channelNames.oneProfilePageChanged, this.oneProfilePlanningEvents);
+        this.globalStore.eventBus.publish(
+          channelNames.oneProfilePageChanged,
+          this.oneProfilePlanningEvents
+        );
         break;
 
       case profileEventsButton.visited:
-        this.globalStore.eventBus.publish(channelNames.oneProfilePageChanged, this.oneProfileVisitedEvents);
+        this.globalStore.eventBus.publish(
+          channelNames.oneProfilePageChanged,
+          this.oneProfileVisitedEvents
+        );
         break;
     }
   }
@@ -111,34 +122,40 @@ export default class oneProfileStore {
 
     switch (this.currentEventsButton) {
       case profileEventsButton.planning:
-        this.globalStore.eventBus.publish(channelNames.oneProfilePageChanged, this.oneProfilePlanningEvents);
+        this.globalStore.eventBus.publish(
+          channelNames.oneProfilePageChanged,
+          this.oneProfilePlanningEvents
+        );
         break;
 
       case profileEventsButton.visited:
-        this.globalStore.eventBus.publish(channelNames.oneProfilePageChanged, this.oneProfileVisitedEvents);
+        this.globalStore.eventBus.publish(
+          channelNames.oneProfilePageChanged,
+          this.oneProfileVisitedEvents
+        );
         break;
     }
   }
 
   reducer(action) {
     switch (action.eventName) {
-      case 'oneProfile/changeEventsButton':
+      case "oneProfile/changeEventsButton":
         this.changeEventsButton(action);
         break;
 
-      case 'oneProfile/update':
+      case "oneProfile/update":
         this.update(action);
         break;
 
-      case 'oneProfile/updateEvents':
+      case "oneProfile/updateEvents":
         this.updateEvents(action);
         break;
 
-      case 'oneProfile/pageForward':
+      case "oneProfile/pageForward":
         this.pageForward();
         break;
 
-      case 'oneProfile/pageBack':
+      case "oneProfile/pageBack":
         this.pageBack();
         break;
 

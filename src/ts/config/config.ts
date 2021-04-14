@@ -1,4 +1,4 @@
-const baseApi = 'http://95.163.180.8:1323';
+const baseApi = "http://95.163.180.8:1323";
 
 export const urlMap = {
   allEventsUrl: `${baseApi}/api/v1/event`,
@@ -15,17 +15,41 @@ export const urlMap = {
   addPlanningEventUrl: `${baseApi}/api/v1/add/planning`,
   removePlanningEventUrl: `${baseApi}/api/v1/remove/planning`,
   checkPlanningEventUrl: `${baseApi}/api/v1/event/is_added`,
+  customUserUrl: `${baseApi}/api/v1/users`,
+  customEventUrl: `${baseApi}/api/v1/search`,
 };
 
 export const SERVER_ERRORS = {
-  WRONG_LOGIN_OR_PASS: 'Неправильный логин или пароль',
-  LOGIN_EXIST: 'Такой логин уже существует',
+  WRONG_LOGIN_OR_PASS: "Неправильный логин или пароль",
+  LOGIN_EXIST: "Такой логин уже существует",
 };
 
 export const profileTab = {
-  about: 'aboutTab',
-  settings: 'settingsTab',
-  events: 'eventsTab',
+  about: "aboutTab",
+  settings: "settingsTab",
+  events: "eventsTab",
+};
+
+export const searchTab = {
+  events: "eventsTab",
+  users: "usersTab",
+};
+
+export const profileEventsButton = {
+  planning: "planningEventsButton",
+  visited: "visitedEventsButton",
+};
+
+export const searchButton = {
+  allEvents: "allEventsButton",
+  exhibition: "exhibitionButton",
+  concert: "concertButton",
+  museum: "museumButton",
+  entertainment: "entertainmentButton",
+  training: "trainingButton",
+  movie: "movieButton",
+  festival: "festivalButton",
+  excursion: "excursionButton",
 };
 
 export enum ChannelNames {
@@ -47,6 +71,16 @@ export enum ChannelNames {
   someUserUpdated,
   firstUserUpdated,
   firstUserIsNotAuth,
+  oneProfileUpdated,
+  userEventsButtonChanged,
+  oneProfileEventsButtonChanged,
+  searchUpdated,
+  searchEventsButtonChanged,
+  searchTabChanged,
+  searchEventsPageChanged,
+  searchUsersPageChanged,
+  oneProfilePageChanged,
+  profilePageChanged,
 }
 
 /* const pageNames = {
@@ -60,11 +94,12 @@ export enum ChannelNames {
 */
 
 export const routes = {
-  main: '/',
-  events: '/events',
-  profile: '/profile',
-  oneEvent: '/event/{eventId}',
-  signup: '/signup',
-  login: '/login',
-  logout: '/logout',
+  main: "/",
+  events: "/events",
+  profile: "/profile",
+  oneEvent: "/event/{eventId}",
+  signup: "/signup",
+  login: "/login",
+  logout: "/logout",
+  searchPage: "searchPage",
 };
