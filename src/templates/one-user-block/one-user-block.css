@@ -44,7 +44,7 @@
 .one-user-block__photo_default {
     width: 155px;
     height: 155px;
-    /*background: url("../../components/img/avatar.png") no-repeat center / cover;*/
+    background: url("../../components/img/avatar.png") no-repeat center / cover;
     border: 9px solid transparent;
     filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.25));
     border-radius: 50%;

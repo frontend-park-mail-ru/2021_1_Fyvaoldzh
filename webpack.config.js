@@ -1,35 +1,35 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const path = require('path');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require("path");
 
-const src = path.resolve(__dirname, 'src');
-const dist = path.resolve(__dirname, 'dist');
+const src = path.resolve(__dirname, "src");
+const dist = path.resolve(__dirname, "dist");
 
 module.exports = {
   entry: {
-    app: path.join(src, 'index.ts'),
-    sw: path.join(src, 'sw.ts'),
+    app: path.join(src, "index.ts"),
+    sw: path.join(src, "sw.ts"),
   },
-  mode: 'development',
+  mode: "development",
   output: {
-    filename: '[name].js',
+    filename: "[name].js",
     path: dist,
   },
   plugins: [
     new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: path.join(src, 'index.html'),
+      filename: "index.html",
+      template: path.join(src, "index.html"),
     }),
     new HtmlWebpackPlugin({
-      filename: 'fallback.html',
-      template: path.join(src, 'fallback.html'),
+      filename: "fallback.html",
+      template: path.join(src, "fallback.html"),
     }),
   ],
   resolve: {
-    extensions: ['.ts', '.pug'],
+    extensions: [".ts", ".pug"],
     alias: {
-      Components: path.join(src, 'components'),
-      Css: path.join(src, 'css'),
-      Templates: path.join(src, 'templates'),
+      Components: path.join(src, "components"),
+      Css: path.join(src, "css"),
+      Templates: path.join(src, "templates"),
     },
   },
 
@@ -37,23 +37,24 @@ module.exports = {
     rules: [
       {
         test: /\.ts?$/,
-        use: 'ts-loader',
+        use: "ts-loader",
         exclude: /node_modules/,
       },
       {
         test: /\.scss$/i,
-        use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
+        use: ["style-loader", "css-loader", "postcss-loader", "sass-loader"],
+        exclude: "/public/",
       },
       {
         test: /\.(png|jpg|jpeg|svg)$/,
-        type: 'asset',
+        type: "asset",
         generator: {
-          filename: 'static/img/[name].[hash][ext]',
+          filename: "static/img/[name].[hash][ext]",
         },
       },
       {
         test: /\.pug$/i,
-        use: ['pug-loader'],
+        use: ["pug-loader"],
       },
     ],
   },

@@ -140,7 +140,7 @@ export default class Actions {
     });
   }
 
-  updateOneProfile(id) {
+  updateOneProfile(id: number) {
     this.dispatcher.dispatch({
       eventName: "oneProfile/update",
       data: id,
@@ -154,35 +154,35 @@ export default class Actions {
     });
   }
 
-  changeOneProfileEventsButton(buttonId) {
+  changeOneProfileEventsButton(buttonId: string) {
     this.dispatcher.dispatch({
       eventName: "oneProfile/changeEventsButton",
       data: buttonId,
     });
   }
 
-  changeSearchEventsButton(buttonId) {
+  changeSearchEventsButton(buttonId: string) {
     this.dispatcher.dispatch({
       eventName: "search/changeEventsButton",
       data: buttonId,
     });
   }
 
-  searchChangeTab(tabId) {
+  searchChangeTab(tabId: string) {
     this.dispatcher.dispatch({
       eventName: "search/changeTab",
       data: tabId,
     });
   }
 
-  searchUpdate(data) {
+  searchUpdate(data: string) {
     this.dispatcher.dispatch({
       eventName: "search/update",
       data: data,
     });
   }
 
-  newSearchInputData(data) {
+  newSearchInputData(data: string) {
     this.dispatcher.dispatch({
       eventName: "search/newInputData",
       data,
