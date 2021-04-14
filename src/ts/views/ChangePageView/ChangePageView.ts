@@ -5,7 +5,6 @@ import UserView from '../UserView/UserView';
 import EventsView from '../EventsView/EventsView';
 import OneEventView from '../OneEventView/OneEventView';
 import { HistoryState } from '../../interfaces';
-import eventsBackgroundImg from '../../../templates/events/img/events-background.jpg';
 
 const signUpFormTemplate = require('Templates/signup/signup.pug');
 const loginTemplate = require('Templates/login/login.pug');
@@ -54,7 +53,21 @@ export default class ChangePageView {
     }
 
     if (state.page.includes('profile') && state.page !== routes.profile) {
-      this.actions.updateSomeUser(Number(state.page.substr(8)));
+      const idProfile = Number(state.page.substr(8));
+
+      if (idProfile === this.globalStore.userStore.userData.Uid) {
+        this.actions.updateUser();
+        return;
+      }
+
+      this.actions.updateOneProfile(idProfile);
+      return;
+    }
+
+    if (state.page.includes('search')) {
+      window.scroll(0, 0);
+      console.log(state.parameter);
+      this.actions.searchUpdate(state.parameter);
       return;
     }
 
@@ -71,7 +84,7 @@ export default class ChangePageView {
 
       case routes.profile:
         window.scroll(0, 0);
-        this.userView.renderMyProfilePage(state.parameter);
+        this.userView.renderProfilePage(state.parameter);
         break;
 
       case routes.main:
@@ -127,12 +140,22 @@ export default class ChangePageView {
     }
 
     if (currentUrl.pathname.includes('profile') && currentUrl.pathname !== routes.profile) {
-      window.scroll(0, 0);
-      this.actions.updateSomeUser(Number(currentUrl.pathname.substr(8)));
+      const idProfile = Number(currentUrl.pathname.substr(8));
+
+      if (idProfile === this.globalStore.userStore.userData.Uid) {
+        this.actions.updateUser();
+        return;
+      }
+      this.actions.updateOneProfile(idProfile);
       return;
     }
 
-    const wrapper = document.getElementById('wrapper');
+    if (currentUrl.pathname.includes('search')) {
+      window.scroll(0, 0);
+      this.actions.searchUpdate(currentUrl.searchParams.get('tab'));
+      return;
+    }
+
     switch (currentUrl.pathname) {
       case routes.events:
         window.scroll(0, 0);

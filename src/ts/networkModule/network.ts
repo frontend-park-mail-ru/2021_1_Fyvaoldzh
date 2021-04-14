@@ -213,7 +213,7 @@ export async function putAvatar(form: FormData) {
   }
 }
 
-export async function getProfileDataById(id: number) {
+export async function getProfileById(id: number) {
   try {
     const answer = await fetch(`${urlMap.apiUrl}/profile/${id}`, { credentials: 'include' });
     return await answer.json();
@@ -274,4 +274,28 @@ export async function checkPlanningEvent(id: number) {
       location.reload();
     }
   }
+}
+
+export async function getEventsByParams(find = '', category = '', page = '') {
+  const url = new URL(urlMap.customEventUrl);
+  const params = { find, page, category };
+  url.search = new URLSearchParams(params).toString();
+  const answer = await fetch(url.toString());
+  const jsonFile = await answer.json();
+  return jsonFile;
+}
+
+/**
+ * Функция для получения пользователей по номеру страницы
+ * @param {Number | String} page - номер текущей страницы поиска
+ * @return {json} - json, содержащий найденных пользователей
+ */
+
+export async function getUsersByParams(page = '') {
+  const url = new URL(urlMap.customUserUrl);
+  const params = { page };
+  url.search = new URLSearchParams(params).toString();
+  const answer = await fetch(url.toString());
+  const jsonFile = await answer.json();
+  return jsonFile;
 }

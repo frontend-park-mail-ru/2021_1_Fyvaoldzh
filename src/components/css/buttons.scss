@@ -36,3 +36,22 @@
     transition-duration: 0.5s;
   }
 }
+
+.button {
+  box-shadow: $project-box-shadow;
+  text-align: center;
+  vertical-align: center;
+  padding: 10px;
+  margin-right: 10px;
+
+  &-active {
+    @extend .button;
+    background: $main-gradient;
+  }
+
+  &-inactive {
+    @extend .button;
+    background: $project-white;
+  }
+}
+

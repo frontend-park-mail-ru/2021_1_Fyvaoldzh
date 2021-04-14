@@ -10,7 +10,8 @@ import OneEventView from './ts/views/OneEventView/OneEventView';
 import UserView from './ts/views/UserView/UserView';
 import ChangePageView from './ts/views/ChangePageView/ChangePageView';
 import { ChannelNames } from './ts/config/config';
-import SomeUserView from './ts/views/SomeUserView/SomeUserView';
+import OneProfileView from './ts/views/OneProfileView/OneProfileView';
+import SearchView from './ts/views/SearchView/SearchView';
 
 const dispatcher = new Dispatcher(); // Диспетчер отвечает за доставку actions до хранилища
 const actions = new Actions(dispatcher);
@@ -32,9 +33,16 @@ const oneEventView = new OneEventView(globalStore, actions);
 
 const changePageView = new ChangePageView(globalStore, actions, userView, eventsView, oneEventView);
 
-const someUserView = new SomeUserView(globalStore, actions);
+const oneProfileView = new OneProfileView(globalStore, actions);
 
-[eventsView, userView, oneEventView, changePageView, someUserView].forEach((view) => view.subscribeViews());
+const searchView = new SearchView(globalStore, actions);
+
+[eventsView,
+  userView,
+  oneEventView,
+  changePageView,
+  oneProfileView,
+  searchView].forEach((view) => view.subscribeViews());
 
 const navbarTemplate = require('Components/navbar/navbar.pug');
 

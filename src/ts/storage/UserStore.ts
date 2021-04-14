@@ -7,7 +7,7 @@ import {
   putAvatar,
 } from '../networkModule/network';
 
-import { ChannelNames, profileTab } from '../config/config';
+import { ChannelNames, profileTab, profileEventsButton } from '../config/config';
 import validation from '../validationModule/inputValidation';
 import { ActionsInterface } from '../interfaces';
 
@@ -22,8 +22,8 @@ interface UserDataInterface {
   birthday: string;
   city: string;
   email: string;
-  visited: number;
-  planning: number;
+  visited: any;
+  planning: any;
   followers: number;
   about: string;
   avatar: string;
@@ -42,12 +42,26 @@ export default class UserStore {
 
   public avatarPreviewUrl: string;
 
+  public currentEventsButton: any;
+
+  public profilePlanningEvents: any;
+
+  public profileVisitedEvents: any;
+
+  public currentEventsPage: any;
+
   constructor(globalStore: any) {
     this.globalStore = globalStore;
     this.userData = null;
     this.validationErrors = [];
-    this.currentTab = profileTab.events;
     this.avatarPreviewUrl = null;
+
+    this.currentTab = profileTab.events;
+    this.currentEventsButton = profileEventsButton.planning;
+    this.avatarPreviewUrl = null;
+    this.profilePlanningEvents = [];
+    this.profileVisitedEvents = [];
+    this.currentEventsPage = 1;
   }
 
   async register(action: ActionsInterface) {
@@ -158,6 +172,70 @@ export default class UserStore {
     this.globalStore.eventBus.publish(ChannelNames.avatarDeclined);
   }
 
+  async changeEventsButton(action: ActionsInterface) {
+    this.currentEventsButton = action.data;
+    switch (this.currentEventsButton) {
+      case profileEventsButton.planning:
+        this.globalStore.eventBus.publish(ChannelNames.userEventsButtonChanged, this.profilePlanningEvents);
+        break;
+
+      case profileEventsButton.visited:
+        this.globalStore.eventBus.publish(ChannelNames.userEventsButtonChanged, this.profileVisitedEvents);
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  async updateEvents() {
+    this.profilePlanningEvents.length = 0;
+    this.profileVisitedEvents.length = 0;
+
+    for (const event of this.userData.planning) {
+      this.profilePlanningEvents.push(event);
+    }
+    for (const event of this.userData.visited) {
+      this.profileVisitedEvents.push(event);
+    }
+  }
+
+  async pageForward() {
+    this.currentEventsPage++;
+    await this.updateEvents();
+
+    switch (this.currentEventsButton) {
+      case profileEventsButton.planning:
+        this.globalStore.eventBus.publish(ChannelNames.profilePageChanged, this.profilePlanningEvents);
+        break;
+
+      case profileEventsButton.visited:
+        this.globalStore.eventBus.publish(ChannelNames.profilePageChanged, this.profileVisitedEvents);
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  async pageBack() {
+    this.currentEventsPage--;
+    await this.updateEvents();
+
+    switch (this.currentEventsButton) {
+      case profileEventsButton.planning:
+        this.globalStore.eventBus.publish(ChannelNames.profilePageChanged, this.profilePlanningEvents);
+        break;
+
+      case profileEventsButton.visited:
+        this.globalStore.eventBus.publish(ChannelNames.profilePageChanged, this.profileVisitedEvents);
+        break;
+
+      default:
+        break;
+    }
+  }
+
   reducer(action: ActionsInterface) {
     switch (action.eventName) {
       case 'user/register':
@@ -194,6 +272,22 @@ export default class UserStore {
 
       case 'user/avatarDecline':
         this.avatarDecline();
+        break;
+
+      case 'user/changeEventsButton':
+        this.changeEventsButton(action);
+        break;
+
+      case 'user/updateEvents':
+        this.updateEvents();
+        break;
+
+      case 'user/pageForward':
+        this.pageForward();
+        break;
+
+      case 'user/pageBack':
+        this.pageBack();
         break;
 
       default:

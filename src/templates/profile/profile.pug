@@ -1,8 +1,9 @@
 .row
     .my-profile-main-block
-        a.my-profile-main-block__back-button(href='#' data-direction='main')
+        a.my-profile-main-block__back-button(href='/' data-direction='events' data-profileId=Uid)
         .my-profile-header
             #profileAvatar.my-profile-header__avatar-block
+                .error-block-avatar(id='jsErrorAvatar')
                 label.change-avatar-button(id='jsUploadAvatar')
                     input.settings-block__change-avatar-img(id='imageFile' type='file')
                 button.change-avatar-button__submit(id='jsSubmitAvatar')
@@ -13,16 +14,16 @@
                 .my-profile-header__login-block @#{login}
                 .my-profile-header__followers-block
                     .my-profile-header__followers-img
-                    |#{followers}
+                    |#{followersCount}
                 .my-profile-header__events-stats-block
                     .my-profile-header__events-stats-block_planning
                         .my-profile-header__black-star-img
-                        |2 &pcy;&lcy;&acy;&ncy;&icy;&rcy;&ucy;&iecy;&mcy;&ycy;&khcy;
+                        |#{planningCount}
                     .my-profile-header__events-stats-block_visited
                         .my-profile-header__visited-events-img
-                        |11 &pcy;&ocy;&scy;&iecy;&shchcy;&iecy;&ncy;&ncy;&ycy;&khcy;
+                        |#{visitedCount}
         .my-profile__tabs-block(id='jsTabsBlock')
-            button#eventsTab.tab-active(data-buttontype='toggle')
+            button#eventsTab.tab-inactive(data-buttontype='toggle')
                 .my-profile__events-img
                 |                     &Mcy;&iecy;&rcy;&ocy;&pcy;&rcy;&icy;&yacy;&tcy;&icy;&yacy;
             button#aboutTab.tab-inactive(data-buttontype='toggle')

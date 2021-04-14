@@ -1,5 +1,10 @@
 <div class="button-block" id="jsEventsButtonsBlock">
-    <button class="button-active" id="planningEventsButton">Планируемые</button>
-    <button class="button-inactive" id="visitedEventsButton">Посещенные</button>
+    <button class="button-active" id="planningEventsButton" data-buttontype="toggle">Планируемые</button>
+    <button class="button-inactive" id="visitedEventsButton" data-buttontype="toggle">Посещенные</button>
 </div>
-<div class="smbs-events-block my-events-block" id="events-list"></div>
+<div class="smbs-events-block" id="events-list"></div>
+<div class="paginator">
+    <a href="#" class="paginator__arrow-back"></a>
+    <a href="#" class="paginator__page-button">1</a>
+    <a href="#" class="paginator__arrow-forward"></a>
+</div>

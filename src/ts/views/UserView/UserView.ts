@@ -1,66 +1,88 @@
 import {
-  ChannelNames, urlMap, SERVER_ERRORS, routes,
+  ChannelNames, urlMap, SERVER_ERRORS, profileEventsButton,
 } from '../../config/config';
 import INPUTS from '../../validationModule/validation';
-import Store from '../../storage/store';
-import Actions from '../../actions/actions';
-import myProfileBackground from '../../../templates/my-profile/img/my-profile-background.jpg';
-import eventsBackgroundImg from "../../../templates/events/img/events-background.jpg";
+import {
+  addDeclensionOfNumbers,
+  buttonToggleHandler,
+  profilePaginatorHandler,
+  updatePaginationState,
+} from '../utils/utils';
+import ProfilesBaseView from '../ProfilesBaseView/ProfilesBaseView';
+import { PostUserDataInterface } from '../../interfaces';
 
-const navbarLoggedTemplate = require('Components/navbar/navbar-logged.pug');
-const myProfileTemplate = require('Templates/my-profile/my-profile.pug');
-const myProfileAboutTabTemplate = require('Templates/my-profile-about-tab/my-profile-about-tab.pug');
-const myProfileSettingsTabTemplate = require('Templates/my-profile-settings-tab/my-profile-settings-tab.pug');
-const myProfileEventsTabTemplate = require('Templates/my-profile-events-tab/my-profile-events-tab.pug');
+const navbarLoggedTemplate = require('../../../components/navbar/navbar-logged.pug');
+const profileTemplate = require('../../../templates/profile/profile.pug');
+const profileAboutTabTemplate = require('../../../templates/profile-about-tab/profile-about-tab.pug');
+const paginationBlockTemplate = require('../../../templates/pagination-block/pagination-block.pug');
+const profileSettingsTabTemplate = require('../../../templates/profile-settings-tab/profile-settings-tab.pug');
+const profileEventsTabTemplate = require('../../../templates/profile-events-tab/profile-events-tab.pug');
 
-interface PostUserDataInterface {
-  name?: string;
-  city?: string;
-  about?: string;
-  birthday?: string;
-  email?: string;
-}
+const redBoxShadow = '0px 0px 10px 0px #CE0E50';
+const greyBoxShadow = '0 0 10px rgba(0, 0, 0, 0.25)';
 
 function activateTab(button: string) {
   document.getElementById(button).classList.add('tab-active');
   document.getElementById(button).classList.remove('tab-inactive');
 }
 
-function deactivateTab(button: string) {
-  document.getElementById(button).classList.add('tab-inactive');
-  document.getElementById(button).classList.remove('tab-active');
-}
+export default class UserView extends ProfilesBaseView {
+  public globalStore: any;
 
-interface HTMLInputEvent extends Event {
-  target: HTMLInputElement & EventTarget;
-}
+  public actions: any;
 
-export default class UserView {
-  public globalStore: Store;
-
-  public actions: Actions;
-
-  constructor(globalStore: Store, actions: Actions) {
+  constructor(globalStore: any, actions: any) {
+    super();
     this.globalStore = globalStore;
     this.actions = actions;
   }
 
-  handleFileSelect(e?: HTMLInputEvent) {
+  renderEventsList(events: any) {
+    super.renderEventsList(events);
+
+    const { currentEventsPage, currentEventsButton } = this.globalStore.userStore;
+
+    // обновляем состояние пагинатора после отрисовки списка
+    switch (currentEventsButton) {
+      case profileEventsButton.planning:
+        const { profilePlanningEvents } = this.globalStore.userStore;
+        updatePaginationState(currentEventsPage, profilePlanningEvents?.length);
+        break;
+
+      case profileEventsButton.visited:
+        const { profileVisitedEvents } = this.globalStore.userStore;
+        updatePaginationState(currentEventsPage, profileVisitedEvents?.length);
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  handleFileSelect(e: any) {
     const file = e.target.files[0];
-    // Только изображения.
+
+    const errorAvatar = document.getElementById('jsErrorAvatar');
+    const avatarBlock = document.getElementById('profileAvatar');
+
+    avatarBlock.style.boxShadow = greyBoxShadow;
+    errorAvatar.innerText = '';
     if (!file.type.match('image.*')) {
-      // TODO переделать алерт, добавить поле ошибки под аватарку.
+      errorAvatar.innerText = 'Только картинки, пожалуйста!!!';
+      avatarBlock.style.boxShadow = redBoxShadow;
       return;
     }
     const reader = new FileReader();
-
     reader.onload = (evnt) => {
-      this.actions.avatarPreview(<string>evnt.target.result);
+      this.actions.avatarPreview(evnt.target.result);
     };
+
     reader.readAsDataURL(file);
   }
 
   renderLoggedNavbar() {
+    window.scroll(0, 0);
+
     const navbar = document.getElementById('navbar');
     const profileData = this.globalStore.userStore.userData;
 
@@ -94,48 +116,48 @@ export default class UserView {
       document.getElementById('emailError').innerText = '';
     }
 
-    document.getElementsByName('login').forEach((el) => el.style.all = null);
-    document.getElementsByName('password').forEach((el) => el.style.all = null);
-    document.getElementsByName('name').forEach((el) => el.style.all = null);
-    document.getElementsByName('birthday').forEach((el) => el.style.all = null);
-    document.getElementsByName('city').forEach((el) => el.style.all = null);
-    document.getElementsByName('email').forEach((el) => el.style.all = null);
+    document.getElementsByName('login').forEach((el) => (el.style.all = null));
+    document.getElementsByName('password').forEach((el) => (el.style.all = null));
+    document.getElementsByName('name').forEach((el) => (el.style.all = null));
+    document.getElementsByName('birthday').forEach((el) => (el.style.all = null));
+    document.getElementsByName('city').forEach((el) => (el.style.all = null));
+    document.getElementsByName('email').forEach((el) => (el.style.all = null));
 
-    validationErrors.forEach((error) => {
+    validationErrors.forEach((error:any) => {
       switch (error) {
         case 'login':
-          document.getElementsByName('login').forEach((el) => (el.style.boxShadow = '0px 0px 10px 0px #CE0E50'));
+          document.getElementsByName('login').forEach((el) => (el.style.boxShadow = redBoxShadow));
           document.getElementById('loginError').innerText = INPUTS.login.errorMsg;
           break;
 
         case 'password':
-          document.getElementsByName('password').forEach((el) => (el.style.boxShadow = '0px 0px 10px 0px #CE0E50'));
+          document.getElementsByName('password').forEach((el) => (el.style.boxShadow = redBoxShadow));
           document.getElementById('passwordError').innerText = INPUTS.password.errorMsg;
           break;
 
         case 'name': // Nickname / name исправить все на одно
-          document.getElementsByName('name').forEach((el) => (el.style.boxShadow = '0px 0px 10px 0px #CE0E50'));
+          document.getElementsByName('name').forEach((el) => (el.style.boxShadow = redBoxShadow));
           document.getElementById('nicknameError').innerText = INPUTS.name.errorMsg;
           break;
 
         case 'loginExist':
-          document.getElementsByName('login').forEach((el) => (el.style.boxShadow = '0px 0px 10px 0px #CE0E50'));
+          document.getElementsByName('login').forEach((el) => (el.style.boxShadow = redBoxShadow));
           document.getElementById('nicknameError').innerText = SERVER_ERRORS.LOGIN_EXIST;
           break;
 
         case 'wrongLoginOrPass':
-          document.getElementsByName('login').forEach((el) => (el.style.boxShadow = '0px 0px 10px 0px #CE0E50'));
-          document.getElementsByName('password').forEach((el) => (el.style.boxShadow = '0px 0px 10px 0px #CE0E50'));
+          document.getElementsByName('login').forEach((el) => (el.style.boxShadow = redBoxShadow));
+          document.getElementsByName('password').forEach((el) => (el.style.boxShadow = redBoxShadow));
           document.getElementById('passwordError').innerText = SERVER_ERRORS.WRONG_LOGIN_OR_PASS;
           break;
 
         case 'birthday':
-          document.getElementsByName('birthday').forEach((el) => (el.style.boxShadow = '0px 0px 10px 0px #CE0E50'));
+          document.getElementsByName('birthday').forEach((el) => (el.style.boxShadow = redBoxShadow));
           document.getElementById('birthdayError').innerText = INPUTS.birthday.errorMsg;
           break;
 
         case 'email':
-          document.getElementsByName('email').forEach((el) => (el.style.boxShadow = '0px 0px 10px 0px #CE0E50'));
+          document.getElementsByName('email').forEach((el) => (el.style.boxShadow = redBoxShadow));
           document.getElementById('emailError').innerText = INPUTS.email.errorMsg;
           break;
 
@@ -145,25 +167,40 @@ export default class UserView {
     });
   }
 
-  renderMyProfilePage(currentTab?: string) {
+  renderProfilePage(currentTab?: string) {
     if (!currentTab) {
       currentTab = this.globalStore.userStore.currentTab;
-    }
-
-    if (this.globalStore.routerStore.currentUrl.pathname !== routes.profile) {
-      return;
     }
 
     const { userData } = this.globalStore.userStore;
 
     const wrapper = document.getElementById('wrapper');
-    wrapper.style.background = `url(${myProfileBackground}) no-repeat top`;
+    wrapper.style.background = 'url("templates/profile/img/profile-background.jpg") no-repeat top / 100%';
+
+    if (userData.followers) {
+      userData.followersCount = addDeclensionOfNumbers(userData.followers?.length, [
+        'подписчик',
+        'подписчика',
+        'подписчиков',
+      ]);
+      userData.planningCount = addDeclensionOfNumbers(userData.planning?.length, [
+        'планируемое',
+        'планируемых',
+        'планируемых',
+      ]);
+
+      userData.visitedCount = addDeclensionOfNumbers(userData.visited?.length, [
+        'посещенное',
+        'посещенных',
+        'посещенных',
+      ]);
+    }
 
     wrapper.innerHTML = '';
-    wrapper.innerHTML = myProfileTemplate(userData);
+    wrapper.innerHTML = profileTemplate(userData);
 
     const avatar = document.getElementById('profileAvatar');
-    avatar.style.background = `url(${urlMap.imgUrl + userData.Uid}) no-repeat center / cover`;
+    avatar.style.background = `url(${urlMap.imgUrl}/${userData.Uid}) no-repeat center / cover`;
 
     document.getElementById('imageFile').addEventListener('change', this.handleFileSelect.bind(this));
     document
@@ -176,10 +213,37 @@ export default class UserView {
     const tabsBlock = document.getElementById('jsTabsBlock');
     const tabs = Array.from(tabsBlock.querySelectorAll('button[data-buttontype="toggle"]'));
     tabs.forEach((tab) => {
-      tab.addEventListener('click', this.buttonToggleHandler.bind(this));
+      tab.addEventListener('click', buttonToggleHandler.bind(this));
     });
 
     this.renderChangingContent(currentTab);
+    // window.history.pushState('', '', '/profile');
+
+    // ренедерим пагинатор:
+    if (currentTab === 'eventsTab') {
+      const { currentEventsButton, currentEventsPage } = this.globalStore.userStore;
+      const profilePaginator = document.getElementById('paginator');
+
+      if (profilePaginator) {
+        profilePaginator.innerHTML = paginationBlockTemplate();
+      }
+
+      switch (currentEventsButton) {
+        case profileEventsButton.planning:
+          updatePaginationState(currentEventsPage, 1);
+
+          break;
+        case profileEventsButton.visited:
+          updatePaginationState(currentEventsPage, 1);
+          break;
+
+        default:
+          break;
+      }
+
+      document.getElementById('paginationBack').addEventListener('click', profilePaginatorHandler.bind(this));
+      document.getElementById('paginationForward').addEventListener('click', profilePaginatorHandler.bind(this));
+    }
   }
 
   renderChangingContent(currentTab?: string) {
@@ -190,21 +254,71 @@ export default class UserView {
     const { userData } = this.globalStore.userStore;
 
     const changingContent = document.getElementById('changing-content');
+
     switch (currentTab) {
       case 'aboutTab':
-        changingContent.innerHTML = myProfileAboutTabTemplate(userData);
+        changingContent.innerHTML = profileAboutTabTemplate(userData);
         document.getElementById('postProfile').addEventListener('click', this.postProfile.bind(this));
         activateTab(currentTab);
         break;
 
       case 'settingsTab':
-        changingContent.innerHTML = myProfileSettingsTabTemplate();
+        changingContent.innerHTML = profileSettingsTabTemplate();
         activateTab(currentTab);
         break;
 
       case 'eventsTab':
-        changingContent.innerHTML = myProfileEventsTabTemplate(userData);
+        changingContent.innerHTML = profileEventsTabTemplate();
         activateTab(currentTab);
+        this.renderOneProfileEventsTab();
+
+        const { currentEventsPage, currentEventsButton } = this.globalStore.userStore;
+        const eventsPaginator = document.getElementById('paginator');
+        eventsPaginator.innerHTML = paginationBlockTemplate();
+
+        switch (currentEventsButton) {
+          case profileEventsButton.planning:
+            updatePaginationState(currentEventsPage, 1);
+            break;
+          case profileEventsButton.visited:
+            updatePaginationState(currentEventsPage, 1);
+            break;
+
+          default:
+            break;
+        }
+
+        document.getElementById('paginationBack').addEventListener('click', profilePaginatorHandler.bind(this));
+        document.getElementById('paginationForward').addEventListener('click', profilePaginatorHandler.bind(this));
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  renderOneProfileEventsTab() {
+    const { currentEventsButton } = this.globalStore.userStore;
+    const { profilePlanningEvents } = this.globalStore.userStore;
+    const { profileVisitedEvents } = this.globalStore.userStore;
+
+    // const eventsButtonsBlock = document.getElementById('jsEventsButtonsBlock');
+    //
+    // eventsButtonsBlock.addEventListener('click', buttonToggleHandler.bind(this));
+
+    const changingContent = document.getElementById('changing-content');
+    const buttons = Array.from(changingContent.querySelectorAll('button[data-buttontype="toggle"]'));
+    buttons.forEach((button) => {
+      button.addEventListener('click', buttonToggleHandler.bind(this));
+    });
+
+    switch (currentEventsButton) {
+      case 'planningEventsButton':
+        this.renderEventsList(profilePlanningEvents);
+        break;
+
+      case 'visitedEventsButton':
+        this.renderEventsList(profileVisitedEvents);
         break;
 
       default:
@@ -224,7 +338,7 @@ export default class UserView {
   renderUnPreviewAvatar() {
     const { userData } = this.globalStore.userStore;
     const avatar = document.getElementById('profileAvatar');
-    avatar.style.background = `url(${urlMap.imgUrl + userData.Uid}) no-repeat center / cover`;
+    avatar.style.background = `url(${urlMap.imgUrl}/${userData.Uid}) no-repeat center / cover`;
 
     document.getElementById('jsUploadAvatar').style.display = 'inline-block';
     document.getElementById('jsSubmitAvatar').style.display = 'none';
@@ -245,30 +359,13 @@ export default class UserView {
   subscribeViews() {
     this.globalStore.eventBus.subscribe(ChannelNames.errorValidation, this.renderValidationErrors.bind(this));
     this.globalStore.eventBus.subscribe(ChannelNames.userUpdated, this.renderLoggedNavbar.bind(this));
-    this.globalStore.eventBus.subscribe(ChannelNames.userUpdated, this.renderMyProfilePage.bind(this));
+    this.globalStore.eventBus.subscribe(ChannelNames.userUpdated, this.renderProfilePage.bind(this));
     this.globalStore.eventBus.subscribe(ChannelNames.tabChanged, this.renderChangingContent.bind(this));
     this.globalStore.eventBus.subscribe(ChannelNames.avatarPreview, this.renderPreviewAvatar.bind(this));
     this.globalStore.eventBus.subscribe(ChannelNames.avatarDeclined, this.renderUnPreviewAvatar.bind(this));
     this.globalStore.eventBus.subscribe(ChannelNames.avatarPushed, this.renderAvatarPushed.bind(this));
-  }
-
-  buttonToggleHandler(e: MouseEvent) {
-    const { target } = e;
-
-    if (target instanceof HTMLButtonElement && target.classList.contains('tab-inactive')) {
-      const curActiveElem = target.parentNode.querySelector('.tab-active');
-      activateTab(target.id);
-      deactivateTab(curActiveElem.id);
-      this.actions.changeTab(target.id);
-    }
-
-    if (target instanceof HTMLButtonElement && target.classList.contains('button-inactive')) {
-      const curActiveElem = target.parentNode.querySelector('.button-active');
-      curActiveElem.classList.add('button-inactive');
-      target.classList.add('button-active');
-      target.classList.remove('button-inactive');
-      curActiveElem.classList.remove('button-active');
-    }
+    this.globalStore.eventBus.subscribe(ChannelNames.userEventsButtonChanged, this.renderEventsList.bind(this));
+    this.globalStore.eventBus.subscribe(ChannelNames.profilePageChanged, this.renderEventsList.bind(this));
   }
 
   postProfile(e: MouseEvent) {

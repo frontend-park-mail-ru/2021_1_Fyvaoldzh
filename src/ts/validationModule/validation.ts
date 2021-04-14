@@ -5,6 +5,7 @@ const VALIDATION_ERR_MESSAGES = {
   NAME: 'Имя не должно содержать цифры, спецсимволы и знаки препинания.',
   CITY: 'Введите город.',
   BIRTHDAY: 'Некорректный формат даты рождения.',
+  AVATAR: 'Только картинки, пожалуйста.',
 };
 
 const INPUTS = {
@@ -37,6 +38,10 @@ const INPUTS = {
     regex: /^\d{2}[./-]\d{2}[./-]\d{4}$/,
     inputName: 'birthday',
     errorMsg: VALIDATION_ERR_MESSAGES.BIRTHDAY,
+  },
+  avatar: {
+    inputName: 'avatar',
+    errorMsg: VALIDATION_ERR_MESSAGES.AVATAR,
   },
 };
 

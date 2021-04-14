@@ -2,9 +2,10 @@ import UserStore from './UserStore';
 import EventsStore from './EventsStore';
 import OneEventStore from './OneEventStore';
 import RouterStore from './RouterStore';
-import SomeUserStore from './SomeUserStore';
 import EventBus from '../eventBus/eventBus';
 import { ActionsInterface } from '../interfaces';
+import OneProfileStore from './OneProfileStore';
+import SearchStore from './SearchStore';
 
 export default class Store {
   public eventBus: EventBus;
@@ -17,7 +18,9 @@ export default class Store {
 
   public routerStore: RouterStore;
 
-  public someUserStore: SomeUserStore;
+  public oneProfileStore: OneProfileStore;
+
+  public searchStore: SearchStore;
 
   constructor(eventBus: EventBus) {
     this.eventBus = eventBus;
@@ -25,7 +28,8 @@ export default class Store {
     this.eventsStore = new EventsStore(this);
     this.oneEventStore = new OneEventStore(this);
     this.routerStore = new RouterStore(this);
-    this.someUserStore = new SomeUserStore(this);
+    this.oneProfileStore = new OneProfileStore(this);
+    this.searchStore = new SearchStore(this);
   }
 
   reducer(action: ActionsInterface) {
@@ -49,8 +53,12 @@ export default class Store {
       return;
     }
 
-    if (action.eventName.includes('someUser/')) {
-      this.someUserStore.reducer(action);
+    if (action.eventName.includes('oneProfile/')) {
+      this.oneProfileStore.reducer(action);
+    }
+
+    if (action.eventName.includes('search/')) {
+      this.searchStore.reducer(action);
     }
   }
 }
