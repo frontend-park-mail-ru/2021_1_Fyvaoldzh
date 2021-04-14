@@ -2,6 +2,7 @@ import { ChannelNames } from '../../config/config';
 import EventComponent from './EventComponent';
 import Store from '../../storage/store';
 import Actions from '../../actions/actions';
+import eventsBackgroundImg from '../../../templates/events/img/events-background.jpg';
 
 const upperTextTemplate = require('Templates/events/upper-text.pug');
 
@@ -28,11 +29,10 @@ export default class EventsView {
       return;
     }
     */
-    document.getElementById('wrapper').style.background = '../../../components/img/form-background.jpg';
+    this.wrapper.style.background = `url(${eventsBackgroundImg}) no-repeat top`;
 
     const eventsJson = this.globalStore.eventsStore.allEvents;
     this.wrapper.innerHTML = '';
-    this.wrapper.style.background = 'url("templates/events/img/events-background.jpg") no-repeat';
     this.wrapper.innerHTML = upperTextTemplate({});
 
     const eventsRow = document.getElementById('events-row');

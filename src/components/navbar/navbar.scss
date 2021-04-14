@@ -1,20 +1,18 @@
-:root {
-  --main-gradient: linear-gradient(90deg, #2e1665 0%, #57001e 100%);
-}
+@import "../../components/css/variables";
+@import "../../components/css/mixins";
 
 .navbar {
-  background: var(--main-gradient);
-}
+  background: $main-gradient;
 
-.navbar__row {
-  display: flex;
-  height: 70px;
-  justify-content: space-between;
-  align-items: center;
+  &__row {
+    @include flex-mixin(row, center);
+    height: 70px;
+    justify-content: space-between;
+  }
 }
 
 .logo {
-  font-family: Abril Fatface;
+  font-family: Abril Fatface, serif;
   font-size: 30px;
   line-height: 40px;
   display: flex;
@@ -24,34 +22,29 @@
 }
 
 .navbar-menu {
-  display: flex;
+  @include flex-mixin(row, center);
   justify-content: space-between;
-  align-items: center;
-}
 
-.navbar-menu__signup {
-  width: 22px;
-  height: 22px;
-  background: url("../components/navbar/img/signup.svg") no-repeat center / 100%;
-}
+  &__signup {
+    width: 22px;
+    height: 22px;
+    background: url("../components/navbar/img/signup.svg") no-repeat center / cover;
+  }
 
-.navbar-menu__logout {
-  width: 22px;
-  height: 22px;
-  background: url("../components/navbar/img/logout.svg") no-repeat center / 100%;
+  &__logout {
+    width: 22px;
+    height: 22px;
+    background: url("../components/navbar/img/logout.svg") no-repeat center / cover;
+  }
+
+  &__list {
+    flex: 1 1 auto;
+  }
 }
 
 .navbar-profile-name {
-  font-family: PT Serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 21px;
-  display: flex;
-  align-items: center;
-  text-align: right;
-
-  color: #FFFFFF;
+  font: $main-font;
+  color: $project-white;
 }
 
 .navbar-profile-avatar {
@@ -59,29 +52,22 @@
   height: 50px;
   border-radius: 50%;
   margin-right: 20px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
-  //background: url("img/avatar.jpeg") no-repeat center / 100%;
-}
-
-.navbar-menu__list {
-  flex: 1 1 auto;
+  box-shadow: $project-box-shadow;
 }
 
 .profile-nav {
-  display: flex;
+  @include flex-mixin(row, center);
   position: relative;
   justify-content: space-between;
-  align-items: center;
   height: 70px;
-  box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.25);
+  box-shadow: $project-box-shadow;
   padding: 10px;
   margin-right: 15px;
 }
 
 .dropdown-menu {
+  @include flex-mixin(column, center);
   position: absolute;
-  display: flex;
-  flex-direction: column;
   top: 70px;
   right: -1px;
   width: 100%;
@@ -90,14 +76,15 @@
   overflow: hidden;
   z-index: 1;
 
-  transition: height .3s linear;
-}
+  transition: height .3s cubic-bezier(.53,1.51,.74,1.54);
 
-.dropdown-menu__settings {
-  padding: 10px;
-  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.25);
-  height: 70px;
-  background: #57001E;
+  &__settings {
+    width: 100%;
+    padding: 10px;
+    box-shadow: $project-box-shadow;
+    height: 70px;
+    background: #57001E;
+  }
 }
 
 .dropdown-menu__events {

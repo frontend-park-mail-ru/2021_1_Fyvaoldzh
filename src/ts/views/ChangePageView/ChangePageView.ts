@@ -5,6 +5,7 @@ import UserView from '../UserView/UserView';
 import EventsView from '../EventsView/EventsView';
 import OneEventView from '../OneEventView/OneEventView';
 import { HistoryState } from '../../interfaces';
+import eventsBackgroundImg from '../../../templates/events/img/events-background.jpg';
 
 const signUpFormTemplate = require('Templates/signup/signup.pug');
 const loginTemplate = require('Templates/login/login.pug');
@@ -89,13 +90,12 @@ export default class ChangePageView {
   }
 
   renderSignUp() {
-    this.wrapper.style.background = 'url("components/img/form-background.jpg") no-repeat top / cover';
     this.wrapper.innerHTML = '';
     this.wrapper.innerHTML = signUpFormTemplate({});
   }
 
   renderLoginPage() {
-    this.wrapper.style.background = 'url("components/img/form-background.jpg") no-repeat top / cover';
+    this.wrapper.style.background = 'url("components/img/form-background.jpg") no-repeat top';
     this.wrapper.innerHTML = '';
     this.wrapper.innerHTML = loginTemplate({});
   }
@@ -132,6 +132,7 @@ export default class ChangePageView {
       return;
     }
 
+    const wrapper = document.getElementById('wrapper');
     switch (currentUrl.pathname) {
       case routes.events:
         window.scroll(0, 0);

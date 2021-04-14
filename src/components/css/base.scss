@@ -1,6 +1,7 @@
 @import "mixins";
 @import "variables";
 
+
 .body {
   font: $main-font;
   background: $project-white;
@@ -46,4 +47,5 @@ input {
   font-weight: bold;
   font-size: 50px;
   color: $project-black;
+  background: $project-white;
 }

@@ -26,8 +26,7 @@ export default class OneEventView {
 
   renderEventPage() {
     const { oneEventData } = this.globalStore.oneEventStore;
-    this.wrapper.style
-      .backgroundImage = 'url("templates/one-event-page/img/event-page-background.jpg") no-repeat top right';
+    this.wrapper.style.background = `url(http://95.163.180.8:1323/api/v1/event/${oneEventData.id}/image) no-repeat top 140px right 70px`;
     this.wrapper.innerHTML = '';
     this.wrapper.innerHTML = oneEventPageTemplate(oneEventData);
 

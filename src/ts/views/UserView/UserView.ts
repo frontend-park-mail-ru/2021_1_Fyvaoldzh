@@ -4,6 +4,8 @@ import {
 import INPUTS from '../../validationModule/validation';
 import Store from '../../storage/store';
 import Actions from '../../actions/actions';
+import myProfileBackground from '../../../templates/my-profile/img/my-profile-background.jpg';
+import eventsBackgroundImg from "../../../templates/events/img/events-background.jpg";
 
 const navbarLoggedTemplate = require('Components/navbar/navbar-logged.pug');
 const myProfileTemplate = require('Templates/my-profile/my-profile.pug');
@@ -155,7 +157,7 @@ export default class UserView {
     const { userData } = this.globalStore.userStore;
 
     const wrapper = document.getElementById('wrapper');
-    wrapper.style.background = 'url("templates/profile/img/profile-background.jpg") no-repeat top / 100%';
+    wrapper.style.background = `url(${myProfileBackground}) no-repeat top`;
 
     wrapper.innerHTML = '';
     wrapper.innerHTML = myProfileTemplate(userData);
