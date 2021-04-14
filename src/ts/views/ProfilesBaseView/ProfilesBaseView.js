@@ -1,33 +1,43 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-return-assign */
+
+import { parseDate, updatePaginationState } from "../utils/utils.js";
+import { profileEventsButton } from "../../config/config.js";
+
 export default class ProfilesBaseView {
   constructor() {}
 
-  renderEventsList = events => {
-    const eventsList = document.getElementById('events-list');
-    let resultHTML = '';
+  renderEventsList(events) {
+    window.scroll(0, 0);
+    const eventsList = document.getElementById("events-list");
+    let resultHTML = "";
     if (!events.length) {
-      const nothingRow = document.createElement('div');
-      nothingRow.className = 'profile-header';
-      nothingRow.style.height = 'auto';
-      nothingRow.style.alignItems = 'start';
-      nothingRow.style.justifyContent = 'center';
+      const nothingRow = document.createElement("div");
+      nothingRow.className = "profile-header";
+      nothingRow.style.height = "auto";
+      nothingRow.style.alignItems = "start";
+      nothingRow.style.justifyContent = "center";
 
-      const thereIsNothing = document.createElement('H6');
-      thereIsNothing.innerText = `Тут пока пусто =(`;
-      thereIsNothing.style.fontSize = '24px';
-      thereIsNothing.style.textAlign = 'center';
-      thereIsNothing.style.marginBottom = '30px';
+      const thereIsNothing = document.createElement("H6");
+      thereIsNothing.innerText = `Ничего не найдено =(`;
+      thereIsNothing.style.fontSize = "24px";
+      thereIsNothing.style.textAlign = "center";
+      thereIsNothing.style.marginBottom = "30px";
 
       nothingRow.appendChild(thereIsNothing);
 
-      const externalElement = document.createElement('div');
+      const externalElement = document.createElement("div");
       externalElement.appendChild(nothingRow);
 
       resultHTML = externalElement.innerHTML;
     } else {
-      events.forEach(event => {
+      events.forEach((event) => {
+        event.startDate = parseDate(event.startDate);
+        event.endDate = parseDate(event.endDate);
         resultHTML += oneEventBlockTemplate(event);
       });
     }
     eventsList.innerHTML = resultHTML;
-  };
+  }
 }

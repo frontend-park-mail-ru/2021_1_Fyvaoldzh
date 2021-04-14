@@ -2,6 +2,7 @@
     .profile-main-block
         .profile-header
             #profileAvatar.profile-header__avatar
+            .profile-header__avatar_default
             .profile-header__info-block
                 .profile-header__title
                     | #{name}
@@ -17,12 +18,8 @@
                         | #{city}
                     .profile-header__info-segment
                         .profile-header__subscribers-img
-                        | #{followers}
+                        | #{followersCount}
             .profile-header__button-block
-                button.button-inactive &Pcy;&ocy;&dcy;&pcy;&icy;&scy;&acy;&tcy;&softcy;&scy;&yacy;
-                button.button-inactive &Ncy;&acy;&pcy;&icy;&scy;&acy;&tcy;&softcy;
+                button.button-inactive Подписаться
+                button.button-inactive Написать
         .decor-line
-        //.button-block
-        //    button#planningEventsButton.button-active(data-buttontype='toggle') &Pcy;&lcy;&acy;&ncy;&icy;&rcy;&ucy;&iecy;&mcy;&ycy;&iecy;
-        //    button#visitedEventsButton.button-inactive(data-buttontype='toggle') &Pcy;&ocy;&scy;&iecy;&shchcy;&iecy;&ncy;&ncy;&ycy;&iecy;
-        //#events-list.smbs-events-block

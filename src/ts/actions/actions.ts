@@ -1,4 +1,4 @@
-import Dispatcher from '../dispatcher/dispatcher';
+import Dispatcher from "../dispatcher/dispatcher";
 
 export default class Actions {
   private dispatcher: Dispatcher;
@@ -9,120 +9,211 @@ export default class Actions {
 
   register(registerData: object) {
     this.dispatcher.dispatch({
-      eventName: 'user/register',
+      eventName: "user/register",
       data: registerData,
     });
   }
 
   login(loginData: object) {
     this.dispatcher.dispatch({
-      eventName: 'user/login',
+      eventName: "user/login",
       data: loginData,
     });
   }
 
   updateUser(first: boolean = false) {
     this.dispatcher.dispatch({
-      eventName: 'user/update',
+      eventName: "user/update",
       data: first,
     });
   }
 
   logout() {
     this.dispatcher.dispatch({
-      eventName: 'user/logout',
+      eventName: "user/logout",
       data: null,
     });
   }
 
   updateEvents() {
     this.dispatcher.dispatch({
-      eventName: 'events/update',
+      eventName: "events/update",
       data: null,
     });
   }
 
   eventPage(id: number) {
     this.dispatcher.dispatch({
-      eventName: 'oneEvent/update',
+      eventName: "oneEvent/update",
       data: id,
     });
   }
 
   changeTab(tab: string) {
     this.dispatcher.dispatch({
-      eventName: 'user/changeTab',
+      eventName: "user/changeTab",
       data: tab,
     });
   }
 
   postProfileForm(data: object) {
     this.dispatcher.dispatch({
-      eventName: 'user/postProfileForm',
+      eventName: "user/postProfileForm",
       data,
     });
   }
 
   avatarPreview(data: string) {
     this.dispatcher.dispatch({
-      eventName: 'user/avatarPreview',
+      eventName: "user/avatarPreview",
       data,
     });
   }
 
   pushAvatar() {
     this.dispatcher.dispatch({
-      eventName: 'user/avatarPush',
+      eventName: "user/avatarPush",
       data: null,
     });
   }
 
   declineAvatar() {
     this.dispatcher.dispatch({
-      eventName: 'user/avatarDecline',
+      eventName: "user/avatarDecline",
+      data: null,
+    });
+  }
+
+  userPageForward() {
+    this.dispatcher.dispatch({
+      eventName: "user/pageForward",
+      data: null,
+    });
+  }
+
+  userPageBack() {
+    this.dispatcher.dispatch({
+      eventName: "user/pageBack",
       data: null,
     });
   }
 
   routerChangePage(page: string) {
     this.dispatcher.dispatch({
-      eventName: 'router/changePage',
+      eventName: "router/changePage",
       data: page,
     });
   }
 
   updateSomeUser(id: number) {
     this.dispatcher.dispatch({
-      eventName: 'someUser/update',
+      eventName: "someUser/update",
       data: id,
     });
   }
 
   uploadEventsContent() {
     this.dispatcher.dispatch({
-      eventName: 'events/uploadEventsContent',
+      eventName: "events/uploadEventsContent",
       data: null,
     });
   }
 
   changeEventCategory(category: string) {
     this.dispatcher.dispatch({
-      eventName: 'events/changeCategory',
+      eventName: "events/changeCategory",
       data: category,
     });
   }
 
   addPlanningEvent(id: number) {
     this.dispatcher.dispatch({
-      eventName: 'oneEvent/add',
+      eventName: "oneEvent/add",
       data: id,
     });
   }
 
   removePlanningEvent(id: number) {
     this.dispatcher.dispatch({
-      eventName: 'oneEvent/remove',
+      eventName: "oneEvent/remove",
       data: id,
+    });
+  }
+
+  updateOneProfile(id) {
+    this.dispatcher.dispatch({
+      eventName: "oneProfile/update",
+      data: id,
+    });
+  }
+
+  updateOneProfileEvents() {
+    this.dispatcher.dispatch({
+      eventName: "oneProfile/updateEvents",
+      data: null,
+    });
+  }
+
+  changeOneProfileEventsButton(buttonId) {
+    this.dispatcher.dispatch({
+      eventName: "oneProfile/changeEventsButton",
+      data: buttonId,
+    });
+  }
+
+  changeSearchEventsButton(buttonId) {
+    this.dispatcher.dispatch({
+      eventName: "search/changeEventsButton",
+      data: buttonId,
+    });
+  }
+
+  searchChangeTab(tabId) {
+    this.dispatcher.dispatch({
+      eventName: "search/changeTab",
+      data: tabId,
+    });
+  }
+
+  searchUpdate(data) {
+    this.dispatcher.dispatch({
+      eventName: "search/update",
+      data: data,
+    });
+  }
+
+  newSearchInputData(data) {
+    this.dispatcher.dispatch({
+      eventName: "search/newInputData",
+      data,
+    });
+  }
+
+  searchPageForward() {
+    this.dispatcher.dispatch({
+      eventName: "search/pageForward",
+      data: null,
+    });
+  }
+
+  searchPageBack() {
+    this.dispatcher.dispatch({
+      eventName: "search/pageBack",
+      data: null,
+    });
+  }
+
+  oneProfilePageForward() {
+    this.dispatcher.dispatch({
+      eventName: "oneProfile/pageForward",
+      data: null,
+    });
+  }
+
+  oneProfilePageBack() {
+    this.dispatcher.dispatch({
+      eventName: "oneProfile/pageBack",
+      data: null,
     });
   }
 }
