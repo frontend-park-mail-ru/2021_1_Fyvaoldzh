@@ -62,7 +62,7 @@ export default class OneProfileView extends ProfilesBaseView {
     wrapper.style.background = 'url("templates/one-profile/img/one-profile-background.jpg") no-repeat top / 100%';
 
     oneProfileData.age = addDeclensionOfNumbers(oneProfileData.age, ['год', 'года', 'лет']);
-    oneProfileData.followers = addDeclensionOfNumbers(oneProfileData.followers, [
+    oneProfileData.followersCount = addDeclensionOfNumbers(oneProfileData.followers.length, [
       'подписчик',
       'подписчика',
       'подписчиков',

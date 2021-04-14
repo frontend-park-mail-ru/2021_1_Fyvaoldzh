@@ -105,6 +105,7 @@ export default class SearchView extends ProfilesBaseView {
     const {searchResultEvents} = this.globalStore.searchStore;
 
     const changingContent = document.getElementById('changing-content');
+
     let buttons = Array.from(changingContent.querySelectorAll('button[data-buttontype="toggle"]'));
     buttons.forEach(button => {
       button.addEventListener('click', buttonToggleHandler.bind(this));

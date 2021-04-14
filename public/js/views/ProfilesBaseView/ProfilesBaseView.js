@@ -2,7 +2,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-return-assign */
 
-import {updatePaginationState} from '../utils/utils.js';
+import {parseDate, updatePaginationState} from '../utils/utils.js';
 import {profileEventsButton} from '../../config/config.js';
 
 export default class ProfilesBaseView {
@@ -58,9 +58,11 @@ export default class ProfilesBaseView {
       resultHTML = externalElement.innerHTML;
     } else {
       events.forEach(event => {
-        if (event.startDate.includes(' +')) {
-          event.startDate = event.startDate.split(' +', 1);
-        }
+        // if (event.startDate.includes(' +')) {
+        //   event.startDate = event.startDate.split(' +', 1);
+        // }
+        event.startDate = parseDate(event.startDate);
+        event.endDate = parseDate(event.endDate);
         resultHTML += oneEventBlockTemplate(event);
       });
     }

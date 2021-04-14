@@ -55,7 +55,12 @@
 }
 
 .paginator__element_hide {
-    height: 0;
-    width: 0;
-    font-size: 0;
+    /*height: 0;*/
+    /*width: 0;*/
+    /*font-size: 0;*/
+    visibility: hidden
+}
+
+.paginator__element_none {
+    display: none;
 }

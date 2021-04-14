@@ -151,39 +151,52 @@ export function updatePaginationState(currentPaginatorValue, resultsAmount = 6) 
 
   if (!pagBack) return;
   if (currentPaginatorValue < 2) {
-    //если страница 1 или (каким-то образом) меньше, то скрываем кнопку "назад", если она еще не скрыта
-    if (!pagBack.classList.contains('paginator__element_hide')) {
-      pagBack.classList.add('paginator__element_hide');
-    }
-  } else if (pagBack.classList.contains('paginator__element_hide')) {
-    //если же страница больше 1, то, если кнопка "назад" скрыта, показываем её
-    pagBack.classList.remove('paginator__element_hide');
+    //если номер страницы = 1 или (каким-то образом) меньше, то скрываем кнопку "назад"
+    // if (!pagBack.classList.contains('paginator__element_hide')) {
+    pagBack.classList.add('paginator__element_hide');
+    // }
   }
+  // if (pagBack.classList.contains('paginator__element_hide')) {
+  //если же страница больше 1, то показываем кнопку  "назад"
+  else pagBack.classList.remove('paginator__element_hide');
+  pagBack.classList.remove('paginator__element_none');
+
+  // }
 
   if (resultsAmount < 6) {
     //временная заглушка, пока на бэке не реализовано возвращение кол-ва страниц - если на данной сранице меньше шести
-    // результатов, то скрываем кнопку "вперед", если она еще не скрыта
-    if (!pagForward.classList.contains('paginator__element_hide')) {
-      pagForward.classList.add('paginator__element_hide');
-    }
-  } else if (pagForward.classList.contains('paginator__element_hide')) {
-    //если же как минимум 6 рез-тов, то показываем кнопку "вперед", если она скрыта
-    pagForward.classList.remove('paginator__element_hide');
+    // результатов, то скрываем кнопку "вперед"
+    // if (!pagForward.classList.contains('paginator__element_hide')) {
+    pagForward.classList.add('paginator__element_hide');
+    // }
   }
+  // if (pagForward.classList.contains('paginator__element_hide')) {
+  //если же как минимум 6 рез-тов, то показываем кнопку "вперед"
+  else pagForward.classList.remove('paginator__element_hide');
+  pagForward.classList.remove('paginator__element_none');
+
+  // }
 
   if (
     pagForward.classList.contains('paginator__element_hide') &&
     pagBack.classList.contains('paginator__element_hide')
   ) {
     //если обе кнопки: "назад" и "вперед" скрыты,
-    //то скрываем и блок с номером страницы - т.к. он в любом случае будет содержать только "1"
-    if (!pagIndicator.classList.contains('paginator__element_hide')) {
-      pagIndicator.classList.add('paginator__element_hide');
-    }
-  } else if (pagIndicator.classList.contains('paginator__element_hide')) {
-    //иначе показываем его, если он скрыт
-    pagIndicator.classList.remove('paginator__element_hide');
+    //то скрываем и блок с номером страницы (причем теперь даем им display: none, чтобы не занимали место)- т.к. он в любом случае будет содержать только "1"
+    // if (!pagIndicator.classList.contains('paginator__element_hide')) {
+
+    pagIndicator.classList.add('paginator__element_none');
+    pagForward.classList.add('paginator__element_none');
+    pagBack.classList.add('paginator__element_none');
+    pagForward.classList.remove('paginator__element_hide');
+    pagBack.classList.remove('paginator__element_hide');
+
+    // }
   }
+  // if (pagIndicator.classList.contains('paginator__element_hide')) {
+  //иначе показываем его, если он скрыт
+  else pagIndicator.classList.remove('paginator__element_none');
+  // }
 
   pagIndicator.innerText = currentPaginatorValue; //обновляем значение в пагинаторе
 }
@@ -198,4 +211,28 @@ export function searchBarHandler(event) {
   const searchBarinput = document.getElementById('JSsearchBarInput');
   target.classList.toggle('close');
   searchBarinput.classList.toggle('square');
+}
+
+/**
+ * Функция-парсер даты
+ * @param {String} dateInput - входная дата
+ * @return {String} - Распарсенная дата, либо входная дата, если она передана не полной (не содержит "UTC")
+ */
+
+export function parseDate(dateInput) {
+  if (dateInput.includes('UTC')) {
+    let date = new Date(Date.parse(dateInput));
+    const options = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      timezone: 'UTC',
+      hour: 'numeric',
+      minute: 'numeric',
+    };
+
+    return date.toLocaleString('ru', options);
+  } else {
+    return dateInput;
+  }
 }
