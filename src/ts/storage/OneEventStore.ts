@@ -43,6 +43,10 @@ export default class OneEventStore {
     if (this.globalStore.userStore.userData && checkPlanningAnswer.isAdded) {
       this.isPlanning = true;
     }
+
+    if (!checkPlanningAnswer.isAdded) {
+      this.isPlanning = false;
+    }
     this.globalStore.eventBus.publish(ChannelNames.eventCome);
   }
 

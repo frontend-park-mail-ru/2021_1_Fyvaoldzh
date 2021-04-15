@@ -46,12 +46,12 @@ export default class UserView extends ProfilesBaseView {
     // обновляем состояние пагинатора после отрисовки списка
     switch (currentEventsButton) {
       case profileEventsButton.planning:
-        const { profilePlanningEvents } = this.globalStore.userStore;
+        const profilePlanningEvents = this.globalStore.userStore.userData.planning;
         updatePaginationState(currentEventsPage, profilePlanningEvents?.length);
         break;
 
       case profileEventsButton.visited:
-        const { profileVisitedEvents } = this.globalStore.userStore;
+        const profileVisitedEvents = this.globalStore.userStore.userData.visited;
         updatePaginationState(currentEventsPage, profileVisitedEvents?.length);
         break;
 
@@ -254,7 +254,6 @@ export default class UserView extends ProfilesBaseView {
       switch (currentEventsButton) {
         case profileEventsButton.planning:
           updatePaginationState(currentEventsPage, 1);
-
           break;
         case profileEventsButton.visited:
           updatePaginationState(currentEventsPage, 1);

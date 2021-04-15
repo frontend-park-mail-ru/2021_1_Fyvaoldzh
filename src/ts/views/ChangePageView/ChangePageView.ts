@@ -49,7 +49,7 @@ export default class ChangePageView {
   async render(state: HistoryState) {
     if (state.page.includes('event') && state.page !== routes.events) {
       await this.actions.eventPage(<number><unknown>state.page.substr(6));
-      this.oneEventView.renderEventPage();
+      //this.oneEventView.renderEventPage();
       return;
     }
 
