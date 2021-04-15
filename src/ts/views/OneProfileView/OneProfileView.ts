@@ -72,7 +72,7 @@ export default class OneProfileView extends ProfilesBaseView {
     const { currentEventsPage } = this.globalStore.oneProfileStore;
 
     const ava = document.getElementById('profileAvatar');
-    ava.style.background = `url(${urlMap.imgUrl + oneProfileData.Uid}) no-repeat center / cover`;
+    ava.style.background = `url(${urlMap.imgUrl}/${oneProfileData.Uid}) no-repeat center / cover`;
 
     const eventsButtonsBlock = document.getElementById('jsEventsButtonsBlock');
     const buttons = Array.from(eventsButtonsBlock.querySelectorAll('button[data-buttontype="toggle"]'));

@@ -63,6 +63,7 @@
   box-shadow: $project-box-shadow;
   padding: 10px;
   margin-right: 15px;
+  min-width: 200px;
 }
 
 .dropdown-menu {
@@ -107,7 +108,7 @@
     @extend .dropdown-menu__drop-menu-stroke;
     &:before {
       @extend .dropdown-menu__drop-menu-before;
-      background: url("../components/navbar/img/logout.svg") no-repeat center / cover;
+      background: url("../components/navbar/img/settings.svg") no-repeat center / cover;
     }
 
   }
@@ -124,7 +125,7 @@
     @extend .dropdown-menu__drop-menu-stroke;
     &:before {
       @extend .dropdown-menu__drop-menu-before;
-      background: url("../components/navbar/img/settings.svg") no-repeat center / cover;
+      background: url("../components/navbar/img/logout.svg") no-repeat center / cover;
     }
   }
 }

@@ -60,6 +60,7 @@ export enum ChannelNames {
   searchUsersPageChanged,
   oneProfilePageChanged,
   profilePageChanged,
+  profilePasswordChanged,
 }
 
 /* const pageNames = {

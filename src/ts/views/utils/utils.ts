@@ -240,7 +240,14 @@ export function parseDate(dateInput: any) {
 
 export function searchButtonHandler(e: any) {
   e.preventDefault();
-  
+
   const input = document.getElementById('jsNavbarSearchInput') as HTMLInputElement;
   this.actions.routerChangePage(`/search?tab=${input.value}`);
+}
+
+export function searchKeyPress(e: any) {
+  if (e.keyCode === 13) {
+    const input = document.getElementById('jsNavbarSearchInput') as HTMLInputElement;
+    this.actions.routerChangePage(`/search?tab=${input.value}`);
+  }
 }

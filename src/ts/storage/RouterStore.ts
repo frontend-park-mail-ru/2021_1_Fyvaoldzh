@@ -12,7 +12,7 @@ export default class RouterStore {
   }
 
   changePage(action: ActionsInterface) {
-    this.currentUrl = new URL(<string><unknown>action.data, 'http://localhost:3000/');
+    this.currentUrl = new URL(<string><unknown>action.data, window.location.origin);
     window.history.pushState({ page: this.currentUrl.pathname, parameter: this.currentUrl.searchParams.get('tab') },
       '',
       this.currentUrl.href);

@@ -5,11 +5,11 @@ import INPUTS from '../../validationModule/validation';
 import {
   addDeclensionOfNumbers,
   buttonToggleHandler,
-  profilePaginatorHandler, searchButtonHandler,
+  profilePaginatorHandler, searchButtonHandler, searchKeyPress,
   updatePaginationState,
 } from '../utils/utils';
 import ProfilesBaseView from '../ProfilesBaseView/ProfilesBaseView';
-import { PostUserDataInterface } from '../../interfaces';
+import { ChangePasswordInterface, PostUserDataInterface } from '../../interfaces';
 import Actions from '../../actions/actions';
 
 const navbarLoggedTemplate = require('../../../components/navbar/navbar-logged.pug');
@@ -81,13 +81,8 @@ export default class UserView extends ProfilesBaseView {
     reader.readAsDataURL(file);
   }
 
-
-
   renderLoggedNavbar() {
     window.scroll(0, 0);
-
-    const confirmSearch = document.getElementById('jsConfirmSearch');
-    confirmSearch.addEventListener('click', searchButtonHandler.bind(this));
 
     const navbar = document.getElementById('navbar');
     const profileData = this.globalStore.userStore.userData;
@@ -97,6 +92,11 @@ export default class UserView extends ProfilesBaseView {
     const navbarAvatar = document.getElementById('navbar-avatar');
 
     navbarAvatar.style.background = `url(${urlMap.imgUrl}/${profileData.Uid}) no-repeat center / cover`;
+
+    const confirmSearch = document.getElementById('jsConfirmSearch');
+    confirmSearch.addEventListener('click', searchButtonHandler.bind(this));
+    const inputSearch = document.getElementById('jsNavbarSearchInput');
+    inputSearch.addEventListener('keypress', searchKeyPress.bind(this));
   }
 
   renderValidationErrors() {
@@ -122,12 +122,16 @@ export default class UserView extends ProfilesBaseView {
       document.getElementById('emailError').innerText = '';
     }
 
-    document.getElementsByName('login').forEach((el) => (el.style.all = null));
-    document.getElementsByName('password').forEach((el) => (el.style.all = null));
-    document.getElementsByName('name').forEach((el) => (el.style.all = null));
-    document.getElementsByName('birthday').forEach((el) => (el.style.all = null));
-    document.getElementsByName('city').forEach((el) => (el.style.all = null));
-    document.getElementsByName('email').forEach((el) => (el.style.all = null));
+    if (document.getElementById('jsPasswordError')) {
+      document.getElementById('jsPasswordError').innerText = '';
+    }
+
+    document.getElementsByName('login').forEach((el) => (el.style.boxShadow = greyBoxShadow));
+    document.getElementsByName('password').forEach((el) => (el.style.boxShadow = greyBoxShadow));
+    document.getElementsByName('name').forEach((el) => (el.style.boxShadow = greyBoxShadow));
+    document.getElementsByName('birthday').forEach((el) => (el.style.boxShadow = greyBoxShadow));
+    document.getElementsByName('city').forEach((el) => (el.style.boxShadow = greyBoxShadow));
+    document.getElementsByName('email').forEach((el) => (el.style.boxShadow = greyBoxShadow));
 
     validationErrors.forEach((error:any) => {
       switch (error) {
@@ -167,6 +171,12 @@ export default class UserView extends ProfilesBaseView {
           document.getElementById('emailError').innerText = INPUTS.email.errorMsg;
           break;
 
+        case 'wrongPassword':
+          document.getElementsByName('oldPassword').forEach((el) => (el.style.boxShadow = redBoxShadow));
+          document.getElementsByName('newPassword').forEach((el) => (el.style.boxShadow = redBoxShadow));
+          document.getElementById('jsPasswordError').innerText = 'Неверный старый пароль.';
+          break;
+
         default:
           break;
       }
@@ -179,6 +189,12 @@ export default class UserView extends ProfilesBaseView {
     }
 
     const { userData } = this.globalStore.userStore;
+
+    if (this.globalStore.routerStore.currentUrl.pathname !== '/profile') {
+      if (this.globalStore.routerStore.currentUrl.pathname !== `/profile${userData.Uid}`) {
+        return;
+      }
+    }
 
     const wrapper = document.getElementById('wrapper');
     wrapper.style.background = 'url("templates/profile/img/profile-background.jpg") no-repeat top / 100%';
@@ -223,7 +239,6 @@ export default class UserView extends ProfilesBaseView {
     });
 
     this.renderChangingContent(currentTab);
-    // window.history.pushState('', '', '/profile');
 
     // ренедерим пагинатор:
     if (currentTab === 'eventsTab') {
@@ -270,6 +285,7 @@ export default class UserView extends ProfilesBaseView {
 
       case 'settingsTab':
         changingContent.innerHTML = profileSettingsTabTemplate();
+        document.getElementById('postProfile').addEventListener('click', this.changePassword.bind(this));
         activateTab(currentTab);
         break;
 
@@ -305,12 +321,8 @@ export default class UserView extends ProfilesBaseView {
 
   renderOneProfileEventsTab() {
     const { currentEventsButton } = this.globalStore.userStore;
-    const { profilePlanningEvents } = this.globalStore.userStore;
-    const { profileVisitedEvents } = this.globalStore.userStore;
-
-    // const eventsButtonsBlock = document.getElementById('jsEventsButtonsBlock');
-    //
-    // eventsButtonsBlock.addEventListener('click', buttonToggleHandler.bind(this));
+    const profilePlanningEvents = this.globalStore.userStore.userData.planning;
+    const profileVisitedEvents = this.globalStore.userStore.userData.visited;
 
     const changingContent = document.getElementById('changing-content');
     const buttons = Array.from(changingContent.querySelectorAll('button[data-buttontype="toggle"]'));
@@ -362,6 +374,10 @@ export default class UserView extends ProfilesBaseView {
     document.getElementById('jsDeclineAvatar').style.display = 'none';
   }
 
+  renderSuccessPassword() {
+    document.getElementById('jsPasswordSuccess').innerText = 'Пароль успешно изменен.';
+  }
+
   subscribeViews() {
     this.globalStore.eventBus.subscribe(ChannelNames.errorValidation, this.renderValidationErrors.bind(this));
     this.globalStore.eventBus.subscribe(ChannelNames.userUpdated, this.renderLoggedNavbar.bind(this));
@@ -371,7 +387,8 @@ export default class UserView extends ProfilesBaseView {
     this.globalStore.eventBus.subscribe(ChannelNames.avatarDeclined, this.renderUnPreviewAvatar.bind(this));
     this.globalStore.eventBus.subscribe(ChannelNames.avatarPushed, this.renderAvatarPushed.bind(this));
     this.globalStore.eventBus.subscribe(ChannelNames.userEventsButtonChanged, this.renderEventsList.bind(this));
-    this.globalStore.eventBus.subscribe(ChannelNames.profilePageChanged, this.renderEventsList.bind(this));
+    this.globalStore.eventBus.subscribe(ChannelNames.profilePasswordChanged, this.renderSuccessPassword.bind(this));
+
   }
 
   postProfile(e: MouseEvent) {
@@ -407,5 +424,24 @@ export default class UserView extends ProfilesBaseView {
     }
 
     this.actions.postProfileForm(dataToPost);
+  }
+
+  changePassword(e: MouseEvent) {
+    e.preventDefault();
+
+    const formBody = <HTMLFormElement>document.getElementById('jsPasswordChangeForm');
+    const dataFromForm = new FormData(formBody);
+
+    document.getElementById('jsPasswordSuccess').innerText = '';
+    document.getElementById('jsPasswordError').innerText = '';
+    document.getElementsByName('oldPassword').forEach((el) => (el.style.boxShadow = greyBoxShadow));
+    document.getElementsByName('newPassword').forEach((el) => (el.style.boxShadow = greyBoxShadow));
+
+    const dataToPost: ChangePasswordInterface = {
+      old_password: <string>dataFromForm.get('oldPassword'),
+      new_password: <string>dataFromForm.get('newPassword'),
+    };
+
+    this.actions.changePassword(dataToPost);
   }
 }

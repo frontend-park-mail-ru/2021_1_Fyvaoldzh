@@ -5,6 +5,7 @@ import UserView from '../UserView/UserView';
 import EventsView from '../EventsView/EventsView';
 import OneEventView from '../OneEventView/OneEventView';
 import { HistoryState } from '../../interfaces';
+import {searchButtonHandler, searchKeyPress} from '../utils/utils';
 
 const signUpFormTemplate = require('Templates/signup/signup.pug');
 const loginTemplate = require('Templates/login/login.pug');
@@ -122,6 +123,11 @@ export default class ChangePageView {
   renderNavbar() {
     this.navbar.innerHTML = '';
     this.navbar.innerHTML = navbarTemplate({});
+
+    const confirmSearch = document.getElementById('jsConfirmSearch');
+    const inputSearch = document.getElementById('jsNavbarSearchInput');
+    inputSearch.addEventListener('keypress', searchKeyPress.bind(this));
+    confirmSearch.addEventListener('click', searchButtonHandler.bind(this));
   }
 
   onRegisterSuccessfull() {

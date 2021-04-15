@@ -236,6 +236,17 @@ export default class UserStore {
     }
   }
 
+  async changePassword(action: ActionsInterface) {
+    const answer = await postProfileData(action.data);
+
+    if (answer.ok) {
+      this.globalStore.eventBus.publish(ChannelNames.profilePasswordChanged);
+    } else {
+      this.validationErrors.push('wrongPassword');
+      this.globalStore.eventBus.publish(ChannelNames.errorValidation);
+    }
+  }
+
   reducer(action: ActionsInterface) {
     switch (action.eventName) {
       case 'user/register':
@@ -288,6 +299,10 @@ export default class UserStore {
 
       case 'user/pageBack':
         this.pageBack();
+        break;
+
+      case 'user/changePassword':
+        this.changePassword(action);
         break;
 
       default:

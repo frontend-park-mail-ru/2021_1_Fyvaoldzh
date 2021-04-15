@@ -223,4 +223,11 @@ export default class Actions {
       data: null,
     });
   }
+
+  changePassword(data: any) {
+    this.dispatcher.dispatch({
+      eventName: 'user/changePassword',
+      data,
+    });
+  }
 }

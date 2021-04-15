@@ -6,7 +6,7 @@ export default class ProfilesBaseView {
   public renderEventsList(events: any) {
     const eventsList = document.getElementById('events-list');
     let resultHTML = '';
-    if (!events.length) {
+    if (!events?.length) {
       const nothingRow = document.createElement('div');
       nothingRow.className = 'profile-header';
       nothingRow.style.height = 'auto';
