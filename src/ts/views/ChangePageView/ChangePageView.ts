@@ -5,7 +5,7 @@ import UserView from '../UserView/UserView';
 import EventsView from '../EventsView/EventsView';
 import OneEventView from '../OneEventView/OneEventView';
 import { HistoryState } from '../../interfaces';
-import {searchButtonHandler, searchKeyPress} from '../utils/utils';
+import { searchButtonHandler, searchKeyPress } from '../utils/utils';
 
 const signUpFormTemplate = require('Templates/signup/signup.pug');
 const loginTemplate = require('Templates/login/login.pug');
@@ -115,8 +115,7 @@ export default class ChangePageView {
   }
 
   renderLogout() {
-    this.navbar.innerHTML = '';
-    this.navbar.innerHTML = navbarTemplate({});
+    this.renderNavbar();
     this.actions.routerChangePage('/events');
   }
 
@@ -148,7 +147,7 @@ export default class ChangePageView {
     if (currentUrl.pathname.includes('profile') && currentUrl.pathname !== routes.profile) {
       const idProfile = Number(currentUrl.pathname.substr(8));
 
-      if (idProfile === this.globalStore.userStore.userData.Uid) {
+      if (idProfile === this.globalStore.userStore.userData?.Uid) {
         this.actions.updateUser();
         return;
       }

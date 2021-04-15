@@ -191,8 +191,10 @@ export default class UserView extends ProfilesBaseView {
     const { userData } = this.globalStore.userStore;
 
     if (this.globalStore.routerStore.currentUrl.pathname !== '/profile') {
-      if (this.globalStore.routerStore.currentUrl.pathname !== `/profile${userData.Uid}`) {
-        return;
+      if (userData) {
+        if (this.globalStore.routerStore.currentUrl.pathname !== `/profile${userData.Uid}`) {
+          return;
+        }
       }
     }
 
@@ -388,7 +390,6 @@ export default class UserView extends ProfilesBaseView {
     this.globalStore.eventBus.subscribe(ChannelNames.avatarPushed, this.renderAvatarPushed.bind(this));
     this.globalStore.eventBus.subscribe(ChannelNames.userEventsButtonChanged, this.renderEventsList.bind(this));
     this.globalStore.eventBus.subscribe(ChannelNames.profilePasswordChanged, this.renderSuccessPassword.bind(this));
-
   }
 
   postProfile(e: MouseEvent) {
