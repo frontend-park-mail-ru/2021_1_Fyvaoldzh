@@ -82,7 +82,6 @@ export async function getEventById(id: number) {
 
 export async function postRegistrationData(toPost: object) {
   const csrf = getCsrf();
-
   try {
     return await fetch(urlMap.postRegistrationDataUrl, {
       method: 'POST',
@@ -277,12 +276,25 @@ export async function checkPlanningEvent(id: number) {
 }
 
 export async function getEventsByParams(find = '', category = '', page = '') {
+  const csrf = getCsrf();
   const url = new URL(urlMap.customEventUrl);
   const params = { find, page, category };
   url.search = new URLSearchParams(params).toString();
-  const answer = await fetch(url.toString());
-  const jsonFile = await answer.json();
-  return jsonFile;
+  try {
+    const answer = await fetch(url.toString(), {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'X-XSRF-TOKEN': csrf,
+      },
+    });
+    const jsonFile = await answer.json();
+    return jsonFile;
+  } catch (err) {
+    if (!navigator.onLine) {
+      location.reload();
+    }
+  }
 }
 
 /**
@@ -292,10 +304,16 @@ export async function getEventsByParams(find = '', category = '', page = '') {
  */
 
 export async function getUsersByParams(page = '') {
-  const url = new URL(urlMap.customUserUrl);
-  const params = { page };
-  url.search = new URLSearchParams(params).toString();
-  const answer = await fetch(url.toString());
-  const jsonFile = await answer.json();
-  return jsonFile;
+  try {
+    const url = new URL(urlMap.customUserUrl);
+    const params = { page };
+    url.search = new URLSearchParams(params).toString();
+    const answer = await fetch(url.toString());
+    const jsonFile = await answer.json();
+    return jsonFile;
+  } catch (err) {
+    if (!navigator.onLine) {
+      location.reload();
+    }
+  }
 }
