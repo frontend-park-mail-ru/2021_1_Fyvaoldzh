@@ -143,3 +143,21 @@ label[for=toggle] {
 input[type=checkbox]:checked  ~ .dropdown-menu {
   height: 210px;
 }
+
+.navbar__search {
+  padding: 5px 5px 5px 15px;
+  background: #C4DBF6;
+  position: relative;
+  border-radius: 7% / 50%;
+}
+
+.confirm-search-button {
+  z-index: 1;
+  display: block;
+  background: url("../components/navbar/img/search-icon.svg") no-repeat center / cover;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  margin-top: -26px;
+  margin-left: 245px;
+}

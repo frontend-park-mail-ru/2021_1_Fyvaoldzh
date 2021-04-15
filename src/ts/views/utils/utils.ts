@@ -237,3 +237,10 @@ export function parseDate(dateInput: any) {
   }
   return dateInput;
 }
+
+export function searchButtonHandler(e: any) {
+  e.preventDefault();
+  
+  const input = document.getElementById('jsNavbarSearchInput') as HTMLInputElement;
+  this.actions.routerChangePage(`/search?tab=${input.value}`);
+}

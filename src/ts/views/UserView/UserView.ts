@@ -5,11 +5,12 @@ import INPUTS from '../../validationModule/validation';
 import {
   addDeclensionOfNumbers,
   buttonToggleHandler,
-  profilePaginatorHandler,
+  profilePaginatorHandler, searchButtonHandler,
   updatePaginationState,
 } from '../utils/utils';
 import ProfilesBaseView from '../ProfilesBaseView/ProfilesBaseView';
 import { PostUserDataInterface } from '../../interfaces';
+import Actions from '../../actions/actions';
 
 const navbarLoggedTemplate = require('../../../components/navbar/navbar-logged.pug');
 const profileTemplate = require('../../../templates/profile/profile.pug');
@@ -29,9 +30,9 @@ function activateTab(button: string) {
 export default class UserView extends ProfilesBaseView {
   public globalStore: any;
 
-  public actions: any;
+  public actions: Actions;
 
-  constructor(globalStore: any, actions: any) {
+  constructor(globalStore: any, actions: Actions) {
     super();
     this.globalStore = globalStore;
     this.actions = actions;
@@ -80,8 +81,13 @@ export default class UserView extends ProfilesBaseView {
     reader.readAsDataURL(file);
   }
 
+
+
   renderLoggedNavbar() {
     window.scroll(0, 0);
+
+    const confirmSearch = document.getElementById('jsConfirmSearch');
+    confirmSearch.addEventListener('click', searchButtonHandler.bind(this));
 
     const navbar = document.getElementById('navbar');
     const profileData = this.globalStore.userStore.userData;
