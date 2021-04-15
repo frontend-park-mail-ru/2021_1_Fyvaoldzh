@@ -39,19 +39,30 @@ export default class UserView extends ProfilesBaseView {
   }
 
   renderEventsList(events: any) {
-    super.renderEventsList(events);
-
     const { currentEventsPage, currentEventsButton } = this.globalStore.userStore;
+    const profilePlanningEvents = this.globalStore.userStore.userData.planning;
+    const profileVisitedEvents = this.globalStore.userStore.userData.visited;
+
+    switch (currentEventsButton) {
+      case 'planningEventsButton':
+        super.renderEventsList(profilePlanningEvents);
+        break;
+
+      case 'visitedEventsButton':
+        super.renderEventsList(profileVisitedEvents);
+        break;
+
+      default:
+        break;
+    }
 
     // обновляем состояние пагинатора после отрисовки списка
     switch (currentEventsButton) {
       case profileEventsButton.planning:
-        const profilePlanningEvents = this.globalStore.userStore.userData.planning;
         updatePaginationState(currentEventsPage, profilePlanningEvents?.length);
         break;
 
       case profileEventsButton.visited:
-        const profileVisitedEvents = this.globalStore.userStore.userData.visited;
         updatePaginationState(currentEventsPage, profileVisitedEvents?.length);
         break;
 
