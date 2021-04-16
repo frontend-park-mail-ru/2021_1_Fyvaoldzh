@@ -94,8 +94,8 @@ export default class OneProfileView extends ProfilesBaseView {
     }
 
     // ренедерим пагинатор:
-    const oneProfilePaginator = document.getElementById('paginator');
-    oneProfilePaginator.innerHTML = paginationBlockTemplate();
+    //const oneProfilePaginator = document.getElementById('paginator');
+    //oneProfilePaginator.innerHTML = paginationBlockTemplate();
 
     switch (currentEventsButton) {
       case profileEventsButton.planning:
@@ -110,8 +110,8 @@ export default class OneProfileView extends ProfilesBaseView {
         break;
     }
 
-    document.getElementById('paginationBack').addEventListener('click', oneProfilePaginatorHandler.bind(this));
-    document.getElementById('paginationForward').addEventListener('click', oneProfilePaginatorHandler.bind(this));
+    // document.getElementById('paginationBack').addEventListener('click', oneProfilePaginatorHandler.bind(this));
+    // document.getElementById('paginationForward').addEventListener('click', oneProfilePaginatorHandler.bind(this));
   }
 
   subscribeViews() {

@@ -1,5 +1,5 @@
-import { ChannelNames } from "../config/config";
-import { ActionsInterface } from "../interfaces";
+import { ChannelNames } from '../config/config';
+import { ActionsInterface } from '../interfaces';
 
 export default class RouterStore {
   public globalStore: any;
@@ -14,19 +14,17 @@ export default class RouterStore {
   changePage(action: ActionsInterface) {
     this.currentUrl = new URL(
       <string>(<unknown>action.data),
-      window.location.origin
+      window.location.origin,
     );
 
-    console.log(this.currentUrl.pathname);
-
-    if (this.currentUrl.pathname !== "/search") {
+    if (this.currentUrl.pathname !== '/search') {
       window.history.pushState(
         {
           page: this.currentUrl.pathname,
-          parameter: this.currentUrl.searchParams.get("tab"),
+          parameter: this.currentUrl.searchParams.get('tab'),
         },
-        "",
-        this.currentUrl.href
+        '',
+        this.currentUrl.href,
       );
     }
 
@@ -35,7 +33,7 @@ export default class RouterStore {
 
   reducer(action: ActionsInterface) {
     switch (action.eventName) {
-      case "router/changePage":
+      case 'router/changePage':
         this.changePage(action);
         break;
 

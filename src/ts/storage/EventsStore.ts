@@ -39,8 +39,8 @@ export default class EventsStore {
       return;
     }
     this.updatingEvents = true;
-    this.pageNumber += 1;
 
+    this.pageNumber += 1;
     let newEvents;
     if (this.eventCategory === 'Рекомендации') {
       newEvents = await getRecommendEvents(this.pageNumber);
