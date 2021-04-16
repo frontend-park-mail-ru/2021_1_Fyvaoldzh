@@ -29,6 +29,7 @@ export default class EventsStore {
   }
 
   async update() {
+    this.eventCategory = '';
     this.allEvents = await getAllEventsJson();
     this.globalStore.eventBus.publish(ChannelNames.eventsUpdated);
   }

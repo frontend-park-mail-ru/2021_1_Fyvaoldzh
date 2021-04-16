@@ -18,3 +18,39 @@
 @import '../templates/search/search.scss';
 
 @import '../templates/one-profile/one-profile.scss';
+
+.page-photo {
+  z-index: -1;
+  position: absolute;
+  width: 100%;
+  height: 500px;
+  left: 0;
+  top: 0;
+
+  &:before {
+    content: '';
+    display: block;
+    background: $project-white;
+    width: 500px;
+    height: 800px;
+    transform: skewY(30deg);
+    position: relative;
+    margin-top: 380px;
+    overflow: hidden;
+  }
+
+  &_events {
+    @extend .page-photo;
+    background: url("../templates/events/img/events-background.jpg") no-repeat top / cover;
+  }
+
+  &_form {
+    @extend .page-photo;
+    background: url("../components/img/form-background.jpg") no-repeat top / cover;
+  }
+
+  &_profile {
+    @extend .page-photo;
+    background: url("../templates/profile/img/profile-background.jpg") no-repeat top / cover;
+  }
+}

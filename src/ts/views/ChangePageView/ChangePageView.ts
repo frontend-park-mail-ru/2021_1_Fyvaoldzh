@@ -1,16 +1,16 @@
-import { ChannelNames, routes } from "../../config/config";
-import Store from "../../storage/store";
-import Actions from "../../actions/actions";
-import UserView from "../UserView/UserView";
-import EventsView from "../EventsView/EventsView";
-import OneEventView from "../OneEventView/OneEventView";
-import SearchView from "../SearchView/SearchView";
-import { HistoryState } from "../../interfaces";
-import { searchButtonHandler, searchKeyPress } from "../utils/utils";
+import { ChannelNames, routes } from '../../config/config';
+import Store from '../../storage/store';
+import Actions from '../../actions/actions';
+import UserView from '../UserView/UserView';
+import EventsView from '../EventsView/EventsView';
+import OneEventView from '../OneEventView/OneEventView';
+import SearchView from '../SearchView/SearchView';
+import { HistoryState } from '../../interfaces';
+import { searchButtonHandler, searchKeyPress } from '../utils/utils';
 
-const signUpFormTemplate = require("Templates/signup/signup.pug");
-const loginTemplate = require("Templates/login/login.pug");
-const navbarTemplate = require("Components/navbar/navbar.pug");
+const signUpFormTemplate = require('Templates/signup/signup.pug');
+const loginTemplate = require('Templates/login/login.pug');
+const navbarTemplate = require('Components/navbar/navbar.pug');
 
 export default class ChangePageView {
   public globalStore: Store;
@@ -35,12 +35,12 @@ export default class ChangePageView {
     userView: UserView,
     eventsView: EventsView,
     oneEventView: OneEventView,
-    searchView: SearchView
+    searchView: SearchView,
   ) {
     this.globalStore = globalStore;
     this.actions = actions;
-    this.wrapper = document.getElementById("wrapper");
-    this.navbar = document.getElementById("navbar");
+    this.wrapper = document.getElementById('wrapper');
+    this.navbar = document.getElementById('navbar');
     this.userView = userView;
     this.eventsView = eventsView;
     this.oneEventView = oneEventView;
@@ -54,13 +54,13 @@ export default class ChangePageView {
   }
 
   async render(state: HistoryState) {
-    if (state.page.includes("event") && state.page !== routes.events) {
+    if (state.page.includes('event') && state.page !== routes.events) {
       await this.actions.eventPage(<number>(<unknown>state.page.substr(6)));
-      //this.oneEventView.renderEventPage();
+      // this.oneEventView.renderEventPage();
       return;
     }
 
-    if (state.page.includes("profile") && state.page !== routes.profile) {
+    if (state.page.includes('profile') && state.page !== routes.profile) {
       const idProfile = Number(state.page.substr(8));
 
       if (idProfile === this.globalStore.userStore.userData.Uid) {
@@ -105,7 +105,7 @@ export default class ChangePageView {
         this.eventsView.renderEvents();
         break;
 
-      case routes.search: //моя реализация
+      case routes.search: // моя реализация
         window.scroll(0, 0);
         this.actions.searchUpdateByHistory();
         break;
@@ -116,24 +116,23 @@ export default class ChangePageView {
   }
 
   renderSignUp() {
-    this.wrapper.innerHTML = "";
+    this.wrapper.innerHTML = '';
     this.wrapper.innerHTML = signUpFormTemplate({});
   }
 
   renderLoginPage() {
-    this.wrapper.style.background =
-      'url("components/img/form-background.jpg") no-repeat top';
-    this.wrapper.innerHTML = "";
+    this.wrapper.style.background = 'url("components/img/form-background.jpg") no-repeat top';
+    this.wrapper.innerHTML = '';
     this.wrapper.innerHTML = loginTemplate({});
   }
 
   renderLogout() {
     this.renderNavbar();
-    this.actions.routerChangePage("/events");
+    this.actions.routerChangePage('/events');
   }
 
   renderNavbar() {
-    this.navbar.innerHTML = "";
+    this.navbar.innerHTML = '';
     this.navbar.innerHTML = navbarTemplate({});
 
     // const confirmSearch = document.getElementById("jsConfirmSearch");  //реализация Димы
@@ -152,8 +151,8 @@ export default class ChangePageView {
     const { userData } = this.globalStore.userStore;
 
     if (
-      currentUrl.pathname.includes("event") &&
-      currentUrl.pathname !== routes.events
+      currentUrl.pathname.includes('event')
+      && currentUrl.pathname !== routes.events
     ) {
       window.scroll(0, 0);
       this.actions.eventPage(Number(currentUrl.pathname.substr(6)));
@@ -161,8 +160,8 @@ export default class ChangePageView {
     }
 
     if (
-      currentUrl.pathname.includes("profile") &&
-      currentUrl.pathname !== routes.profile
+      currentUrl.pathname.includes('profile')
+      && currentUrl.pathname !== routes.profile
     ) {
       const idProfile = Number(currentUrl.pathname.substr(8));
 
@@ -234,19 +233,19 @@ export default class ChangePageView {
   subscribeViews() {
     this.globalStore.eventBus.subscribe(
       ChannelNames.logoutSuccessfull,
-      this.renderLogout.bind(this)
+      this.renderLogout.bind(this),
     );
     this.globalStore.eventBus.subscribe(
       ChannelNames.userIsNotAuth,
-      this.renderNavbar.bind(this)
+      this.renderNavbar.bind(this),
     );
     this.globalStore.eventBus.subscribe(
       ChannelNames.pageChanged,
-      this.changePage.bind(this)
+      this.changePage.bind(this),
     );
     this.globalStore.eventBus.subscribe(
       ChannelNames.registerSuccessfull,
-      this.onRegisterSuccessfull.bind(this)
+      this.onRegisterSuccessfull.bind(this),
     );
   }
 }

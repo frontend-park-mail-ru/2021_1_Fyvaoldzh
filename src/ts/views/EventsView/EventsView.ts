@@ -2,7 +2,6 @@ import { ChannelNames } from '../../config/config';
 import EventComponent from './EventComponent';
 import Store from '../../storage/store';
 import Actions from '../../actions/actions';
-import eventsBackgroundImg from '../../../templates/events/img/events-background.jpg';
 
 const upperTextTemplate = require('Templates/events/upper-text.pug');
 
@@ -29,8 +28,6 @@ export default class EventsView {
       return;
     }
     */
-    this.wrapper.style.background = `url(${eventsBackgroundImg}) no-repeat top`;
-
     const eventsJson = this.globalStore.eventsStore.allEvents;
     this.wrapper.innerHTML = '';
     this.wrapper.innerHTML = upperTextTemplate({});

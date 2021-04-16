@@ -30,10 +30,8 @@ export default class OneEventView {
     this.wrapper.innerHTML = '';
     this.wrapper.innerHTML = oneEventPageTemplate(oneEventData);
     this.wrapper.style.background = null;
-    const eventPhoto = document.getElementById('jsEventPhoto');
-    eventPhoto.style.background = `linear-gradient(5deg, rgba(254,254,254,1) 18%,
-                                  rgba(255,255,255,0.02) 50%),
-                                  url(http://95.163.180.8:1323/api/v1/event/${oneEventData.id}/image) 
+    const eventPhoto = document.getElementById('jsPagePhoto');
+    eventPhoto.style.background = `url(http://95.163.180.8:1323/api/v1/event/${oneEventData.id}/image) 
                                   no-repeat center / cover`;
 
     const eventStar = document.getElementById('jsEventStar');
