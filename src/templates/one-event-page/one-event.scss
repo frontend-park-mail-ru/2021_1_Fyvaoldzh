@@ -112,6 +112,7 @@
 
 .going-user {
   margin-left: 50px;
+  width: 100px;
   @include flex-mixin(column, center);
   justify-content: space-between;
 
@@ -125,8 +126,12 @@
   }
 
   &__name {
-    margin-top: 10px;
+    width: 120px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin-top: 20px;
     font: $little-font;
+    text-align: center;
   }
 }
 
