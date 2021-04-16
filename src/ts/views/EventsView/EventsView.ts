@@ -55,7 +55,6 @@ export default class EventsView {
     const windowHeight = window.innerHeight;
 
     if (windowOffsetY + windowHeight > contentHeight) {
-      console.log('dwawdadw');
       this.actions.uploadEventsContent();
     }
   }

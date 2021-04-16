@@ -106,6 +106,7 @@ export default class UserStore {
     const queryParamTab = this.globalStore.routerStore.currentUrl?.searchParams.get('tab');
     if (queryParamTab) {
       this.currentTab = queryParamTab;
+      console.log(this.currentTab);
     }
 
     if (this.userData.message === 'user is not authorized') {
@@ -130,6 +131,7 @@ export default class UserStore {
   }
 
   async changeTab(action: ActionsInterface) {
+    this.globalStore.routerStore.currentUrl.searchParams.set('tab', action.data);
     history.pushState({ page: '/profile', parameter: action.data }, null, `profile?tab=${action.data}`);
     this.currentTab = <string><unknown>action.data;
     this.globalStore.eventBus.publish(ChannelNames.tabChanged);
