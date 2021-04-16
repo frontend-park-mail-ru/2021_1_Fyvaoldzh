@@ -59,6 +59,10 @@ export default class OneProfileView extends ProfilesBaseView {
     wrapper.style.background = 'url("templates/one-profile/img/one-profile-background.jpg") no-repeat top / 100%';
 
     oneProfileData.age = addDeclensionOfNumbers(oneProfileData.age, ['год', 'года', 'лет']);
+    if (oneProfileData.age === '0 лет') {
+      oneProfileData.age = 'Неизвестно';
+    }
+
     oneProfileData.followersCount = addDeclensionOfNumbers(oneProfileData.followers.length, [
       'подписчик',
       'подписчика',
@@ -66,6 +70,9 @@ export default class OneProfileView extends ProfilesBaseView {
     ]);
 
     wrapper.innerHTML = '';
+    if (oneProfileData.city === '') {
+      oneProfileData.city = 'Не указан';
+    }
     wrapper.innerHTML = oneProfileTemplate(oneProfileData);
     wrapper.querySelector('.profile-main-block').insertAdjacentHTML('beforeend', profileEventsTabTemplate());
 

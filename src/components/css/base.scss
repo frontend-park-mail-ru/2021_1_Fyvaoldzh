@@ -58,6 +58,10 @@ input {
   top: 175px;
 }
 
-.page-photo {
+.block-anchor {
+  color: #2E1665;
 
+  &:hover {
+    color: #8986AC;
+  }
 }

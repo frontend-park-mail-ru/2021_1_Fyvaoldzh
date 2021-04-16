@@ -2,13 +2,14 @@
   .page-photo(id='jsPagePhoto')
   .container
     .left-row
-      .event-description
-        button.event-description__star_inactive(id='jsEventStar')
-        .event-description__title
-          | #{title}
-        .decor-line
-        .event-description__body
-          | #{description}
+      .description-wrapper
+        .event-description
+          button.event-description__star_inactive(id='jsEventStar')
+          .event-description__title
+            | #{title}
+          .decor-line
+          .event-description__body
+            | #{description}
   .tags
     .container
       .left-row(id='jsTagsRow')

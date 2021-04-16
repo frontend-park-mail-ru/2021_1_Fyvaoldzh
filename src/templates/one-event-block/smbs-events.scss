@@ -20,6 +20,11 @@
     flex-basis: 35%;
     background: url("../templates/one-event-block/img/chel.jpg") no-repeat center / cover;
     flex-shrink: 1;
+
+    &:hover {
+      transform: scale(1.05);
+      transition-duration: 1s;
+    }
   }
 
   &__text {
