@@ -270,11 +270,19 @@ export default class UserView extends ProfilesBaseView {
         ['планируемое', 'планируемых', 'планируемых'],
       );
 
+      if (!userData.planningCount) {
+        userData.visitedCount = '0 планируемых';
+      }
+
       userData.visitedCount = addDeclensionOfNumbers(userData.visited?.length, [
         'посещенное',
         'посещенных',
         'посещенных',
       ]);
+
+      if (!userData.visitedCount) {
+        userData.visitedCount = '0 посещенных';
+      }
     }
 
     wrapper.innerHTML = '';

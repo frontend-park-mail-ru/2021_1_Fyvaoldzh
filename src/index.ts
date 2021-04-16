@@ -196,7 +196,9 @@ interface RegistrationDataInterface {
 }
 
 document.getElementById('wrapper').addEventListener('click', () => {
-  (document.getElementById('toggle') as HTMLInputElement).checked = false;
+  if ((document.getElementById('toggle') as HTMLInputElement)) {
+    (document.getElementById('toggle') as HTMLInputElement).checked = false;
+  }
   if ((document.getElementById('JSsearchBarButton') as HTMLInputElement).classList.contains('close')) {
     (document.getElementById('JSsearchBarButton') as HTMLInputElement).classList.toggle('close');
     (document.getElementById('JSsearchBarInput') as HTMLInputElement).classList.toggle('square');
