@@ -12,7 +12,8 @@
         "class-methods-use-this": 0,
         "no-return-assign": 0,
         "no-case-declarations": 0,
-        "no-plusplus": 0
+        "no-plusplus": 0,
+        "default-case": 0
     },
     "parserOptions": {
       "project": "./tsconfig.json"
