@@ -1,0 +1,16 @@
+.one-user-block
+    .one-user-block__body
+        .one-user-block__photo(style='background: url(http://95.163.180.8:1323/api/v1/avatar/' + id + ') no-repeat center / cover;')
+        .one-user-block__photo_default
+        .one-user-block__title
+            a(href='profile' + id, id=id) #{name}
+        .profile-header__other-info
+            .profile-header__info-segment
+                .profile-header__age-img
+                | #{age}
+            .profile-header__info-segment
+                .profile-header__city-img
+                | #{city}
+            .profile-header__info-segment
+                .profile-header__subscribers-img
+                | #{followers}

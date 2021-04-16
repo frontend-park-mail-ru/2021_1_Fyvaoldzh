@@ -1,0 +1,31 @@
+.row
+  .container
+    .left-row
+      .event-description
+        button.event-description__star_inactive(id='jsEventStar')
+        .event-description__title
+          | #{title}
+        .decor-line
+        .event-description__body
+          | #{description}
+  .tags
+    .container
+      .left-row(id='jsTagsRow')
+  .event-info
+    .container
+      .event-info__title
+        | Когда?
+      .event-info__date
+        | #{startDate}
+      .event-info__title Где?
+      .event-info__location
+        .event-info__location_place
+          | #{place}
+        .event-info__location_street
+          | #{street}
+        .event-info__location_subway
+          | #{subway}
+      .geolocation-image
+  .title
+    | Уже идут
+    .left-row(id='jsPlanningUsers')

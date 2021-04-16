@@ -2,8 +2,8 @@
   .navbar__row(id='navbarRow')
     a.logo(href='/' data-direction='events' data-profileId=Uid) QDA
     .search-bar__block
-      input.navbar__search(id='jsNavbarSearchInput')
-      button.confirm-search-button(id='jsConfirmSearch')
+      input#JSsearchBarInput.search-bar__input(type='text' name='searchBar')
+      button#JSsearchBarButton.search-bar__button(type='reset')
     .navbar-menu
       .navbar-menu__list
       .profile-nav

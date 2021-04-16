@@ -1,11 +1,11 @@
-import UserStore from './UserStore';
-import EventsStore from './EventsStore';
-import OneEventStore from './OneEventStore';
-import RouterStore from './RouterStore';
-import EventBus from '../eventBus/eventBus';
-import { ActionsInterface } from '../interfaces';
-import OneProfileStore from './OneProfileStore';
-import SearchStore from './SearchStore';
+import UserStore from "./UserStore";
+import EventsStore from "./EventsStore";
+import OneEventStore from "./OneEventStore";
+import RouterStore from "./RouterStore";
+import EventBus from "../eventBus/eventBus";
+import { ActionsInterface } from "../interfaces";
+import OneProfileStore from "./OneProfileStore";
+import SearchStoreDima from "./SearchStore";
 
 export default class Store {
   public eventBus: EventBus;
@@ -20,7 +20,7 @@ export default class Store {
 
   public oneProfileStore: OneProfileStore;
 
-  public searchStore: SearchStore;
+  public searchStore: SearchStoreDima;
 
   constructor(eventBus: EventBus) {
     this.eventBus = eventBus;
@@ -29,35 +29,35 @@ export default class Store {
     this.oneEventStore = new OneEventStore(this);
     this.routerStore = new RouterStore(this);
     this.oneProfileStore = new OneProfileStore(this);
-    this.searchStore = new SearchStore(this);
+    this.searchStore = new SearchStoreDima(this);
   }
 
   reducer(action: ActionsInterface) {
-    if (action.eventName.includes('user/')) {
+    if (action.eventName.includes("user/")) {
       this.userStore.reducer(action);
       return;
     }
 
-    if (action.eventName.includes('events/')) {
+    if (action.eventName.includes("events/")) {
       this.eventsStore.reducer(action);
       return;
     }
 
-    if (action.eventName.includes('oneEvent/')) {
+    if (action.eventName.includes("oneEvent/")) {
       this.oneEventStore.reducer(action);
       return;
     }
 
-    if (action.eventName.includes('router/')) {
+    if (action.eventName.includes("router/")) {
       this.routerStore.reducer(action);
       return;
     }
 
-    if (action.eventName.includes('oneProfile/')) {
+    if (action.eventName.includes("oneProfile/")) {
       this.oneProfileStore.reducer(action);
     }
 
-    if (action.eventName.includes('search/')) {
+    if (action.eventName.includes("search/")) {
       this.searchStore.reducer(action);
     }
   }

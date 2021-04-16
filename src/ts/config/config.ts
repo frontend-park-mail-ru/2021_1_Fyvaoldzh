@@ -1,4 +1,4 @@
-const baseApi = 'http://95.163.180.8:1323';
+const baseApi = "http://95.163.180.8:1323";
 
 export const urlMap = {
   allEventsUrl: `${baseApi}/api/v1/event`,
@@ -15,20 +15,20 @@ export const urlMap = {
   addPlanningEventUrl: `${baseApi}/api/v1/add/planning`,
   removePlanningEventUrl: `${baseApi}/api/v1/remove/planning`,
   checkPlanningEventUrl: `${baseApi}/api/v1/event/is_added`,
-  customEventUrl: 'http://95.163.180.8:1323/api/v1/search',
-  oneProfileUrl: 'http://95.163.180.8:1323/api/v1/profile/',
-  customUserUrl: 'http://95.163.180.8:1323/api/v1/users',
+  customEventUrl: "http://95.163.180.8:1323/api/v1/search",
+  oneProfileUrl: "http://95.163.180.8:1323/api/v1/profile/",
+  customUserUrl: "http://95.163.180.8:1323/api/v1/users",
 };
 
 export const SERVER_ERRORS = {
-  WRONG_LOGIN_OR_PASS: 'Неправильный логин или пароль',
-  LOGIN_EXIST: 'Такой логин уже существует',
+  WRONG_LOGIN_OR_PASS: "Неправильный логин или пароль",
+  LOGIN_EXIST: "Такой логин уже существует",
 };
 
 export const profileTab = {
-  about: 'aboutTab',
-  settings: 'settingsTab',
-  events: 'eventsTab',
+  about: "aboutTab",
+  settings: "settingsTab",
+  events: "eventsTab",
 };
 
 export enum ChannelNames {
@@ -74,35 +74,36 @@ export enum ChannelNames {
 */
 
 export const routes = {
-  main: '/',
-  events: '/events',
-  profile: '/profile',
-  oneEvent: '/event/{eventId}',
-  signup: '/signup',
-  login: '/login',
-  logout: '/logout',
-  oneProfilePage: '/oneProfile',
-  searchPage: '/searchPage',
+  main: "/",
+  events: "/events",
+  profile: "/profile",
+  oneEvent: "/event/{eventId}",
+  signup: "/signup",
+  login: "/login",
+  logout: "/logout",
+  oneProfilePage: "/oneProfile",
+  searchPage: "/searchPage",
+  search: "/search",
 };
 
 export const searchTab = {
-  events: 'eventsTab',
-  users: 'usersTab',
+  events: "eventsTab",
+  users: "usersTab",
 };
 
 export const searchButton = {
-  allEvents: 'allEventsButton',
-  exhibition: 'exhibitionButton',
-  concert: 'concertButton',
-  museum: 'museumButton',
-  entertainment: 'entertainmentButton',
-  training: 'trainingButton',
-  movie: 'movieButton',
-  festival: 'festivalButton',
-  excursion: 'excursionButton',
+  allEvents: "allEventsButton",
+  exhibition: "exhibitionButton",
+  concert: "concertButton",
+  museum: "museumButton",
+  entertainment: "entertainmentButton",
+  training: "trainingButton",
+  movie: "movieButton",
+  festival: "festivalButton",
+  excursion: "excursionButton",
 };
 
 export const profileEventsButton = {
-  planning: 'planningEventsButton',
-  visited: 'visitedEventsButton',
+  planning: "planningEventsButton",
+  visited: "visitedEventsButton",
 };
