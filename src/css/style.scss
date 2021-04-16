@@ -26,6 +26,7 @@
   height: 600px;
   left: 0;
   top: 0;
+  box-shadow: $project-box-shadow;
 
   &:before {
     content: '';
@@ -47,6 +48,10 @@
   &_form {
     @extend .page-photo;
     background: url("../components/img/form-background.jpg") no-repeat top / cover;
+    height: 100%;
+    &:before {
+      display: none;
+    }
   }
 
   &_profile {

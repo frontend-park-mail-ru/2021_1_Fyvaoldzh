@@ -1,17 +1,17 @@
-import "./css/style.scss";
+import './css/style.scss';
 
-import Dispatcher from "./ts/dispatcher/dispatcher";
-import Actions from "./ts/actions/actions";
-import Store from "./ts/storage/store";
-import EventBus from "./ts/eventBus/eventBus";
+import Dispatcher from './ts/dispatcher/dispatcher';
+import Actions from './ts/actions/actions';
+import Store from './ts/storage/store';
+import EventBus from './ts/eventBus/eventBus';
 
-import EventsView from "./ts/views/EventsView/EventsView";
-import OneEventView from "./ts/views/OneEventView/OneEventView";
-import UserView from "./ts/views/UserView/UserView";
-import ChangePageView from "./ts/views/ChangePageView/ChangePageView";
-import { ChannelNames } from "./ts/config/config";
-import OneProfileView from "./ts/views/OneProfileView/OneProfileView";
-import SearchView from "./ts/views/SearchView/SearchView";
+import EventsView from './ts/views/EventsView/EventsView';
+import OneEventView from './ts/views/OneEventView/OneEventView';
+import UserView from './ts/views/UserView/UserView';
+import ChangePageView from './ts/views/ChangePageView/ChangePageView';
+import { ChannelNames } from './ts/config/config';
+import OneProfileView from './ts/views/OneProfileView/OneProfileView';
+import SearchView from './ts/views/SearchView/SearchView';
 
 const dispatcher = new Dispatcher(); // Диспетчер отвечает за доставку actions до хранилища
 const actions = new Actions(dispatcher);
@@ -19,8 +19,8 @@ const eventBus = new EventBus();
 
 const globalStore = new Store(eventBus);
 
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("sw.js", { scope: "/" }).then();
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js', { scope: '/' }).then();
 }
 
 dispatcher.register(globalStore.reducer.bind(globalStore));
@@ -39,7 +39,7 @@ const changePageView = new ChangePageView(
   userView,
   eventsView,
   oneEventView,
-  searchView
+  searchView,
 );
 
 const oneProfileView = new OneProfileView(globalStore, actions);
@@ -53,10 +53,10 @@ const oneProfileView = new OneProfileView(globalStore, actions);
   searchView,
 ].forEach((view) => view.subscribeViews());
 
-const navbarTemplate = require("Components/navbar/navbar.pug");
+const navbarTemplate = require('Components/navbar/navbar.pug');
 
 function firstRender() {
-  const navbar = document.getElementById("navbar");
+  const navbar = document.getElementById('navbar');
   navbar.innerHTML = navbarTemplate({}); // Начальный навбар.
   actions.updateUser(true); // Обновляем данные пользователя в хранилище. true = первый раз
 }
@@ -69,11 +69,11 @@ firstRender();
 */
 eventBus.subscribe(
   ChannelNames.firstUserUpdated,
-  actions.routerChangePage.bind(actions, window.location.href)
+  actions.routerChangePage.bind(actions, window.location.href),
 );
 eventBus.subscribe(
   ChannelNames.firstUserIsNotAuth,
-  actions.routerChangePage.bind(actions, window.location.href)
+  actions.routerChangePage.bind(actions, window.location.href),
 );
 
 const { body } = document;
@@ -94,7 +94,7 @@ const { body } = document;
     }
 */
 
-body.addEventListener("click", async (e) => {
+body.addEventListener('click', async (e) => {
   const { target } = e;
 
   if (target instanceof HTMLAnchorElement) {
@@ -106,66 +106,66 @@ body.addEventListener("click", async (e) => {
 
   if (target instanceof HTMLButtonElement) {
     const formBody: HTMLFormElement = <HTMLFormElement>(
-      document.getElementById("formBody")
+      document.getElementById('formBody')
     );
 
-    if (target.id === "postRegistration") {
+    if (target.id === 'postRegistration') {
       e.preventDefault();
       const dataFromForm = new FormData(formBody);
 
       const registrationData: RegistrationDataInterface = {
-        login: <string>dataFromForm.get("login"),
-        password: <string>dataFromForm.get("password"),
-        name: <string>dataFromForm.get("name"),
+        login: <string>dataFromForm.get('login'),
+        password: <string>dataFromForm.get('password'),
+        name: <string>dataFromForm.get('name'),
       };
 
       actions.register(registrationData);
     }
 
-    if (target.id === "postLogin") {
+    if (target.id === 'postLogin') {
       e.preventDefault();
       const dataFromForm = new FormData(formBody);
 
       const loginData: LoginDataInterface = {
-        login: <string>dataFromForm.get("login"),
-        password: <string>dataFromForm.get("password"),
+        login: <string>dataFromForm.get('login'),
+        password: <string>dataFromForm.get('password'),
       };
 
       actions.login(loginData);
     }
 
-    if (target.id === "JSsearchBarButton") {
+    if (target.id === 'JSsearchBarButton') {
       const searchBarInput = <HTMLInputElement>(
-        document.getElementById("JSsearchBarInput")
+        document.getElementById('JSsearchBarInput')
       );
-      target.classList.toggle("close");
-      if (searchBarInput.classList.contains("square")) {
-        searchBarInput.value = "";
+      target.classList.toggle('close');
+      if (searchBarInput.classList.contains('square')) {
+        searchBarInput.value = '';
       } else {
         searchBarInput.focus();
       }
-      searchBarInput.classList.toggle("square");
+      searchBarInput.classList.toggle('square');
     }
   }
 });
 
-body.addEventListener("keydown", async (e) => {
-  //моя реализация отправки инпутов поиска по клику
+body.addEventListener('keydown', async (e) => {
+  // моя реализация отправки инпутов поиска по клику
   const { target } = e;
 
   if (target instanceof HTMLInputElement) {
-    if (target.id === "JSsearchBarInput") {
-      if (e.key === "Enter") {
+    if (target.id === 'JSsearchBarInput') {
+      if (e.key === 'Enter') {
         const tempValue = target.value;
         target.blur();
-        document.getElementById("JSsearchBarButton").click();
+        document.getElementById('JSsearchBarButton').click();
 
-        const toUrl = new URL("http://localhost:3000/search");
+        const toUrl = new URL('http://localhost:3000/search');
         toUrl.search = new URLSearchParams([
-          ["text", tempValue],
-          ["tab", ""],
-          ["category", ""],
-          ["page", "1"],
+          ['text', tempValue],
+          ['tab', ''],
+          ['category', ''],
+          ['page', '1'],
         ]).toString();
         actions.routerChangePage(toUrl.pathname + toUrl.search);
 
@@ -173,10 +173,10 @@ body.addEventListener("keydown", async (e) => {
       }
     }
 
-    if (target.id === "searchInput") {
-      if (e.key === "Enter") {
+    if (target.id === 'searchInput') {
+      if (e.key === 'Enter') {
         const searchInput = <HTMLInputElement>(
-          document.getElementById("searchInput")
+          document.getElementById('searchInput')
         );
         actions.newSearchInputData(searchInput.value);
       }

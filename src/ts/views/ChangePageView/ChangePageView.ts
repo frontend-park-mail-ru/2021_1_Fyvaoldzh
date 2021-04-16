@@ -121,7 +121,6 @@ export default class ChangePageView {
   }
 
   renderLoginPage() {
-    this.wrapper.style.background = 'url("components/img/form-background.jpg") no-repeat top';
     this.wrapper.innerHTML = '';
     this.wrapper.innerHTML = loginTemplate({});
   }

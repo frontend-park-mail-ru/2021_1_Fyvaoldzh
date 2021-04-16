@@ -1,3 +1,4 @@
+import { InputType } from 'zlib';
 import {
   ChannelNames,
   urlMap,
@@ -115,10 +116,10 @@ export default class UserView extends ProfilesBaseView {
 
     navbarAvatar.style.background = `url(${urlMap.imgUrl}/${profileData.Uid}) no-repeat center / cover`;
 
-    // const confirmSearch = document.getElementById('jsConfirmSearch');  //реализация Димы
-    // confirmSearch.addEventListener('click', searchButtonHandler.bind(this));
-    // const inputSearch = document.getElementById('jsNavbarSearchInput');
-    // inputSearch.addEventListener('keypress', searchKeyPress.bind(this));
+    const navbarMenu = document.getElementById('jsProfileNav');
+    navbarMenu.addEventListener('click', () => {
+      (document.getElementById('toggle') as HTMLInputElement).checked = !(document.getElementById('toggle') as HTMLInputElement).checked;
+    });
   }
 
   renderValidationErrors() {
@@ -244,7 +245,8 @@ export default class UserView extends ProfilesBaseView {
 
     const { userData } = this.globalStore.userStore;
 
-    if (this.globalStore.routerStore.currentUrl.pathname !== '/profile') {
+    if (window.location.pathname !== '/profile') {
+      console.log(this.globalStore.routerStore.currentUrl.pathname);
       if (userData) {
         if (
           this.globalStore.routerStore.currentUrl.pathname
