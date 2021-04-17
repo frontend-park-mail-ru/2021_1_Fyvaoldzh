@@ -1,7 +1,7 @@
-import { getEventsByParams, getUsersByParams } from "../networkModule/network";
+import { getEventsByParams, getUsersByParams } from '../networkModule/network';
 
-import { ChannelNames, searchButton, searchTab } from "../config/config";
-import { ActionsInterface } from "../interfaces";
+import { ChannelNames, searchButton, searchTab } from '../config/config';
+import { ActionsInterface } from '../interfaces';
 
 export default class SearchStoreDima {
   public globalStore: any;
@@ -22,7 +22,7 @@ export default class SearchStoreDima {
 
   constructor(globalStore: any) {
     this.globalStore = globalStore;
-    this.searchData = "";
+    this.searchData = '';
     this.currentEventsButton = searchButton.allEvents;
     this.currentTab = searchTab.events;
     this.searchResultEvents = [];
@@ -48,10 +48,7 @@ export default class SearchStoreDima {
     this.currentEventsPage = 1;
     this.currentEventsButton = action.data;
     await this.updateResults();
-    this.globalStore.eventBus.publish(
-      ChannelNames.searchEventsButtonChanged,
-      this.searchResultEvents
-    );
+    this.globalStore.eventBus.publish(ChannelNames.searchEventsButtonChanged, this.searchResultEvents);
   }
 
   async changeTab(action: ActionsInterface) {
@@ -75,7 +72,7 @@ export default class SearchStoreDima {
     const eventsJsonArray = await getEventsByParams(
       this.searchData,
       this.getCategoryCyrillic(this.currentEventsButton),
-      this.currentEventsPage
+      this.currentEventsPage,
     );
     if (eventsJsonArray !== null) {
       Object.entries(eventsJsonArray).forEach(([, eventJson]) => {
@@ -96,19 +93,13 @@ export default class SearchStoreDima {
       case searchTab.events:
         this.currentEventsPage++;
         await this.updateResults();
-        this.globalStore.eventBus.publish(
-          ChannelNames.searchEventsPageChanged,
-          this.searchResultEvents
-        );
+        this.globalStore.eventBus.publish(ChannelNames.searchEventsPageChanged, this.searchResultEvents);
         break;
 
       case searchTab.users:
         this.currentUsersPage++;
         await this.updateResults();
-        this.globalStore.eventBus.publish(
-          ChannelNames.searchUsersPageChanged,
-          this.searchResultUsers
-        );
+        this.globalStore.eventBus.publish(ChannelNames.searchUsersPageChanged, this.searchResultUsers);
         break;
 
       default:
@@ -121,19 +112,13 @@ export default class SearchStoreDima {
       case searchTab.events:
         this.currentEventsPage--;
         await this.updateResults();
-        this.globalStore.eventBus.publish(
-          ChannelNames.searchEventsPageChanged,
-          this.searchResultEvents
-        );
+        this.globalStore.eventBus.publish(ChannelNames.searchEventsPageChanged, this.searchResultEvents);
         break;
 
       case searchTab.users:
         this.currentUsersPage--;
         await this.updateResults();
-        this.globalStore.eventBus.publish(
-          ChannelNames.searchUsersPageChanged,
-          this.searchResultUsers
-        );
+        this.globalStore.eventBus.publish(ChannelNames.searchUsersPageChanged, this.searchResultUsers);
         break;
 
       default:
@@ -144,31 +129,31 @@ export default class SearchStoreDima {
   getCategoryCyrillic(categoryName: string) {
     switch (categoryName) {
       case searchButton.allEvents:
-        return "";
+        return '';
 
       case searchButton.exhibition:
-        return "Выставка";
+        return 'Выставка';
 
       case searchButton.concert:
-        return "Концерт";
+        return 'Концерт';
 
       case searchButton.museum:
-        return "Музей";
+        return 'Музей';
 
       case searchButton.entertainment:
-        return "Развлечения";
+        return 'Развлечения';
 
       case searchButton.training:
-        return "Обучение";
+        return 'Обучение';
 
       case searchButton.movie:
-        return "Кино";
+        return 'Кино';
 
       case searchButton.festival:
-        return "Фестиваль";
+        return 'Фестиваль';
 
       case searchButton.excursion:
-        return "Экскурсия";
+        return 'Экскурсия';
 
       default:
         break;
@@ -177,27 +162,27 @@ export default class SearchStoreDima {
 
   reducer(action: ActionsInterface) {
     switch (action.eventName) {
-      case "search/changeEventsButton":
+      case 'search/changeEventsButton':
         this.changeEventsButton(action);
         break;
 
-      case "search/changeTab":
+      case 'search/changeTab':
         this.changeTab(action);
         break;
 
-      case "search/update":
+      case 'search/update':
         this.update(action);
         break;
 
-      case "search/newInputData":
+      case 'search/newInputData':
         this.newInputData(action);
         break;
 
-      case "search/pageForward":
+      case 'search/pageForward':
         this.pageForward();
         break;
 
-      case "search/pageBack":
+      case 'search/pageBack':
         this.pageBack();
         break;
 

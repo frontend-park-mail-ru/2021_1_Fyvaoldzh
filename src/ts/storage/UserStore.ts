@@ -11,10 +11,9 @@ import { ChannelNames, profileTab, profileEventsButton } from '../config/config'
 import validation from '../validationModule/inputValidation';
 import { ActionsInterface } from '../interfaces';
 
-const urltoFile = (url: string, filename?: string, mimeType?: string) => (fetch(url)
+const urltoFile = (url: string, filename?: string, mimeType?: string) => fetch(url)
   .then((res) => res.arrayBuffer())
-  .then((buf) => new File([buf], filename, { type: mimeType }))
-);
+  .then((buf) => new File([buf], filename, { type: mimeType }));
 
 interface UserDataInterface {
   Uid: number;
@@ -133,7 +132,7 @@ export default class UserStore {
   async changeTab(action: ActionsInterface) {
     this.globalStore.routerStore.currentUrl.searchParams.set('tab', action.data);
     history.pushState({ page: '/profile', parameter: action.data }, null, `profile?tab=${action.data}`);
-    this.currentTab = <string><unknown>action.data;
+    this.currentTab = <string>(<unknown>action.data);
     this.globalStore.eventBus.publish(ChannelNames.tabChanged);
   }
 
@@ -156,7 +155,7 @@ export default class UserStore {
   }
 
   avatarPreview(action: ActionsInterface) {
-    this.avatarPreviewUrl = <string><unknown>action.data;
+    this.avatarPreviewUrl = <string>(<unknown>action.data);
     this.globalStore.eventBus.publish(ChannelNames.avatarPreview);
   }
 

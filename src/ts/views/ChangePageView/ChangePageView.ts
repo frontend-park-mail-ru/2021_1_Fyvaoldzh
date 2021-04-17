@@ -6,7 +6,6 @@ import EventsView from '../EventsView/EventsView';
 import OneEventView from '../OneEventView/OneEventView';
 import SearchView from '../SearchView/SearchView';
 import { HistoryState } from '../../interfaces';
-import { searchButtonHandler, searchKeyPress } from '../utils/utils';
 
 const signUpFormTemplate = require('Templates/signup/signup.pug');
 const loginTemplate = require('Templates/login/login.pug');

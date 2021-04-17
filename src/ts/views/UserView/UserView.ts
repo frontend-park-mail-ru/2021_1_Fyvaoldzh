@@ -1,4 +1,3 @@
-import { InputType } from 'zlib';
 import {
   ChannelNames,
   urlMap,
@@ -9,9 +8,6 @@ import INPUTS from '../../validationModule/validation';
 import {
   addDeclensionOfNumbers,
   buttonToggleHandler,
-  profilePaginatorHandler,
-  searchButtonHandler,
-  searchKeyPress,
   updatePaginationState,
 } from '../utils/utils';
 import ProfilesBaseView from '../ProfilesBaseView/ProfilesBaseView';
@@ -24,7 +20,6 @@ import Actions from '../../actions/actions';
 const navbarLoggedTemplate = require('../../../components/navbar/navbar-logged.pug');
 const profileTemplate = require('../../../templates/profile/profile.pug');
 const profileAboutTabTemplate = require('../../../templates/profile-about-tab/profile-about-tab.pug');
-const paginationBlockTemplate = require('../../../templates/pagination-block/pagination-block.pug');
 const profileSettingsTabTemplate = require('../../../templates/profile-settings-tab/profile-settings-tab.pug');
 const profileEventsTabTemplate = require('../../../templates/profile-events-tab/profile-events-tab.pug');
 
@@ -402,6 +397,7 @@ export default class UserView extends ProfilesBaseView {
             break;
         }
 
+        break;
         /*
         document
           .getElementById('paginationBack')

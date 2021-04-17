@@ -4,7 +4,6 @@ import {
 import {
   addDeclensionOfNumbers,
   buttonToggleHandler,
-  oneProfilePaginatorHandler,
   updatePaginationState,
 } from '../utils/utils';
 import ProfilesBaseView from '../ProfilesBaseView/ProfilesBaseView';
@@ -13,7 +12,6 @@ import Actions from '../../actions/actions';
 
 const oneProfileTemplate = require('../../../templates/one-profile/one-profile.pug');
 const profileEventsTabTemplate = require('../../../templates/profile-events-tab/profile-events-tab.pug');
-const paginationBlockTemplate = require('../../../templates/pagination-block/pagination-block.pug');
 
 export default class OneProfileView extends ProfilesBaseView {
   public globalStore: Store;
@@ -101,8 +99,8 @@ export default class OneProfileView extends ProfilesBaseView {
     }
 
     // ренедерим пагинатор:
-    //const oneProfilePaginator = document.getElementById('paginator');
-    //oneProfilePaginator.innerHTML = paginationBlockTemplate();
+    // const oneProfilePaginator = document.getElementById('paginator');
+    // oneProfilePaginator.innerHTML = paginationBlockTemplate();
 
     switch (currentEventsButton) {
       case profileEventsButton.planning:

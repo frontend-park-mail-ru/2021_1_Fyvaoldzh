@@ -1,8 +1,6 @@
 import { getProfileById } from '../networkModule/network';
 
-import {
-  ChannelNames, profileEventsButton,
-} from '../config/config';
+import { ChannelNames, profileEventsButton } from '../config/config';
 import { ActionsInterface } from '../interfaces';
 
 export default class OneProfileStore {
@@ -62,15 +60,15 @@ export default class OneProfileStore {
     this.oneProfileVisitedEvents.length = 0;
 
     if (this.oneProfileData.planning !== null) {
-      for (const event of this.oneProfileData.planning) {
-        this.oneProfilePlanningEvents.push(event);
-      }
+      Object.entries(this.oneProfileData.planning).forEach(([, eventJson]) => {
+        this.oneProfilePlanningEvents.push(eventJson);
+      });
     }
 
     if (this.oneProfileData.visited !== null) {
-      for (const event of this.oneProfileData.visited) {
-        this.oneProfileVisitedEvents.push(event);
-      }
+      Object.entries(this.oneProfileData.visited).forEach(([, eventJson]) => {
+        this.oneProfileVisitedEvents.push(eventJson);
+      });
     }
   }
 
