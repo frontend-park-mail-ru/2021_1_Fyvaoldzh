@@ -5,7 +5,7 @@ import RouterStore from './RouterStore';
 import EventBus from '../eventBus/eventBus';
 import { ActionsInterface } from '../interfaces';
 import OneProfileStore from './OneProfileStore';
-import SearchStoreDima from './SearchStore';
+import SearchStore from './SearchStore';
 
 export default class Store {
   public eventBus: EventBus;
@@ -20,7 +20,7 @@ export default class Store {
 
   public oneProfileStore: OneProfileStore;
 
-  public searchStore: SearchStoreDima;
+  public searchStore: SearchStore;
 
   constructor(eventBus: EventBus) {
     this.eventBus = eventBus;
@@ -29,7 +29,7 @@ export default class Store {
     this.oneEventStore = new OneEventStore(this);
     this.routerStore = new RouterStore(this);
     this.oneProfileStore = new OneProfileStore(this);
-    this.searchStore = new SearchStoreDima(this);
+    this.searchStore = new SearchStore(this);
   }
 
   reducer(action: ActionsInterface) {

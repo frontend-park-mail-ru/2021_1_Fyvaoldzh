@@ -147,10 +147,17 @@ export default class Actions {
     });
   }
 
-  updateOneProfile(id: any) {
+  updateOneProfile(id: number) {
     this.dispatcher.dispatch({
       eventName: 'oneProfile/update',
       data: id,
+    });
+  }
+
+  updateOneProfileByHistory() {
+    this.dispatcher.dispatch({
+      eventName: 'oneProfile/updateByHistory',
+      data: null,
     });
   }
 
@@ -161,50 +168,35 @@ export default class Actions {
     });
   }
 
-  changeOneProfileEventsButton(buttonId: any) {
+  changeOneProfileEventsButton(buttonId: string) {
     this.dispatcher.dispatch({
       eventName: 'oneProfile/changeEventsButton',
       data: buttonId,
     });
   }
 
-  // changeSearchEventsButton(buttonId: any) {  //реализация Димы
   changeSearchEventsButton(buttonId: string) {
-    // Моя реализация
     this.dispatcher.dispatch({
       eventName: 'search/changeEventsButton',
       data: buttonId,
     });
   }
 
-  // searchChangeTab(tabId: any) {  //реализация Димы
   searchChangeTab(tabId: string) {
-    // моя реализация
     this.dispatcher.dispatch({
       eventName: 'search/changeTab',
       data: tabId,
     });
   }
 
-  // searchUpdate(data: any) {  //реализация Димы
-  //   this.dispatcher.dispatch({
-  //     eventName: "search/update",
-  //     data,
-  //   });
-  // }
-
   searchUpdate() {
-    // моя реализация
-    // моя реализация
     this.dispatcher.dispatch({
       eventName: 'search/update',
       data: null,
     });
   }
 
-  // newSearchInputData(data: any) {  //реализация Димы
   newSearchInputData(data: string) {
-    // моя реализация
     this.dispatcher.dispatch({
       eventName: 'search/newInputData',
       data,
