@@ -62,12 +62,12 @@ export default class ChangePageView {
     if (state.page.includes('profile') && state.page !== routes.profile) {
       const idProfile = Number(state.page.substr(8));
 
-      if (idProfile === this.globalStore.userStore.userData.Uid) {
+      if (this.globalStore.userStore.userData && idProfile === this.globalStore.userStore.userData.Uid) {
         this.actions.updateUser();
         return;
       }
 
-      this.actions.updateOneProfile(idProfile);
+      this.actions.updateOneProfileByHistory();
       return;
     }
 
