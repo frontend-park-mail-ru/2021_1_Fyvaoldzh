@@ -1,12 +1,14 @@
-form.changing-content-block__form(action)
+form.changing-content-block__form(action, id='jsPasswordChangeForm')
     .changing-content-block__one-line-setting
         .changing-content-block__one-setting
             .changing-content-block__title Cтарый пароль
-            input.changing-content-block__input(type='password', value='тут пароль', placeholder='Введите ваш старый пароль', name='password')
+            input.changing-content-block__input(type='password', placeholder='Введите ваш старый пароль', name='oldPassword')
     .changing-content-block__one-line-setting
         .changing-content-block__one-setting
             .changing-content-block__title Новый пароль
-            input.changing-content-block__input(type='password', value='тут пароль', placeholder='Введите новый пароль', name='password')
+            input.changing-content-block__input(type='password', placeholder='Введите новый пароль', name='newPassword')
+            .form-body__input_error(id='jsPasswordError')
+            .form-body__input_success(id='jsPasswordSuccess')
     .changing-content-block__one-line-setting
         .changing-content-block__one-setting
             button.button-active.changing-content-block__button_save#postProfile Сохранить

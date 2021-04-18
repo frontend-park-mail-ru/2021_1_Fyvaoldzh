@@ -1,12 +1,13 @@
+.page-photo_form
 .form
-  a.form__arrow-back(href='#', data-direction='back')
+  a.form__arrow-back(href='/', data-direction='back')
   .form__title Вход
   .decor-line
   form.form-body(id='formBody')
     input.form-body__input(type='text' name='login' placeholder='Введите логин' class='form__input')
-    .form-body__error_input(id="loginError")
+    .form-body__input_error(id="loginError")
     input.form-body__input(type='password' name='password' placeholder='Введите пароль' class='form__input')
-    .form-body__error_input(id="passwordError")
+    .form-body__input_error(id="passwordError")
     button.confirm-button.button-label(type='submit' id='postLogin' )
       | Войти
     span.form__bottom-text

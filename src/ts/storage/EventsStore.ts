@@ -29,6 +29,7 @@ export default class EventsStore {
   }
 
   async update() {
+    this.eventCategory = '';
     this.allEvents = await getAllEventsJson();
     this.globalStore.eventBus.publish(ChannelNames.eventsUpdated);
   }
@@ -38,8 +39,8 @@ export default class EventsStore {
       return;
     }
     this.updatingEvents = true;
-    this.pageNumber += 1;
 
+    this.pageNumber += 1;
     let newEvents;
     if (this.eventCategory === 'Рекомендации') {
       newEvents = await getRecommendEvents(this.pageNumber);

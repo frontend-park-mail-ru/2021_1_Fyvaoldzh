@@ -10,6 +10,7 @@
   margin: auto;
   padding: 30px;
   position: relative;
+  width: 580px;
 
   &__arrow-back {
     background: url('../components/img/back-arrow.svg') no-repeat center / cover;
@@ -59,6 +60,18 @@
       margin-top: 3px;
       height: 0;
       color: $project-red;
+      width: 100%;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    &_success {
+      margin-top: 3px;
+      height: 0;
+      color: green;
+      width: 100%;
+      font-size: 13px;
+      text-align: center;
     }
   }
 }

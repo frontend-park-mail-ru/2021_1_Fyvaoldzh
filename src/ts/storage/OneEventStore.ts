@@ -3,6 +3,7 @@ import {
 } from '../networkModule/network';
 import { ChannelNames } from '../config/config';
 import { ActionsInterface } from '../interfaces';
+import { parseDate } from '../views/utils/utils';
 
 interface OneEventDataInterface {
   id: number;
@@ -39,9 +40,15 @@ export default class OneEventStore {
   async update(action: ActionsInterface) {
     this.oneEventData = await getEventById(<number><unknown>action.data);
     const checkPlanningAnswer: PlanningAnswer = await checkPlanningEvent(this.oneEventData.id);
+    this.oneEventData.startDate = parseDate(this.oneEventData.startDate);
+    this.oneEventData.endDate = parseDate(this.oneEventData.endDate);
 
     if (this.globalStore.userStore.userData && checkPlanningAnswer.isAdded) {
       this.isPlanning = true;
+    }
+
+    if (!checkPlanningAnswer.isAdded) {
+      this.isPlanning = false;
     }
     this.globalStore.eventBus.publish(ChannelNames.eventCome);
   }

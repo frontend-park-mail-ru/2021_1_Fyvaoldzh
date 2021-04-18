@@ -4,6 +4,7 @@ import Actions from '../../actions/actions';
 import UserView from '../UserView/UserView';
 import EventsView from '../EventsView/EventsView';
 import OneEventView from '../OneEventView/OneEventView';
+import SearchView from '../SearchView/SearchView';
 import { HistoryState } from '../../interfaces';
 
 const signUpFormTemplate = require('Templates/signup/signup.pug');
@@ -25,11 +26,16 @@ export default class ChangePageView {
 
   public oneEventView: OneEventView;
 
-  constructor(globalStore: Store,
+  public searchView: SearchView;
+
+  constructor(
+    globalStore: Store,
     actions: Actions,
     userView: UserView,
     eventsView: EventsView,
-    oneEventView: OneEventView) {
+    oneEventView: OneEventView,
+    searchView: SearchView,
+  ) {
     this.globalStore = globalStore;
     this.actions = actions;
     this.wrapper = document.getElementById('wrapper');
@@ -37,6 +43,7 @@ export default class ChangePageView {
     this.userView = userView;
     this.eventsView = eventsView;
     this.oneEventView = oneEventView;
+    this.searchView = searchView;
 
     window.onpopstate = (ev: any) => {
       if (ev.state) {
@@ -47,15 +54,29 @@ export default class ChangePageView {
 
   async render(state: HistoryState) {
     if (state.page.includes('event') && state.page !== routes.events) {
-      await this.actions.eventPage(<number><unknown>state.page.substr(6));
-      this.oneEventView.renderEventPage();
+      await this.actions.eventPage(<number>(<unknown>state.page.substr(6)));
+      // this.oneEventView.renderEventPage();
       return;
     }
 
     if (state.page.includes('profile') && state.page !== routes.profile) {
-      this.actions.updateSomeUser(Number(state.page.substr(8)));
+      const idProfile = Number(state.page.substr(8));
+
+      if (idProfile === this.globalStore.userStore.userData.Uid) {
+        this.actions.updateUser();
+        return;
+      }
+
+      this.actions.updateOneProfile(idProfile);
       return;
     }
+
+    // if (state.page.includes('search')) {  //реализация Димы
+    //   window.scroll(0, 0);
+    //   console.log(state.parameter);
+    //   this.actions.searchUpdate(state.parameter);
+    //   return;
+    // }
 
     switch (state.page) {
       case routes.login:
@@ -70,7 +91,7 @@ export default class ChangePageView {
 
       case routes.profile:
         window.scroll(0, 0);
-        this.userView.renderMyProfilePage(state.parameter);
+        this.userView.renderProfilePage(state.parameter);
         break;
 
       case routes.main:
@@ -83,32 +104,39 @@ export default class ChangePageView {
         this.eventsView.renderEvents();
         break;
 
+      case routes.search: // моя реализация
+        window.scroll(0, 0);
+        this.actions.searchUpdateByHistory();
+        break;
+
       default:
         break;
     }
   }
 
   renderSignUp() {
-    this.wrapper.style.background = 'url("components/img/form-background.jpg") no-repeat top / cover';
     this.wrapper.innerHTML = '';
     this.wrapper.innerHTML = signUpFormTemplate({});
   }
 
   renderLoginPage() {
-    this.wrapper.style.background = 'url("components/img/form-background.jpg") no-repeat top / cover';
     this.wrapper.innerHTML = '';
     this.wrapper.innerHTML = loginTemplate({});
   }
 
   renderLogout() {
-    this.navbar.innerHTML = '';
-    this.navbar.innerHTML = navbarTemplate({});
+    this.renderNavbar();
     this.actions.routerChangePage('/events');
   }
 
   renderNavbar() {
     this.navbar.innerHTML = '';
     this.navbar.innerHTML = navbarTemplate({});
+
+    // const confirmSearch = document.getElementById("jsConfirmSearch");  //реализация Димы
+    // const inputSearch = document.getElementById("jsNavbarSearchInput");
+    // inputSearch.addEventListener("keypress", searchKeyPress.bind(this));
+    // confirmSearch.addEventListener("click", searchButtonHandler.bind(this));
   }
 
   onRegisterSuccessfull() {
@@ -120,17 +148,34 @@ export default class ChangePageView {
     const { currentUrl } = this.globalStore.routerStore;
     const { userData } = this.globalStore.userStore;
 
-    if (currentUrl.pathname.includes('event') && currentUrl.pathname !== routes.events) {
+    if (
+      currentUrl.pathname.includes('event')
+      && currentUrl.pathname !== routes.events
+    ) {
       window.scroll(0, 0);
       this.actions.eventPage(Number(currentUrl.pathname.substr(6)));
       return;
     }
 
-    if (currentUrl.pathname.includes('profile') && currentUrl.pathname !== routes.profile) {
-      window.scroll(0, 0);
-      this.actions.updateSomeUser(Number(currentUrl.pathname.substr(8)));
+    if (
+      currentUrl.pathname.includes('profile')
+      && currentUrl.pathname !== routes.profile
+    ) {
+      const idProfile = Number(currentUrl.pathname.substr(8));
+
+      if (idProfile === this.globalStore.userStore.userData?.Uid) {
+        this.actions.updateUser();
+        return;
+      }
+      this.actions.updateOneProfile(idProfile);
       return;
     }
+
+    // if (currentUrl.pathname.includes("search")) {  //реализация Димы
+    //   window.scroll(0, 0);
+    //   this.actions.searchUpdate(currentUrl.searchParams.get("tab"));
+    //   return;
+    // }
 
     switch (currentUrl.pathname) {
       case routes.events:
@@ -159,7 +204,8 @@ export default class ChangePageView {
 
       case routes.login:
         window.scroll(0, 0);
-        if (userData) { // Если юзер уже зашел, но пытается зайти на страницу логина/регистрации.
+        if (userData) {
+          // Если юзер уже зашел, но пытается зайти на страницу логина/регистрации.
           this.actions.routerChangePage(routes.events); // Редирект пока на эвенты
           return;
         }
@@ -172,15 +218,32 @@ export default class ChangePageView {
         this.renderLogout();
         break;
 
+      case routes.search:
+        window.scroll(0, 0);
+        this.actions.searchUpdate();
+        break;
+
       default:
         break;
     }
   }
 
   subscribeViews() {
-    this.globalStore.eventBus.subscribe(ChannelNames.logoutSuccessfull, this.renderLogout.bind(this));
-    this.globalStore.eventBus.subscribe(ChannelNames.userIsNotAuth, this.renderNavbar.bind(this));
-    this.globalStore.eventBus.subscribe(ChannelNames.pageChanged, this.changePage.bind(this));
-    this.globalStore.eventBus.subscribe(ChannelNames.registerSuccessfull, this.onRegisterSuccessfull.bind(this));
+    this.globalStore.eventBus.subscribe(
+      ChannelNames.logoutSuccessfull,
+      this.renderLogout.bind(this),
+    );
+    this.globalStore.eventBus.subscribe(
+      ChannelNames.userIsNotAuth,
+      this.renderNavbar.bind(this),
+    );
+    this.globalStore.eventBus.subscribe(
+      ChannelNames.pageChanged,
+      this.changePage.bind(this),
+    );
+    this.globalStore.eventBus.subscribe(
+      ChannelNames.registerSuccessfull,
+      this.onRegisterSuccessfull.bind(this),
+    );
   }
 }

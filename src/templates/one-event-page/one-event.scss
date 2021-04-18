@@ -74,10 +74,12 @@
   padding: 20px;
   margin-top: 60px;
   position: relative;
+  background: $project-white;
 
   &__title {
     font: $title-event;
     color: $project-black;
+    text-align: center;
   }
 
   &__body {
@@ -110,19 +112,35 @@
 }
 
 .going-user {
-  width: 150px;
-  height: 150px;
-  margin-left: 15px;
+  margin-left: 50px;
+  width: 100px;
+  @include flex-mixin(column, center);
+  justify-content: space-between;
 
   &__photo {
     display: block;
-    width: 50px;
-    height: 50px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     margin: 0 auto;
+    box-shadow: $project-box-shadow;
   }
 
   &__name {
+    width: 120px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin-top: 20px;
     font: $little-font;
+    text-align: center;
   }
+}
+
+.going-title {
+  font: $title-font;
+  margin-top: 30px;
+}
+
+.description-wrapper {
+  min-height: 460px;
 }

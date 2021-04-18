@@ -28,11 +28,8 @@ export default class EventsView {
       return;
     }
     */
-    document.getElementById('wrapper').style.background = '../../../components/img/form-background.jpg';
-
     const eventsJson = this.globalStore.eventsStore.allEvents;
     this.wrapper.innerHTML = '';
-    this.wrapper.style.background = 'url("templates/events/img/events-background.jpg") no-repeat';
     this.wrapper.innerHTML = upperTextTemplate({});
 
     const eventsRow = document.getElementById('events-row');

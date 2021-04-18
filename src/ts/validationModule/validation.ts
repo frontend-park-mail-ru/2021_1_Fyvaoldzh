@@ -2,9 +2,10 @@ const VALIDATION_ERR_MESSAGES = {
   LOGIN: 'Логин должен содержать минимум 5 символов латиницы, не содержать знаков препинания, кроме точки.',
   PASSWORD: 'Пароль должен содержать минимум 6 символов латиницы, цифр.',
   EMAIL: 'Неправильный формат электронной почты.',
-  NAME: 'Имя не должно содержать цифры, спецсимволы и знаки препинания.',
+  NAME: 'Имя не должно быть пустым или содержать цифры, спецсимволы и знаки препинания.',
   CITY: 'Введите город.',
   BIRTHDAY: 'Некорректный формат даты рождения.',
+  AVATAR: 'Только картинки, пожалуйста.',
 };
 
 const INPUTS = {
@@ -34,9 +35,13 @@ const INPUTS = {
     errorMsg: VALIDATION_ERR_MESSAGES.CITY,
   },
   birthday: {
-    regex: /^\d{2}[./-]\d{2}[./-]\d{4}$/,
+    regex: /^\d{4}[-]\d{2}[-]\d{2}$/,
     inputName: 'birthday',
     errorMsg: VALIDATION_ERR_MESSAGES.BIRTHDAY,
+  },
+  avatar: {
+    inputName: 'avatar',
+    errorMsg: VALIDATION_ERR_MESSAGES.AVATAR,
   },
 };
 

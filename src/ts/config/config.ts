@@ -15,6 +15,9 @@ export const urlMap = {
   addPlanningEventUrl: `${baseApi}/api/v1/add/planning`,
   removePlanningEventUrl: `${baseApi}/api/v1/remove/planning`,
   checkPlanningEventUrl: `${baseApi}/api/v1/event/is_added`,
+  customEventUrl: 'http://95.163.180.8:1323/api/v1/search',
+  oneProfileUrl: 'http://95.163.180.8:1323/api/v1/profile/',
+  customUserUrl: 'http://95.163.180.8:1323/api/v1/users',
 };
 
 export const SERVER_ERRORS = {
@@ -47,6 +50,17 @@ export enum ChannelNames {
   someUserUpdated,
   firstUserUpdated,
   firstUserIsNotAuth,
+  oneProfileUpdated,
+  userEventsButtonChanged,
+  oneProfileEventsButtonChanged,
+  searchUpdated,
+  searchEventsButtonChanged,
+  searchTabChanged,
+  searchEventsPageChanged,
+  searchUsersPageChanged,
+  oneProfilePageChanged,
+  profilePageChanged,
+  profilePasswordChanged,
 }
 
 /* const pageNames = {
@@ -67,4 +81,29 @@ export const routes = {
   signup: '/signup',
   login: '/login',
   logout: '/logout',
+  oneProfilePage: '/oneProfile',
+  searchPage: '/searchPage',
+  search: '/search',
+};
+
+export const searchTab = {
+  events: 'eventsTab',
+  users: 'usersTab',
+};
+
+export const searchButton = {
+  allEvents: 'allEventsButton',
+  exhibition: 'exhibitionButton',
+  concert: 'concertButton',
+  museum: 'museumButton',
+  entertainment: 'entertainmentButton',
+  training: 'trainingButton',
+  movie: 'movieButton',
+  festival: 'festivalButton',
+  excursion: 'excursionButton',
+};
+
+export const profileEventsButton = {
+  planning: 'planningEventsButton',
+  visited: 'visitedEventsButton',
 };

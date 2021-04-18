@@ -3,7 +3,7 @@
 
 
 .events-table {
-  margin-top: 100px;
+  margin-top: 140px;
 }
 
 .events-block {
@@ -26,6 +26,10 @@
   &__title {
     font: $title-event;
     color: $project-black;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   &__info {

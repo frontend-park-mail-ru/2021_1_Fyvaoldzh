@@ -56,45 +56,10 @@ export default class Actions {
     });
   }
 
-  postProfileForm(data: object) {
-    this.dispatcher.dispatch({
-      eventName: 'user/postProfileForm',
-      data,
-    });
-  }
-
-  avatarPreview(data: string) {
-    this.dispatcher.dispatch({
-      eventName: 'user/avatarPreview',
-      data,
-    });
-  }
-
-  pushAvatar() {
-    this.dispatcher.dispatch({
-      eventName: 'user/avatarPush',
-      data: null,
-    });
-  }
-
-  declineAvatar() {
-    this.dispatcher.dispatch({
-      eventName: 'user/avatarDecline',
-      data: null,
-    });
-  }
-
   routerChangePage(page: string) {
     this.dispatcher.dispatch({
       eventName: 'router/changePage',
       data: page,
-    });
-  }
-
-  updateSomeUser(id: number) {
-    this.dispatcher.dispatch({
-      eventName: 'someUser/update',
-      data: id,
     });
   }
 
@@ -123,6 +88,168 @@ export default class Actions {
     this.dispatcher.dispatch({
       eventName: 'oneEvent/remove',
       data: id,
+    });
+  }
+
+  postProfileForm(data: any) {
+    this.dispatcher.dispatch({
+      eventName: 'user/postProfileForm',
+      data,
+    });
+  }
+
+  avatarPreview(data: any) {
+    this.dispatcher.dispatch({
+      eventName: 'user/avatarPreview',
+      data,
+    });
+  }
+
+  pushAvatar() {
+    this.dispatcher.dispatch({
+      eventName: 'user/avatarPush',
+      data: null,
+    });
+  }
+
+  declineAvatar() {
+    this.dispatcher.dispatch({
+      eventName: 'user/avatarDecline',
+      data: null,
+    });
+  }
+
+  updateUserEvents() {
+    this.dispatcher.dispatch({
+      eventName: 'user/updateEvents',
+      data: null,
+    });
+  }
+
+  changeUserEventsButton(buttonId: any) {
+    this.dispatcher.dispatch({
+      eventName: 'user/changeEventsButton',
+      data: buttonId,
+    });
+  }
+
+  userPageForward() {
+    this.dispatcher.dispatch({
+      eventName: 'user/pageForward',
+      data: null,
+    });
+  }
+
+  userPageBack() {
+    this.dispatcher.dispatch({
+      eventName: 'user/pageBack',
+      data: null,
+    });
+  }
+
+  updateOneProfile(id: any) {
+    this.dispatcher.dispatch({
+      eventName: 'oneProfile/update',
+      data: id,
+    });
+  }
+
+  updateOneProfileEvents() {
+    this.dispatcher.dispatch({
+      eventName: 'oneProfile/updateEvents',
+      data: null,
+    });
+  }
+
+  changeOneProfileEventsButton(buttonId: any) {
+    this.dispatcher.dispatch({
+      eventName: 'oneProfile/changeEventsButton',
+      data: buttonId,
+    });
+  }
+
+  // changeSearchEventsButton(buttonId: any) {  //реализация Димы
+  changeSearchEventsButton(buttonId: string) {
+    // Моя реализация
+    this.dispatcher.dispatch({
+      eventName: 'search/changeEventsButton',
+      data: buttonId,
+    });
+  }
+
+  // searchChangeTab(tabId: any) {  //реализация Димы
+  searchChangeTab(tabId: string) {
+    // моя реализация
+    this.dispatcher.dispatch({
+      eventName: 'search/changeTab',
+      data: tabId,
+    });
+  }
+
+  // searchUpdate(data: any) {  //реализация Димы
+  //   this.dispatcher.dispatch({
+  //     eventName: "search/update",
+  //     data,
+  //   });
+  // }
+
+  searchUpdate() {
+    // моя реализация
+    // моя реализация
+    this.dispatcher.dispatch({
+      eventName: 'search/update',
+      data: null,
+    });
+  }
+
+  // newSearchInputData(data: any) {  //реализация Димы
+  newSearchInputData(data: string) {
+    // моя реализация
+    this.dispatcher.dispatch({
+      eventName: 'search/newInputData',
+      data,
+    });
+  }
+
+  searchPageForward() {
+    this.dispatcher.dispatch({
+      eventName: 'search/pageForward',
+      data: null,
+    });
+  }
+
+  searchPageBack() {
+    this.dispatcher.dispatch({
+      eventName: 'search/pageBack',
+      data: null,
+    });
+  }
+
+  searchUpdateByHistory() {
+    this.dispatcher.dispatch({
+      eventName: 'search/updateByHistory',
+      data: null,
+    });
+  }
+
+  oneProfilePageForward() {
+    this.dispatcher.dispatch({
+      eventName: 'oneProfile/pageForward',
+      data: null,
+    });
+  }
+
+  oneProfilePageBack() {
+    this.dispatcher.dispatch({
+      eventName: 'oneProfile/pageBack',
+      data: null,
+    });
+  }
+
+  changePassword(data: any) {
+    this.dispatcher.dispatch({
+      eventName: 'user/changePassword',
+      data,
     });
   }
 }

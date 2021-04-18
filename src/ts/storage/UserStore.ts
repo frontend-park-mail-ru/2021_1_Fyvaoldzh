@@ -7,14 +7,13 @@ import {
   putAvatar,
 } from '../networkModule/network';
 
-import { ChannelNames, profileTab } from '../config/config';
+import { ChannelNames, profileTab, profileEventsButton } from '../config/config';
 import validation from '../validationModule/inputValidation';
 import { ActionsInterface } from '../interfaces';
 
-const urltoFile = (url: string, filename?: string, mimeType?: string) => (fetch(url)
+const urltoFile = (url: string, filename?: string, mimeType?: string) => fetch(url)
   .then((res) => res.arrayBuffer())
-  .then((buf) => new File([buf], filename, { type: mimeType }))
-);
+  .then((buf) => new File([buf], filename, { type: mimeType }));
 
 interface UserDataInterface {
   Uid: number;
@@ -22,8 +21,8 @@ interface UserDataInterface {
   birthday: string;
   city: string;
   email: string;
-  visited: number;
-  planning: number;
+  visited: any;
+  planning: any;
   followers: number;
   about: string;
   avatar: string;
@@ -42,12 +41,26 @@ export default class UserStore {
 
   public avatarPreviewUrl: string;
 
+  public currentEventsButton: any;
+
+  public profilePlanningEvents: any;
+
+  public profileVisitedEvents: any;
+
+  public currentEventsPage: any;
+
   constructor(globalStore: any) {
     this.globalStore = globalStore;
     this.userData = null;
     this.validationErrors = [];
-    this.currentTab = profileTab.events;
     this.avatarPreviewUrl = null;
+
+    this.currentTab = profileTab.events;
+    this.currentEventsButton = profileEventsButton.planning;
+    this.avatarPreviewUrl = null;
+    this.profilePlanningEvents = [];
+    this.profileVisitedEvents = [];
+    this.currentEventsPage = 1;
   }
 
   async register(action: ActionsInterface) {
@@ -92,6 +105,7 @@ export default class UserStore {
     const queryParamTab = this.globalStore.routerStore.currentUrl?.searchParams.get('tab');
     if (queryParamTab) {
       this.currentTab = queryParamTab;
+      // console.log(this.currentTab);
     }
 
     if (this.userData.message === 'user is not authorized') {
@@ -116,8 +130,9 @@ export default class UserStore {
   }
 
   async changeTab(action: ActionsInterface) {
+    this.globalStore.routerStore.currentUrl.searchParams.set('tab', action.data);
     history.pushState({ page: '/profile', parameter: action.data }, null, `profile?tab=${action.data}`);
-    this.currentTab = <string><unknown>action.data;
+    this.currentTab = <string>(<unknown>action.data);
     this.globalStore.eventBus.publish(ChannelNames.tabChanged);
   }
 
@@ -140,7 +155,7 @@ export default class UserStore {
   }
 
   avatarPreview(action: ActionsInterface) {
-    this.avatarPreviewUrl = <string><unknown>action.data;
+    this.avatarPreviewUrl = <string>(<unknown>action.data);
     this.globalStore.eventBus.publish(ChannelNames.avatarPreview);
   }
 
@@ -156,6 +171,82 @@ export default class UserStore {
   async avatarDecline() {
     this.avatarPreviewUrl = null;
     this.globalStore.eventBus.publish(ChannelNames.avatarDeclined);
+  }
+
+  async changeEventsButton(action: ActionsInterface) {
+    this.currentEventsButton = action.data;
+    switch (this.currentEventsButton) {
+      case profileEventsButton.planning:
+        this.globalStore.eventBus.publish(ChannelNames.userEventsButtonChanged, this.profilePlanningEvents);
+        break;
+
+      case profileEventsButton.visited:
+        this.globalStore.eventBus.publish(ChannelNames.userEventsButtonChanged, this.profileVisitedEvents);
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  async updateEvents() {
+    this.profilePlanningEvents.length = 0;
+    this.profileVisitedEvents.length = 0;
+
+    Object.entries(this.userData.planning).forEach(([, eventJson]) => {
+      this.profilePlanningEvents.push(eventJson);
+    });
+
+    Object.entries(this.userData.visited).forEach(([, eventJson]) => {
+      this.profileVisitedEvents.push(eventJson);
+    });
+  }
+
+  async pageForward() {
+    this.currentEventsPage++;
+    await this.updateEvents();
+
+    switch (this.currentEventsButton) {
+      case profileEventsButton.planning:
+        this.globalStore.eventBus.publish(ChannelNames.profilePageChanged, this.profilePlanningEvents);
+        break;
+
+      case profileEventsButton.visited:
+        this.globalStore.eventBus.publish(ChannelNames.profilePageChanged, this.profileVisitedEvents);
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  async pageBack() {
+    this.currentEventsPage--;
+    await this.updateEvents();
+
+    switch (this.currentEventsButton) {
+      case profileEventsButton.planning:
+        this.globalStore.eventBus.publish(ChannelNames.profilePageChanged, this.profilePlanningEvents);
+        break;
+
+      case profileEventsButton.visited:
+        this.globalStore.eventBus.publish(ChannelNames.profilePageChanged, this.profileVisitedEvents);
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  async changePassword(action: ActionsInterface) {
+    const answer = await postProfileData(action.data);
+
+    if (answer.ok) {
+      this.globalStore.eventBus.publish(ChannelNames.profilePasswordChanged);
+    } else {
+      this.validationErrors.push('wrongPassword');
+      this.globalStore.eventBus.publish(ChannelNames.errorValidation);
+    }
   }
 
   reducer(action: ActionsInterface) {
@@ -194,6 +285,26 @@ export default class UserStore {
 
       case 'user/avatarDecline':
         this.avatarDecline();
+        break;
+
+      case 'user/changeEventsButton':
+        this.changeEventsButton(action);
+        break;
+
+      case 'user/updateEvents':
+        this.updateEvents();
+        break;
+
+      case 'user/pageForward':
+        this.pageForward();
+        break;
+
+      case 'user/pageBack':
+        this.pageBack();
+        break;
+
+      case 'user/changePassword':
+        this.changePassword(action);
         break;
 
       default:

@@ -26,10 +26,13 @@ export default class OneEventView {
 
   renderEventPage() {
     const { oneEventData } = this.globalStore.oneEventStore;
-    this.wrapper.style
-      .backgroundImage = 'url("templates/one-event-page/img/event-page-background.jpg") no-repeat top right';
+
     this.wrapper.innerHTML = '';
     this.wrapper.innerHTML = oneEventPageTemplate(oneEventData);
+    this.wrapper.style.background = null;
+    const eventPhoto = document.getElementById('jsPagePhoto');
+    eventPhoto.style.background = `url(http://95.163.180.8:1323/api/v1/event/${oneEventData.id}/image) 
+                                  no-repeat center / cover`;
 
     const eventStar = document.getElementById('jsEventStar');
     eventStar.addEventListener('click', this.starHandler.bind(this));
@@ -58,7 +61,10 @@ export default class OneEventView {
     const goingUsers = this.globalStore.oneEventStore.oneEventData.followers;
 
     const goingUsersRow = document.getElementById('jsPlanningUsers');
-    goingUsers.forEach((val: any) => goingUsersRow.insertAdjacentHTML('beforeend', onePlanningUserTemplate(val)));
+
+    if (goingUsers) {
+      goingUsers.forEach((val: any) => goingUsersRow.insertAdjacentHTML('beforeend', onePlanningUserTemplate(val)));
+    }
   }
 
   starHandler(ev: MouseEvent) {

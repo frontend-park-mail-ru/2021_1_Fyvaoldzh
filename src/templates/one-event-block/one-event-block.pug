@@ -1,9 +1,9 @@
 .smbs-event
-    .smbs-event__photo(style='background: url(http://95.163.180.8:1323/api/v1/event/' + id + '/image) no-repeat center / cover;')
+    a.smbs-event__photo(style='background: url(http://95.163.180.8:1323/api/v1/event/' + id + '/image) no-repeat center / cover;', href='event' + id)
     .smbs-event__text
         .smbs-event__title
-            a(href='#' id=id data-direction='eventPage') #{title}
+            a.block-anchor(href='event' + id) #{title}
         .smbs-event__info
             .smbs-event__place #{place}
-            .smbs-event__data #{date}
-    .smbs-event__chosen
+            .smbs-event__data Начало:  #{startDate}
+            .smbs-event__data Окончание:  #{endDate}

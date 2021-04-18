@@ -18,6 +18,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: path.join(src, 'index.html'),
+      favicon: './src/favicon.svg',
     }),
     new HtmlWebpackPlugin({
       filename: 'fallback.html',

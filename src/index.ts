@@ -10,7 +10,8 @@ import OneEventView from './ts/views/OneEventView/OneEventView';
 import UserView from './ts/views/UserView/UserView';
 import ChangePageView from './ts/views/ChangePageView/ChangePageView';
 import { ChannelNames } from './ts/config/config';
-import SomeUserView from './ts/views/SomeUserView/SomeUserView';
+import OneProfileView from './ts/views/OneProfileView/OneProfileView';
+import SearchView from './ts/views/SearchView/SearchView';
 
 const dispatcher = new Dispatcher(); // Диспетчер отвечает за доставку actions до хранилища
 const actions = new Actions(dispatcher);
@@ -30,11 +31,27 @@ const userView = new UserView(globalStore, actions);
 
 const oneEventView = new OneEventView(globalStore, actions);
 
-const changePageView = new ChangePageView(globalStore, actions, userView, eventsView, oneEventView);
+const searchView = new SearchView(globalStore, actions);
 
-const someUserView = new SomeUserView(globalStore, actions);
+const changePageView = new ChangePageView(
+  globalStore,
+  actions,
+  userView,
+  eventsView,
+  oneEventView,
+  searchView,
+);
 
-[eventsView, userView, oneEventView, changePageView, someUserView].forEach((view) => view.subscribeViews());
+const oneProfileView = new OneProfileView(globalStore, actions);
+
+[
+  eventsView,
+  userView,
+  oneEventView,
+  changePageView,
+  oneProfileView,
+  searchView,
+].forEach((view) => view.subscribeViews());
 
 const navbarTemplate = require('Components/navbar/navbar.pug');
 
@@ -50,8 +67,14 @@ firstRender();
  Так мы переходим по урлу в адресной строке, так как нам надо знать, залогинен пользователь,
  или нет, чтобы скрыть от него некоторые страницы
 */
-eventBus.subscribe(ChannelNames.firstUserUpdated, actions.routerChangePage.bind(actions, window.location.href));
-eventBus.subscribe(ChannelNames.firstUserIsNotAuth, actions.routerChangePage.bind(actions, window.location.href));
+eventBus.subscribe(
+  ChannelNames.firstUserUpdated,
+  actions.routerChangePage.bind(actions, window.location.href),
+);
+eventBus.subscribe(
+  ChannelNames.firstUserIsNotAuth,
+  actions.routerChangePage.bind(actions, window.location.href),
+);
 
 const { body } = document;
 
@@ -82,7 +105,9 @@ body.addEventListener('click', async (e) => {
   }
 
   if (target instanceof HTMLButtonElement) {
-    const formBody: HTMLFormElement = <HTMLFormElement>document.getElementById('formBody');
+    const formBody: HTMLFormElement = <HTMLFormElement>(
+      document.getElementById('formBody')
+    );
 
     if (target.id === 'postRegistration') {
       e.preventDefault();
@@ -108,6 +133,54 @@ body.addEventListener('click', async (e) => {
 
       actions.login(loginData);
     }
+
+    if (target.id === 'JSsearchBarButton') {
+      const searchBarInput = <HTMLInputElement>(
+        document.getElementById('JSsearchBarInput')
+      );
+      target.classList.toggle('close');
+      if (searchBarInput.classList.contains('square')) {
+        searchBarInput.value = '';
+      } else {
+        searchBarInput.focus();
+      }
+      searchBarInput.classList.toggle('square');
+    }
+  }
+});
+
+body.addEventListener('keydown', async (e) => {
+  // моя реализация отправки инпутов поиска по клику
+  const { target } = e;
+
+  if (target instanceof HTMLInputElement) {
+    if (target.id === 'JSsearchBarInput') {
+      if (e.key === 'Enter') {
+        const tempValue = target.value;
+        target.blur();
+        document.getElementById('JSsearchBarButton').click();
+
+        const toUrl = new URL('http://localhost:3000/search');
+        toUrl.search = new URLSearchParams([
+          ['text', tempValue],
+          ['tab', ''],
+          ['category', ''],
+          ['page', '1'],
+        ]).toString();
+        actions.routerChangePage(toUrl.pathname + toUrl.search);
+
+        // actions.searchUpdate(tempValue);
+      }
+    }
+
+    if (target.id === 'searchInput') {
+      if (e.key === 'Enter') {
+        const searchInput = <HTMLInputElement>(
+          document.getElementById('searchInput')
+        );
+        actions.newSearchInputData(searchInput.value);
+      }
+    }
   }
 });
 
@@ -121,3 +194,13 @@ interface RegistrationDataInterface {
   password: string;
   name: string;
 }
+
+document.getElementById('wrapper').addEventListener('click', () => {
+  if ((document.getElementById('toggle') as HTMLInputElement)) {
+    (document.getElementById('toggle') as HTMLInputElement).checked = false;
+  }
+  if ((document.getElementById('JSsearchBarButton') as HTMLInputElement).classList.contains('close')) {
+    (document.getElementById('JSsearchBarButton') as HTMLInputElement).classList.toggle('close');
+    (document.getElementById('JSsearchBarInput') as HTMLInputElement).classList.toggle('square');
+  }
+});
