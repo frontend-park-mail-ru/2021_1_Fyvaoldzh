@@ -88,7 +88,7 @@ export default class SearchView extends ProfilesBaseView {
     this.renderChangingContent();
   }
 
-  handleSearch(e: any) {
+  handleSearch() {
     this.actions.newSearchInputData(
       (<HTMLInputElement>document.getElementById('searchInput')).value,
     );

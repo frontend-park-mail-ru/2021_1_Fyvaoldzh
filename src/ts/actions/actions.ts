@@ -193,12 +193,12 @@ export default class Actions {
   //   });
   // }
 
-  searchUpdate(data: URLSearchParams) {
+  searchUpdate() {
     // моя реализация
     // моя реализация
     this.dispatcher.dispatch({
       eventName: 'search/update',
-      data,
+      data: null,
     });
   }
 

@@ -220,7 +220,7 @@ export default class ChangePageView {
 
       case routes.search:
         window.scroll(0, 0);
-        this.actions.searchUpdate(currentUrl.searchParams);
+        this.actions.searchUpdate();
         break;
 
       default:

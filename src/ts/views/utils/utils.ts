@@ -234,9 +234,8 @@ export function parseDate(dateInput: any) {
       minute: 'numeric',
     };
     return date.toLocaleString('ru', <DateTimeFormatOptions>options);
-  } else {
-    return dateInput;
   }
+  return dateInput;
 }
 
 export function searchButtonHandler(e: any) {

@@ -105,7 +105,7 @@ export default class UserStore {
     const queryParamTab = this.globalStore.routerStore.currentUrl?.searchParams.get('tab');
     if (queryParamTab) {
       this.currentTab = queryParamTab;
-      console.log(this.currentTab);
+      // console.log(this.currentTab);
     }
 
     if (this.userData.message === 'user is not authorized') {
@@ -193,12 +193,13 @@ export default class UserStore {
     this.profilePlanningEvents.length = 0;
     this.profileVisitedEvents.length = 0;
 
-    for (const event of this.userData.planning) {
-      this.profilePlanningEvents.push(event);
-    }
-    for (const event of this.userData.visited) {
-      this.profileVisitedEvents.push(event);
-    }
+    Object.entries(this.userData.planning).forEach(([, eventJson]) => {
+      this.profilePlanningEvents.push(eventJson);
+    });
+
+    Object.entries(this.userData.visited).forEach(([, eventJson]) => {
+      this.profileVisitedEvents.push(eventJson);
+    });
   }
 
   async pageForward() {

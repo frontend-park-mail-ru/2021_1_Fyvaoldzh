@@ -3,7 +3,7 @@ import { parseDate } from '../utils/utils';
 const oneEventBlockTemplate = require('../../../templates/one-event-block/one-event-block.pug');
 
 export default class ProfilesBaseView {
-  constructor() {}
+  // constructor() {}
 
   // public renderEventsList(events: any) {  //реализаци Димы
   public renderEventsList(events: Array<any>) {

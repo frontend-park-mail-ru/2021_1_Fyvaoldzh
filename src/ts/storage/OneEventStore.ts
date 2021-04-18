@@ -3,7 +3,7 @@ import {
 } from '../networkModule/network';
 import { ChannelNames } from '../config/config';
 import { ActionsInterface } from '../interfaces';
-import {parseDate} from "../views/utils/utils";
+import { parseDate } from '../views/utils/utils';
 
 interface OneEventDataInterface {
   id: number;

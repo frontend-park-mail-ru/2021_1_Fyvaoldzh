@@ -42,7 +42,7 @@ export default class UserView extends ProfilesBaseView {
     this.actions = actions;
   }
 
-  renderEventsList(events: any) {
+  renderEventsList() {
     const {
       currentEventsPage,
       currentEventsButton,
@@ -241,7 +241,7 @@ export default class UserView extends ProfilesBaseView {
     const { userData } = this.globalStore.userStore;
 
     if (window.location.pathname !== '/profile') {
-      console.log(this.globalStore.routerStore.currentUrl.pathname);
+      // console.log(this.globalStore.routerStore.currentUrl.pathname);
       if (userData) {
         if (
           this.globalStore.routerStore.currentUrl.pathname
@@ -415,8 +415,6 @@ export default class UserView extends ProfilesBaseView {
 
   renderOneProfileEventsTab() {
     const { currentEventsButton } = this.globalStore.userStore;
-    const profilePlanningEvents = this.globalStore.userStore.userData.planning;
-    const profileVisitedEvents = this.globalStore.userStore.userData.visited;
 
     const changingContent = document.getElementById('changing-content');
     const buttons = Array.from(
@@ -428,11 +426,11 @@ export default class UserView extends ProfilesBaseView {
 
     switch (currentEventsButton) {
       case 'planningEventsButton':
-        this.renderEventsList(profilePlanningEvents);
+        this.renderEventsList();
         break;
 
       case 'visitedEventsButton':
-        this.renderEventsList(profileVisitedEvents);
+        this.renderEventsList();
         break;
 
       default:

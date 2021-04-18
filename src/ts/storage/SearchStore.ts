@@ -32,7 +32,7 @@ export default class SearchStore {
     this.currentUsersPage = 1;
   }
 
-  async update(action: ActionsInterface) {
+  async update() {
     // брать данные из урла:
     const { currentUrl } = this.globalStore.routerStore;
 
@@ -112,7 +112,6 @@ export default class SearchStore {
 
     const url = new URLSearchParams(params).toString();
 
-    console.log('push in changeTab');
     history.pushState({ page: '/search', parameter: params }, null, `search?${url}`);
 
     this.globalStore.eventBus.publish(ChannelNames.searchTabChanged);
@@ -167,7 +166,6 @@ export default class SearchStore {
 
     const url = new URLSearchParams(params).toString();
 
-    console.log('push in updateResults');
     history.pushState({ page: '/search', parameter: params }, null, `search?${url}`);
   }
 
@@ -270,7 +268,7 @@ export default class SearchStore {
         break;
 
       case 'search/update':
-        this.update(action);
+        this.update();
         break;
 
       case 'search/newInputData':
