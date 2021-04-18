@@ -15,9 +15,9 @@ export const urlMap = {
   addPlanningEventUrl: `${baseApi}/api/v1/add/planning`,
   removePlanningEventUrl: `${baseApi}/api/v1/remove/planning`,
   checkPlanningEventUrl: `${baseApi}/api/v1/event/is_added`,
-  customEventUrl: 'http://95.163.180.8:1323/api/v1/search',
-  oneProfileUrl: 'http://95.163.180.8:1323/api/v1/profile/',
-  customUserUrl: 'http://95.163.180.8:1323/api/v1/users',
+  customEventUrl: `${baseApi}/api/v1/search`,
+  oneProfileUrl: `${baseApi}/api/v1/profile/`,
+  customUserUrl: `${baseApi}/api/v1/users`,
 };
 
 export const SERVER_ERRORS = {

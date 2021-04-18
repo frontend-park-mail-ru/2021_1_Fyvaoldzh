@@ -216,9 +216,14 @@ export async function putAvatar(form: FormData) {
   }
 }
 
+/**
+ * Функция для получения профиля по id
+ * @return {json} - json профиля
+ */
+
 export async function getProfileById(id: number) {
   try {
-    const answer = await fetch(`${urlMap.apiUrl}/profile/${id}`, {
+    const answer = await fetch(`${urlMap.oneProfileUrl}${id}`, {
       credentials: 'include',
     });
     return await answer.json();
@@ -325,9 +330,17 @@ export async function checkPlanningEvent(id: number) {
 //   }
 // }
 
+/**
+ * Функция для получения ивентов по части названия, номеру страницы и категории
+ * @param {String} find - часть названия ивента
+ * @param {Number | String} category - категория ивента
+ * @param {Number | String} page - номер текущей страницы поиска
+ * @return {json} - json, содержащий найденные ивенты
+ */
+
 export async function getEventsByParams( // моя реализация
   find: string = '',
-  category: string | number = '',
+  category: number | string = '',
   page: number | string = '',
 ) {
   const url = new URL(urlMap.customEventUrl);

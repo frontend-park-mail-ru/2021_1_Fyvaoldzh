@@ -1,4 +1,4 @@
-import { ChannelNames } from '../config/config';
+import { ChannelNames, routes } from '../config/config';
 import { ActionsInterface } from '../interfaces';
 
 export default class RouterStore {
@@ -16,8 +16,9 @@ export default class RouterStore {
       <string>(<unknown>action.data),
       window.location.origin,
     );
-
-    if (this.currentUrl.pathname !== '/search') {
+    // если не страница поиска и не страница чцжого пользователя:
+    if (this.currentUrl.pathname !== '/search'
+        && !(this.currentUrl.pathname.includes('profile') && this.currentUrl.pathname !== routes.profile)) {
       window.history.pushState(
         {
           page: this.currentUrl.pathname,
