@@ -6,7 +6,6 @@ import EventsView from '../EventsView/EventsView';
 import OneEventView from '../OneEventView/OneEventView';
 import SearchView from '../SearchView/SearchView';
 import { HistoryState } from '../../interfaces';
-import { searchButtonHandler, searchKeyPress } from '../utils/utils';
 
 const signUpFormTemplate = require('Templates/signup/signup.pug');
 const loginTemplate = require('Templates/login/login.pug');
@@ -63,12 +62,12 @@ export default class ChangePageView {
     if (state.page.includes('profile') && state.page !== routes.profile) {
       const idProfile = Number(state.page.substr(8));
 
-      if (idProfile === this.globalStore.userStore.userData.Uid) {
+      if (this.globalStore.userStore.userData && idProfile === this.globalStore.userStore.userData.Uid) {
         this.actions.updateUser();
         return;
       }
 
-      this.actions.updateOneProfile(idProfile);
+      this.actions.updateOneProfileByHistory();
       return;
     }
 
@@ -221,7 +220,7 @@ export default class ChangePageView {
 
       case routes.search:
         window.scroll(0, 0);
-        this.actions.searchUpdate(currentUrl.searchParams);
+        this.actions.searchUpdate();
         break;
 
       default:

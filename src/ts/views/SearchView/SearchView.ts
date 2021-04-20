@@ -1,8 +1,5 @@
 import {
   ChannelNames,
-  urlMap,
-  searchButton,
-  searchTab,
 } from '../../config/config';
 import Store from '../../storage/store';
 import Actions from '../../actions/actions';
@@ -42,7 +39,8 @@ export default class SearchView extends ProfilesBaseView {
     // т.к. renderEventsList может быть только на вкладке поиска ивентов, результаты вкладки поиска пользователей не чекаем:
     const { currentEventsPage } = this.globalStore.searchStore;
     const { searchResultEvents } = this.globalStore.searchStore;
-    updatePaginationState(currentEventsPage, searchResultEvents.length); // обновляем состояние пагинатора после отрисовки основной части странички
+    updatePaginationState(currentEventsPage, searchResultEvents.length); // обновляем состояние пагинатора после отрисовки
+    // основной части странички
   }
 
   renderSearchPage() {
@@ -87,11 +85,10 @@ export default class SearchView extends ProfilesBaseView {
     });
 
     // document.getElementById(this.globalStore.searchStore.currentTab).click();
-    console.log('afterclick');
     this.renderChangingContent();
   }
 
-  handleSearch(e: any) {
+  handleSearch() {
     this.actions.newSearchInputData(
       (<HTMLInputElement>document.getElementById('searchInput')).value,
     );
@@ -99,7 +96,6 @@ export default class SearchView extends ProfilesBaseView {
 
   renderChangingContent() {
     const { currentTab } = this.globalStore.searchStore;
-    const { searchData } = this.globalStore.searchStore;
     const { searchResultEvents } = this.globalStore.searchStore;
     const { searchResultUsers } = this.globalStore.searchStore;
     const { currentEventsPage } = this.globalStore.searchStore;
@@ -214,7 +210,8 @@ export default class SearchView extends ProfilesBaseView {
     // т.к. renderUsersList может быть только на вкладке поиска пользователей, результаты вкладки поиска ивентов не чекаем:
     const { currentUsersPage } = this.globalStore.searchStore;
     const { searchResultUsers } = this.globalStore.searchStore;
-    updatePaginationState(currentUsersPage, searchResultUsers.length); // обновляем состояние пагинатора после отрисовки основной части странички
+    updatePaginationState(currentUsersPage, searchResultUsers.length); // обновляем состояние пагинатора после отрисовки
+    // основной части странички
   }
 
   subscribeViews() {

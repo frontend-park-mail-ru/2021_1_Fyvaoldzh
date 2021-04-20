@@ -11,10 +11,9 @@ import { ChannelNames, profileTab, profileEventsButton } from '../config/config'
 import validation from '../validationModule/inputValidation';
 import { ActionsInterface } from '../interfaces';
 
-const urltoFile = (url: string, filename?: string, mimeType?: string) => (fetch(url)
+const urltoFile = (url: string, filename?: string, mimeType?: string) => fetch(url)
   .then((res) => res.arrayBuffer())
-  .then((buf) => new File([buf], filename, { type: mimeType }))
-);
+  .then((buf) => new File([buf], filename, { type: mimeType }));
 
 interface UserDataInterface {
   Uid: number;
@@ -106,7 +105,7 @@ export default class UserStore {
     const queryParamTab = this.globalStore.routerStore.currentUrl?.searchParams.get('tab');
     if (queryParamTab) {
       this.currentTab = queryParamTab;
-      console.log(this.currentTab);
+      // console.log(this.currentTab);
     }
 
     if (this.userData.message === 'user is not authorized') {
@@ -133,7 +132,7 @@ export default class UserStore {
   async changeTab(action: ActionsInterface) {
     this.globalStore.routerStore.currentUrl.searchParams.set('tab', action.data);
     history.pushState({ page: '/profile', parameter: action.data }, null, `profile?tab=${action.data}`);
-    this.currentTab = <string><unknown>action.data;
+    this.currentTab = <string>(<unknown>action.data);
     this.globalStore.eventBus.publish(ChannelNames.tabChanged);
   }
 
@@ -156,7 +155,7 @@ export default class UserStore {
   }
 
   avatarPreview(action: ActionsInterface) {
-    this.avatarPreviewUrl = <string><unknown>action.data;
+    this.avatarPreviewUrl = <string>(<unknown>action.data);
     this.globalStore.eventBus.publish(ChannelNames.avatarPreview);
   }
 
@@ -194,12 +193,13 @@ export default class UserStore {
     this.profilePlanningEvents.length = 0;
     this.profileVisitedEvents.length = 0;
 
-    for (const event of this.userData.planning) {
-      this.profilePlanningEvents.push(event);
-    }
-    for (const event of this.userData.visited) {
-      this.profileVisitedEvents.push(event);
-    }
+    Object.entries(this.userData.planning).forEach(([, eventJson]) => {
+      this.profilePlanningEvents.push(eventJson);
+    });
+
+    Object.entries(this.userData.visited).forEach(([, eventJson]) => {
+      this.profileVisitedEvents.push(eventJson);
+    });
   }
 
   async pageForward() {
