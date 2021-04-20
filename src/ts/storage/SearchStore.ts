@@ -127,6 +127,8 @@ export default class SearchStore {
   }
 
   async updateResults() {
+    this.globalStore.eventBus.publish(ChannelNames.searchLoaderActivate);
+
     this.searchResultEvents.length = 0;
     this.searchResultUsers.length = 0;
 
@@ -170,6 +172,8 @@ export default class SearchStore {
   }
 
   async updateResultsByHistory() {
+    this.globalStore.eventBus.publish(ChannelNames.searchLoaderActivate);
+
     // тот же updateResults, но без пуша стейта истории
     this.searchResultEvents.length = 0;
     this.searchResultUsers.length = 0;

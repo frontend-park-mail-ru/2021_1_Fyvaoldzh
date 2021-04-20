@@ -18,6 +18,7 @@ const searchEventsTabTemplate = require('Templates/search-events-tab/search-even
 const searchUsersTabTemplate = require('Templates/search-users-tab/search-users-tab.pug');
 const paginationBlockTemplate = require('Templates/pagination-block/pagination-block.pug');
 const oneUserBlockTemplate = require('Templates/one-user-block/one-user-block.pug');
+const searchLoaderTemplate = require('Templates/search-loader/search-loader.pug');
 
 export default class SearchView extends ProfilesBaseView {
   public globalStore: Store;
@@ -214,6 +215,20 @@ export default class SearchView extends ProfilesBaseView {
     // основной части странички
   }
 
+  renderSearchLoader() {
+    const eventsList = document.getElementById('events-list');
+    const usersList = document.getElementById('users-list');
+
+    updatePaginationState(1, 1);
+
+    if (eventsList !== null) {
+      eventsList.innerHTML = searchLoaderTemplate();
+    }
+    if (usersList !== null) {
+      usersList.innerHTML = searchLoaderTemplate();
+    }
+  }
+
   subscribeViews() {
     this.globalStore.eventBus.subscribe(
       ChannelNames.searchUpdated,
@@ -235,6 +250,10 @@ export default class SearchView extends ProfilesBaseView {
     this.globalStore.eventBus.subscribe(
       ChannelNames.searchTabChanged,
       this.renderChangingContent.bind(this),
+    );
+    this.globalStore.eventBus.subscribe(
+      ChannelNames.searchLoaderActivate,
+      this.renderSearchLoader.bind(this),
     );
   }
 }

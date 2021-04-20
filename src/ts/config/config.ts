@@ -58,6 +58,7 @@ export enum ChannelNames {
   searchTabChanged,
   searchEventsPageChanged,
   searchUsersPageChanged,
+  searchLoaderActivate,
   oneProfilePageChanged,
   profilePageChanged,
   profilePasswordChanged,
