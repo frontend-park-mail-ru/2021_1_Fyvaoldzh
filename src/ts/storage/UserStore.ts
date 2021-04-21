@@ -177,11 +177,11 @@ export default class UserStore {
     this.currentEventsButton = action.data;
     switch (this.currentEventsButton) {
       case profileEventsButton.planning:
-        this.globalStore.eventBus.publish(ChannelNames.userEventsButtonChanged, this.profilePlanningEvents);
+        this.globalStore.eventBus.publish(ChannelNames.userEventsButtonChanged);
         break;
 
       case profileEventsButton.visited:
-        this.globalStore.eventBus.publish(ChannelNames.userEventsButtonChanged, this.profileVisitedEvents);
+        this.globalStore.eventBus.publish(ChannelNames.userEventsButtonChanged);
         break;
 
       default:
@@ -208,11 +208,11 @@ export default class UserStore {
 
     switch (this.currentEventsButton) {
       case profileEventsButton.planning:
-        this.globalStore.eventBus.publish(ChannelNames.profilePageChanged, this.profilePlanningEvents);
+        this.globalStore.eventBus.publish(ChannelNames.profilePageChanged);
         break;
 
       case profileEventsButton.visited:
-        this.globalStore.eventBus.publish(ChannelNames.profilePageChanged, this.profileVisitedEvents);
+        this.globalStore.eventBus.publish(ChannelNames.profilePageChanged);
         break;
 
       default:
@@ -226,11 +226,11 @@ export default class UserStore {
 
     switch (this.currentEventsButton) {
       case profileEventsButton.planning:
-        this.globalStore.eventBus.publish(ChannelNames.profilePageChanged, this.profilePlanningEvents);
+        this.globalStore.eventBus.publish(ChannelNames.profilePageChanged);
         break;
 
       case profileEventsButton.visited:
-        this.globalStore.eventBus.publish(ChannelNames.profilePageChanged, this.profileVisitedEvents);
+        this.globalStore.eventBus.publish(ChannelNames.profilePageChanged);
         break;
 
       default:

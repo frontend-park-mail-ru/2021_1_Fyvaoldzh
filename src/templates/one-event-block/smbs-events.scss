@@ -55,16 +55,15 @@
     }
   }
 
-  &__text {
+  &__content {
     text-align: left;
     margin: 25px;
-    width: 100%;
     max-height: 126px;
     font-size: 20px;
     font-weight: 400;
     line-height: 21px;
     overflow: hidden;
-    //flex-basis: 650px;
+    flex-basis: 550px;
     flex-shrink: 1;
     display: flex;
     flex-direction: column;
@@ -95,6 +94,21 @@
 
   &__place {
     font-weight: bold;
+  }
+
+  &__text {
+    width: 100%;
+    text-align: left;
+    margin: 25px;
+    max-height: 126px;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 21px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 6;
+
   }
 
   &__button-block {

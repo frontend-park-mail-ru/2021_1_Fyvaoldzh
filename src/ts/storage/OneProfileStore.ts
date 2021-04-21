@@ -40,8 +40,6 @@ export default class OneProfileStore {
 
     this.oneProfileData = await getProfileById(action.data);
 
-    console.log(this.oneProfileData);
-
     await this.updateEvents();
     this.globalStore.eventBus.publish(ChannelNames.oneProfileUpdated);
   }
@@ -50,7 +48,6 @@ export default class OneProfileStore {
     // данные профиля не меняем - они остаются прежние
 
     // Брать данные из истории
-    console.log(history.state.parameter);
     const params = history.state.parameter;
 
     const search = new URLSearchParams(params);
@@ -85,20 +82,7 @@ export default class OneProfileStore {
       `/profile${this.oneProfileData.Uid}?${url}`,
     );
 
-    switch (this.currentEventsButton) {
-      case profileEventsButton.planning:
-        this.globalStore.eventBus.publish(
-          ChannelNames.oneProfileEventsButtonChanged,
-          this.oneProfilePlanningEvents,
-        );
-        break;
-      case profileEventsButton.visited:
-        this.globalStore.eventBus.publish(
-          ChannelNames.oneProfileEventsButtonChanged,
-          this.oneProfileVisitedEvents,
-        );
-        break;
-    }
+    this.globalStore.eventBus.publish(ChannelNames.oneProfileEventsButtonChanged);
   }
 
   async updateEvents() {
@@ -158,30 +142,14 @@ export default class OneProfileStore {
     this.currentEventsPage++;
     await this.updateEvents();
 
-    switch (this.currentEventsButton) {
-      case profileEventsButton.planning:
-        this.globalStore.eventBus.publish(ChannelNames.oneProfilePageChanged, this.oneProfilePlanningEvents);
-        break;
-
-      case profileEventsButton.visited:
-        this.globalStore.eventBus.publish(ChannelNames.oneProfilePageChanged, this.oneProfileVisitedEvents);
-        break;
-    }
+    this.globalStore.eventBus.publish(ChannelNames.oneProfilePageChanged);
   }
 
   async pageBack() {
     this.currentEventsPage--;
     await this.updateEvents();
 
-    switch (this.currentEventsButton) {
-      case profileEventsButton.planning:
-        this.globalStore.eventBus.publish(ChannelNames.oneProfilePageChanged, this.oneProfilePlanningEvents);
-        break;
-
-      case profileEventsButton.visited:
-        this.globalStore.eventBus.publish(ChannelNames.oneProfilePageChanged, this.oneProfileVisitedEvents);
-        break;
-    }
+    this.globalStore.eventBus.publish(ChannelNames.oneProfilePageChanged);
   }
 
   reducer(action: ActionsInterface) {

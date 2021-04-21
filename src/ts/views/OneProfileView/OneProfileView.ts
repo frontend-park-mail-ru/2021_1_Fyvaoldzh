@@ -29,11 +29,19 @@ export default class OneProfileView extends ProfilesBaseView {
     this.wrapper = document.getElementById('wrapper');
   }
 
-  renderEventsList(events: Array<Object>) {
-    super.renderEventsList(events);
-
-    // вне зависимости от нажатой кнопки планируемых/посещенных ивентов текущая страница выбранного раздела хранится в currentEventsPage
+  renderEventsList() {
     const { currentEventsButton } = this.globalStore.oneProfileStore;
+    switch (currentEventsButton) {
+      case profileEventsButton.planning:
+        const { oneProfilePlanningEvents } = this.globalStore.oneProfileStore;
+        super.renderEventsList(oneProfilePlanningEvents);
+        break;
+      case profileEventsButton.visited:
+        const { oneProfileVisitedEvents } = this.globalStore.oneProfileStore;
+        super.renderEventsList(oneProfileVisitedEvents);
+        break;
+    }
+    // вне зависимости от нажатой кнопки планируемых/посещенных ивентов текущая страница выбранного раздела хранится в currentEventsPage
 
     // обновляем состояние пагинатора после отрисовки списка (пока нет пагинации на этой страничке)
     // const { currentEventsPage } = this.globalStore.oneProfileStore;
@@ -69,9 +77,6 @@ export default class OneProfileView extends ProfilesBaseView {
   renderOneProfilePage() {
     window.scroll(0, 0);
     const { oneProfileData } = this.globalStore.oneProfileStore;
-    const { currentEventsButton } = this.globalStore.oneProfileStore;
-    const { oneProfilePlanningEvents } = this.globalStore.oneProfileStore;
-    const { oneProfileVisitedEvents } = this.globalStore.oneProfileStore;
 
     this.wrapper.style.background = 'url("templates/one-profile/img/one-profile-background.jpg") no-repeat top / 100%';
 
@@ -104,18 +109,7 @@ export default class OneProfileView extends ProfilesBaseView {
       button.addEventListener('click', buttonToggleHandler.bind(this));
     });
 
-    switch (currentEventsButton) {
-      case profileEventsButton.planning:
-        this.renderEventsList(oneProfilePlanningEvents);
-        break;
-
-      case profileEventsButton.visited:
-        this.renderEventsList(oneProfileVisitedEvents);
-        break;
-
-      default:
-        break;
-    }
+    this.renderEventsList();
 
     // ренедерим пагинатор: (пока нет пагинации на этой страничке)
     // const oneProfilePaginator = document.getElementById('paginator');
