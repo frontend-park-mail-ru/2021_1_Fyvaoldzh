@@ -62,6 +62,9 @@ export enum ChannelNames {
   oneProfilePageChanged,
   profilePageChanged,
   profilePasswordChanged,
+  followingsPageUpdated,
+  followingsPageChanged,
+  followingsTabChanged,
 }
 
 /* const pageNames = {
@@ -107,4 +110,9 @@ export const searchButton = {
 export const profileEventsButton = {
   planning: 'planningEventsButton',
   visited: 'visitedEventsButton',
+};
+
+export const followingsTab = {
+  followedUsers: 'followedUsersTab',
+  followers: 'followersTab',
 };
