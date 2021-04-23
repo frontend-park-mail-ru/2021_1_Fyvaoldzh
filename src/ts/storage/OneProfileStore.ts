@@ -40,8 +40,6 @@ export default class OneProfileStore {
 
     this.oneProfileData = await getProfileById(action.data);
 
-    console.log(this.oneProfileData);
-
     await this.updateEvents();
     this.globalStore.eventBus.publish(ChannelNames.oneProfileUpdated);
   }
@@ -50,7 +48,6 @@ export default class OneProfileStore {
     // данные профиля не меняем - они остаются прежние
 
     // Брать данные из истории
-    console.log(history.state.parameter);
     const params = history.state.parameter;
 
     const search = new URLSearchParams(params);
