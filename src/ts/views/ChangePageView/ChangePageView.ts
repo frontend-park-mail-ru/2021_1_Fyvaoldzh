@@ -5,6 +5,7 @@ import UserView from '../UserView/UserView';
 import EventsView from '../EventsView/EventsView';
 import OneEventView from '../OneEventView/OneEventView';
 import SearchView from '../SearchView/SearchView';
+import FollowingsView from '../FollowingsView/FollowingsView';
 import { HistoryState } from '../../interfaces';
 
 const signUpFormTemplate = require('Templates/signup/signup.pug');
@@ -28,6 +29,8 @@ export default class ChangePageView {
 
   public searchView: SearchView;
 
+  public followingsView: FollowingsView;
+
   constructor(
     globalStore: Store,
     actions: Actions,
@@ -35,6 +38,7 @@ export default class ChangePageView {
     eventsView: EventsView,
     oneEventView: OneEventView,
     searchView: SearchView,
+    followingsView: FollowingsView,
   ) {
     this.globalStore = globalStore;
     this.actions = actions;
@@ -44,6 +48,7 @@ export default class ChangePageView {
     this.eventsView = eventsView;
     this.oneEventView = oneEventView;
     this.searchView = searchView;
+    this.followingsView = followingsView;
 
     window.onpopstate = (ev: any) => {
       if (ev.state) {
@@ -60,14 +65,19 @@ export default class ChangePageView {
     }
 
     if (state.page.includes('profile') && state.page !== routes.profile) {
-      const idProfile = Number(state.page.substr(8));
 
+      if (state.page.includes('followings')) {
+        this.actions.updateFollowingsByHistory();
+        return;
+      }
+
+      const idProfile = Number(state.page.substr(8));
       if (this.globalStore.userStore.userData && idProfile === this.globalStore.userStore.userData.Uid) {
         this.actions.updateUser();
         return;
       }
 
-      this.actions.updateOneProfileByHistory();
+      this.actions.updateOneProfileByHistory(); // await????
       return;
     }
 
@@ -161,6 +171,12 @@ export default class ChangePageView {
       currentUrl.pathname.includes('profile')
       && currentUrl.pathname !== routes.profile
     ) {
+      if (currentUrl.pathname.includes('followings')) {
+        const idProfile = Number(currentUrl.pathname.split('followings', 1)[0].substr(8));
+        this.actions.updateFollowings(idProfile);
+        return;
+      }
+
       const idProfile = Number(currentUrl.pathname.substr(8));
 
       if (idProfile === this.globalStore.userStore.userData?.Uid) {

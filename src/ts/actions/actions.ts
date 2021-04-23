@@ -244,4 +244,39 @@ export default class Actions {
       data,
     });
   }
+
+  updateFollowings(id: number) {
+    this.dispatcher.dispatch({
+      eventName: 'followings/update',
+      data: id,
+    });
+  }
+
+  updateFollowingsByHistory() {
+    this.dispatcher.dispatch({
+      eventName: 'followings/updateByHistory',
+      data: null,
+    });
+  }
+
+  followingsPageForward() {
+    this.dispatcher.dispatch({
+      eventName: 'followings/pageForward',
+      data: null,
+    });
+  }
+
+  followingsPageBack() {
+    this.dispatcher.dispatch({
+      eventName: 'followings/pageBack',
+      data: null,
+    });
+  }
+
+  followingsChangeTab(tabId: string) {
+    this.dispatcher.dispatch({
+      eventName: 'followings/changeTab',
+      data: tabId,
+    });
+  }
 }

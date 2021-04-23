@@ -13,7 +13,7 @@
             .my-profile-header__info-block
                 .my-profile-header__title #{name}
                 .my-profile-header__login-block @#{login}
-                .my-profile-header__followers-block
+                a.my-profile-header__followers-block(href='profile' + Uid + 'followings?tab=followersTab')
                     .my-profile-header__followers-img
                     |#{followersCount}
                 .my-profile-header__events-stats-block

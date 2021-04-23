@@ -12,6 +12,7 @@ import ChangePageView from './ts/views/ChangePageView/ChangePageView';
 import { ChannelNames } from './ts/config/config';
 import OneProfileView from './ts/views/OneProfileView/OneProfileView';
 import SearchView from './ts/views/SearchView/SearchView';
+import FollowingsView from './ts/views/FollowingsView/FollowingsView';
 
 const dispatcher = new Dispatcher(); // Диспетчер отвечает за доставку actions до хранилища
 const actions = new Actions(dispatcher);
@@ -33,6 +34,8 @@ const oneEventView = new OneEventView(globalStore, actions);
 
 const searchView = new SearchView(globalStore, actions);
 
+const followingsView = new FollowingsView(globalStore, actions);
+
 const changePageView = new ChangePageView(
   globalStore,
   actions,
@@ -40,6 +43,7 @@ const changePageView = new ChangePageView(
   eventsView,
   oneEventView,
   searchView,
+  followingsView,
 );
 
 const oneProfileView = new OneProfileView(globalStore, actions);
@@ -51,6 +55,7 @@ const oneProfileView = new OneProfileView(globalStore, actions);
   changePageView,
   oneProfileView,
   searchView,
+  followingsView,
 ].forEach((view) => view.subscribeViews());
 
 const navbarTemplate = require('Components/navbar/navbar.pug');

@@ -362,7 +362,7 @@ export async function getEventsByParams( // моя реализация
  * @return {json} - json, содержащий найденных пользователей
  */
 
-export async function getUsersByParams(page: number | string = '') {
+export async function getUsersByParams(page: number | string = '1') {
   // моя реализация
   const url = new URL(urlMap.customUserUrl);
   const params = [['page', `${page}`]];

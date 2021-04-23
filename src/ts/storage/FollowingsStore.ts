@@ -1,4 +1,4 @@
-import { getUsersByParams } from '../networkModule/network';
+import { getUsersByParams, getProfileById } from '../networkModule/network';
 
 import { ChannelNames, followingsTab } from '../config/config';
 
@@ -17,6 +17,8 @@ export default class SearchStore {
 
   public currentFollowersPage: number;
 
+  public inspectedProfileData: any;
+
   constructor(globalStore: any) {
     this.globalStore = globalStore;
     this.currentTab = followingsTab.followedUsers;
@@ -24,9 +26,12 @@ export default class SearchStore {
     this.followers = [];
     this.currentFollowedUsersPage = 1; // подписки
     this.currentFollowersPage = 1; // подписчики
+    this.inspectedProfileData = null;
   }
 
-  async update() {
+  async update(action: ActionsInterface) {
+    this.inspectedProfileData = await getProfileById(action.data); // TODO брать из урла
+
     // брать данные из урла:
     const { currentUrl } = this.globalStore.routerStore;
 
@@ -48,7 +53,7 @@ export default class SearchStore {
     }
 
     await this.updateResults();
-    this.globalStore.eventBus.publish(ChannelNames.followingsPageUpdated);
+    this.globalStore.eventBus.publish(ChannelNames.followingsUpdated);
   }
 
   async updateByHistory() {
@@ -69,7 +74,7 @@ export default class SearchStore {
     }
 
     await this.updateResultsByHistory();
-    this.globalStore.eventBus.publish(ChannelNames.followingsPageUpdated);
+    this.globalStore.eventBus.publish(ChannelNames.followingsUpdated);
   }
 
   async changeTab(action: ActionsInterface) {
@@ -91,7 +96,14 @@ export default class SearchStore {
 
     const urlParams = new URLSearchParams(params).toString();
 
-    history.pushState({ page: '/followings', parameter: params }, null, `followings?${urlParams}`);
+    history.pushState(
+      {
+        page: `/profile${this.inspectedProfileData.Uid}followings`,
+        parameter: params,
+      },
+      null,
+      `profile${this.inspectedProfileData.Uid}followings?${urlParams}`,
+    );
 
     this.globalStore.eventBus.publish(ChannelNames.followingsTabChanged);
   }
@@ -100,14 +112,14 @@ export default class SearchStore {
     this.followedUsers.length = 0;
     this.followers.length = 0;
 
-    const followedUsersJsonArray: Array<object> = await getUsersByParams();
+    const followedUsersJsonArray: Array<object> = await getUsersByParams(this.currentFollowedUsersPage);
     if (followedUsersJsonArray !== null) {
       Object.entries(followedUsersJsonArray).forEach(([, userJson]) => {
         this.followedUsers.push(userJson);
       });
     }
 
-    const followersJsonArray: Array<object> = await getUsersByParams();
+    const followersJsonArray: Array<object> = await getUsersByParams(this.currentFollowersPage);
     if (followersJsonArray !== null) {
       Object.entries(followersJsonArray).forEach(([, userJson]) => {
         this.followers.push(userJson);
@@ -115,12 +127,13 @@ export default class SearchStore {
     }
 
     let curTabPage;
+    console.log(this.currentTab);
     switch (this.currentTab) {
       case followingsTab.followedUsers:
-        curTabPage = this.currentFollowedUsersPage;
+        curTabPage = this.currentFollowedUsersPage ? this.currentFollowedUsersPage : 1;
         break;
       case followingsTab.followers:
-        curTabPage = this.currentFollowersPage;
+        curTabPage = this.currentFollowersPage ? this.currentFollowersPage : 1;
         break;
     }
     const params = [
@@ -130,7 +143,14 @@ export default class SearchStore {
 
     const urlParams = new URLSearchParams(params).toString();
 
-    history.pushState({ page: '/followings', parameter: params }, null, `followings?${urlParams}`);
+    history.pushState(
+      {
+        page: `/profile${this.inspectedProfileData.Uid}followings`,
+        parameter: params,
+      },
+      null,
+      `/profile${this.inspectedProfileData.Uid}followings?${urlParams}`,
+    );
   }
 
   async updateResultsByHistory() {
@@ -187,13 +207,12 @@ export default class SearchStore {
 
   reducer(action: ActionsInterface) {
     switch (action.eventName) {
-
       case 'followings/changeTab':
         this.changeTab(action);
         break;
 
       case 'followings/update':
-        this.update();
+        this.update(action);
         break;
 
       case 'followings/pageForward':

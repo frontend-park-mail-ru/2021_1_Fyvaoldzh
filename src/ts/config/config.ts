@@ -62,7 +62,7 @@ export enum ChannelNames {
   oneProfilePageChanged,
   profilePageChanged,
   profilePasswordChanged,
-  followingsPageUpdated,
+  followingsUpdated,
   followingsPageChanged,
   followingsTabChanged,
 }
@@ -88,6 +88,7 @@ export const routes = {
   oneProfilePage: '/oneProfile',
   searchPage: '/searchPage',
   search: '/search',
+  followings: '/profile/{profileId}/followings',
 };
 
 export const searchTab = {
