@@ -61,17 +61,8 @@ export enum ChannelNames {
   oneProfilePageChanged,
   profilePageChanged,
   profilePasswordChanged,
+  chatUpdated,
 }
-
-/* const pageNames = {
-  eventsPage: 'events',
-  profilePage: 'profile',
-  oneEventPage: 'eventPage',
-  registrationPage: 'registration',
-  loginPage: 'login',
-  logoutPage: 'logout',
-};
-*/
 
 export const routes = {
   main: '/',
@@ -84,6 +75,7 @@ export const routes = {
   oneProfilePage: '/oneProfile',
   searchPage: '/searchPage',
   search: '/search',
+  chat: '/chat',
 };
 
 export const searchTab = {

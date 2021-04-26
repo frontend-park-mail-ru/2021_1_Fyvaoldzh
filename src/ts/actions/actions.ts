@@ -244,4 +244,11 @@ export default class Actions {
       data,
     });
   }
+
+  updateChat() {
+    this.dispatcher.dispatch({
+      eventName: 'chat/update',
+      data: null,
+    })
+  }
 }

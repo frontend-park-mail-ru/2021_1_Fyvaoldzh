@@ -5,6 +5,7 @@ import UserView from '../UserView/UserView';
 import EventsView from '../EventsView/EventsView';
 import OneEventView from '../OneEventView/OneEventView';
 import SearchView from '../SearchView/SearchView';
+import ChatView from '../ChatView/ChatView';
 import { HistoryState } from '../../interfaces';
 
 const signUpFormTemplate = require('Templates/signup/signup.pug');
@@ -28,6 +29,8 @@ export default class ChangePageView {
 
   public searchView: SearchView;
 
+  public chatView: ChatView;
+
   constructor(
     globalStore: Store,
     actions: Actions,
@@ -35,6 +38,7 @@ export default class ChangePageView {
     eventsView: EventsView,
     oneEventView: OneEventView,
     searchView: SearchView,
+    chatView: ChatView,
   ) {
     this.globalStore = globalStore;
     this.actions = actions;
@@ -44,7 +48,7 @@ export default class ChangePageView {
     this.eventsView = eventsView;
     this.oneEventView = oneEventView;
     this.searchView = searchView;
-
+    this.chatView = chatView;
     window.onpopstate = (ev: any) => {
       if (ev.state) {
         this.render(ev.state);
@@ -70,13 +74,6 @@ export default class ChangePageView {
       this.actions.updateOneProfileByHistory();
       return;
     }
-
-    // if (state.page.includes('search')) {  //реализация Димы
-    //   window.scroll(0, 0);
-    //   console.log(state.parameter);
-    //   this.actions.searchUpdate(state.parameter);
-    //   return;
-    // }
 
     switch (state.page) {
       case routes.login:
@@ -107,6 +104,10 @@ export default class ChangePageView {
       case routes.search: // моя реализация
         window.scroll(0, 0);
         this.actions.searchUpdateByHistory();
+        break;
+
+      case routes.chat:
+        this.chatView.renderChat();
         break;
 
       default:
@@ -222,6 +223,9 @@ export default class ChangePageView {
         window.scroll(0, 0);
         this.actions.searchUpdate();
         break;
+
+      case routes.chat:
+        this.actions.updateChat();
 
       default:
         break;
