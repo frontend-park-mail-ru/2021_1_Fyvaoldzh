@@ -1,0 +1,35 @@
+.row
+  .page-photo(id='jsPagePhoto')
+  .container
+    .left-row
+      .description-wrapper
+        .event-description
+          button.event-description__star_inactive(id='jsEventStar')
+          .event-description__title
+            | #{title}
+          .decor-line
+          .event-description__body
+            | #{description}
+  .tags
+    .container
+      .left-row(id='jsTagsRow')
+  .event-info
+    .container
+      .event-info__title
+        | Когда?
+      .event-info__date
+        | Начало: #{startDate}
+      .event-info__date
+        | Конец: #{endDate}
+      .event-info__title Где?
+      .event-info__location
+        .event-info__location_place
+          | #{place}
+        .event-info__location_street
+          | #{street}
+        .event-info__location_subway
+          | #{subway}
+      .decor-line
+      .going-title
+        | Уже идут
+        .left-row(id='jsPlanningUsers')

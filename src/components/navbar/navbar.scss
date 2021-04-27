@@ -1,0 +1,280 @@
+@import "../../components/css/variables";
+@import "../../components/css/mixins";
+
+.navbar {
+  background: $main-gradient;
+
+  &__row {
+    @include flex-mixin(row, center);
+    height: 70px;
+    justify-content: space-between;
+  }
+}
+
+.logo {
+  font-family: Abril Fatface, serif;
+  font-size: 30px;
+  line-height: 40px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #ffffff;
+}
+
+.navbar-menu {
+  @include flex-mixin(row, center);
+  justify-content: space-between;
+
+  &__signup {
+    width: 22px;
+    height: 22px;
+    background: url("../components/navbar/img/signup.svg") no-repeat center / cover;
+  }
+
+  &__logout {
+    width: 22px;
+    height: 22px;
+    background: url("../components/navbar/img/logout.svg") no-repeat center / cover;
+  }
+
+  &__list {
+    flex: 1 1 auto;
+  }
+}
+
+.navbar-profile-name {
+  font: $main-font;
+  color: $project-white;
+}
+
+.navbar-profile-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 20px;
+  box-shadow: $project-box-shadow;
+}
+
+.profile-nav {
+  @include flex-mixin(row, center);
+  position: relative;
+  justify-content: space-between;
+  height: 70px;
+  box-shadow: $project-box-shadow;
+  padding: 10px;
+  margin-right: 15px;
+  min-width: 200px;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  @include flex-mixin(column, center);
+  position: absolute;
+  top: 70px;
+  right: -1px;
+  width: 100%;
+  flex: 1 1 auto;
+  height: 0;
+  overflow: hidden;
+  z-index: 1;
+
+  transition: height .3s cubic-bezier(.53,1.51,.74,1.54);
+
+  &__drop-menu-stroke {
+    width: 100%;
+    box-shadow: $project-box-shadow;
+    border-top: 0;
+    height: 70px;
+    background: $project-dark-red;
+    font: $main-font;
+    text-align: right;
+    vertical-align: center;
+    padding: 23px 10px 10px;
+    color: $project-white;
+    &:hover {
+      background: $project-red;
+    }
+  }
+
+  &__drop-menu-before {
+    content: "";
+    display: block;
+    width: 19px;
+    height: 19px;
+    float: left;
+    margin-top: 3px;
+  }
+
+  &__settings {
+    @extend .dropdown-menu__drop-menu-stroke;
+    &:before {
+      @extend .dropdown-menu__drop-menu-before;
+      background: url("../components/navbar/img/settings.svg") no-repeat center / cover;
+    }
+
+  }
+
+  &__events {
+    @extend .dropdown-menu__drop-menu-stroke;
+    &:before {
+      @extend .dropdown-menu__drop-menu-before;
+      background: url("../components/navbar/img/events.svg") no-repeat center / cover;
+    }
+  }
+
+  &__logout {
+    @extend .dropdown-menu__drop-menu-stroke;
+    &:before {
+      @extend .dropdown-menu__drop-menu-before;
+      background: url("../components/navbar/img/logout.svg") no-repeat center / cover;
+    }
+  }
+}
+
+input[type=checkbox] {
+  display: none;
+}
+
+label[for=toggle] {
+  width: 19px;
+  height: 19px;
+  background: url("../components/navbar/img/dropdown.svg") no-repeat center / cover;
+  cursor: pointer;
+}
+
+input[type=checkbox]:checked  ~ .dropdown-menu {
+  height: 210px;
+}
+
+.navbar__search {
+  padding: 5px 5px 5px 15px;
+  background: #C4DBF6;
+  position: relative;
+  border-radius: 7% / 50%;
+}
+
+.confirm-search-button {
+  z-index: 1;
+  display: block;
+  background: url("../components/navbar/img/search-icon.svg") no-repeat center / cover;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  margin-top: -26px;
+  margin-left: 245px;
+}
+
+//стили для аниммированного серчбара:
+
+.search-bar__block {
+  /*position: absolute;*/
+  height: 3px;
+  width: 0px;
+  margin-left: auto;
+  margin-right: 70px;
+  /*top: 50%;*/
+  /*left: 50%;*/
+  transform: translate(-50%, -50%);
+}
+
+.search-bar__block.on {
+  animation-name: in-out;
+  animation-duration: 0.4s;
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+}
+
+.search-bar__input {
+  line-height: 10;
+  box-sizing: border-box;
+  width: 30px;
+  height: 30px;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  background: none;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 400;
+  outline: 0;
+  transition: width 0.4s ease-in-out, border-radius 0.8s ease-in-out, padding 0.2s;
+  transition-delay: 0.4s;
+  transform: translate(-100%, -50%);
+}
+
+.search-bar__button {
+  background: none;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 40px;
+  width: 40px;
+  padding: 0;
+  border-radius: 100%;
+  outline: 0;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+  transform: translate(-70%, -50%);
+
+  &:before {
+    content: "";
+    position: absolute;
+    width: 12px;
+    height: 2px;
+    background-color: #fff;
+    transform: rotate(45deg);
+    margin-top: 16px;
+    margin-left: 9px;
+    transition: 0.2s ease-in-out;
+  }
+}
+
+.close {
+  transition: 0.4s ease-in-out;
+  transition-delay: 0.4s;
+
+  &:before {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 2px;
+    margin-top: -1px;
+    margin-left: -13px;
+    background-color: #fff;
+    transform: rotate(45deg);
+    transition: 0.2s ease-in-out;
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 2px;
+    background-color: #fff;
+    margin-top: -1px;
+    margin-left: -13px;
+    cursor: pointer;
+    transform: rotate(-45deg);
+  }
+}
+
+.square {
+  box-sizing: border-box;
+  padding: 0 40px 0 10px;
+  width: 300px;
+  height: 30px;
+  border: 2px solid #ffffff;
+  border-radius: 0;
+  background: none;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 400;
+  outline: 0;
+  -webkit-transition: width 0.4s ease-in-out, border-radius 0.4s ease-in-out,
+  padding 0.2s;
+  transition: width 0.4s ease-in-out, border-radius 0.4s ease-in-out,
+  padding 0.2s;
+  transition-delay: 0.4s, 0s, 0.4s;
+  transform: translate(-100%, -50%);
+}

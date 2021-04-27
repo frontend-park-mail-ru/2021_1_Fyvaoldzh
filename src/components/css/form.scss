@@ -1,0 +1,77 @@
+@import "mixins";
+@import "variables";
+
+.form {
+  background-color: $project-white;
+  box-shadow: $project-box-shadow;
+  @include flex-mixin(column, center);
+  align-self: center;
+  justify-content: space-between;
+  margin: auto;
+  padding: 30px;
+  position: relative;
+  width: 580px;
+
+  &__arrow-back {
+    background: url('../components/img/back-arrow.svg') no-repeat center / cover;
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    left: 0;
+    transform: translate(-50%);
+
+    &:hover {
+      transition-duration: 0.5s;
+      transform: translate(-60%);
+    }
+  }
+
+  &__title {
+    color: $project-black;
+    font: $title-font;
+  }
+
+  &__bottom-text {
+    margin-top: 20px;
+    color: $project-grey;
+    font: $main-font;
+
+    &_anchor {
+      font: $main-font;
+      margin-left: 5px;
+      color: $project-grey;
+      text-decoration: underline;
+    }
+  }
+}
+
+.form-body {
+  @include flex-mixin(column, center);
+  justify-content: space-between;
+
+  &__input {
+    padding: 21px;
+    width: 510px;
+    height: 60px;
+    margin-top: 37px;
+    box-shadow: $project-box-shadow;
+
+    &_error {
+      margin-top: 3px;
+      height: 0;
+      color: $project-red;
+      width: 100%;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    &_success {
+      margin-top: 3px;
+      height: 0;
+      color: green;
+      width: 100%;
+      font-size: 13px;
+      text-align: center;
+    }
+  }
+}

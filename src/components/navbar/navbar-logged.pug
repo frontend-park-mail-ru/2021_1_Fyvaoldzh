@@ -1,0 +1,18 @@
+.container
+  .navbar__row(id='navbarRow')
+    a.logo(href='/' data-direction='events' data-profileId=Uid) QDA
+    .search-bar__block
+      input#JSsearchBarInput.search-bar__input(type='text' name='searchBar')
+      button#JSsearchBarButton.search-bar__button(type='reset')
+    .navbar-menu
+      .navbar-menu__list
+      .profile-nav(id='jsProfileNav')
+        .navbar-profile-avatar(id='navbar-avatar')
+        .navbar-profile-name
+          | #{name}
+        input(type="checkbox" id="toggle")
+        label(for="toggle")
+        .dropdown-menu
+          a.dropdown-menu__settings(href="profile?tab=settingsTab") Настройки
+          a.dropdown-menu__events(href="profile?tab=eventsTab") Мои события
+          a.dropdown-menu__logout(href="logout") Выйти

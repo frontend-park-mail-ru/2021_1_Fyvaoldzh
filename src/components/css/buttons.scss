@@ -1,0 +1,57 @@
+@import "variables";
+
+.button-category {
+  font-size: 24px;
+  text-align: center;
+  vertical-align: center;
+  box-shadow: $project-box-shadow;
+  margin-left: 5px;
+  padding: 10px;
+
+  &_active {
+    @extend .button-category;
+    background: $main-gradient;
+    color: $project-white;
+  }
+
+  &_inactive {
+    @extend .button-category;
+    background: $project-white;
+    color: $project-black;
+    &:hover {
+      transform: translateY(-5px);
+      transition-duration: 0.5s;
+    }
+  }
+}
+
+.confirm-button {
+  @extend .button-category_active;
+  width: 510px;
+  height: 60px;
+  margin-top: 58px;
+
+  &:hover {
+    transform: translateY(-5px);
+    transition-duration: 0.5s;
+  }
+}
+
+.button {
+  box-shadow: $project-box-shadow;
+  text-align: center;
+  vertical-align: center;
+  padding: 10px;
+  margin-right: 10px;
+
+  &-active {
+    @extend .button;
+    background: $main-gradient;
+  }
+
+  &-inactive {
+    @extend .button;
+    background: $project-white;
+  }
+}
+

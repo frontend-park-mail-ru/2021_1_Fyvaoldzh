@@ -1,0 +1,61 @@
+@import '../components/css/text-block.scss';
+@import '../components/css/base.scss';
+@import '../components/css/buttons.scss';
+@import '../components/css/form.scss';
+@import '../components/css/reset.scss';
+@import '../components/css/rows.scss';
+
+@import '../components/navbar/navbar.scss';
+
+@import '../templates/events/events.scss';
+@import '../templates/login/login.scss';
+@import '../templates/one-event-page/one-event.scss';
+@import '../templates/profile/profile.scss';
+@import '../templates/signup/signup.scss';
+@import '../templates/one-event-block/smbs-events.scss';
+@import '../templates/one-user-block/one-user-block.scss';
+@import '../templates/pagination-block/pagination-block.scss';
+@import '../templates/search/search.scss';
+
+@import '../templates/one-profile/one-profile.scss';
+
+.page-photo {
+  z-index: -1;
+  position: absolute;
+  width: 100%;
+  height: 600px;
+  left: 0;
+  top: 0;
+  box-shadow: $project-box-shadow;
+
+  &:before {
+    content: '';
+    display: block;
+    background: $project-white;
+    width: 600px;
+    height: 800px;
+    transform: skewY(30deg);
+    position: relative;
+    margin-top: 430px;
+    overflow: hidden;
+  }
+
+  &_events {
+    @extend .page-photo;
+    background: url("../templates/events/img/events-background.jpg") no-repeat top / cover;
+  }
+
+  &_form {
+    @extend .page-photo;
+    background: url("../components/img/form-background.jpg") no-repeat top / cover;
+    height: 100%;
+    &:before {
+      display: none;
+    }
+  }
+
+  &_profile {
+    @extend .page-photo;
+    background: url("../templates/profile/img/profile-background.jpg") no-repeat top / cover;
+  }
+}
