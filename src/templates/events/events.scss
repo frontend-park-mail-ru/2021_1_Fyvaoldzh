@@ -10,7 +10,7 @@
   max-width: 350px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
   margin-top: 40px;
-  height: 600px;
+  height: auto;
 
   &__photo {
     display: block;
@@ -44,4 +44,17 @@
   &__text {
     padding: 20px;
   }
+}
+
+.category-buttons-row {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  display: flex;
+  flex-flow: nowrap;
+  min-width: 100%;
+  overflow-x: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;  /* IE and Edge */
 }

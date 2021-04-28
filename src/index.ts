@@ -83,28 +83,13 @@ eventBus.subscribe(
 
 const { body } = document;
 
-/* Заготовка для скрытия навбара по клику куда-либо
-
-    const navbarCheckbox = document.getElementById('toggle');
-    //console.log(Object.prototype.toString.call(target)); отладочная фыгня
-
-    if (Object.prototype.toString.call(target) !== '[object HTMLInputElement]') {
-        // Сворачивание открытого профиля навбарчика при нажатии куда-либо
-        navbarCheckbox.checked = false;
-    }
-
-    if (Object.prototype.toString.call(target) === '[object HTMLInputElement]') {
-        console.log(navbarCheckbox.checked)
-        navbarCheckbox.checked = !navbarCheckbox.checked;
-    }
-*/
-
 body.addEventListener('click', async (e) => {
+  e.preventDefault();
   const { target } = e;
 
   if (target instanceof HTMLAnchorElement) {
     e.preventDefault();
-
+    console.log('dawwdaawd');
     const toUrl = new URL(target.href);
     actions.routerChangePage(toUrl.pathname + toUrl.search);
   }

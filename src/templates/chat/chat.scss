@@ -170,6 +170,22 @@ body::-webkit-scrollbar-thumb {
     min-width: 100%;
   }
 
+  .events-block {
+    min-width: 100%;
+
+    &__photo {
+      width: 100%;
+    }
+  }
+
+  .navbar-profile-name {
+    display: none;
+  }
+
+  .profile-nav {
+    min-width: auto;
+  }
+
   .chat {
     padding: 0px;
     padding-top: 5px;
