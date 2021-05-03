@@ -1,12 +1,17 @@
-.chat
-  .chat__left(id='jsChatLeft')
-    .input-wrapper
-      input.search-bar-chat(type='text' placeholder=countMessages + ' сообщений')
-      .search-bar-chat__icon
-    .message-title Недавние сообщения
-  .chat__right(id='jsChatRight')
-    .upper-part
-      a.back-icon(href='#')
-      .name-companion
-      | #{companionName}
-    .chat-messages(id='jsChatMessages')
+.container
+  .chat
+    .chat__left(id='jsChatLeft')
+      .input-wrapper
+        input.search-bar-chat(type='text' placeholder=countMessages + ' сообщений')
+        .search-bar-chat__icon
+      .message-title Недавние сообщения
+    .chat__right(id='jsChatRight')
+      .upper-part
+        a.back-icon(href='#')
+        .name-companion(id='jsNameCompanion')
+          | Нажмите на диалог слева
+        | #{companionName}
+      .chat-messages(id='jsChatMessages')
+      .input-wrapper
+        textarea#jsMessageInput.send-message-textarea(name='message' cols='1' rows='10' placeholder='Введите сообщение')
+        button#jsSendMessageButton.send-button

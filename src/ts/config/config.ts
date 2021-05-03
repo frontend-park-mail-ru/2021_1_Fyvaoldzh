@@ -18,6 +18,10 @@ export const urlMap = {
   customEventUrl: `${baseApi}/api/v1/search`,
   oneProfileUrl: `${baseApi}/api/v1/profile/`,
   customUserUrl: `${baseApi}/api/v1/users`,
+  allDialogUrl: `${baseApi}/api/v1/dialogues`,
+  postMessageUrl: `${baseApi}/api/v1/send`,
+  messageOperationUrl: `${baseApi}/api/v1/message`,
+  searchDialoguesUrl: `${baseApi}/api/v1/dialogues/search`,
 };
 
 export const SERVER_ERRORS = {

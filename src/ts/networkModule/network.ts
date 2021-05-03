@@ -286,50 +286,6 @@ export async function checkPlanningEvent(id: number) {
   }
 }
 
-//
-// export async function getEventsByParams(find = '', category = '', page = '') {  //реализация Димы
-//   const csrf = getCsrf();
-//   const url = new URL(urlMap.customEventUrl);
-//   const params = { find, page, category };
-//   url.search = new URLSearchParams(params).toString();
-//   try {
-//     const answer = await fetch(url.toString(), {
-//       method: 'GET',
-//       credentials: 'include',
-//       headers: {
-//         'X-XSRF-TOKEN': csrf,
-//       },
-//     });
-//     const jsonFile = await answer.json();
-//     return jsonFile;
-//   } catch (err) {
-//     if (!navigator.onLine) {
-//       location.reload();
-//     }
-//   }
-// }
-//
-// /**
-//  * Функция для получения пользователей по номеру страницы
-//  * @param {Number | String} page - номер текущей страницы поиска
-//  * @return {json} - json, содержащий найденных пользователей
-//  */
-//
-// export async function getUsersByParams(page = '') {  //реализация Димы
-//   try {
-//     const url = new URL(urlMap.customUserUrl);
-//     const params = { page };
-//     url.search = new URLSearchParams(params).toString();
-//     const answer = await fetch(url.toString());
-//     const jsonFile = await answer.json();
-//     return jsonFile;
-//   } catch (err) {
-//     if (!navigator.onLine) {
-//       location.reload();
-//     }
-//   }
-// }
-
 /**
  * Функция для получения ивентов по части названия, номеру страницы и категории
  * @param {String} find - часть названия ивента
@@ -370,4 +326,77 @@ export async function getUsersByParams(page: number | string = '') {
   const answer = await fetch(url.toString());
   const jsonFile = await answer.json();
   return jsonFile;
+}
+
+export async function getAllDialogues(page: number | string = '') {
+  const csrf = getCsrf();
+  try {
+    const answer = await fetch(`${urlMap.allDialogUrl}?page=${page}`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'X-XSRF-TOKEN': csrf,
+      },
+    });
+    return await answer.json();
+  } catch (err) {
+    if (!navigator.onLine) {
+      location.reload();
+    }
+  }
+}
+
+export async function getOneDialog(page: number | string = '', id: number) {
+  const csrf = getCsrf();
+  try {
+    const answer = await fetch(`${urlMap.allDialogUrl}/${id}?page=${page}`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'X-XSRF-TOKEN': csrf,
+      },
+    });
+    return await answer.json();
+  } catch (err) {
+    if (!navigator.onLine) {
+      location.reload();
+    }
+  }
+}
+
+export async function deleteOneDialog(id: number) {
+  const csrf = getCsrf();
+  try {
+    const answer = await fetch(`${urlMap.allDialogUrl}/${id}`, {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: {
+        'X-XSRF-TOKEN': csrf,
+      },
+    });
+    return await answer.json();
+  } catch (err) {
+    if (!navigator.onLine) {
+      location.reload();
+    }
+  }
+}
+
+export async function postMessage(message: object) {
+  const csrf = getCsrf();
+  try {
+    const answer = await fetch(`${urlMap.postMessageUrl}`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'X-XSRF-TOKEN': csrf,
+      },
+      body: JSON.stringify(message),
+    });
+    return await answer.json();
+  } catch (err) {
+    if (!navigator.onLine) {
+      location.reload();
+    }
+  }
 }

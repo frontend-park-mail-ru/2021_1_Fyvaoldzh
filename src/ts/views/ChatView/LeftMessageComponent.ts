@@ -3,11 +3,24 @@ import { urlMap } from '../../config/config';
 const leftMessageTemplate = require('Templates/chat/leftMessage.pug');
 
 interface LeftMessageInterface {
-  uid: number;
+  id: number;
+  interlocutor: Interlocutor;
+  message: Message;
+}
+
+interface Interlocutor {
+  id: number;
   name: string;
+  avatar: string;
+}
+
+interface Message {
+  id: number;
+  fromMe: boolean;
   text: string;
   date: string;
-  readed: boolean;
+  redact: boolean;
+  read: boolean;
 }
 
 export default class LeftMessageComponent {
@@ -27,6 +40,7 @@ export default class LeftMessageComponent {
     const template = leftMessageTemplate(this.data);
 
     this.parent.insertAdjacentHTML('beforeend', template);
+
     //const message = document.getElementById(<string><unknown> this.data.uid);
     //message.style.background = `url(${urlMap.imgUrl}/${this.data.uid}) no-repeat top / cover`;
   }

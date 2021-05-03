@@ -1,9 +1,9 @@
-.message_read(id=uid)
-  .message__avatar
+a.message_read(id=id, href='chat?c=' + id)
+  .message__avatar(style='background: url(http://95.163.180.8:1323/api/v1/avatar/' + id + ') no-repeat center / cover;', href='profile'+id)
   .message__body
     .message__author
-    | #{name}
+    | #{interlocutor.name}
     .message__text
-    | #{text}
+    | #{message.text}
   .message__time
-  | #{date}
+  | #{message.date}

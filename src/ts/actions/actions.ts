@@ -251,4 +251,11 @@ export default class Actions {
       data: null,
     })
   }
+
+  sendMessage(data: string) {
+    this.dispatcher.dispatch({
+      eventName: 'chat/sendMessage',
+      data: data,
+    })
+  }
 }

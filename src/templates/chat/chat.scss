@@ -142,13 +142,13 @@ body::-webkit-scrollbar-thumb {
 
 @media (max-width:1200px) {
   .container {
-    max-width: 970px;
+    width: 970px;
   }
 }
 
 @media (max-width:992px) {
   .container {
-    max-width: 750px;
+    width: 750px;
   }
 }
 
@@ -288,4 +288,13 @@ body::-webkit-scrollbar-thumb {
   &::-webkit-scrollbar-thumb {
     background-color: darkgrey;
   }
+}
+
+.send-button {
+  width: 30px;
+  height: 30px;
+  background: url("../templates/chat/img/send.svg") no-repeat center / cover;
+  position: absolute;;
+  right: 12px;
+  top: 10px;
 }

@@ -1,44 +1,48 @@
 import { ActionsInterface } from '../interfaces';
 import { ChannelNames } from '../config/config';
+import { parseDate } from '../views/utils/utils';
+import {
+  getAllDialogues,
+  getOneDialog,
+  deleteOneDialog,
+  postMessage} from '../networkModule/network';
 
 interface LeftMessageInterface {
-  uid: number;
+  id: number;
+  interlocutor: Interlocutor;
+  message: Message;
+}
+
+interface Interlocutor {
+  id: number;
   name: string;
+  avatar: string;
+}
+
+interface Message {
+  id: number;
+  fromMe: boolean;
   text: string;
   date: string;
-  readed: boolean;
+  redact: boolean;
+  read: boolean;
 }
 
-interface RightMessageInterface {
+interface RightChatAnswer {
+  id: number;
+  interlocutor: Interlocutor;
+  messages: Array<Message>;
+}
+
+interface MessageToSend {
+  id: number;
   text: string;
-  from: string;
 }
 
-const messageLeft1 = {
-  uid: 0,
-  name: 'kek',
-  text: 'adadwadw',
-  date: 'aaaa',
-  readed: false,
-};
+const answerFromBack = '[{"id":1,"interlocutor":{"id":1,"name":"Анастасия","avatar":"public/default.png"},"message":{"id":1,"fromMe":true,"text":"first message","date":"2021-05-01 22:43:41.491382 +0000 UTC","redact":false,"read":false}}]';
+const rightAnswerFromBack = '{"id":1,"interlocutor":{"id":1,"name":"Анастасия","avatar":"public/default.png"},"messages":[{"id":9,"fromMe":true,"text":"first message","date":"2021-05-01 22:43:41.491382 +0000 UTC","redact":false,"read":false}]}';
+const rightAnswerFromBack2 = '{"id":1,"interlocutor":{"id":1,"name":"Анастасия","avatar":"public/default.png"},"messages":[{"id":9,"fromMe":false,"text":"aaaaaaa","date":"2021-05-01 22:43:41.491382 +0000 UTC","redact":false,"read":false}]}';
 
-const messageLeft2 = {
-  uid: 0,
-  name: 'lol',
-  text: 'aaaa',
-  date: 'bbbb',
-  readed: true,
-};
-
-const messageRight1 = {
-  text: 'Я в своем познании настолько преисполнился',
-  from: 'currentUser',
-};
-
-const messageRight2 = {
-  text: 'Я в своем познании настолько преисполнился',
-  from: 'someUser',
-};
 
 export default class ChatStore {
   public globalStore: any;
@@ -47,32 +51,44 @@ export default class ChatStore {
 
   public rightChatterName: string;
 
-  public rightMessages: Array<RightMessageInterface>;
+  public rightMessages: Array<Message>;
+
+  public interlocturId: number;
 
   constructor(globalStore: any) {
     this.globalStore = globalStore;
     this.rightChatterName = 'Выберите собеседника';
     this.leftMessages = [];
     this.rightMessages = [];
+    this.interlocturId = null;
   }
 
   async update() {
-    this.leftMessages.push(messageLeft1);
-    this.leftMessages.push(messageLeft2);
-
+    this.interlocturId = <number><unknown>(new URL(window.location.href).searchParams.get('c'));
+    this.leftMessages = await getAllDialogues();
+    console.log(this.leftMessages);
+    this.leftMessages.forEach((val) => val.message.date = parseDate(val.message.date));
+    await this.uploadChatHistory(this.interlocturId);
     this.globalStore.eventBus.publish(ChannelNames.chatUpdated);
   }
 
   async uploadChatHistory(userId: number) {
-    switch (userId) {
-      case 0:
-        this.rightMessages.pop();
-        this.rightMessages.push(messageRight1);
-
-      case 1:
-        this.rightMessages.pop();
-        this.rightMessages.push(messageRight2);
+    if (userId === null) {
+      return;
     }
+    const page = 1;
+    let rightAnswer: RightChatAnswer = await getOneDialog(page, userId); // Ответ с бэка
+    this.rightMessages = rightAnswer.messages;
+    this.rightChatterName = rightAnswer.interlocutor.name;
+  }
+
+  async sendMessage(messageText: string) {
+    const messageToSend: MessageToSend = {
+      id: this.interlocturId,
+      text: messageText,
+    }
+
+    await postMessage(messageToSend);
   }
 
   reducer(action: ActionsInterface) {
@@ -83,6 +99,10 @@ export default class ChatStore {
 
       case 'chat/uploadChatHistory':
         this.uploadChatHistory(action.data);
+        break;
+
+      case 'chat/sendMessage':
+        this.sendMessage(action.data);
         break;
 
       default:

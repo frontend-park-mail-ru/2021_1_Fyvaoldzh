@@ -22,6 +22,8 @@ export default class EventsView {
   renderChat() {
     this.wrapper.innerHTML = chatBaseTemplate();
     this.renderLeftMessages();
+    this.renderRightMessages();
+    document.getElementById('jsSendMessageButton').addEventListener('click', this.buttonSendHandler.bind(this));
   }
 
   renderLeftMessages() {
@@ -29,6 +31,7 @@ export default class EventsView {
     const leftColumn = document.getElementById('jsChatLeft');
 
     leftMessages.forEach((val) => {
+      console.log(val);
       const innerLeftMessage = new LeftMessageComponent(leftColumn, val);
       innerLeftMessage.render();
     })
@@ -36,12 +39,19 @@ export default class EventsView {
 
   renderRightMessages() {
     const rightMessages = this.globalStore.chatStore.rightMessages;
-    const rightColumn = document.getElementById('jsChatRight');
+    const rightColumn = document.getElementById('jsChatMessages');
+    document.getElementById('jsNameCompanion').innerText = this.globalStore.chatStore.rightChatterName;
 
     rightMessages.forEach((val) => {
       const innerLeftMessage = new RightMessageComponent(rightColumn, val);
       innerLeftMessage.render();
     })
+  }
+
+  buttonSendHandler() {
+    const textarea: HTMLInputElement = <HTMLInputElement>document.getElementById('jsMessageInput');
+    console.log(textarea.value);
+    this.actions.sendMessage(textarea.value);
   }
 
   subscribeViews() {
