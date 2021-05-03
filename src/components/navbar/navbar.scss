@@ -77,6 +77,7 @@
   height: 0;
   overflow: hidden;
   z-index: 1;
+  min-width: 210px;
 
   transition: height .3s cubic-bezier(.53,1.51,.74,1.54);
 
@@ -129,6 +130,14 @@
       background: url("../components/navbar/img/logout.svg") no-repeat center / cover;
     }
   }
+
+  &__chat {
+    @extend .dropdown-menu__drop-menu-stroke;
+    &:before {
+      @extend .dropdown-menu__drop-menu-before;
+      background: url("../components/navbar/img/logout.svg") no-repeat center / cover;
+    }
+  }
 }
 
 input[type=checkbox] {
@@ -143,7 +152,7 @@ label[for=toggle] {
 }
 
 input[type=checkbox]:checked  ~ .dropdown-menu {
-  height: 210px;
+  height: auto;
 }
 
 .navbar__search {

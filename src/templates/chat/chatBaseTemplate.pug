@@ -1,0 +1,12 @@
+.chat
+  .chat__left(id='jsChatLeft')
+    .input-wrapper
+      input.search-bar-chat(type='text' placeholder=countMessages + ' сообщений')
+      .search-bar-chat__icon
+    .message-title Недавние сообщения
+  .chat__right(id='jsChatRight')
+    .upper-part
+      a.back-icon(href='#')
+      .name-companion
+      | #{companionName}
+    .chat-messages(id='jsChatMessages')

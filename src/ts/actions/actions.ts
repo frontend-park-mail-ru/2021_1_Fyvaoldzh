@@ -279,4 +279,11 @@ export default class Actions {
       data: tabId,
     });
   }
+
+  updateChat() {
+    this.dispatcher.dispatch({
+      eventName: 'chat/update',
+      data: null,
+    });
+  }
 }

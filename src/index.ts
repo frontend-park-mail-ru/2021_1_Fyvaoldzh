@@ -13,6 +13,7 @@ import { ChannelNames } from './ts/config/config';
 import OneProfileView from './ts/views/OneProfileView/OneProfileView';
 import SearchView from './ts/views/SearchView/SearchView';
 import FollowingsView from './ts/views/FollowingsView/FollowingsView';
+import ChatView from './ts/views/ChatView/ChatView';
 
 const dispatcher = new Dispatcher(); // Диспетчер отвечает за доставку actions до хранилища
 const actions = new Actions(dispatcher);
@@ -36,6 +37,8 @@ const searchView = new SearchView(globalStore, actions);
 
 const followingsView = new FollowingsView(globalStore, actions);
 
+const chatView = new ChatView(globalStore, actions);
+
 const changePageView = new ChangePageView(
   globalStore,
   actions,
@@ -44,6 +47,7 @@ const changePageView = new ChangePageView(
   oneEventView,
   searchView,
   followingsView,
+  chatView,
 );
 
 const oneProfileView = new OneProfileView(globalStore, actions);
@@ -56,6 +60,7 @@ const oneProfileView = new OneProfileView(globalStore, actions);
   oneProfileView,
   searchView,
   followingsView,
+  chatView,
 ].forEach((view) => view.subscribeViews());
 
 const navbarTemplate = require('Components/navbar/navbar.pug');
@@ -83,28 +88,13 @@ eventBus.subscribe(
 
 const { body } = document;
 
-/* Заготовка для скрытия навбара по клику куда-либо
-
-    const navbarCheckbox = document.getElementById('toggle');
-    //console.log(Object.prototype.toString.call(target)); отладочная фыгня
-
-    if (Object.prototype.toString.call(target) !== '[object HTMLInputElement]') {
-        // Сворачивание открытого профиля навбарчика при нажатии куда-либо
-        navbarCheckbox.checked = false;
-    }
-
-    if (Object.prototype.toString.call(target) === '[object HTMLInputElement]') {
-        console.log(navbarCheckbox.checked)
-        navbarCheckbox.checked = !navbarCheckbox.checked;
-    }
-*/
-
 body.addEventListener('click', async (e) => {
+  e.preventDefault();
   const { target } = e;
 
   if (target instanceof HTMLAnchorElement) {
     e.preventDefault();
-
+    console.log('dawwdaawd');
     const toUrl = new URL(target.href);
     actions.routerChangePage(toUrl.pathname + toUrl.search);
   }

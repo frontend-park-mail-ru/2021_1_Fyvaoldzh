@@ -6,6 +6,7 @@ import EventsView from '../EventsView/EventsView';
 import OneEventView from '../OneEventView/OneEventView';
 import SearchView from '../SearchView/SearchView';
 import FollowingsView from '../FollowingsView/FollowingsView';
+import ChatView from '../ChatView/ChatView';
 import { HistoryState } from '../../interfaces';
 
 const signUpFormTemplate = require('Templates/signup/signup.pug');
@@ -31,6 +32,8 @@ export default class ChangePageView {
 
   public followingsView: FollowingsView;
 
+  public chatView: ChatView;
+
   constructor(
     globalStore: Store,
     actions: Actions,
@@ -39,6 +42,7 @@ export default class ChangePageView {
     oneEventView: OneEventView,
     searchView: SearchView,
     followingsView: FollowingsView,
+    chatView: ChatView,
   ) {
     this.globalStore = globalStore;
     this.actions = actions;
@@ -49,7 +53,7 @@ export default class ChangePageView {
     this.oneEventView = oneEventView;
     this.searchView = searchView;
     this.followingsView = followingsView;
-
+    this.chatView = chatView;
     window.onpopstate = (ev: any) => {
       if (ev.state) {
         this.render(ev.state);
@@ -81,13 +85,6 @@ export default class ChangePageView {
       return;
     }
 
-    // if (state.page.includes('search')) {  //реализация Димы
-    //   window.scroll(0, 0);
-    //   console.log(state.parameter);
-    //   this.actions.searchUpdate(state.parameter);
-    //   return;
-    // }
-
     switch (state.page) {
       case routes.login:
         window.scroll(0, 0);
@@ -117,6 +114,10 @@ export default class ChangePageView {
       case routes.search: // моя реализация
         window.scroll(0, 0);
         this.actions.searchUpdateByHistory();
+        break;
+
+      case routes.chat:
+        this.chatView.renderChat();
         break;
 
       default:
@@ -238,6 +239,9 @@ export default class ChangePageView {
         window.scroll(0, 0);
         this.actions.searchUpdate();
         break;
+
+      case routes.chat:
+        this.actions.updateChat();
 
       default:
         break;
