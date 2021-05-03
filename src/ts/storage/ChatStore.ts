@@ -84,7 +84,7 @@ export default class ChatStore {
 
   async sendMessage(messageText: string) {
     const messageToSend: MessageToSend = {
-      id: 17,
+      to: 17,
       text: messageText,
     }
 
