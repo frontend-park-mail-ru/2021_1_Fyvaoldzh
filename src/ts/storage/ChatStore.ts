@@ -89,6 +89,7 @@ export default class ChatStore {
     }
 
     await postMessage(messageToSend);
+    this.globalStore.eventBus.publish(ChannelNames.chatUpdated);
   }
 
   reducer(action: ActionsInterface) {
