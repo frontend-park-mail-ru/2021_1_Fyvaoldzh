@@ -35,7 +35,7 @@ interface RightChatAnswer {
 }
 
 interface MessageToSend {
-  id: number;
+  to: number;
   text: string;
 }
 
