@@ -59,22 +59,26 @@ export default class ChatStore {
     this.interlocturId = null;
   }
 
-  async update() {
+  async update(renderOnlyMessages?: boolean) {
     this.interlocturId = <number><unknown>(new URL(window.location.href).searchParams.get('c'));
     console.log(this.interlocturId);
     this.leftMessages = await getAllDialogues();
     this.leftMessages?.forEach((val) => val.message.date = parseDate(val.message.date));
     await this.uploadChatHistory(this.interlocturId);
-    this.globalStore.eventBus.publish(ChannelNames.chatUpdated);
+    if (renderOnlyMessages) {
+      this.globalStore.eventBus.publish(ChannelNames.chatUploaded);
+    } else {
+      this.globalStore.eventBus.publish(ChannelNames.chatUpdated);
+    }
   }
 
   async uploadChatHistory(userId: number) {
     if (userId === null) {
       this.rightMessages = [];
       this.rightChatterName = 'Выберите собеседника';
-
       return;
     }
+
     const page = 1;
     let rightAnswer: RightChatAnswer = await getOneDialog(page, userId); // Ответ с бэка
     this.rightMessages = rightAnswer.messages;
@@ -83,10 +87,11 @@ export default class ChatStore {
 
   async sendMessage(messageText: string) {
     const messageToSend: MessageToSend = {
-      to: 71,
-      //to: <number>this.interlocturId,
+      to: this.interlocturId,
       text: messageText,
     }
+
+    console.log(JSON.stringify(messageToSend));
 
     const answer = await postMessage(messageToSend);
     this.update();
@@ -95,7 +100,7 @@ export default class ChatStore {
   reducer(action: ActionsInterface) {
     switch (action.eventName) {
       case 'chat/update':
-        this.update();
+        this.update(action.data);
         break;
 
       case 'chat/uploadChatHistory':

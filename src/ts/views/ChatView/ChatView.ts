@@ -5,6 +5,7 @@ import RightMessageComponent from './RightMessageComponent';
 import { ChannelNames } from '../../config/config';
 
 const chatBaseTemplate = require('../../../templates/chat/chatBaseTemplate.pug');
+const leftUpper = require('../../../templates/chat/jsLeftUpper.pug');
 
 export default class ChatView {
   public globalStore: Store;
@@ -49,12 +50,17 @@ export default class ChatView {
         document.getElementById('jsChatRight').style.display = 'none';
       }
     }
-
   }
 
   renderLeftMessages() {
+    if (this.globalStore.routerStore.currentUrl.pathname !== '/chat') {
+      return;
+    }
+
     const leftMessages = this.globalStore.chatStore.leftMessages;
     const leftColumn = document.getElementById('jsChatLeft');
+    leftColumn.innerHTML = '';
+    leftColumn.innerHTML = leftUpper();
 
     leftMessages?.forEach((val) => {
       const innerLeftMessage = new LeftMessageComponent(leftColumn, val);
@@ -63,9 +69,18 @@ export default class ChatView {
   }
 
   renderRightMessages() {
+    if (this.globalStore.routerStore.currentUrl.pathname !== '/chat') {
+      return;
+    }
+
     const rightMessages = this.globalStore.chatStore.rightMessages;
     const rightColumn = document.getElementById('jsChatMessages');
+    if (!rightColumn) {
+      return;
+    }
+
     document.getElementById('jsNameCompanion').innerText = this.globalStore.chatStore.rightChatterName;
+    rightColumn.innerHTML = '';
 
     rightMessages?.forEach((val) => {
       const innerLeftMessage = new RightMessageComponent(rightColumn, val);
@@ -73,6 +88,9 @@ export default class ChatView {
     });
 
     const chatMessages = document.getElementById('jsChatMessages');
+    if (!chatMessages) {
+      return;
+    }
 
     setTimeout(() => {
       chatMessages.scroll(0, chatMessages.scrollHeight);
@@ -81,7 +99,11 @@ export default class ChatView {
 
   buttonSendHandler() {
     const textarea: HTMLInputElement = <HTMLInputElement>document.getElementById('jsMessageInput');
+    if (textarea.value === '') {
+      return;
+    }
     this.actions.sendMessage(textarea.value);
+    textarea.value = '';
   }
 
   isFullscreen() {
@@ -107,5 +129,7 @@ export default class ChatView {
 
   subscribeViews() {
     this.globalStore.eventBus.subscribe(ChannelNames.chatUpdated, this.renderChat.bind(this));
+    this.globalStore.eventBus.subscribe(ChannelNames.chatUploaded, this.renderRightMessages.bind(this));
+    this.globalStore.eventBus.subscribe(ChannelNames.chatUploaded, this.renderLeftMessages.bind(this));
   }
 }

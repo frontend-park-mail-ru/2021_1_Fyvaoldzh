@@ -218,5 +218,5 @@ setInterval(() => {
   if (!globalStore.userStore.userData) {
     return;
   }
-  //actions.updateChat();
+  actions.updateChat(true);
 }, 2000)

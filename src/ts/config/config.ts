@@ -66,6 +66,7 @@ export enum ChannelNames {
   profilePageChanged,
   profilePasswordChanged,
   chatUpdated,
+  chatUploaded,
 }
 
 export const routes = {

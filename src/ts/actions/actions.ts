@@ -245,10 +245,10 @@ export default class Actions {
     });
   }
 
-  updateChat() {
+  updateChat(data?: boolean) {
     this.dispatcher.dispatch({
       eventName: 'chat/update',
-      data: null,
+      data: data,
     })
   }
 
