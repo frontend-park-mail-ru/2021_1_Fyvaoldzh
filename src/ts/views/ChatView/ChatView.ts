@@ -50,6 +50,15 @@ export default class ChatView {
         document.getElementById('jsChatRight').style.display = 'none';
       }
     }
+
+    const chatMessages = document.getElementById('jsChatMessages');
+    if (!chatMessages) {
+      return;
+    }
+
+    setTimeout(() => {
+      chatMessages.scroll(0, chatMessages.scrollHeight);
+    }, 5)
   }
 
   renderLeftMessages() {
@@ -80,21 +89,13 @@ export default class ChatView {
     }
 
     document.getElementById('jsNameCompanion').innerText = this.globalStore.chatStore.rightChatterName;
-    rightColumn.innerHTML = '';
 
-    rightMessages?.forEach((val) => {
+    const reversedMessages = rightMessages?.slice().reverse();
+    rightColumn.innerHTML = '';
+    reversedMessages.forEach((val) => {
       const innerLeftMessage = new RightMessageComponent(rightColumn, val);
       innerLeftMessage.render();
     });
-
-    const chatMessages = document.getElementById('jsChatMessages');
-    if (!chatMessages) {
-      return;
-    }
-
-    setTimeout(() => {
-      chatMessages.scroll(0, chatMessages.scrollHeight);
-    }, 5)
   }
 
   buttonSendHandler() {
