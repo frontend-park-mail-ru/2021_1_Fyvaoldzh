@@ -92,7 +92,7 @@ export default class ChatView {
 
     const reversedMessages = rightMessages?.slice().reverse();
     rightColumn.innerHTML = '';
-    reversedMessages.forEach((val) => {
+    reversedMessages?.forEach((val) => {
       const innerLeftMessage = new RightMessageComponent(rightColumn, val);
       innerLeftMessage.render();
     });
