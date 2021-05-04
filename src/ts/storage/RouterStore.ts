@@ -17,7 +17,6 @@ export default class RouterStore {
       window.location.origin,
     );
 
-    console.log(this.currentUrl.pathname);
     // если не страница поиска, не страница фолловеров и не страница чужого пользователя:
     if (this.currentUrl.pathname !== '/search' && !this.currentUrl.pathname.includes('followings')
         && !(this.currentUrl.pathname.includes('profile') && this.currentUrl.pathname !== routes.profile)) {

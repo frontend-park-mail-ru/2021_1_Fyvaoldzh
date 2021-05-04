@@ -371,3 +371,27 @@ export async function getUsersByParams(page: number | string = '1') {
   const jsonFile = await answer.json();
   return jsonFile;
 }
+
+/**
+ * Функция для получения планируемых мероприятий пользователя по его id
+ * @param {number} id - id пользователя
+ * @return {json} - json планируемых мероприятий
+ */
+
+export async function getPlanningEventsById(id: number) {
+  const answer = await fetch(urlMap.planningEventsUrl + id);
+  const jsonFile = await answer.json();
+  return jsonFile;
+}
+
+/**
+ * Функция для получения посещенных мероприятий пользователя по его id
+ * @param {number} id - id пользователя
+ * @return {json} - json посещенных мероприятий
+ */
+
+export async function getVisitedEventsById(id: number) {
+  const answer = await fetch(urlMap.visitedEventsUrl + id);
+  const jsonFile = await answer.json();
+  return jsonFile;
+}

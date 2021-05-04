@@ -1,3 +1,6 @@
+@import "../../components/css/mixins";
+@import "../../components/css/variables";
+
 input[type="file"] {
   display: none;
 }
@@ -356,6 +359,13 @@ input[type="file"] {
     margin-bottom: 40px;
     padding: 0 30px;
 }
+
+//@media (max-width:767px) {
+//  .changing-content-block {
+//    @include value-adaptive("padding-left", 30, 5);
+//    @include value-adaptive("padding-right", 30, 5);
+//  }
+//}
 
 .changing-content-block__form {
     width: 62%;

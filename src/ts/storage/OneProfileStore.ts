@@ -1,6 +1,6 @@
 import { ChannelNames, profileEventsButton } from '../config/config';
 
-import { getProfileById } from '../networkModule/network';
+import { getProfileById, getPlanningEventsById, getVisitedEventsById } from '../networkModule/network';
 import { ActionsInterface } from '../interfaces';
 
 export default class OneProfileStore {
@@ -89,15 +89,19 @@ export default class OneProfileStore {
     this.oneProfilePlanningEvents.length = 0;
     this.oneProfileVisitedEvents.length = 0;
 
+    const planningJson = await getPlanningEventsById(this.oneProfileData.Uid);
+
     // никак не пагинируется т.к. мероприятия берутся не по запросу а из подгруженного json профиля
     if (this.oneProfileData.planning !== null) {
-      Object.entries(this.oneProfileData.planning).forEach(([, eventJson]) => {
+      Object.entries(planningJson).forEach(([, eventJson]) => {
         this.oneProfilePlanningEvents.push(eventJson);
       });
     }
 
+    const visitedJson = await getVisitedEventsById(this.oneProfileData.Uid);
+
     if (this.oneProfileData.visited !== null) {
-      Object.entries(this.oneProfileData.visited).forEach(([, eventJson]) => {
+      Object.entries(visitedJson).forEach(([, eventJson]) => {
         this.oneProfileVisitedEvents.push(eventJson);
       });
     }
@@ -124,15 +128,19 @@ export default class OneProfileStore {
     this.oneProfilePlanningEvents.length = 0;
     this.oneProfileVisitedEvents.length = 0;
 
+    const planningJson = await getPlanningEventsById(this.oneProfileData.Uid);
+
     // никак не пагинируется т.к. мероприятия берутся не по запросу а из подгруженного json профиля
     if (this.oneProfileData.planning !== null) {
-      Object.entries(this.oneProfileData.planning).forEach(([, eventJson]) => {
+      Object.entries(planningJson).forEach(([, eventJson]) => {
         this.oneProfilePlanningEvents.push(eventJson);
       });
     }
 
+    const visitedJson = await getVisitedEventsById(this.oneProfileData.Uid);
+
     if (this.oneProfileData.visited !== null) {
-      Object.entries(this.oneProfileData.visited).forEach(([, eventJson]) => {
+      Object.entries(visitedJson).forEach(([, eventJson]) => {
         this.oneProfileVisitedEvents.push(eventJson);
       });
     }

@@ -25,4 +25,10 @@ $maxWidthContainer: 1200;
 
   #{property}: $startSize + px;
   #{$property}: calc(#{$endSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidthContainer - 320}));
+  //мин. значение + (изнач. значение - мин. значение) * ((ширина вьюпорта - мин. ширина экрана) / (ширина ограничивающего контейнера - мин. ширина экрана))
+}
+
+@function smbs-event-half-height($startSize, $endSize) {
+  $addSize: $startSize - $endSize;
+  @return calc((#{$endSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidthContainer - 320})) / 2);
 }

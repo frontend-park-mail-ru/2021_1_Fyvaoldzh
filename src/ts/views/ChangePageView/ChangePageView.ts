@@ -69,7 +69,6 @@ export default class ChangePageView {
     }
 
     if (state.page.includes('profile') && state.page !== routes.profile) {
-
       if (state.page.includes('followings')) {
         this.actions.updateFollowingsByHistory();
         return;
@@ -242,6 +241,7 @@ export default class ChangePageView {
 
       case routes.chat:
         this.actions.updateChat();
+        break;
 
       default:
         break;

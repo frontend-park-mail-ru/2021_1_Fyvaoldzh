@@ -109,6 +109,9 @@ export default class OneProfileView extends ProfilesBaseView {
       button.addEventListener('click', buttonToggleHandler.bind(this));
     });
 
+    // const container = this.wrapper.querySelector('.container');
+    // container.classList.add('container_mobile_fullscreen');
+
     this.renderEventsList();
 
     // ренедерим пагинатор: (пока нет пагинации на этой страничке)

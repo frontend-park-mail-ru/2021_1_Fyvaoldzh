@@ -94,7 +94,6 @@ body.addEventListener('click', async (e) => {
 
   if (target instanceof HTMLAnchorElement) {
     e.preventDefault();
-    console.log('dawwdaawd');
     const toUrl = new URL(target.href);
     actions.routerChangePage(toUrl.pathname + toUrl.search);
   }
