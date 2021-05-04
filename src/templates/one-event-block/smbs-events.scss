@@ -193,12 +193,11 @@ $smbs-event-endSize: 258;
     width: 100%;
     text-align: left;
     margin: 25px;
-    height: 100%;
+    max-height: 126px;
     font-size: 20px;
     font-weight: 400;
-    line-height: 21px;
+    line-height: 20px;
     overflow: hidden;
-    text-overflow: clip;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 6;
@@ -208,9 +207,9 @@ $smbs-event-endSize: 258;
     &__text {
       @include value-adaptive("font-size", 34, 18);
       @include value-adaptive("line-height", 44, 20);
-      //@include value-adaptive("margin", 25, 10);
-      margin: 0;
-      max-height: none;
+      @include value-adaptive("margin", 25, 10);
+      //margin: 0;
+      //max-height: none;
     }
   }
 
@@ -282,6 +281,18 @@ $smbs-event-endSize: 258;
     &:hover {
       transform: scale(1.1);
       transition-duration: 0.5s;
+    }
+  }
+
+  @media (max-width:767px) {
+    &__arrow-up {
+      @include value-adaptive("width", 95, 45);
+      @include value-adaptive("height", 95, 45);
+      @include value-adaptive("margin-top", 25, 5);
+      @include value-adaptive("margin-right", 25, 5);
+      //position: absolute;
+      //top: 0;
+      //right: 0;
     }
   }
 

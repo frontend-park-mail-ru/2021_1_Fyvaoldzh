@@ -22,3 +22,13 @@
   flex-wrap: wrap;
   position: relative;
 }
+
+.row_mobile_fullscreen {
+
+}
+
+@media (max-width: 767px) {
+  .row_mobile_fullscreen {
+    margin-top: 0;
+  }
+}
