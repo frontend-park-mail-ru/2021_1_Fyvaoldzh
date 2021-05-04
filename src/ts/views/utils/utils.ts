@@ -192,30 +192,6 @@ export function searchBarHandler(event: any) {
   searchBarinput.classList.toggle('square');
 }
 
-// /**
-//  * Функция-парсер даты
-//  * @param {String} dateInput - входная дата
-//  * @return {String} - Распарсенная дата, либо входная дата, если она передана не полной (не содержит "UTC")
-//  */
-//
-// export function parseDate(dateInput: any) {  //реализация Димы
-//   if (dateInput.includes('UTC')) {
-//     const date = new Date(Date.parse(dateInput));
-//     /* const options = {
-//       year: 'numeric',
-//       month: 'long',
-//       day: 'numeric',
-//       timezone: 'UTC',
-//       hour: 'numeric',
-//       minute: 'numeric',
-//     };
-//     */
-//
-//     return date.toLocaleString('ru');
-//   }
-//   return dateInput;
-// }
-
 /**
  * Функция-парсер даты
  * @param {String} dateInput - входная дата

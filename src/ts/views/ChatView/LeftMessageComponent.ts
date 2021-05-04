@@ -44,7 +44,5 @@ export default class LeftMessageComponent {
       document.getElementById(<string><unknown>this.data.interlocutor.id).style.background = 'linear-gradient(90deg, #2e1665 0%, #57001e 100%)';
       document.getElementById(<string><unknown>this.data.interlocutor.id).style.color = 'white';
     }
-    //const message = document.getElementById(<string><unknown> this.data.uid);
-    //message.style.background = `url(${urlMap.imgUrl}/${this.data.uid}) no-repeat top / cover`;
   }
 }

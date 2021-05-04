@@ -1,6 +1,7 @@
 import { ActionsInterface } from '../interfaces';
 import { ChannelNames } from '../config/config';
-import { parseDate } from '../views/utils/utils';
+import DateTimeFormatOptions = Intl.DateTimeFormatOptions;
+
 import {
   getAllDialogues,
   getOneDialog,
@@ -51,19 +52,23 @@ export default class ChatStore {
 
   public interlocturId: number;
 
+  public searchString: string;
+
   constructor(globalStore: any) {
     this.globalStore = globalStore;
     this.rightChatterName = 'Выберите собеседника';
     this.leftMessages = [];
     this.rightMessages = [];
     this.interlocturId = null;
+    this.searchString = '';
   }
 
   async update(renderOnlyMessages?: boolean) {
     this.interlocturId = <number><unknown>(new URL(window.location.href).searchParams.get('c'));
     console.log(this.interlocturId);
-    this.leftMessages = await getAllDialogues();
-    this.leftMessages?.forEach((val) => val.message.date = parseDate(val.message.date));
+    this.leftMessages = await getAllDialogues(1, this.searchString);
+    console.log(this.leftMessages);
+    this.leftMessages?.forEach((val) => val.message.date = parseChatTime(val.message.date));
     await this.uploadChatHistory(this.interlocturId);
     if (renderOnlyMessages) {
       this.globalStore.eventBus.publish(ChannelNames.chatUploaded);
@@ -94,7 +99,12 @@ export default class ChatStore {
     console.log(JSON.stringify(messageToSend));
 
     const answer = await postMessage(messageToSend);
-    this.update();
+    this.uploadChatHistory(this.interlocturId);
+  }
+
+  changeSearch(search: string) {
+    this.searchString = search;
+
   }
 
   reducer(action: ActionsInterface) {
@@ -111,8 +121,27 @@ export default class ChatStore {
         this.sendMessage(action.data);
         break;
 
+      case 'chat/chatSearchChanged':
+        this.changeSearch(action.data);
+        break;
+
       default:
         break;
     }
   }
+}
+
+export function parseChatTime(dateInput: any) {
+  if (dateInput.includes('UTC')) {
+    const date = new Date(Date.parse(dateInput));
+    const options = {
+      month: 'long',
+      day: 'numeric',
+      timezone: 'UTC',
+      hour: 'numeric',
+      minute: 'numeric',
+    };
+    return date.toLocaleString('ru', <DateTimeFormatOptions>options);
+  }
+  return dateInput;
 }

@@ -20,9 +20,11 @@ export default class ChatView {
     this.actions = actions;
   }
 
-  renderChat() {
+  renderChat(byHistory?: boolean) {
     if (this.globalStore.routerStore.currentUrl.pathname !== '/chat') {
-      return;
+      if (!byHistory) {
+        return
+      }
     }
 
     console.log(this.globalStore.routerStore.currentUrl.pathname);
@@ -68,8 +70,13 @@ export default class ChatView {
 
     const leftMessages = this.globalStore.chatStore.leftMessages;
     const leftColumn = document.getElementById('jsChatLeft');
-    leftColumn.innerHTML = '';
-    leftColumn.innerHTML = leftUpper();
+    if (!leftColumn) {
+      return;
+    }
+    const messages = document.getElementsByClassName('message_read');
+    Object.entries(messages).forEach(([, el]) => {
+      el.remove();
+    })
 
     leftMessages?.forEach((val) => {
       const innerLeftMessage = new LeftMessageComponent(leftColumn, val);
@@ -126,6 +133,11 @@ export default class ChatView {
       ev.preventDefault();
       document.getElementById('jsSendMessageButton').click();
     }
+  }
+
+  searchHandler(ev: KeyboardEvent) {
+    const val = (document.getElementById('jsSearchBarInput') as HTMLInputElement).value;
+    this.actions.chatSearch(val);
   }
 
   subscribeViews() {

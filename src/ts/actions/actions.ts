@@ -258,4 +258,18 @@ export default class Actions {
       data: data,
     })
   }
+
+  chatSearch(data: string) {
+    this.dispatcher.dispatch({
+      eventName: 'chat/chatSearchChanged',
+      data: data,
+    })
+  }
+
+  updateActivity() {
+    this.dispatcher.dispatch({
+      eventName: 'activity/update',
+      data: null,
+    })
+  }
 }

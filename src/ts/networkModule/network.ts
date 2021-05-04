@@ -328,10 +328,10 @@ export async function getUsersByParams(page: number | string = '') {
   return jsonFile;
 }
 
-export async function getAllDialogues(page: number | string = '') {
+export async function getAllDialogues(page: number | string = '', search: string | string = '') {
   const csrf = getCsrf();
   try {
-    const answer = await fetch(`${urlMap.allDialogUrl}?page=${page}`, {
+    const answer = await fetch(`${urlMap.allDialogUrl}?page=${page}&find=${search}`, {
       method: 'GET',
       credentials: 'include',
       headers: {
@@ -392,6 +392,24 @@ export async function postMessage(message: object) {
         'X-XSRF-TOKEN': csrf,
       },
       body: JSON.stringify(message),
+    });
+    return await answer.json();
+  } catch (err) {
+    if (!navigator.onLine) {
+      location.reload();
+    }
+  }
+}
+
+export async function getActivity(page: number) {
+  const csrf = getCsrf();
+  try {
+    const answer = await fetch(`${urlMap.activityUrl}?page=${page}`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'X-XSRF-TOKEN': csrf,
+      },
     });
     return await answer.json();
   } catch (err) {

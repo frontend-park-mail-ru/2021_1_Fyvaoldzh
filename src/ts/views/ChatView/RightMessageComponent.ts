@@ -33,10 +33,6 @@ export default class RightMessageComponent {
       template = rightSomeMessageTemplate(this.data);
     }
 
-
     this.parent.insertAdjacentHTML('beforeend', template);
-
-    //const message = document.getElementById(<string><unknown> this.data.uid);
-    //message.style.background = `url(${urlMap.imgUrl}/${this.data.uid}) no-repeat top / cover`;
   }
 }

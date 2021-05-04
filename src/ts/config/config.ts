@@ -16,12 +16,12 @@ export const urlMap = {
   removePlanningEventUrl: `${baseApi}/api/v1/remove`,
   checkPlanningEventUrl: `${baseApi}/api/v1/event/is_added`,
   customEventUrl: `${baseApi}/api/v1/search`,
-  oneProfileUrl: `${baseApi}/api/v1/profile/`,                                                      
+  oneProfileUrl: `${baseApi}/api/v1/profile/`,
   customUserUrl: `${baseApi}/api/v1/users`,
   allDialogUrl: `${baseApi}/api/v1/dialogues`,
   postMessageUrl: `${baseApi}/api/v1/send`,
   messageOperationUrl: `${baseApi}/api/v1/message`,
-  searchDialoguesUrl: `${baseApi}/api/v1/dialogues/search`,
+  activityUrl: `${baseApi}/api/v1/actions`,
 };
 
 export const SERVER_ERRORS = {
@@ -67,6 +67,7 @@ export enum ChannelNames {
   profilePasswordChanged,
   chatUpdated,
   chatUploaded,
+  activityUpdated,
 }
 
 export const routes = {
@@ -81,6 +82,7 @@ export const routes = {
   searchPage: '/searchPage',
   search: '/search',
   chat: '/chat',
+  activity: '/activity',
 };
 
 export const searchTab = {

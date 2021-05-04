@@ -7,6 +7,7 @@ import { ActionsInterface } from '../interfaces';
 import OneProfileStore from './OneProfileStore';
 import SearchStore from './SearchStore';
 import ChatStore from './ChatStore';
+import ActivityStore from './ActivityStore';
 
 export default class Store {
   public eventBus: EventBus;
@@ -25,6 +26,8 @@ export default class Store {
 
   public chatStore: ChatStore;
 
+  public activityStore: ActivityStore;
+
   constructor(eventBus: EventBus) {
     this.eventBus = eventBus;
     this.userStore = new UserStore(this);
@@ -34,6 +37,7 @@ export default class Store {
     this.oneProfileStore = new OneProfileStore(this);
     this.searchStore = new SearchStore(this);
     this.chatStore = new ChatStore(this);
+    this.activityStore = new ActivityStore(this);
   }
 
   reducer(action: ActionsInterface) {
@@ -67,6 +71,10 @@ export default class Store {
 
     if (action.eventName.includes('chat/')) {
       this.chatStore.reducer(action);
+    }
+
+    if (action.eventName.includes('activity/')) {
+      this.activityStore.reducer(action);
     }
   }
 }
