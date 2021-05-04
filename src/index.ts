@@ -83,14 +83,34 @@ eventBus.subscribe(
 
 const { body } = document;
 
+function findAnchorElement(el: any): any {
+  if (el.tagName == 'A' && el.href) {
+    return el.href;
+  } else if (el.parentElement) {
+    return findAnchorElement(el.parentElement);
+  } else {
+    return null;
+  }
+};
+
+function callback(e: MouseEvent) {
+  const link = findAnchorElement(e.target);
+  if (link == null) { return; }
+  e.preventDefault();
+  const toUrl = new URL(link);
+  actions.routerChangePage(toUrl.pathname + toUrl.search);
+};
+
+document.addEventListener('click', callback);
+
 body.addEventListener('click', async (e) => {
   e.preventDefault();
   const { target } = e;
 
   if (target instanceof HTMLAnchorElement) {
-    e.preventDefault();
-    const toUrl = new URL(target.href);
-    actions.routerChangePage(toUrl.pathname + toUrl.search);
+    //e.preventDefault();
+    //const toUrl = new URL(target.href);
+    //actions.routerChangePage(toUrl.pathname + toUrl.search);
   }
 
   if (target instanceof HTMLButtonElement) {
@@ -193,3 +213,10 @@ document.getElementById('wrapper').addEventListener('click', () => {
     (document.getElementById('JSsearchBarInput') as HTMLInputElement).classList.toggle('square');
   }
 });
+
+setInterval(() => {
+  if (!globalStore.userStore.userData) {
+    return;
+  }
+  //actions.updateChat();
+}, 2000)

@@ -39,10 +39,6 @@ interface MessageToSend {
   text: string;
 }
 
-const answerFromBack = '[{"id":1,"interlocutor":{"id":1,"name":"Анастасия","avatar":"public/default.png"},"message":{"id":1,"fromMe":true,"text":"first message","date":"2021-05-01 22:43:41.491382 +0000 UTC","redact":false,"read":false}}]';
-const rightAnswerFromBack = '{"id":1,"interlocutor":{"id":1,"name":"Анастасия","avatar":"public/default.png"},"messages":[{"id":9,"fromMe":true,"text":"first message","date":"2021-05-01 22:43:41.491382 +0000 UTC","redact":false,"read":false}]}';
-const rightAnswerFromBack2 = '{"id":1,"interlocutor":{"id":1,"name":"Анастасия","avatar":"public/default.png"},"messages":[{"id":9,"fromMe":false,"text":"aaaaaaa","date":"2021-05-01 22:43:41.491382 +0000 UTC","redact":false,"read":false}]}';
-
 
 export default class ChatStore {
   public globalStore: any;
@@ -65,15 +61,18 @@ export default class ChatStore {
 
   async update() {
     this.interlocturId = <number><unknown>(new URL(window.location.href).searchParams.get('c'));
+    console.log(this.interlocturId);
     this.leftMessages = await getAllDialogues();
-    console.log(this.leftMessages);
-    this.leftMessages.forEach((val) => val.message.date = parseDate(val.message.date));
+    this.leftMessages?.forEach((val) => val.message.date = parseDate(val.message.date));
     await this.uploadChatHistory(this.interlocturId);
     this.globalStore.eventBus.publish(ChannelNames.chatUpdated);
   }
 
   async uploadChatHistory(userId: number) {
     if (userId === null) {
+      this.rightMessages = [];
+      this.rightChatterName = 'Выберите собеседника';
+
       return;
     }
     const page = 1;
@@ -84,12 +83,13 @@ export default class ChatStore {
 
   async sendMessage(messageText: string) {
     const messageToSend: MessageToSend = {
-      to: 17,
+      to: 71,
+      //to: <number>this.interlocturId,
       text: messageText,
     }
 
-    await postMessage(messageToSend);
-    this.globalStore.eventBus.publish(ChannelNames.chatUpdated);
+    const answer = await postMessage(messageToSend);
+    this.update();
   }
 
   reducer(action: ActionsInterface) {

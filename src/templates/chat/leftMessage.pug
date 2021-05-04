@@ -1,9 +1,9 @@
-a.message_read(id=id, href='chat?c=' + id)
-  .message__avatar(style='background: url(http://95.163.180.8:1323/api/v1/avatar/' + id + ') no-repeat center / cover;', href='profile'+id)
+a.message_read(id=interlocutor.id, href='chat?c=' + interlocutor.id)
+  .message__avatar(style='background: url(http://95.163.180.8:1323/api/v1/avatar/' + interlocutor.id + ') no-repeat center / cover;', href='profile'+id)
   .message__body
     .message__author
-    | #{interlocutor.name}
+      | #{interlocutor.name}
     .message__text
-    | #{message.text}
+      | #{message.text}
   .message__time
-  | #{message.date}
+    | #{message.date}

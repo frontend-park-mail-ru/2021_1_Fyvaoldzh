@@ -104,7 +104,9 @@ body::-webkit-scrollbar-thumb {
   &_read {
     @extend .message;
     background: #FFFFFF;
+    justify-content: flex-start;
     color: black;
+    transition-duration: 0.5s;
   }
 
   &_unread {
@@ -128,14 +130,15 @@ body::-webkit-scrollbar-thumb {
   }
 
   &__time {
-    margin-left: 8px;
+    position: absolute;
+    right: 8px;
     opacity: .6;
   }
 
   &__body {
     margin-left: 8px;
     height: 100%;
-    @include flex-mixin(column, center);
+    @include flex-mixin(column, flex-start);
     justify-content: space-between;
   }
 }
@@ -154,16 +157,16 @@ body::-webkit-scrollbar-thumb {
 
 @media (max-width:767px) {
   .container {
-    width: 100vw;
+    width: 100%;
   }
 
   .chat__right {
-    //display: none;
+    display: none;
     width: 100%;
   }
 
   .chat__left {
-    display: none;
+    //display: none;
   }
 
   .chat__left {
