@@ -104,11 +104,21 @@ export default class OneProfileView extends ProfilesBaseView {
     const subscribeUserButton = document.getElementById('subscribeUserButton');
     subscribeUserButton.addEventListener('click', this.subscribeUserHandler.bind(this));
 
+    const inspectingProfileId = this.globalStore.oneProfileStore.oneProfileData.Uid;
+
     if (!this.globalStore.userStore.userData) {
       document.getElementById('subscribeUserButton').style.display = 'none';
-    } else if (this.globalStore.userStore.followedUsers.includes(this.globalStore.oneProfileStore.oneProfileData.Uid)) {
+    } else if (this.globalStore.userStore.followedUsers.find((followedUser) => followedUser.id === inspectingProfileId)) {
       document.getElementById('subscribeUserButton').innerText = 'Отписаться';
     }
+
+    //   this.globalStore.userStore.followedUsers.forEach((followedUser) => {
+    //   if
+    // });
+
+    //   if (this.globalStore.userStore.followedUsers.includes(this.globalStore.oneProfileStore.oneProfileData.Uid)) {
+    //   document.getElementById('subscribeUserButton').innerText = 'Отписаться';
+    // }
 
     this.wrapper.querySelector('.profile-main-block').insertAdjacentHTML('beforeend', profileEventsTabTemplate());
 
