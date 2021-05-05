@@ -22,7 +22,6 @@ interface ToInviteInterface {
   invites: Array<number>;
 }
 
-
 export default class OneEventView {
   public globalStore: Store;
 
@@ -95,13 +94,13 @@ export default class OneEventView {
     followersArray.forEach((val) => {
       const newFollower = new OneFollowerComponent(followersColumn, val);
       newFollower.render();
-    })
+    });
 
     const followers = document.getElementsByClassName('event-follower-block');
 
     Array.from(followers).forEach((val) => {
       val.addEventListener('click', this.followerHandler.bind(this));
-    })
+    });
   }
 
   starHandler(ev: MouseEvent) {
@@ -121,19 +120,19 @@ export default class OneEventView {
     }
   }
 
-  shareHandler(ev: MouseEvent) {
+  shareHandler() {
     document.getElementById('jsEventFollowers').style.display = 'flex';
   }
 
-  declineHandler(ev: MouseEvent) {
+  declineHandler() {
     document.getElementById('jsEventFollowers').style.display = 'none';
   }
 
-  acceptHandler(ev: MouseEvent) {
+  acceptHandler() {
     const dataToSend = {
-      eventId: this.globalStore.oneEventStore.oneEventData.id,
-      invites: this.toInvite,
-    }
+      event: this.globalStore.oneEventStore.oneEventData.id,
+      to: this.toInvite,
+    };
 
     this.actions.sendInvites(dataToSend);
     document.getElementById('jsEventFollowers').style.display = 'none';

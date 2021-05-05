@@ -489,3 +489,22 @@ export async function getFollowedUsersById(id: number | string) {
   const jsonFile = await answer.json();
   return jsonFile;
 }
+
+export async function inviteFollowers(toPost: object) {
+  const csrf = getCsrf();
+  try {
+    const answer = await fetch(`${urlMap.inviteFollowersUrl}`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'X-XSRF-TOKEN': csrf,
+      },
+      body: JSON.stringify(toPost),
+    });
+    return await answer.json();
+  } catch (err) {
+    if (!navigator.onLine) {
+      location.reload();
+    }
+  }
+}

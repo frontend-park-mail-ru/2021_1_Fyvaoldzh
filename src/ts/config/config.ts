@@ -30,6 +30,7 @@ export const urlMap = {
   unsubscribeFromUserUrl: `${baseApi}/api/v1/unsubscribe/user`,
   followersUrl: `${baseApi}/api/v1/followers/`,
   followedUsersUrl: `${baseApi}/api/v1/subscriptions/`,
+  inviteFollowersUrl: `${baseApi}/api/v1/message/mailing`,
 };
 
 export const SERVER_ERRORS = {

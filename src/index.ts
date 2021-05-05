@@ -114,7 +114,6 @@ function callback(e: MouseEvent) {
 document.addEventListener('click', callback);
 
 body.addEventListener('click', async (e) => {
-  e.preventDefault();
   const { target } = e;
 
   if (target instanceof HTMLButtonElement) {
@@ -234,4 +233,4 @@ setInterval(() => {
     return;
   }
   actions.updateChat(true);
-}, 2000)
+}, 2000);

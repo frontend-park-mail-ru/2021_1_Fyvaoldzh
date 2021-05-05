@@ -1,5 +1,5 @@
 import {
-  getEventById, checkPlanningEvent, addPlanning, removePlanning,
+  getEventById, checkPlanningEvent, addPlanning, removePlanning, inviteFollowers,
 } from '../networkModule/network';
 import { ChannelNames } from '../config/config';
 import { ActionsInterface } from '../interfaces';
@@ -61,8 +61,8 @@ export default class OneEventStore {
     await removePlanning(action.data);
   }
 
-  sendInvites(action: ActionsInterface) {
-
+  async sendInvites(action: ActionsInterface) {
+    await inviteFollowers(action.data);
   }
 
   reducer(action: ActionsInterface) {
