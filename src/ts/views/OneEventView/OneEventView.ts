@@ -89,7 +89,8 @@ export default class OneEventView {
 
   renderFollowers() {
     const followersColumn = document.getElementById('jsFollowersColumn');
-    const followersArray: Array<FollowerInterface> = JSON.parse('[{"id": 1, "name": "down"},{"id": 2, "name": "Vladimir"},{"id": 3, "name": "Vladimir"},{"id": 4, "name": "Vladimir"},{"id": 5, "name": "Vladimir"},{"id": 6, "name": "Vladimir"}]');
+    const followersArray: Array<FollowerInterface> = this.globalStore.userStore.followers;
+    console.log(followersArray);
 
     followersArray.forEach((val) => {
       const newFollower = new OneFollowerComponent(followersColumn, val);
