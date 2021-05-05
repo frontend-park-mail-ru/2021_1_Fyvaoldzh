@@ -5,6 +5,12 @@ import {
   logoutFunc,
   postProfileData,
   putAvatar,
+  getPlanningEventsById,
+  getVisitedEventsById,
+  followUser,
+  unfollowUser,
+  getFollowersById,
+  getFollowedUsersById,
 } from '../networkModule/network';
 
 import { ChannelNames, profileTab, profileEventsButton } from '../config/config';
@@ -49,6 +55,10 @@ export default class UserStore {
 
   public currentEventsPage: any;
 
+  public followedUsers: Array<any>; // подписки
+
+  public followers: Array<any>; // подписчики
+
   constructor(globalStore: any) {
     this.globalStore = globalStore;
     this.userData = null;
@@ -61,6 +71,8 @@ export default class UserStore {
     this.profilePlanningEvents = [];
     this.profileVisitedEvents = [];
     this.currentEventsPage = 1;
+    this.followedUsers = [];
+    this.followers = [];
   }
 
   async register(action: ActionsInterface) {
@@ -102,6 +114,34 @@ export default class UserStore {
   async update(action: ActionsInterface) {
     this.userData = await getLoggedProfileData();
 
+    // this.followers = await getFollowersById(this.userData.Uid);
+    //
+    // this.followedUsers = await getFollowedUsersById(this.userData.Uid);
+    // if (this.followedUsers === null) this.followedUsers = [];
+
+    this.followers = [];
+    this.followedUsers = [];
+
+    const followersJson = await getFollowersById(this.userData.Uid);
+
+    if (followersJson !== null) {
+      Object.entries(followersJson).forEach(([, followerJson]) => {
+        // @ts-ignore
+        this.followers.push(followerJson.id);
+      });
+    }
+
+    const followedUsersJson = await getFollowedUsersById(this.userData.Uid);
+
+    if (followedUsersJson !== null) {
+      Object.entries(followedUsersJson).forEach(([, followedUserJson]) => {
+        // @ts-ignore
+        this.followedUsers.push(followedUserJson.id);
+      });
+    }
+
+    // await this.updateEvents(); // тут норм?
+
     const queryParamTab = this.globalStore.routerStore.currentUrl?.searchParams.get('tab');
     if (queryParamTab) {
       this.currentTab = queryParamTab;
@@ -116,6 +156,7 @@ export default class UserStore {
       }
       this.globalStore.eventBus.publish(ChannelNames.userIsNotAuth);
     } else {
+      await this.updateEvents(); // тут норм?
       if (action?.data) {
         this.globalStore.eventBus.publish(ChannelNames.firstUserUpdated);
       }
@@ -177,11 +218,11 @@ export default class UserStore {
     this.currentEventsButton = action.data;
     switch (this.currentEventsButton) {
       case profileEventsButton.planning:
-        this.globalStore.eventBus.publish(ChannelNames.userEventsButtonChanged, this.profilePlanningEvents);
+        this.globalStore.eventBus.publish(ChannelNames.userEventsButtonChanged);
         break;
 
       case profileEventsButton.visited:
-        this.globalStore.eventBus.publish(ChannelNames.userEventsButtonChanged, this.profileVisitedEvents);
+        this.globalStore.eventBus.publish(ChannelNames.userEventsButtonChanged);
         break;
 
       default:
@@ -193,13 +234,21 @@ export default class UserStore {
     this.profilePlanningEvents.length = 0;
     this.profileVisitedEvents.length = 0;
 
-    Object.entries(this.userData.planning).forEach(([, eventJson]) => {
-      this.profilePlanningEvents.push(eventJson);
-    });
+    const planningJson = await getPlanningEventsById(this.userData.Uid);
 
-    Object.entries(this.userData.visited).forEach(([, eventJson]) => {
-      this.profileVisitedEvents.push(eventJson);
-    });
+    if (planningJson !== null) {
+      Object.entries(planningJson).forEach(([, eventJson]) => {
+        this.profilePlanningEvents.push(eventJson);
+      });
+    }
+
+    const visitedJson = await getVisitedEventsById(this.userData.Uid);
+
+    if (visitedJson !== null) {
+      Object.entries(visitedJson).forEach(([, eventJson]) => {
+        this.profileVisitedEvents.push(eventJson);
+      });
+    }
   }
 
   async pageForward() {
@@ -208,11 +257,11 @@ export default class UserStore {
 
     switch (this.currentEventsButton) {
       case profileEventsButton.planning:
-        this.globalStore.eventBus.publish(ChannelNames.profilePageChanged, this.profilePlanningEvents);
+        this.globalStore.eventBus.publish(ChannelNames.profilePageChanged);
         break;
 
       case profileEventsButton.visited:
-        this.globalStore.eventBus.publish(ChannelNames.profilePageChanged, this.profileVisitedEvents);
+        this.globalStore.eventBus.publish(ChannelNames.profilePageChanged);
         break;
 
       default:
@@ -226,11 +275,11 @@ export default class UserStore {
 
     switch (this.currentEventsButton) {
       case profileEventsButton.planning:
-        this.globalStore.eventBus.publish(ChannelNames.profilePageChanged, this.profilePlanningEvents);
+        this.globalStore.eventBus.publish(ChannelNames.profilePageChanged);
         break;
 
       case profileEventsButton.visited:
-        this.globalStore.eventBus.publish(ChannelNames.profilePageChanged, this.profileVisitedEvents);
+        this.globalStore.eventBus.publish(ChannelNames.profilePageChanged);
         break;
 
       default:
@@ -247,6 +296,14 @@ export default class UserStore {
       this.validationErrors.push('wrongPassword');
       this.globalStore.eventBus.publish(ChannelNames.errorValidation);
     }
+  }
+
+  async subscribeToUser(action: ActionsInterface) {
+    await followUser(action.data);
+  }
+
+  async unsubscribeFromUser(action: ActionsInterface) {
+    await unfollowUser(action.data);
   }
 
   reducer(action: ActionsInterface) {
@@ -305,6 +362,14 @@ export default class UserStore {
 
       case 'user/changePassword':
         this.changePassword(action);
+        break;
+
+      case 'user/subscribeToUser':
+        this.subscribeToUser(action);
+        break;
+
+      case 'user/unsubscribeFromUser':
+        this.unsubscribeFromUser(action);
         break;
 
       default:

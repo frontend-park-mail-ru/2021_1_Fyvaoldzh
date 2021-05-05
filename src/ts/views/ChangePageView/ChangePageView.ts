@@ -5,6 +5,9 @@ import UserView from '../UserView/UserView';
 import EventsView from '../EventsView/EventsView';
 import OneEventView from '../OneEventView/OneEventView';
 import SearchView from '../SearchView/SearchView';
+import FollowingsView from '../FollowingsView/FollowingsView';
+import ChatView from '../ChatView/ChatView';
+import ActivityView from '../ActivityPageView/ActivityPageView';
 import { HistoryState } from '../../interfaces';
 
 const signUpFormTemplate = require('Templates/signup/signup.pug');
@@ -28,6 +31,12 @@ export default class ChangePageView {
 
   public searchView: SearchView;
 
+  public followingsView: FollowingsView;
+
+  public chatView: ChatView;
+
+  public activityView: ActivityView;
+
   constructor(
     globalStore: Store,
     actions: Actions,
@@ -35,6 +44,9 @@ export default class ChangePageView {
     eventsView: EventsView,
     oneEventView: OneEventView,
     searchView: SearchView,
+    followingsView: FollowingsView,
+    chatView: ChatView,
+    activityView: ActivityView,
   ) {
     this.globalStore = globalStore;
     this.actions = actions;
@@ -44,7 +56,9 @@ export default class ChangePageView {
     this.eventsView = eventsView;
     this.oneEventView = oneEventView;
     this.searchView = searchView;
-
+    this.followingsView = followingsView;
+    this.chatView = chatView;
+    this.activityView = activityView;
     window.onpopstate = (ev: any) => {
       if (ev.state) {
         this.render(ev.state);
@@ -60,23 +74,20 @@ export default class ChangePageView {
     }
 
     if (state.page.includes('profile') && state.page !== routes.profile) {
-      const idProfile = Number(state.page.substr(8));
+      if (state.page.includes('followings')) {
+        this.actions.updateFollowingsByHistory();
+        return;
+      }
 
+      const idProfile = Number(state.page.substr(8));
       if (this.globalStore.userStore.userData && idProfile === this.globalStore.userStore.userData.Uid) {
         this.actions.updateUser();
         return;
       }
 
-      this.actions.updateOneProfileByHistory();
+      this.actions.updateOneProfileByHistory(); // await????
       return;
     }
-
-    // if (state.page.includes('search')) {  //реализация Димы
-    //   window.scroll(0, 0);
-    //   console.log(state.parameter);
-    //   this.actions.searchUpdate(state.parameter);
-    //   return;
-    // }
 
     switch (state.page) {
       case routes.login:
@@ -107,6 +118,16 @@ export default class ChangePageView {
       case routes.search: // моя реализация
         window.scroll(0, 0);
         this.actions.searchUpdateByHistory();
+        break;
+
+      case routes.chat:
+        this.globalStore.routerStore.currentUrl = new URL(window.location.href);
+        this.actions.updateChat();
+        break;
+
+      case routes.activity:
+        this.globalStore.routerStore.currentUrl = new URL(window.location.href);
+        this.actions.updateActivity();
         break;
 
       default:
@@ -161,6 +182,12 @@ export default class ChangePageView {
       currentUrl.pathname.includes('profile')
       && currentUrl.pathname !== routes.profile
     ) {
+      if (currentUrl.pathname.includes('followings')) {
+        const idProfile = Number(currentUrl.pathname.split('followings', 1)[0].substr(8));
+        this.actions.updateFollowings(idProfile);
+        return;
+      }
+
       const idProfile = Number(currentUrl.pathname.substr(8));
 
       if (idProfile === this.globalStore.userStore.userData?.Uid) {
@@ -221,6 +248,14 @@ export default class ChangePageView {
       case routes.search:
         window.scroll(0, 0);
         this.actions.searchUpdate();
+        break;
+
+      case routes.chat:
+        this.actions.updateChat();
+        break;
+
+      case routes.activity:
+        this.actions.updateActivity();
         break;
 
       default:

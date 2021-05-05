@@ -7,6 +7,7 @@
   box-shadow: $project-box-shadow;
   margin-left: 5px;
   padding: 10px;
+  margin-top: 5px;
 
   &_active {
     @extend .button-category;
@@ -27,7 +28,7 @@
 
 .confirm-button {
   @extend .button-category_active;
-  width: 510px;
+  width: 100%;
   height: 60px;
   margin-top: 58px;
 
@@ -42,16 +43,36 @@
   text-align: center;
   vertical-align: center;
   padding: 10px;
-  margin-right: 10px;
+  margin-right: 20px;
+  font-size: 24px;
+  line-height: 32px;
 
   &-active {
     @extend .button;
     background: $main-gradient;
+    color: #ffffff;
+  }
+
+  @media (max-width:767px) {
+    &-active {
+      @include value-adaptive("font-size", 36, 18);
+      @include value-adaptive("line-height", 32, 20);
+      //@include value-adaptive("margin-bottom", 15, 5);
+    }
   }
 
   &-inactive {
     @extend .button;
     background: $project-white;
+    color: black;
+  }
+
+  @media (max-width:767px) {
+    &-inactive {
+      @include value-adaptive("font-size", 36, 18);
+      @include value-adaptive("line-height", 32, 20);
+      //@include value-adaptive("margin-bottom", 15, 5);
+    }
   }
 }
 

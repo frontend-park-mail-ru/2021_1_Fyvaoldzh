@@ -5,6 +5,7 @@
       .description-wrapper
         .event-description
           button.event-description__star_inactive(id='jsEventStar')
+          button.event-description__share(id='jsEventShare')
           .event-description__title
             | #{title}
           .decor-line
@@ -33,3 +34,11 @@
       .going-title
         | Уже идут
         .left-row(id='jsPlanningUsers')
+  .invite-followers-block(id='jsEventFollowers')
+    .invite-followers-block__title
+      | Пригласить
+    .decor-line
+    button.invite-followers-block__accept(id='jsEventFollowersAccept')
+    button.invite-followers-block__decline(id='jsEventFollowersDecline')
+    .invite-followers-block__column(id='jsFollowersColumn')
+    .decor-line

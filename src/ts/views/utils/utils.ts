@@ -1,4 +1,4 @@
-import { searchTab } from '../../config/config';
+import {followingsTab, searchTab} from '../../config/config';
 import DateTimeFormatOptions = Intl.DateTimeFormatOptions;
 
 /**
@@ -34,6 +34,8 @@ export function buttonToggleHandler(event: any) {
       this.actions.changeTab(target.id);
     } else if (this.constructor.name === 'SearchView') {
       this.actions.searchChangeTab(target.id);
+    } else if (this.constructor.name === 'FollowingsView') {
+      this.actions.followingsChangeTab(target.id);
     }
   }
 
@@ -142,6 +144,39 @@ export function profilePaginatorHandler(event: any) {
 }
 
 /**
+ * Функция-обработчик кликов по пагинатору для страницы фолловеров
+ * @param {Object} event - ивент
+ */
+
+export function followingsPaginatorHandler(event: any) {
+  const { target } = event;
+  let currentPaginatorValue;
+
+  const { currentTab, currentFollowedUsersPage, currentFollowersPage } = this.globalStore.followingsStore;
+
+  if (currentTab === followingsTab.followedUsers) {
+    currentPaginatorValue = currentFollowedUsersPage;
+  } else if (currentTab === followingsTab.followers) {
+    currentPaginatorValue = currentFollowersPage;
+  }
+
+  switch (target.id) {
+    case 'paginationBack':
+      if (currentPaginatorValue > 1) {
+        this.actions.followingsPageBack();
+      }
+      break;
+
+    case 'paginationForward':
+      this.actions.followingsPageForward();
+      break;
+
+    default:
+      break;
+  }
+}
+
+/**
  * Функция, обновляющая состояние пагинатора
  * @param {Number} currentPaginatorValue - номер текущей страницы
  * @param {Number} resultsAmount - количество результатов на странице
@@ -191,30 +226,6 @@ export function searchBarHandler(event: any) {
   target.classList.toggle('close');
   searchBarinput.classList.toggle('square');
 }
-
-// /**
-//  * Функция-парсер даты
-//  * @param {String} dateInput - входная дата
-//  * @return {String} - Распарсенная дата, либо входная дата, если она передана не полной (не содержит "UTC")
-//  */
-//
-// export function parseDate(dateInput: any) {  //реализация Димы
-//   if (dateInput.includes('UTC')) {
-//     const date = new Date(Date.parse(dateInput));
-//     /* const options = {
-//       year: 'numeric',
-//       month: 'long',
-//       day: 'numeric',
-//       timezone: 'UTC',
-//       hour: 'numeric',
-//       minute: 'numeric',
-//     };
-//     */
-//
-//     return date.toLocaleString('ru');
-//   }
-//   return dateInput;
-// }
 
 /**
  * Функция-парсер даты

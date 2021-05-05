@@ -1,0 +1,41 @@
+@import "../../components/css/mixins";
+@import "../../components/css/variables";
+
+.activity {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+  background-color: $project-white;
+  box-shadow: $project-box-shadow;
+  @include value-adaptive("padding", 30, 0);
+  align-items: center;
+}
+
+.activity-column {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+  width: 100%;
+}
+
+.activity-block {
+  margin-top: 8px;
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  background-color: $project-white;
+  box-shadow: $project-box-shadow;
+  padding: 15px;
+}
+
+.event-title {
+  margin-right: 8px;
+  font: $main-font;
+  @include value-adaptive("font-size", 20, 17);
+
+  &_anchor {
+    @extend .event-title;
+    color: $project-grey;
+  }
+}

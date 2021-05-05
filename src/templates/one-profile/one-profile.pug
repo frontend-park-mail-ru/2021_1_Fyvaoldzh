@@ -1,6 +1,6 @@
-.container
+.container.container_mobile_fullscreen
     .page-photo_profile
-    .row
+    .row.row_mobile_fullscreen
         .profile-main-block
             .profile-header
                 #profileAvatar.profile-header__avatar
@@ -20,8 +20,8 @@
                             | #{city}
                         .profile-header__info-segment
                             .profile-header__subscribers-img
-                            | #{followersCount}
+                            | #{followers}
                 .profile-header__button-block
-                    //button.button-inactive Подписаться
-                    //button.button-inactive Написать
-            .decor-line
+                    button#subscribeUserButton.button-inactive Подписаться
+                    button.button-inactive Написать
+            .profile-decor-line

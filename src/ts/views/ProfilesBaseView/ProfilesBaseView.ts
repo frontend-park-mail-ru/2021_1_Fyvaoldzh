@@ -22,6 +22,7 @@ export default class ProfilesBaseView {
       thereIsNothing.style.fontSize = '24px';
       thereIsNothing.style.textAlign = 'center';
       thereIsNothing.style.marginBottom = '30px';
+      thereIsNothing.style.alignSelf = 'center';
 
       nothingRow.appendChild(thereIsNothing);
 
@@ -39,5 +40,20 @@ export default class ProfilesBaseView {
       });
     }
     eventsList.innerHTML = resultHTML;
+    const buttonsDownUp = Array.from(eventsList.querySelectorAll('button.smbs-event__arrow-down, button.smbs-event__arrow-up'));
+    buttonsDownUp.forEach((button) => {
+      button.addEventListener('click', () => {
+        button.closest('.smbs-event-cube').classList.toggle('smbs-event-cube_show_top');
+      });
+      // if (button.classList.contains('smbs-event__arrow-down')) {
+      //   (<HTMLElement>button.closest('.smbs-event-cube')).style.minHeight = window.getComputedStyle(
+      //     button.closest('.smbs-event'),
+      //   ).minHeight;
+      //   button.closest('.smbs-event-cube').addEventListener('resize', (e: any) => {
+      //     const { target } = e;
+      //     target.style.minHeight = window.getComputedStyle(target.querySelector('smbs-event_front_side')).minHeight;
+      //   });
+      // }
+    });
   }
 }

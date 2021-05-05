@@ -12,6 +12,9 @@ import ChangePageView from './ts/views/ChangePageView/ChangePageView';
 import { ChannelNames } from './ts/config/config';
 import OneProfileView from './ts/views/OneProfileView/OneProfileView';
 import SearchView from './ts/views/SearchView/SearchView';
+import FollowingsView from './ts/views/FollowingsView/FollowingsView';
+import ChatView from './ts/views/ChatView/ChatView';
+import ActivityView from './ts/views/ActivityPageView/ActivityPageView';
 
 const dispatcher = new Dispatcher(); // Диспетчер отвечает за доставку actions до хранилища
 const actions = new Actions(dispatcher);
@@ -33,6 +36,12 @@ const oneEventView = new OneEventView(globalStore, actions);
 
 const searchView = new SearchView(globalStore, actions);
 
+const followingsView = new FollowingsView(globalStore, actions);
+
+const chatView = new ChatView(globalStore, actions);
+
+const activityView = new ActivityView(globalStore, actions);
+
 const changePageView = new ChangePageView(
   globalStore,
   actions,
@@ -40,6 +49,9 @@ const changePageView = new ChangePageView(
   eventsView,
   oneEventView,
   searchView,
+  followingsView,
+  chatView,
+  activityView
 );
 
 const oneProfileView = new OneProfileView(globalStore, actions);
@@ -51,6 +63,9 @@ const oneProfileView = new OneProfileView(globalStore, actions);
   changePageView,
   oneProfileView,
   searchView,
+  followingsView,
+  chatView,
+  activityView,
 ].forEach((view) => view.subscribeViews());
 
 const navbarTemplate = require('Components/navbar/navbar.pug');
@@ -78,31 +93,29 @@ eventBus.subscribe(
 
 const { body } = document;
 
-/* Заготовка для скрытия навбара по клику куда-либо
+function findAnchorElement(el: any): any {
+  if (el.tagName == 'A' && el.href) {
+    return el.href;
+  } else if (el.parentElement) {
+    return findAnchorElement(el.parentElement);
+  } else {
+    return null;
+  }
+};
 
-    const navbarCheckbox = document.getElementById('toggle');
-    //console.log(Object.prototype.toString.call(target)); отладочная фыгня
+function callback(e: MouseEvent) {
+  const link = findAnchorElement(e.target);
+  if (link == null) { return; }
+  e.preventDefault();
+  const toUrl = new URL(link);
+  actions.routerChangePage(toUrl.pathname + toUrl.search);
+};
 
-    if (Object.prototype.toString.call(target) !== '[object HTMLInputElement]') {
-        // Сворачивание открытого профиля навбарчика при нажатии куда-либо
-        navbarCheckbox.checked = false;
-    }
-
-    if (Object.prototype.toString.call(target) === '[object HTMLInputElement]') {
-        console.log(navbarCheckbox.checked)
-        navbarCheckbox.checked = !navbarCheckbox.checked;
-    }
-*/
+document.addEventListener('click', callback);
 
 body.addEventListener('click', async (e) => {
+  e.preventDefault();
   const { target } = e;
-
-  if (target instanceof HTMLAnchorElement) {
-    e.preventDefault();
-
-    const toUrl = new URL(target.href);
-    actions.routerChangePage(toUrl.pathname + toUrl.search);
-  }
 
   if (target instanceof HTMLButtonElement) {
     const formBody: HTMLFormElement = <HTMLFormElement>(
@@ -135,16 +148,27 @@ body.addEventListener('click', async (e) => {
     }
 
     if (target.id === 'JSsearchBarButton') {
-      const searchBarInput = <HTMLInputElement>(
-        document.getElementById('JSsearchBarInput')
-      );
-      target.classList.toggle('close');
-      if (searchBarInput.classList.contains('square')) {
-        searchBarInput.value = '';
+      if (window.screen.width <= 767) {
+        const toUrl = new URL('http://localhost:3000/search');
+        toUrl.search = new URLSearchParams([
+          ['text', ''],
+          ['tab', ''],
+          ['category', ''],
+          ['page', '1'],
+        ]).toString();
+        actions.routerChangePage(toUrl.pathname + toUrl.search);
       } else {
-        searchBarInput.focus();
+        const searchBarInput = <HTMLInputElement>(
+            document.getElementById('JSsearchBarInput')
+        );
+        target.classList.toggle('close');
+        if (searchBarInput.classList.contains('square')) {
+          searchBarInput.value = '';
+        } else {
+          searchBarInput.focus();
+        }
+        searchBarInput.classList.toggle('square');
       }
-      searchBarInput.classList.toggle('square');
     }
   }
 });
@@ -204,3 +228,10 @@ document.getElementById('wrapper').addEventListener('click', () => {
     (document.getElementById('JSsearchBarInput') as HTMLInputElement).classList.toggle('square');
   }
 });
+
+setInterval(() => {
+  if (!globalStore.userStore.userData) {
+    return;
+  }
+  actions.updateChat(true);
+}, 2000)

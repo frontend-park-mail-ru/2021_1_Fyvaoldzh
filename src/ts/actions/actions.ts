@@ -133,6 +133,20 @@ export default class Actions {
     });
   }
 
+  subscribeToUser(userId: number | string) {
+    this.dispatcher.dispatch({
+      eventName: 'user/subscribeToUser',
+      data: userId,
+    });
+  }
+
+  unsubscribeFromUser(userId: number | string) {
+    this.dispatcher.dispatch({
+      eventName: 'user/unsubscribeFromUser',
+      data: userId,
+    });
+  }
+
   userPageForward() {
     this.dispatcher.dispatch({
       eventName: 'user/pageForward',
@@ -243,5 +257,77 @@ export default class Actions {
       eventName: 'user/changePassword',
       data,
     });
+  }
+
+
+  updateChat(data?: boolean) {
+      this.dispatcher.dispatch({
+      eventName: 'chat/update',
+      data: data,
+    })
+  }
+
+  updateFollowings(id: number) {
+    this.dispatcher.dispatch({
+      eventName: 'followings/update',
+      data: id,
+    });
+  }
+
+  updateFollowingsByHistory() {
+    this.dispatcher.dispatch({
+      eventName: 'followings/updateByHistory',
+      data: null,
+    });
+  }
+
+  followingsPageForward() {
+    this.dispatcher.dispatch({
+      eventName: 'followings/pageForward',
+      data: null,
+    });
+  }
+
+  followingsPageBack() {
+    this.dispatcher.dispatch({
+      eventName: 'followings/pageBack',
+      data: null,
+    });
+  }
+
+  followingsChangeTab(tabId: string) {
+    this.dispatcher.dispatch({
+      eventName: 'followings/changeTab',
+      data: tabId,
+    });
+  }
+
+
+  sendMessage(data: string) {
+    this.dispatcher.dispatch({
+      eventName: 'chat/sendMessage',
+      data: data,
+    })
+  }
+
+  chatSearch(data: string) {
+    this.dispatcher.dispatch({
+      eventName: 'chat/chatSearchChanged',
+      data: data,
+    })
+  }
+
+  updateActivity() {
+    this.dispatcher.dispatch({
+      eventName: 'activity/update',
+      data: null,
+    });
+  }
+
+  sendInvites(data: object) {
+    this.dispatcher.dispatch({
+      eventName: 'oneEvent/sendInvites',
+      data: data,
+    })
   }
 }

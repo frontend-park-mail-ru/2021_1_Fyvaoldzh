@@ -62,7 +62,6 @@
   height: 70px;
   box-shadow: $project-box-shadow;
   padding: 10px;
-  margin-right: 15px;
   min-width: 200px;
   cursor: pointer;
 }
@@ -77,6 +76,7 @@
   height: 0;
   overflow: hidden;
   z-index: 1;
+  min-width: 210px;
 
   transition: height .3s cubic-bezier(.53,1.51,.74,1.54);
 
@@ -105,7 +105,7 @@
     margin-top: 3px;
   }
 
-  &__settings {
+  &__profile {
     @extend .dropdown-menu__drop-menu-stroke;
     &:before {
       @extend .dropdown-menu__drop-menu-before;
@@ -114,7 +114,7 @@
 
   }
 
-  &__events {
+  &__activity {
     @extend .dropdown-menu__drop-menu-stroke;
     &:before {
       @extend .dropdown-menu__drop-menu-before;
@@ -127,6 +127,14 @@
     &:before {
       @extend .dropdown-menu__drop-menu-before;
       background: url("../components/navbar/img/logout.svg") no-repeat center / cover;
+    }
+  }
+
+  &__chat {
+    @extend .dropdown-menu__drop-menu-stroke;
+    &:before {
+      @extend .dropdown-menu__drop-menu-before;
+      background: url("../components/navbar/img/chat.svg") no-repeat center / cover;
     }
   }
 }
@@ -143,7 +151,7 @@ label[for=toggle] {
 }
 
 input[type=checkbox]:checked  ~ .dropdown-menu {
-  height: 210px;
+  height: auto;
 }
 
 .navbar__search {
@@ -175,6 +183,13 @@ input[type=checkbox]:checked  ~ .dropdown-menu {
   /*top: 50%;*/
   /*left: 50%;*/
   transform: translate(-50%, -50%);
+}
+
+
+@media (max-width:767px) {
+  .search-bar__block {
+    @include value-adaptive("margin-right", 80, 30);
+  }
 }
 
 .search-bar__block.on {
