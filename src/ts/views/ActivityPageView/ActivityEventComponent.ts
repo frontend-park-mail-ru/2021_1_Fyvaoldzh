@@ -2,6 +2,7 @@ import { urlMap } from '../../config/config';
 
 const subscribeTemplate = require('Templates/activity/subscribe.pug');
 const eventTemplate = require('Templates/activity/event.pug');
+const followTemplate = require('Templates/activity/followOnMe.pug');
 
 interface UserEventInterface {
   id_1: number;
@@ -35,6 +36,10 @@ export default class ActivityEventComponent {
 
       case 'user_event':
         template = eventTemplate(this.data);
+        break;
+
+      case 'new_follower':
+        template = followTemplate(this.data);
         break;
     }
 
