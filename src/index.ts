@@ -129,16 +129,27 @@ body.addEventListener('click', async (e) => {
     }
 
     if (target.id === 'JSsearchBarButton') {
-      const searchBarInput = <HTMLInputElement>(
-        document.getElementById('JSsearchBarInput')
-      );
-      target.classList.toggle('close');
-      if (searchBarInput.classList.contains('square')) {
-        searchBarInput.value = '';
+      if (window.screen.width <= 767) {
+        const toUrl = new URL('http://localhost:3000/search');
+        toUrl.search = new URLSearchParams([
+          ['text', ''],
+          ['tab', ''],
+          ['category', ''],
+          ['page', '1'],
+        ]).toString();
+        actions.routerChangePage(toUrl.pathname + toUrl.search);
       } else {
-        searchBarInput.focus();
+        const searchBarInput = <HTMLInputElement>(
+            document.getElementById('JSsearchBarInput')
+        );
+        target.classList.toggle('close');
+        if (searchBarInput.classList.contains('square')) {
+          searchBarInput.value = '';
+        } else {
+          searchBarInput.focus();
+        }
+        searchBarInput.classList.toggle('square');
       }
-      searchBarInput.classList.toggle('square');
     }
   }
 });

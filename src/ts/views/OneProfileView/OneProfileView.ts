@@ -79,8 +79,10 @@ export default class OneProfileView extends ProfilesBaseView {
     const { oneProfileData } = this.globalStore.oneProfileStore;
 
     this.wrapper.style.background = 'url("templates/one-profile/img/one-profile-background.jpg") no-repeat top / 100%';
-    this.wrapper.style.paddingTop = '0px';
-    this.wrapper.style.paddingBottom = '0px';
+    if (window.screen.width <= 767) {
+      this.wrapper.style.paddingTop = '0px';
+      this.wrapper.style.paddingBottom = '0px';
+    }
 
     oneProfileData.age = addDeclensionOfNumbers(oneProfileData.age, ['год', 'года', 'лет']);
     oneProfileData.followers = addDeclensionOfNumbers(oneProfileData.followers, [
@@ -98,6 +100,16 @@ export default class OneProfileView extends ProfilesBaseView {
 
     this.wrapper.innerHTML = '';
     this.wrapper.innerHTML = oneProfileTemplate(oneProfileData);
+
+    const subscribeUserButton = document.getElementById('subscribeUserButton');
+    subscribeUserButton.addEventListener('click', this.subscribeUserHandler.bind(this));
+
+    if (!this.globalStore.userStore.userData) {
+      document.getElementById('subscribeUserButton').style.display = 'none';
+    } else if (this.globalStore.userStore.followedUsers.includes(this.globalStore.oneProfileStore.oneProfileData.Uid)) {
+      document.getElementById('subscribeUserButton').innerText = 'Отписаться';
+    }
+
     this.wrapper.querySelector('.profile-main-block').insertAdjacentHTML('beforeend', profileEventsTabTemplate());
 
     // const { currentEventsPage } = this.globalStore.oneProfileStore;
@@ -134,6 +146,21 @@ export default class OneProfileView extends ProfilesBaseView {
     //
     // document.getElementById('paginationBack').addEventListener('click', oneProfilePaginatorHandler.bind(this));
     // document.getElementById('paginationForward').addEventListener('click', oneProfilePaginatorHandler.bind(this));
+  }
+
+  subscribeUserHandler(e: MouseEvent) {
+    const { target } = e;
+
+    if (target instanceof HTMLButtonElement && target.innerText === 'Подписаться') {
+      target.innerText = 'Отписаться';
+      this.actions.subscribeToUser(this.globalStore.oneProfileStore.oneProfileData.Uid);
+      return;
+    }
+
+    if (target instanceof HTMLButtonElement && target.innerText === 'Отписаться') {
+      target.innerText = 'Подписаться';
+      this.actions.unsubscribeFromUser(this.globalStore.oneProfileStore.oneProfileData.Uid);
+    }
   }
 
   subscribeViews() {

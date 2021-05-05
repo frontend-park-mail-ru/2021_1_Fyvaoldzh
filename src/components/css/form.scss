@@ -68,6 +68,14 @@
       text-align: center;
     }
 
+    @media (max-width:767px) {
+      &_error {
+        @include value-adaptive("margin-top", 10, -5);
+        white-space: nowrap;
+      }
+    }
+
+
     &_success {
       margin-top: 3px;
       height: 0;

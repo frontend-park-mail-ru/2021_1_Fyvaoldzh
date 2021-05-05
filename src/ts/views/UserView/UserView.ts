@@ -47,8 +47,8 @@ export default class UserView extends ProfilesBaseView {
       currentEventsPage,
       currentEventsButton,
     } = this.globalStore.userStore;
-    const profilePlanningEvents = this.globalStore.userStore.userData.planning;
-    const profileVisitedEvents = this.globalStore.userStore.userData.visited;
+    const { profilePlanningEvents } = this.globalStore.userStore;
+    const { profileVisitedEvents } = this.globalStore.userStore;
 
     switch (currentEventsButton) {
       case 'planningEventsButton':
@@ -239,6 +239,8 @@ export default class UserView extends ProfilesBaseView {
     }
 
     const { userData } = this.globalStore.userStore;
+    const { followers } = this.globalStore.userStore;
+    const { followedUsers } = this.globalStore.userStore;
 
     if (window.location.pathname !== '/profile') {
       // console.log(this.globalStore.routerStore.currentUrl.pathname);
@@ -254,10 +256,13 @@ export default class UserView extends ProfilesBaseView {
 
     const wrapper = document.getElementById('wrapper');
     wrapper.style.background = 'url("templates/profile/img/profile-background.jpg") no-repeat top / 100%';
-    wrapper.style.paddingTop = '0px';
-    wrapper.style.paddingBottom = '0px';
+    if (window.screen.width <= 767) {
+      wrapper.style.paddingTop = '0px';
+      wrapper.style.paddingBottom = '0px';
+    }
 
-    userData.followers = addDeclensionOfNumbers(userData.followers, ['подписчик', 'подписчика', 'подписчиков']);
+    userData.followersCount = addDeclensionOfNumbers(followers.length, ['подписчик', 'подписчика', 'подписчиков']);
+    userData.followedUsersCount = addDeclensionOfNumbers(followedUsers.length, ['подписка', 'подписки', 'подписок']);
     userData.planningCount = addDeclensionOfNumbers(userData.planning?.length, [
       'планируемое',
       'планируемых',

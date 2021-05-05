@@ -31,8 +31,10 @@ export default class FollowingsView {
     const { currentTab } = this.globalStore.followingsStore;
 
     this.wrapper.style.background = 'url("templates/profile/img/profile-background.jpg") no-repeat top / 100%';
-    this.wrapper.style.paddingTop = '0px';
-    this.wrapper.style.paddingBottom = '0px';
+    if (window.screen.width <= 767) {
+      this.wrapper.style.paddingTop = '0px';
+      this.wrapper.style.paddingBottom = '0px';
+    }
 
     this.wrapper.innerHTML = '';
     this.wrapper.innerHTML = followingsTemplate(this.globalStore.followingsStore.inspectedProfileData);

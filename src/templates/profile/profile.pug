@@ -16,7 +16,11 @@
                     .my-profile-header__login-block @#{login}
                     a.my-profile-header__followers-block(href='profile' + Uid + 'followings?tab=followersTab')
                         .my-profile-header__followers-img
-                        |#{followers}
+                        |#{followersCount}
+                    a.my-profile-header__followers-block(href='profile' + Uid + 'followings?tab=followedUsersTab')
+                        //.my-profile-header__followers-img
+                        .search__events-img
+                        | #{followedUsersCount}
                     .my-profile-header__events-stats-block
                         .my-profile-header__events-stats-block_planning
                             .my-profile-header__black-star-img

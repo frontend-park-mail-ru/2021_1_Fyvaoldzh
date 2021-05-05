@@ -91,8 +91,7 @@ export default class OneProfileStore {
 
     const planningJson = await getPlanningEventsById(this.oneProfileData.Uid);
 
-    // никак не пагинируется т.к. мероприятия берутся не по запросу а из подгруженного json профиля
-    if (this.oneProfileData.planning !== null) {
+    if (planningJson !== null) {
       Object.entries(planningJson).forEach(([, eventJson]) => {
         this.oneProfilePlanningEvents.push(eventJson);
       });
@@ -100,7 +99,7 @@ export default class OneProfileStore {
 
     const visitedJson = await getVisitedEventsById(this.oneProfileData.Uid);
 
-    if (this.oneProfileData.visited !== null) {
+    if (visitedJson !== null) {
       Object.entries(visitedJson).forEach(([, eventJson]) => {
         this.oneProfileVisitedEvents.push(eventJson);
       });

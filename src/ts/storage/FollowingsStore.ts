@@ -9,7 +9,7 @@ export default class SearchStore {
 
   public currentTab: string;
 
-  public followedUsers: Array<any>; // те, на кого подписан
+  public followedUsers: Array<any>; // подписки
 
   public followers: Array<any>; // подписчики
 

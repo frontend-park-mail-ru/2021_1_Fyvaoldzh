@@ -20,6 +20,10 @@ export const urlMap = {
   customUserUrl: `${baseApi}/api/v1/users`,
   planningEventsUrl: `${baseApi}/api/v1/get/planning/`,
   visitedEventsUrl: `${baseApi}/api/v1/get/visited/`,
+  subscribeToUserUrl: `${baseApi}/api/v1/subscribe/user`,
+  unsubscribeFromUserUrl: `${baseApi}/api/v1/unsubscribe/user`,
+  followersUrl: `${baseApi}/api/v1/followers/`,
+  followedUsersUrl: `${baseApi}/api/v1/subscriptions/`,
 };
 
 export const SERVER_ERRORS = {

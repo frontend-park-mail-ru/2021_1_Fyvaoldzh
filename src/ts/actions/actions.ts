@@ -133,6 +133,20 @@ export default class Actions {
     });
   }
 
+  subscribeToUser(userId: number | string) {
+    this.dispatcher.dispatch({
+      eventName: 'user/subscribeToUser',
+      data: userId,
+    });
+  }
+
+  unsubscribeFromUser(userId: number | string) {
+    this.dispatcher.dispatch({
+      eventName: 'user/unsubscribeFromUser',
+      data: userId,
+    });
+  }
+
   userPageForward() {
     this.dispatcher.dispatch({
       eventName: 'user/pageForward',
