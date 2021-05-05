@@ -61,6 +61,10 @@ export default class OneEventStore {
     await removePlanning(action.data);
   }
 
+  sendInvites(action: ActionsInterface) {
+
+  }
+
   reducer(action: ActionsInterface) {
     switch (action.eventName) {
       case 'oneEvent/update':
@@ -73,6 +77,10 @@ export default class OneEventStore {
 
       case 'oneEvent/remove':
         this.remove(action);
+        break;
+
+      case 'oneEvent/sendInvites':
+        this.sendInvites(action);
         break;
 
       default:

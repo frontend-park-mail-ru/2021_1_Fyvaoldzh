@@ -1,6 +1,7 @@
 import { ChannelNames } from '../../config/config';
 import Store from '../../storage/store';
 import Actions from '../../actions/actions';
+import OneFollowerComponent from './OneFollowerComponent';
 
 const oneEventPageTemplate = require('Templates/one-event-page/one-event-page.pug');
 const oneTagTemplate = require('Templates/one-event-page/tagTemplate.pug');
@@ -11,6 +12,17 @@ interface TagInterface {
   name: string;
 }
 
+interface FollowerInterface {
+  id: number;
+  name: string;
+}
+
+interface ToInviteInterface {
+  eventId: number;
+  invites: Array<number>;
+}
+
+
 export default class OneEventView {
   public globalStore: Store;
 
@@ -18,10 +30,13 @@ export default class OneEventView {
 
   public actions: Actions;
 
+  public toInvite: Array<number>;
+
   constructor(globalStore: Store, actions: Actions) {
     this.globalStore = globalStore;
     this.wrapper = document.getElementById('wrapper');
     this.actions = actions;
+    this.toInvite = [];
   }
 
   renderEventPage() {
@@ -37,8 +52,13 @@ export default class OneEventView {
     const eventStar = document.getElementById('jsEventStar');
     eventStar.addEventListener('click', this.starHandler.bind(this));
 
+    document.getElementById('jsEventShare').addEventListener('click', this.shareHandler.bind(this));
+    document.getElementById('jsEventFollowersDecline').addEventListener('click', this.declineHandler.bind(this));
+    document.getElementById('jsEventFollowersAccept').addEventListener('click', this.acceptHandler.bind(this));
+
     if (!this.globalStore.userStore.userData) {
       document.getElementById('jsEventStar').style.display = 'none';
+      document.getElementById('jsEventShare').style.display = 'none';
     }
 
     this.renderTags();
@@ -48,6 +68,7 @@ export default class OneEventView {
       eventStar.classList.remove('event-description__star_inactive');
     }
     this.renderGoingUsers();
+    this.renderFollowers();
   }
 
   renderTags() {
@@ -67,6 +88,22 @@ export default class OneEventView {
     }
   }
 
+  renderFollowers() {
+    const followersColumn = document.getElementById('jsFollowersColumn');
+    const followersArray: Array<FollowerInterface> = JSON.parse('[{"id": 1, "name": "down"},{"id": 2, "name": "Vladimir"},{"id": 3, "name": "Vladimir"},{"id": 4, "name": "Vladimir"},{"id": 5, "name": "Vladimir"},{"id": 6, "name": "Vladimir"}]');
+
+    followersArray.forEach((val) => {
+      const newFollower = new OneFollowerComponent(followersColumn, val);
+      newFollower.render();
+    })
+
+    const followers = document.getElementsByClassName('event-follower-block');
+
+    Array.from(followers).forEach((val) => {
+      val.addEventListener('click', this.followerHandler.bind(this));
+    })
+  }
+
   starHandler(ev: MouseEvent) {
     const { target } = ev;
 
@@ -81,6 +118,36 @@ export default class OneEventView {
       target.classList.add('event-description__star_inactive');
       target.classList.remove('event-description__star_active');
       this.actions.removePlanningEvent(this.globalStore.oneEventStore.oneEventData.id);
+    }
+  }
+
+  shareHandler(ev: MouseEvent) {
+    document.getElementById('jsEventFollowers').style.display = 'flex';
+  }
+
+  declineHandler(ev: MouseEvent) {
+    document.getElementById('jsEventFollowers').style.display = 'none';
+  }
+
+  acceptHandler(ev: MouseEvent) {
+    const dataToSend = {
+      eventId: this.globalStore.oneEventStore.oneEventData.id,
+      invites: this.toInvite,
+    }
+
+    this.actions.sendInvites(dataToSend);
+    document.getElementById('jsEventFollowers').style.display = 'none';
+  }
+
+  followerHandler(ev: MouseEvent) {
+    const target = ev.target as HTMLElement;
+    target.classList.toggle('event-follower-block_active');
+
+    const indexOf = this.toInvite.indexOf(<number><unknown>target.id);
+    if (indexOf === -1) {
+      this.toInvite.push(<number><unknown>target.id);
+    } else {
+      this.toInvite.splice(indexOf, 1);
     }
   }
 

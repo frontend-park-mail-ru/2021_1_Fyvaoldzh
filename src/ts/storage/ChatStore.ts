@@ -65,9 +65,7 @@ export default class ChatStore {
 
   async update(renderOnlyMessages?: boolean) {
     this.interlocturId = <number><unknown>(new URL(window.location.href).searchParams.get('c'));
-    console.log(this.interlocturId);
     this.leftMessages = await getAllDialogues(1, this.searchString);
-    console.log(this.leftMessages);
     this.leftMessages?.forEach((val) => val.message.date = parseChatTime(val.message.date));
     await this.uploadChatHistory(this.interlocturId);
     if (renderOnlyMessages) {
@@ -95,8 +93,6 @@ export default class ChatStore {
       to: this.interlocturId,
       text: messageText,
     }
-
-    console.log(JSON.stringify(messageToSend));
 
     const answer = await postMessage(messageToSend);
     this.uploadChatHistory(this.interlocturId);

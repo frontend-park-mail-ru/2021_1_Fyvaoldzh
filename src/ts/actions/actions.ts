@@ -272,4 +272,11 @@ export default class Actions {
       data: null,
     })
   }
+
+  sendInvites(data: object) {
+    this.dispatcher.dispatch({
+      eventName: 'oneEvent/sendInvites',
+      data: data,
+    })
+  }
 }
