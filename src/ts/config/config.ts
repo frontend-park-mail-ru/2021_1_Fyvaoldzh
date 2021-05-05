@@ -11,13 +11,26 @@ export const urlMap = {
   imgUrl: `${baseApi}/api/v1/avatar`,
   imgEventUrl: `${baseApi}/api/v1/event`,
   apiUrl: `${baseApi}/api/v1`,
-  recommendationsEventsUrl: `${baseApi}/api/v1/recomend`,
+  recommendationsEventsUrl: `${baseApi}/api/v1/recommend`,
   addPlanningEventUrl: `${baseApi}/api/v1/add/planning`,
-  removePlanningEventUrl: `${baseApi}/api/v1/remove/planning`,
+  removePlanningEventUrl: `${baseApi}/api/v1/remove`,
   checkPlanningEventUrl: `${baseApi}/api/v1/event/is_added`,
   customEventUrl: `${baseApi}/api/v1/search`,
   oneProfileUrl: `${baseApi}/api/v1/profile/`,
   customUserUrl: `${baseApi}/api/v1/users`,
+
+  allDialogUrl: `${baseApi}/api/v1/dialogues`,
+  postMessageUrl: `${baseApi}/api/v1/send`,
+  messageOperationUrl: `${baseApi}/api/v1/message`,
+  activityUrl: `${baseApi}/api/v1/actions`,
+
+  planningEventsUrl: `${baseApi}/api/v1/get/planning/`,
+  visitedEventsUrl: `${baseApi}/api/v1/get/visited/`,
+  subscribeToUserUrl: `${baseApi}/api/v1/subscribe/user`,
+  unsubscribeFromUserUrl: `${baseApi}/api/v1/unsubscribe/user`,
+  followersUrl: `${baseApi}/api/v1/followers/`,
+  followedUsersUrl: `${baseApi}/api/v1/subscriptions/`,
+  inviteFollowersUrl: `${baseApi}/api/v1/message/mailing`,
 };
 
 export const SERVER_ERRORS = {
@@ -58,20 +71,17 @@ export enum ChannelNames {
   searchTabChanged,
   searchEventsPageChanged,
   searchUsersPageChanged,
+  searchLoaderActivate,
   oneProfilePageChanged,
   profilePageChanged,
   profilePasswordChanged,
+  followingsUpdated,
+  followingsPageChanged,
+  followingsTabChanged,
+  chatUpdated,
+  chatUploaded,
+  activityUpdated,
 }
-
-/* const pageNames = {
-  eventsPage: 'events',
-  profilePage: 'profile',
-  oneEventPage: 'eventPage',
-  registrationPage: 'registration',
-  loginPage: 'login',
-  logoutPage: 'logout',
-};
-*/
 
 export const routes = {
   main: '/',
@@ -84,6 +94,9 @@ export const routes = {
   oneProfilePage: '/oneProfile',
   searchPage: '/searchPage',
   search: '/search',
+  followings: '/profile/{profileId}/followings',
+  chat: '/chat',
+  activity: '/activity',
 };
 
 export const searchTab = {
@@ -106,4 +119,9 @@ export const searchButton = {
 export const profileEventsButton = {
   planning: 'planningEventsButton',
   visited: 'visitedEventsButton',
+};
+
+export const followingsTab = {
+  followedUsers: 'followedUsersTab',
+  followers: 'followersTab',
 };

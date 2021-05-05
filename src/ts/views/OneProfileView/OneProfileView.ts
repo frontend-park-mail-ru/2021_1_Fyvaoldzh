@@ -29,11 +29,19 @@ export default class OneProfileView extends ProfilesBaseView {
     this.wrapper = document.getElementById('wrapper');
   }
 
-  renderEventsList(events: Array<Object>) {
-    super.renderEventsList(events);
-
-    // вне зависимости от нажатой кнопки планируемых/посещенных ивентов текущая страница выбранного раздела хранится в currentEventsPage
+  renderEventsList() {
     const { currentEventsButton } = this.globalStore.oneProfileStore;
+    switch (currentEventsButton) {
+      case profileEventsButton.planning:
+        const { oneProfilePlanningEvents } = this.globalStore.oneProfileStore;
+        super.renderEventsList(oneProfilePlanningEvents);
+        break;
+      case profileEventsButton.visited:
+        const { oneProfileVisitedEvents } = this.globalStore.oneProfileStore;
+        super.renderEventsList(oneProfileVisitedEvents);
+        break;
+    }
+    // вне зависимости от нажатой кнопки планируемых/посещенных ивентов текущая страница выбранного раздела хранится в currentEventsPage
 
     // обновляем состояние пагинатора после отрисовки списка (пока нет пагинации на этой страничке)
     // const { currentEventsPage } = this.globalStore.oneProfileStore;
@@ -69,14 +77,15 @@ export default class OneProfileView extends ProfilesBaseView {
   renderOneProfilePage() {
     window.scroll(0, 0);
     const { oneProfileData } = this.globalStore.oneProfileStore;
-    const { currentEventsButton } = this.globalStore.oneProfileStore;
-    const { oneProfilePlanningEvents } = this.globalStore.oneProfileStore;
-    const { oneProfileVisitedEvents } = this.globalStore.oneProfileStore;
 
     this.wrapper.style.background = 'url("templates/one-profile/img/one-profile-background.jpg") no-repeat top / 100%';
+    if (window.screen.width <= 767) {
+      this.wrapper.style.paddingTop = '0px';
+      this.wrapper.style.paddingBottom = '0px';
+    }
 
     oneProfileData.age = addDeclensionOfNumbers(oneProfileData.age, ['год', 'года', 'лет']);
-    oneProfileData.followersCount = addDeclensionOfNumbers(oneProfileData.followers.length, [
+    oneProfileData.followers = addDeclensionOfNumbers(oneProfileData.followers, [
       'подписчик',
       'подписчика',
       'подписчиков',
@@ -91,6 +100,26 @@ export default class OneProfileView extends ProfilesBaseView {
 
     this.wrapper.innerHTML = '';
     this.wrapper.innerHTML = oneProfileTemplate(oneProfileData);
+
+    const subscribeUserButton = document.getElementById('subscribeUserButton');
+    subscribeUserButton.addEventListener('click', this.subscribeUserHandler.bind(this));
+
+    const inspectingProfileId = this.globalStore.oneProfileStore.oneProfileData.Uid;
+
+    if (!this.globalStore.userStore.userData) {
+      document.getElementById('subscribeUserButton').style.display = 'none';
+    } else if (this.globalStore.userStore.followedUsers.find((followedUser) => followedUser.id === inspectingProfileId)) {
+      document.getElementById('subscribeUserButton').innerText = 'Отписаться';
+    }
+
+    //   this.globalStore.userStore.followedUsers.forEach((followedUser) => {
+    //   if
+    // });
+
+    //   if (this.globalStore.userStore.followedUsers.includes(this.globalStore.oneProfileStore.oneProfileData.Uid)) {
+    //   document.getElementById('subscribeUserButton').innerText = 'Отписаться';
+    // }
+
     this.wrapper.querySelector('.profile-main-block').insertAdjacentHTML('beforeend', profileEventsTabTemplate());
 
     // const { currentEventsPage } = this.globalStore.oneProfileStore;
@@ -104,18 +133,10 @@ export default class OneProfileView extends ProfilesBaseView {
       button.addEventListener('click', buttonToggleHandler.bind(this));
     });
 
-    switch (currentEventsButton) {
-      case profileEventsButton.planning:
-        this.renderEventsList(oneProfilePlanningEvents);
-        break;
+    // const container = this.wrapper.querySelector('.container');
+    // container.classList.add('container_mobile_fullscreen');
 
-      case profileEventsButton.visited:
-        this.renderEventsList(oneProfileVisitedEvents);
-        break;
-
-      default:
-        break;
-    }
+    this.renderEventsList();
 
     // ренедерим пагинатор: (пока нет пагинации на этой страничке)
     // const oneProfilePaginator = document.getElementById('paginator');
@@ -135,6 +156,21 @@ export default class OneProfileView extends ProfilesBaseView {
     //
     // document.getElementById('paginationBack').addEventListener('click', oneProfilePaginatorHandler.bind(this));
     // document.getElementById('paginationForward').addEventListener('click', oneProfilePaginatorHandler.bind(this));
+  }
+
+  subscribeUserHandler(e: MouseEvent) {
+    const { target } = e;
+
+    if (target instanceof HTMLButtonElement && target.innerText === 'Подписаться') {
+      target.innerText = 'Отписаться';
+      this.actions.subscribeToUser(this.globalStore.oneProfileStore.oneProfileData.Uid);
+      return;
+    }
+
+    if (target instanceof HTMLButtonElement && target.innerText === 'Отписаться') {
+      target.innerText = 'Подписаться';
+      this.actions.unsubscribeFromUser(this.globalStore.oneProfileStore.oneProfileData.Uid);
+    }
   }
 
   subscribeViews() {

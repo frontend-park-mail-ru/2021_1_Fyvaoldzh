@@ -1,9 +1,21 @@
-.smbs-event
-    a.smbs-event__photo(style='background: url(http://95.163.180.8:1323/api/v1/event/' + id + '/image) no-repeat center / cover;', href='event' + id)
-    .smbs-event__text
-        .smbs-event__title
-            a.block-anchor(href='event' + id) #{title}
-        .smbs-event__info
-            .smbs-event__place #{place}
-            .smbs-event__data Начало:  #{startDate}
-            .smbs-event__data Окончание:  #{endDate}
+.smbs-event-cube
+    .smbs-event.smbs-event_front_side
+        a.smbs-event__photo(style='background: url(http://95.163.180.8:1323/api/v1/event/' + id + '/image) no-repeat center / cover;', href='event' + id)
+        .smbs-event__content
+            //.smbs-event__title
+                //a.block-anchor(href='event' + id) #{title}
+            a.smbs-event__title(href='event' + id) #{title}
+            .smbs-event__info
+                .smbs-event__place #{place}
+                .smbs-event__date Начало:  #{startDate}
+                .smbs-event__date Окончание:  #{endDate}
+        button.smbs-event__arrow-down
+    .smbs-event.smbs-event_top_side
+        //a.smbs-event__photo(style='background: url(http://95.163.180.8:1323/api/v1/event/' + id + '/image) no-repeat center / cover;', href='event' + id)
+        .smbs-event__text #{description}
+        .smbs-event__gradient-for-text
+        //.smbs-event__button-block
+            button.smbs-event__invite-button
+            button.smbs-event__share-button
+        .smbs-event__button-block
+            button.smbs-event__arrow-up

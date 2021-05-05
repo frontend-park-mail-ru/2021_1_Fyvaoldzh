@@ -18,6 +18,7 @@ const searchEventsTabTemplate = require('Templates/search-events-tab/search-even
 const searchUsersTabTemplate = require('Templates/search-users-tab/search-users-tab.pug');
 const paginationBlockTemplate = require('Templates/pagination-block/pagination-block.pug');
 const oneUserBlockTemplate = require('Templates/one-user-block/one-user-block.pug');
+const searchLoaderTemplate = require('Templates/search-loader/search-loader.pug');
 
 export default class SearchView extends ProfilesBaseView {
   public globalStore: Store;
@@ -33,12 +34,12 @@ export default class SearchView extends ProfilesBaseView {
     this.wrapper = document.getElementById('wrapper');
   }
 
-  renderEventsList(events: Array<object>) {
-    super.renderEventsList(events);
+  renderEventsList() {
+    const { searchResultEvents } = this.globalStore.searchStore;
+    super.renderEventsList(searchResultEvents);
 
     // т.к. renderEventsList может быть только на вкладке поиска ивентов, результаты вкладки поиска пользователей не чекаем:
     const { currentEventsPage } = this.globalStore.searchStore;
-    const { searchResultEvents } = this.globalStore.searchStore;
     updatePaginationState(currentEventsPage, searchResultEvents.length); // обновляем состояние пагинатора после отрисовки
     // основной части странички
   }
@@ -49,6 +50,10 @@ export default class SearchView extends ProfilesBaseView {
     const { currentTab } = this.globalStore.searchStore;
 
     this.wrapper.style.background = 'url("templates/profile/img/profile-background.jpg") no-repeat top / 100%';
+    if (window.screen.width <= 767) {
+      this.wrapper.style.paddingTop = '0px';
+      this.wrapper.style.paddingBottom = '0px';
+    }
 
     this.wrapper.innerHTML = '';
     this.wrapper.innerHTML = searchTemplate();
@@ -114,7 +119,7 @@ export default class SearchView extends ProfilesBaseView {
 
       case 'usersTab':
         changingContent.innerHTML = searchUsersTabTemplate();
-        this.renderUsersList(searchResultUsers);
+        this.renderUsersList();
         const usersPaginator = document.getElementById('paginator');
         usersPaginator.innerHTML = paginationBlockTemplate();
         updatePaginationState(currentUsersPage, searchResultUsers.length);
@@ -133,7 +138,6 @@ export default class SearchView extends ProfilesBaseView {
 
   renderSearchEventsTab() {
     const { currentEventsButton } = this.globalStore.searchStore;
-    const { searchResultEvents } = this.globalStore.searchStore;
 
     const changingContent = document.getElementById('changing-content');
 
@@ -154,14 +158,15 @@ export default class SearchView extends ProfilesBaseView {
           break;
       }
     });
-    this.renderEventsList(searchResultEvents);
+    this.renderEventsList();
   }
 
-  renderUsersList(users: Array<any>) {
+  renderUsersList() {
     window.scroll(0, 0);
+    const { searchResultUsers } = this.globalStore.searchStore;
     const usersList = document.getElementById('users-list');
     let resultHTML = '';
-    if (!users.length || (users.length === 1 && users[0] === 'Not Found')) {
+    if (!searchResultUsers.length || (searchResultUsers.length === 1 && searchResultUsers[0] === 'Not Found')) {
       const nothingRow = document.createElement('div');
       nothingRow.className = 'profile-header';
       nothingRow.style.height = 'auto';
@@ -173,6 +178,7 @@ export default class SearchView extends ProfilesBaseView {
       thereIsNothing.style.fontSize = '24px';
       thereIsNothing.style.textAlign = 'center';
       thereIsNothing.style.marginBottom = '30px';
+      thereIsNothing.style.alignSelf = 'center';
 
       nothingRow.appendChild(thereIsNothing);
 
@@ -181,7 +187,7 @@ export default class SearchView extends ProfilesBaseView {
 
       resultHTML = externalElement.innerHTML;
     } else {
-      users.forEach((user) => {
+      searchResultUsers.forEach((user) => {
         if (user !== 'Not Found') {
           user.age = addDeclensionOfNumbers(user.age, ['год', 'года', 'лет']);
           if (user.age === '0 лет') {
@@ -209,9 +215,22 @@ export default class SearchView extends ProfilesBaseView {
     usersList.innerHTML = resultHTML;
     // т.к. renderUsersList может быть только на вкладке поиска пользователей, результаты вкладки поиска ивентов не чекаем:
     const { currentUsersPage } = this.globalStore.searchStore;
-    const { searchResultUsers } = this.globalStore.searchStore;
     updatePaginationState(currentUsersPage, searchResultUsers.length); // обновляем состояние пагинатора после отрисовки
     // основной части странички
+  }
+
+  renderSearchLoader() {
+    const eventsList = document.getElementById('events-list');
+    const usersList = document.getElementById('users-list');
+
+    updatePaginationState(1, 1);
+
+    if (eventsList !== null) {
+      eventsList.innerHTML = searchLoaderTemplate();
+    }
+    if (usersList !== null) {
+      usersList.innerHTML = searchLoaderTemplate();
+    }
   }
 
   subscribeViews() {
@@ -235,6 +254,10 @@ export default class SearchView extends ProfilesBaseView {
     this.globalStore.eventBus.subscribe(
       ChannelNames.searchTabChanged,
       this.renderChangingContent.bind(this),
+    );
+    this.globalStore.eventBus.subscribe(
+      ChannelNames.searchLoaderActivate,
+      this.renderSearchLoader.bind(this),
     );
   }
 }

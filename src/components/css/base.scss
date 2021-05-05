@@ -43,8 +43,6 @@ input {
 }
 
 .title {
-  width: 510px;
-  height: 73px;
   font-weight: bold;
   font-size: 50px;
   color: $project-black;
@@ -58,10 +56,37 @@ input {
   top: 175px;
 }
 
+@media (max-width: 767px) {
+  .error-block-avatar {
+    white-space: nowrap;
+    top: unset;
+    @include value-adaptive("bottom", -50, -35);  //-42 -35
+    @include value-adaptive("font-size", 24, 15);
+    text-align: center;
+    width: fit-content;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
 .block-anchor {
   color: #2E1665;
 
   &:hover {
     color: #8986AC;
+  }
+}
+
+.container_mobile_fullscreen {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+@media (max-width: 767px) {
+  .container_mobile_fullscreen {
+    padding: 0;
+    margin: 0;
+    width: 100%;
   }
 }
