@@ -127,7 +127,7 @@ export default class UserStore {
     if (followersJson !== null) {
       Object.entries(followersJson).forEach(([, followerJson]) => {
         // @ts-ignore
-        this.followers.push(followerJson.id);
+        this.followers.push(followerJson);
       });
     }
 
@@ -136,7 +136,7 @@ export default class UserStore {
     if (followedUsersJson !== null) {
       Object.entries(followedUsersJson).forEach(([, followedUserJson]) => {
         // @ts-ignore
-        this.followedUsers.push(followedUserJson.id);
+        this.followedUsers.push(followedUserJson);
       });
     }
 
