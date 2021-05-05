@@ -38,7 +38,7 @@ export default class OneProfileStore {
     // this.currentEventsPage = 1;
     // this.currentEventsButton = profileEventsButton.planning;
 
-    this.oneProfileData = await getProfileById(action.data); // TODO брать из урла
+    this.oneProfileData = await getProfileById(action.data);
 
     await this.updateEvents();
     this.globalStore.eventBus.publish(ChannelNames.oneProfileUpdated);
