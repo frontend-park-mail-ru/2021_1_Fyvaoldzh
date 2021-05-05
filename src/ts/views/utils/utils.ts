@@ -1,4 +1,4 @@
-import {followingsTab, searchTab} from '../../config/config';
+import { followingsTab, searchTab } from '../../config/config';
 import DateTimeFormatOptions = Intl.DateTimeFormatOptions;
 
 /**

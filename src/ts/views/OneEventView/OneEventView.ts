@@ -17,6 +17,7 @@ interface FollowerInterface {
   name: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface ToInviteInterface {
   eventId: number;
   invites: Array<number>;
@@ -90,7 +91,6 @@ export default class OneEventView {
   renderFollowers() {
     const followersColumn = document.getElementById('jsFollowersColumn');
     const followersArray: Array<FollowerInterface> = this.globalStore.userStore.followers;
-    console.log(followersArray);
 
     followersArray.forEach((val) => {
       const newFollower = new OneFollowerComponent(followersColumn, val);

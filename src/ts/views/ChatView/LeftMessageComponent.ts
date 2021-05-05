@@ -41,7 +41,8 @@ export default class LeftMessageComponent {
     this.parent.insertAdjacentHTML('beforeend', template);
     if (!this.data.message.read) {
       console.log('data read: ', this.data.message.read);
-      document.getElementById(<string><unknown>this.data.interlocutor.id).style.background = 'linear-gradient(90deg, #2e1665 0%, #57001e 100%)';
+      document.getElementById(<string><unknown>this.data.interlocutor.id).style
+        .background = 'linear-gradient(90deg, #2e1665 0%, #57001e 100%)';
       document.getElementById(<string><unknown>this.data.interlocutor.id).style.color = 'white';
     }
   }

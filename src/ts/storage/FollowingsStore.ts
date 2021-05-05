@@ -1,4 +1,4 @@
-import {getUsersByParams, getProfileById, getFollowersById, getFollowedUsersById} from '../networkModule/network';
+import { getProfileById, getFollowersById, getFollowedUsersById } from '../networkModule/network';
 
 import { ChannelNames, followingsTab } from '../config/config';
 

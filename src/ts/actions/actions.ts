@@ -259,12 +259,11 @@ export default class Actions {
     });
   }
 
-
   updateChat(data?: boolean) {
-      this.dispatcher.dispatch({
+    this.dispatcher.dispatch({
       eventName: 'chat/update',
-      data: data,
-    })
+      data,
+    });
   }
 
   updateFollowings(id: number) {
@@ -302,19 +301,18 @@ export default class Actions {
     });
   }
 
-
   sendMessage(data: string) {
     this.dispatcher.dispatch({
       eventName: 'chat/sendMessage',
-      data: data,
-    })
+      data,
+    });
   }
 
   chatSearch(data: string) {
     this.dispatcher.dispatch({
       eventName: 'chat/chatSearchChanged',
-      data: data,
-    })
+      data,
+    });
   }
 
   updateActivity() {
@@ -327,7 +325,7 @@ export default class Actions {
   sendInvites(data: object) {
     this.dispatcher.dispatch({
       eventName: 'oneEvent/sendInvites',
-      data: data,
-    })
+      data,
+    });
   }
 }

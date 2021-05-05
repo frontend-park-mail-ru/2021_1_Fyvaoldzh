@@ -5,7 +5,7 @@ import RightMessageComponent from './RightMessageComponent';
 import { ChannelNames } from '../../config/config';
 
 const chatBaseTemplate = require('../../../templates/chat/chatBaseTemplate.pug');
-const leftUpper = require('../../../templates/chat/jsLeftUpper.pug');
+// const leftUpper = require('../../../templates/chat/jsLeftUpper.pug');
 
 export default class ChatView {
   public globalStore: Store;
@@ -23,11 +23,10 @@ export default class ChatView {
   renderChat(byHistory?: boolean) {
     if (this.globalStore.routerStore.currentUrl.pathname !== '/chat') {
       if (!byHistory) {
-        return
+        return;
       }
     }
 
-    console.log(this.globalStore.routerStore.currentUrl.pathname);
     this.wrapper.innerHTML = chatBaseTemplate();
     this.renderLeftMessages();
     this.renderRightMessages();
@@ -60,7 +59,7 @@ export default class ChatView {
 
     setTimeout(() => {
       chatMessages.scroll(0, chatMessages.scrollHeight);
-    }, 5)
+    }, 5);
   }
 
   renderLeftMessages() {
@@ -68,7 +67,7 @@ export default class ChatView {
       return;
     }
 
-    const leftMessages = this.globalStore.chatStore.leftMessages;
+    const { leftMessages } = this.globalStore.chatStore;
     const leftColumn = document.getElementById('jsChatLeft');
     if (!leftColumn) {
       return;
@@ -76,12 +75,12 @@ export default class ChatView {
     const messages = document.getElementsByClassName('message_read');
     Object.entries(messages).forEach(([, el]) => {
       el.remove();
-    })
+    });
 
     leftMessages?.forEach((val) => {
       const innerLeftMessage = new LeftMessageComponent(leftColumn, val);
       innerLeftMessage.render();
-    })
+    });
   }
 
   renderRightMessages() {
@@ -89,7 +88,7 @@ export default class ChatView {
       return;
     }
 
-    const rightMessages = this.globalStore.chatStore.rightMessages;
+    const { rightMessages } = this.globalStore.chatStore;
     const rightColumn = document.getElementById('jsChatMessages');
     if (!rightColumn) {
       return;
@@ -100,6 +99,7 @@ export default class ChatView {
     const reversedMessages = rightMessages?.slice().reverse();
     rightColumn.innerHTML = '';
     reversedMessages?.forEach((val) => {
+      // @ts-ignore
       const innerLeftMessage = new RightMessageComponent(rightColumn, val);
       innerLeftMessage.render();
     });
@@ -135,6 +135,7 @@ export default class ChatView {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   searchHandler(ev: KeyboardEvent) {
     const val = (document.getElementById('jsSearchBarInput') as HTMLInputElement).value;
     this.actions.chatSearch(val);
