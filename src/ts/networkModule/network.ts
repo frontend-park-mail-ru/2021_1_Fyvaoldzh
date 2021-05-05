@@ -314,15 +314,17 @@ export async function getEventsByParams( // моя реализация
 
 /**
  * Функция для получения пользователей по номеру страницы
+ * @param {String} search - часть имени пользователя
  * @param {Number | String} page - номер текущей страницы поиска
  * @return {json} - json, содержащий найденных пользователей
  */
 
-export async function getUsersByParams(page: number | string = '1') {
+export async function getUsersByParams(search: string = '', page: number | string = '1') {
   // моя реализация
   const url = new URL(urlMap.customUserUrl);
-  const params = [['page', `${page}`]];
+  const params = [['search', `${search}`], ['page', `${page}`]];
   url.search = new URLSearchParams(params).toString();
+  console.log(url.toString());
   const answer = await fetch(url.toString());
   const jsonFile = await answer.json();
   return jsonFile;

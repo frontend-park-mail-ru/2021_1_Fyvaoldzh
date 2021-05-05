@@ -17,7 +17,7 @@ export const urlMap = {
   checkPlanningEventUrl: `${baseApi}/api/v1/event/is_added`,
   customEventUrl: `${baseApi}/api/v1/search`,
   oneProfileUrl: `${baseApi}/api/v1/profile/`,
-  customUserUrl: `${baseApi}/api/v1/users`,
+  customUserUrl: `${baseApi}/api/v1/find`,
 
   allDialogUrl: `${baseApi}/api/v1/dialogues`,
   postMessageUrl: `${baseApi}/api/v1/send`,
