@@ -12,6 +12,7 @@ import ChangePageView from './ts/views/ChangePageView/ChangePageView';
 import { ChannelNames } from './ts/config/config';
 import OneProfileView from './ts/views/OneProfileView/OneProfileView';
 import SearchView from './ts/views/SearchView/SearchView';
+import FollowingsView from './ts/views/FollowingsView/FollowingsView';
 import ChatView from './ts/views/ChatView/ChatView';
 import ActivityView from './ts/views/ActivityPageView/ActivityPageView';
 
@@ -35,6 +36,8 @@ const oneEventView = new OneEventView(globalStore, actions);
 
 const searchView = new SearchView(globalStore, actions);
 
+const followingsView = new FollowingsView(globalStore, actions);
+
 const chatView = new ChatView(globalStore, actions);
 
 const activityView = new ActivityView(globalStore, actions);
@@ -46,6 +49,7 @@ const changePageView = new ChangePageView(
   eventsView,
   oneEventView,
   searchView,
+  followingsView,
   chatView,
   activityView
 );
@@ -59,6 +63,7 @@ const oneProfileView = new OneProfileView(globalStore, actions);
   changePageView,
   oneProfileView,
   searchView,
+  followingsView,
   chatView,
   activityView,
 ].forEach((view) => view.subscribeViews());
@@ -112,12 +117,6 @@ body.addEventListener('click', async (e) => {
   e.preventDefault();
   const { target } = e;
 
-  if (target instanceof HTMLAnchorElement) {
-    //e.preventDefault();
-    //const toUrl = new URL(target.href);
-    //actions.routerChangePage(toUrl.pathname + toUrl.search);
-  }
-
   if (target instanceof HTMLButtonElement) {
     const formBody: HTMLFormElement = <HTMLFormElement>(
       document.getElementById('formBody')
@@ -149,16 +148,27 @@ body.addEventListener('click', async (e) => {
     }
 
     if (target.id === 'JSsearchBarButton') {
-      const searchBarInput = <HTMLInputElement>(
-        document.getElementById('JSsearchBarInput')
-      );
-      target.classList.toggle('close');
-      if (searchBarInput.classList.contains('square')) {
-        searchBarInput.value = '';
+      if (window.screen.width <= 767) {
+        const toUrl = new URL('http://localhost:3000/search');
+        toUrl.search = new URLSearchParams([
+          ['text', ''],
+          ['tab', ''],
+          ['category', ''],
+          ['page', '1'],
+        ]).toString();
+        actions.routerChangePage(toUrl.pathname + toUrl.search);
       } else {
-        searchBarInput.focus();
+        const searchBarInput = <HTMLInputElement>(
+            document.getElementById('JSsearchBarInput')
+        );
+        target.classList.toggle('close');
+        if (searchBarInput.classList.contains('square')) {
+          searchBarInput.value = '';
+        } else {
+          searchBarInput.focus();
+        }
+        searchBarInput.classList.toggle('square');
       }
-      searchBarInput.classList.toggle('square');
     }
   }
 });

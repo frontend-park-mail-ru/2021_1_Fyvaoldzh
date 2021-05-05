@@ -1,4 +1,4 @@
-import { searchTab } from '../../config/config';
+import {followingsTab, searchTab} from '../../config/config';
 import DateTimeFormatOptions = Intl.DateTimeFormatOptions;
 
 /**
@@ -34,6 +34,8 @@ export function buttonToggleHandler(event: any) {
       this.actions.changeTab(target.id);
     } else if (this.constructor.name === 'SearchView') {
       this.actions.searchChangeTab(target.id);
+    } else if (this.constructor.name === 'FollowingsView') {
+      this.actions.followingsChangeTab(target.id);
     }
   }
 
@@ -134,6 +136,39 @@ export function profilePaginatorHandler(event: any) {
 
     case 'paginationForward':
       this.actions.userPageForward();
+      break;
+
+    default:
+      break;
+  }
+}
+
+/**
+ * Функция-обработчик кликов по пагинатору для страницы фолловеров
+ * @param {Object} event - ивент
+ */
+
+export function followingsPaginatorHandler(event: any) {
+  const { target } = event;
+  let currentPaginatorValue;
+
+  const { currentTab, currentFollowedUsersPage, currentFollowersPage } = this.globalStore.followingsStore;
+
+  if (currentTab === followingsTab.followedUsers) {
+    currentPaginatorValue = currentFollowedUsersPage;
+  } else if (currentTab === followingsTab.followers) {
+    currentPaginatorValue = currentFollowersPage;
+  }
+
+  switch (target.id) {
+    case 'paginationBack':
+      if (currentPaginatorValue > 1) {
+        this.actions.followingsPageBack();
+      }
+      break;
+
+    case 'paginationForward':
+      this.actions.followingsPageForward();
       break;
 
     default:

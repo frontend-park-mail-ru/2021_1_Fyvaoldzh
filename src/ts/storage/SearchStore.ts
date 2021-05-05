@@ -13,9 +13,9 @@ export default class SearchStore {
 
   public currentTab: string;
 
-  public searchResultEvents: Array<object>;
+  public searchResultEvents: Array<any>;
 
-  public searchResultUsers: Array<object>;
+  public searchResultUsers: Array<any>;
 
   public currentEventsPage: number;
 
@@ -88,7 +88,7 @@ export default class SearchStore {
     this.currentEventsPage = 1;
     this.currentEventsButton = action.data;
     await this.updateResults();
-    this.globalStore.eventBus.publish(ChannelNames.searchEventsButtonChanged, this.searchResultEvents);
+    this.globalStore.eventBus.publish(ChannelNames.searchEventsButtonChanged);
   }
 
   async changeTab(action: ActionsInterface) {
@@ -127,6 +127,9 @@ export default class SearchStore {
   }
 
   async updateResults() {
+    this.globalStore.eventBus.publish(ChannelNames.searchLoaderActivate); // TODO зарефкторить стор, чтобы не было
+    // послеовательных вызовов publish
+
     this.searchResultEvents.length = 0;
     this.searchResultUsers.length = 0;
 
@@ -170,6 +173,9 @@ export default class SearchStore {
   }
 
   async updateResultsByHistory() {
+    this.globalStore.eventBus.publish(ChannelNames.searchLoaderActivate); // TODO зарефкторить стор, чтобы не было
+    // послеовательных вызовов publish
+
     // тот же updateResults, но без пуша стейта истории
     this.searchResultEvents.length = 0;
     this.searchResultUsers.length = 0;
@@ -198,13 +204,13 @@ export default class SearchStore {
       case searchTab.events:
         this.currentEventsPage++;
         await this.updateResults();
-        this.globalStore.eventBus.publish(ChannelNames.searchEventsPageChanged, this.searchResultEvents);
+        this.globalStore.eventBus.publish(ChannelNames.searchEventsPageChanged);
         break;
 
       case searchTab.users:
         this.currentUsersPage++;
         await this.updateResults();
-        this.globalStore.eventBus.publish(ChannelNames.searchUsersPageChanged, this.searchResultUsers);
+        this.globalStore.eventBus.publish(ChannelNames.searchUsersPageChanged);
 
         break;
     }
@@ -215,13 +221,13 @@ export default class SearchStore {
       case searchTab.events:
         this.currentEventsPage--;
         await this.updateResults();
-        this.globalStore.eventBus.publish(ChannelNames.searchEventsPageChanged, this.searchResultEvents);
+        this.globalStore.eventBus.publish(ChannelNames.searchEventsPageChanged);
         break;
 
       case searchTab.users:
         this.currentUsersPage--;
         await this.updateResults();
-        this.globalStore.eventBus.publish(ChannelNames.searchUsersPageChanged, this.searchResultUsers);
+        this.globalStore.eventBus.publish(ChannelNames.searchUsersPageChanged);
         break;
     }
   }

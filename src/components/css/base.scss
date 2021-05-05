@@ -63,3 +63,17 @@ input {
     color: #8986AC;
   }
 }
+
+.container_mobile_fullscreen {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+@media (max-width: 767px) {
+  .container_mobile_fullscreen {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+  }
+}

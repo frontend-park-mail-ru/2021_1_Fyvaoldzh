@@ -1,0 +1,42 @@
+.lbl-map {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-miterlimit: 10;
+}
+.lbl-map.outline, .lbl-map.white, .lbl-map.slim {
+  stroke: #cbd1d3;
+}
+.lbl-map.outline, .lbl-map.white {
+  stroke-width: 4;
+}
+.lbl-map.outline {
+  fill: none;
+}
+.lbl-map.white {
+  fill: #fff;
+}
+.lbl-map.gray {
+  fill: #cbd1d3;
+  opacity: 0.5;
+}
+.lbl-map.slim {
+  fill: none;
+  stroke-width: 2px;
+}
+#lbl-map-mask > circle, .lbl-map-magnifier#lbl-map-mask > circle, .lbl-map-magnifier {
+  animation: magnifier-move 5s ease-in-out forwards infinite;
+}
+@-webkit-keyframes magnifier-move {
+  0%, 7% {
+    transform: translate(0px, 0px);
+  }
+  34%, 41% {
+    transform: translate(58px, -10px);
+  }
+  68%, 75% {
+    transform: translate(20px, 30px);
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
+}

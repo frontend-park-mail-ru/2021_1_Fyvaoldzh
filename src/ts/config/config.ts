@@ -18,10 +18,18 @@ export const urlMap = {
   customEventUrl: `${baseApi}/api/v1/search`,
   oneProfileUrl: `${baseApi}/api/v1/profile/`,
   customUserUrl: `${baseApi}/api/v1/users`,
+
   allDialogUrl: `${baseApi}/api/v1/dialogues`,
   postMessageUrl: `${baseApi}/api/v1/send`,
   messageOperationUrl: `${baseApi}/api/v1/message`,
   activityUrl: `${baseApi}/api/v1/actions`,
+
+  planningEventsUrl: `${baseApi}/api/v1/get/planning/`,
+  visitedEventsUrl: `${baseApi}/api/v1/get/visited/`,
+  subscribeToUserUrl: `${baseApi}/api/v1/subscribe/user`,
+  unsubscribeFromUserUrl: `${baseApi}/api/v1/unsubscribe/user`,
+  followersUrl: `${baseApi}/api/v1/followers/`,
+  followedUsersUrl: `${baseApi}/api/v1/subscriptions/`,
 };
 
 export const SERVER_ERRORS = {
@@ -62,9 +70,13 @@ export enum ChannelNames {
   searchTabChanged,
   searchEventsPageChanged,
   searchUsersPageChanged,
+  searchLoaderActivate,
   oneProfilePageChanged,
   profilePageChanged,
   profilePasswordChanged,
+  followingsUpdated,
+  followingsPageChanged,
+  followingsTabChanged,
   chatUpdated,
   chatUploaded,
   activityUpdated,
@@ -81,6 +93,7 @@ export const routes = {
   oneProfilePage: '/oneProfile',
   searchPage: '/searchPage',
   search: '/search',
+  followings: '/profile/{profileId}/followings',
   chat: '/chat',
   activity: '/activity',
 };
@@ -105,4 +118,9 @@ export const searchButton = {
 export const profileEventsButton = {
   planning: 'planningEventsButton',
   visited: 'visitedEventsButton',
+};
+
+export const followingsTab = {
+  followedUsers: 'followedUsersTab',
+  followers: 'followersTab',
 };

@@ -318,7 +318,7 @@ export async function getEventsByParams( // моя реализация
  * @return {json} - json, содержащий найденных пользователей
  */
 
-export async function getUsersByParams(page: number | string = '') {
+export async function getUsersByParams(page: number | string = '1') {
   // моя реализация
   const url = new URL(urlMap.customUserUrl);
   const params = [['page', `${page}`]];
@@ -356,7 +356,48 @@ export async function getOneDialog(page: number | string = '', id: number) {
         'X-XSRF-TOKEN': csrf,
       },
     });
-    return await answer.json();
+     return await answer.json();
+  } catch (err) {
+    if (!navigator.onLine) {
+      location.reload();
+    }
+  }
+}
+
+/**
+ * Функция для получения планируемых мероприятий пользователя по его id
+ * @param {number} id - id пользователя
+ * @return {json} - json планируемых мероприятий
+ */
+
+export async function getPlanningEventsById(id: number) {
+  const answer = await fetch(urlMap.planningEventsUrl + id);
+  const jsonFile = await answer.json();
+  return jsonFile;
+}
+
+/**
+ * Функция для получения посещенных мероприятий пользователя по его id
+ * @param {number} id - id пользователя
+ * @return {json} - json посещенных мероприятий
+ */
+
+export async function getVisitedEventsById(id: number) {
+  const answer = await fetch(urlMap.visitedEventsUrl + id);
+  const jsonFile = await answer.json();
+  return jsonFile;
+}
+
+export async function followUser(id: number | string) {
+  const csrf = getCsrf();
+  try {
+    return await fetch(`${urlMap.subscribeToUserUrl}/${id}`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'X-XSRF-TOKEN': csrf,
+      },
+    });
   } catch (err) {
     if (!navigator.onLine) {
       location.reload();
@@ -381,6 +422,24 @@ export async function deleteOneDialog(id: number) {
     }
   }
 }
+
+export async function unfollowUser(id: number | string) {
+  const csrf = getCsrf();
+  try {
+    return await fetch(`${urlMap.unsubscribeFromUserUrl}/${id}`, {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: {
+        'X-XSRF-TOKEN': csrf,
+      },
+    });
+  } catch (err) {
+    if (!navigator.onLine) {
+      location.reload();
+    }
+  }
+}
+
 
 export async function postMessage(message: object) {
   const csrf = getCsrf();
@@ -417,4 +476,15 @@ export async function getActivity(page: number) {
       location.reload();
     }
   }
+
+export async function getFollowersById(id: number | string) {
+  const answer = await fetch(urlMap.followersUrl + id);
+  const jsonFile = await answer.json();
+  return jsonFile;
+}
+
+export async function getFollowedUsersById(id: number | string) {
+  const answer = await fetch(urlMap.followedUsersUrl + id);
+  const jsonFile = await answer.json();
+  return jsonFile;
 }

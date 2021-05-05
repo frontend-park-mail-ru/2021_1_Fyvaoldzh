@@ -133,6 +133,20 @@ export default class Actions {
     });
   }
 
+  subscribeToUser(userId: number | string) {
+    this.dispatcher.dispatch({
+      eventName: 'user/subscribeToUser',
+      data: userId,
+    });
+  }
+
+  unsubscribeFromUser(userId: number | string) {
+    this.dispatcher.dispatch({
+      eventName: 'user/unsubscribeFromUser',
+      data: userId,
+    });
+  }
+
   userPageForward() {
     this.dispatcher.dispatch({
       eventName: 'user/pageForward',
@@ -245,12 +259,49 @@ export default class Actions {
     });
   }
 
+
   updateChat(data?: boolean) {
-    this.dispatcher.dispatch({
+      this.dispatcher.dispatch({
       eventName: 'chat/update',
       data: data,
     })
   }
+
+  updateFollowings(id: number) {
+    this.dispatcher.dispatch({
+      eventName: 'followings/update',
+      data: id,
+    });
+  }
+
+  updateFollowingsByHistory() {
+    this.dispatcher.dispatch({
+      eventName: 'followings/updateByHistory',
+      data: null,
+    });
+  }
+
+  followingsPageForward() {
+    this.dispatcher.dispatch({
+      eventName: 'followings/pageForward',
+      data: null,
+    });
+  }
+
+  followingsPageBack() {
+    this.dispatcher.dispatch({
+      eventName: 'followings/pageBack',
+      data: null,
+    });
+  }
+
+  followingsChangeTab(tabId: string) {
+    this.dispatcher.dispatch({
+      eventName: 'followings/changeTab',
+      data: tabId,
+    });
+  }
+
 
   sendMessage(data: string) {
     this.dispatcher.dispatch({
@@ -270,7 +321,7 @@ export default class Actions {
     this.dispatcher.dispatch({
       eventName: 'activity/update',
       data: null,
-    })
+    });
   }
 
   sendInvites(data: object) {

@@ -6,6 +6,7 @@ import EventBus from '../eventBus/eventBus';
 import { ActionsInterface } from '../interfaces';
 import OneProfileStore from './OneProfileStore';
 import SearchStore from './SearchStore';
+import FollowingsStore from './FollowingsStore';
 import ChatStore from './ChatStore';
 import ActivityStore from './ActivityStore';
 
@@ -24,6 +25,8 @@ export default class Store {
 
   public searchStore: SearchStore;
 
+  public followingsStore: FollowingsStore;
+
   public chatStore: ChatStore;
 
   public activityStore: ActivityStore;
@@ -36,6 +39,7 @@ export default class Store {
     this.routerStore = new RouterStore(this);
     this.oneProfileStore = new OneProfileStore(this);
     this.searchStore = new SearchStore(this);
+    this.followingsStore = new FollowingsStore(this);
     this.chatStore = new ChatStore(this);
     this.activityStore = new ActivityStore(this);
   }
@@ -67,6 +71,10 @@ export default class Store {
 
     if (action.eventName.includes('search/')) {
       this.searchStore.reducer(action);
+    }
+
+    if (action.eventName.includes('followings/')) {
+      this.followingsStore.reducer(action);
     }
 
     if (action.eventName.includes('chat/')) {

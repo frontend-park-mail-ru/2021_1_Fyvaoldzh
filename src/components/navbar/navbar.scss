@@ -185,6 +185,13 @@ input[type=checkbox]:checked  ~ .dropdown-menu {
   transform: translate(-50%, -50%);
 }
 
+
+@media (max-width:767px) {
+  .search-bar__block {
+    @include value-adaptive("margin-right", 80, 30);
+  }
+}
+
 .search-bar__block.on {
   animation-name: in-out;
   animation-duration: 0.4s;
