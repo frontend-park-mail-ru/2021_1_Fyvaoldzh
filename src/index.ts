@@ -51,7 +51,7 @@ const changePageView = new ChangePageView(
   searchView,
   followingsView,
   chatView,
-  activityView
+  activityView,
 );
 
 const oneProfileView = new OneProfileView(globalStore, actions);
@@ -94,14 +94,14 @@ eventBus.subscribe(
 const { body } = document;
 
 function findAnchorElement(el: any): any {
+  // eslint-disable-next-line eqeqeq
   if (el.tagName == 'A' && el.href) {
     return el.href;
-  } else if (el.parentElement) {
+  } if (el.parentElement) {
     return findAnchorElement(el.parentElement);
-  } else {
-    return null;
   }
-};
+  return null;
+}
 
 function callback(e: MouseEvent) {
   const link = findAnchorElement(e.target);
@@ -109,7 +109,7 @@ function callback(e: MouseEvent) {
   e.preventDefault();
   const toUrl = new URL(link);
   actions.routerChangePage(toUrl.pathname + toUrl.search);
-};
+}
 
 document.addEventListener('click', callback);
 

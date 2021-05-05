@@ -1,4 +1,4 @@
-import { urlMap } from '../../config/config';
+// import { urlMap } from '../../config/config';
 
 const rightMyMessageTemplate = require('Templates/chat/rightMyMessage.pug');
 const rightSomeMessageTemplate = require('Templates/chat/rightSbMessage.pug');

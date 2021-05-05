@@ -1,4 +1,4 @@
-import { urlMap } from '../../config/config';
+// import { urlMap } from '../../config/config';
 
 const subscribeTemplate = require('Templates/activity/subscribe.pug');
 const eventTemplate = require('Templates/activity/event.pug');

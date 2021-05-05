@@ -356,7 +356,7 @@ export async function getOneDialog(page: number | string = '', id: number) {
         'X-XSRF-TOKEN': csrf,
       },
     });
-     return await answer.json();
+    return await answer.json();
   } catch (err) {
     if (!navigator.onLine) {
       location.reload();
@@ -439,7 +439,6 @@ export async function unfollowUser(id: number | string) {
     }
   }
 }
-
 
 export async function postMessage(message: object) {
   const csrf = getCsrf();

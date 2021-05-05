@@ -7,6 +7,7 @@ interface FollowerInterface {
 
 export default class OneFollowerComponent {
   public parent: HTMLElement;
+
   public data: FollowerInterface;
 
   constructor(
