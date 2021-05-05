@@ -476,6 +476,7 @@ export async function getActivity(page: number) {
       location.reload();
     }
   }
+}
 
 export async function getFollowersById(id: number | string) {
   const answer = await fetch(urlMap.followersUrl + id);
