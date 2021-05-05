@@ -241,6 +241,8 @@ export default class UserView extends ProfilesBaseView {
     const { userData } = this.globalStore.userStore;
     const { followers } = this.globalStore.userStore;
     const { followedUsers } = this.globalStore.userStore;
+    const { profilePlanningEvents } = this.globalStore.userStore;
+    const { profileVisitedEvents } = this.globalStore.userStore;
 
     if (window.location.pathname !== '/profile') {
       // console.log(this.globalStore.routerStore.currentUrl.pathname);
@@ -263,7 +265,7 @@ export default class UserView extends ProfilesBaseView {
 
     userData.followersCount = addDeclensionOfNumbers(followers.length, ['подписчик', 'подписчика', 'подписчиков']);
     userData.followedUsersCount = addDeclensionOfNumbers(followedUsers.length, ['подписка', 'подписки', 'подписок']);
-    userData.planningCount = addDeclensionOfNumbers(userData.planning?.length, [
+    userData.planningCount = addDeclensionOfNumbers(profilePlanningEvents.length, [
       'планируемое',
       'планируемых',
       'планируемых',
@@ -273,7 +275,7 @@ export default class UserView extends ProfilesBaseView {
       userData.planningCount = '0 планируемых';
     }
 
-    userData.visitedCount = addDeclensionOfNumbers(userData.visited?.length, [
+    userData.visitedCount = addDeclensionOfNumbers(profileVisitedEvents.length, [
       'посещенное',
       'посещенных',
       'посещенных',
