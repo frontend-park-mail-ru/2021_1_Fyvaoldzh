@@ -1,4 +1,4 @@
-import { getUsersByParams, getProfileById } from '../networkModule/network';
+import {getUsersByParams, getProfileById, getFollowersById, getFollowedUsersById} from '../networkModule/network';
 
 import { ChannelNames, followingsTab } from '../config/config';
 
@@ -112,22 +112,39 @@ export default class SearchStore {
     this.followedUsers.length = 0;
     this.followers.length = 0;
 
-    const followedUsersJsonArray: Array<object> = await getUsersByParams(this.currentFollowedUsersPage);
-    if (followedUsersJsonArray !== null) {
-      Object.entries(followedUsersJsonArray).forEach(([, userJson]) => {
-        this.followedUsers.push(userJson);
+    // const followedUsersJsonArray: Array<object> = await getUsersByParams(this.currentFollowedUsersPage);
+    // if (followedUsersJsonArray !== null) {
+    //   Object.entries(followedUsersJsonArray).forEach(([, userJson]) => {
+    //     this.followedUsers.push(userJson);
+    //   });
+    // }
+    //
+    // const followersJsonArray: Array<object> = await getUsersByParams(this.currentFollowersPage);
+    // if (followersJsonArray !== null) {
+    //   Object.entries(followersJsonArray).forEach(([, userJson]) => {
+    //     this.followers.push(userJson);
+    //   });
+    // }
+
+    const followersJson = await getFollowersById(this.inspectedProfileData.Uid);
+
+    if (followersJson !== null) {
+      Object.entries(followersJson).forEach(([, followerJson]) => {
+        // @ts-ignore
+        this.followers.push(followerJson);
       });
     }
 
-    const followersJsonArray: Array<object> = await getUsersByParams(this.currentFollowersPage);
-    if (followersJsonArray !== null) {
-      Object.entries(followersJsonArray).forEach(([, userJson]) => {
-        this.followers.push(userJson);
+    const followedUsersJson = await getFollowedUsersById(this.inspectedProfileData.Uid);
+
+    if (followedUsersJson !== null) {
+      Object.entries(followedUsersJson).forEach(([, followedUserJson]) => {
+        // @ts-ignore
+        this.followedUsers.push(followedUserJson);
       });
     }
 
     let curTabPage;
-    console.log(this.currentTab);
     switch (this.currentTab) {
       case followingsTab.followedUsers:
         curTabPage = this.currentFollowedUsersPage ? this.currentFollowedUsersPage : 1;
@@ -158,17 +175,35 @@ export default class SearchStore {
     this.followedUsers.length = 0;
     this.followers.length = 0;
 
-    const followedUsersJsonArray: Array<object> = await getUsersByParams();
-    if (followedUsersJsonArray !== null) {
-      Object.entries(followedUsersJsonArray).forEach(([, userJson]) => {
-        this.followedUsers.push(userJson);
+    // const followedUsersJsonArray: Array<object> = await getUsersByParams();
+    // if (followedUsersJsonArray !== null) {
+    //   Object.entries(followedUsersJsonArray).forEach(([, userJson]) => {
+    //     this.followedUsers.push(userJson);
+    //   });
+    // }
+    //
+    // const followersJsonArray: Array<object> = await getUsersByParams();
+    // if (followersJsonArray !== null) {
+    //   Object.entries(followersJsonArray).forEach(([, userJson]) => {
+    //     this.followers.push(userJson);
+    //   });
+    // }
+
+    const followersJson = await getFollowersById(this.inspectedProfileData.Uid);
+
+    if (followersJson !== null) {
+      Object.entries(followersJson).forEach(([, followerJson]) => {
+        // @ts-ignore
+        this.followers.push(followerJson);
       });
     }
 
-    const followersJsonArray: Array<object> = await getUsersByParams();
-    if (followersJsonArray !== null) {
-      Object.entries(followersJsonArray).forEach(([, userJson]) => {
-        this.followers.push(userJson);
+    const followedUsersJson = await getFollowedUsersById(this.inspectedProfileData.Uid);
+
+    if (followedUsersJson !== null) {
+      Object.entries(followedUsersJson).forEach(([, followedUserJson]) => {
+        // @ts-ignore
+        this.followedUsers.push(followedUserJson);
       });
     }
   }

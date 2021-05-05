@@ -209,7 +209,8 @@ input[type="file"] {
     display: flex;
     align-items: center;
     justify-content: start;
-    margin-top: 40px;
+    margin-top: 7px;
+    //margin-bottom: 7px;
     color: #2E1665;
 
     &:hover {
@@ -219,6 +220,7 @@ input[type="file"] {
 
   @media (max-width:767px) {
     &__followers-block {
+      margin-bottom: 0;
       @include value-adaptive("font-size", 35, 20);
       @include value-adaptive("margin-top", 60, 15);
     }
@@ -238,10 +240,25 @@ input[type="file"] {
     }
   }
 
+  &__followed-users-img {
+    background: url(../templates/profile/img/followings.svg) no-repeat center / contain;
+    width: 25px;
+    height: 25px;
+    margin-right: 9px;
+  }
+
+  @media (max-width:767px) {
+    &__followed-users-img {
+      @include value-adaptive("width", 40, 22);
+      @include value-adaptive("height", 40, 22);
+    }
+  }
+
   &__events-stats-block {
     display: flex;
     align-items: center;
     justify-content: start;
+    margin-top: 10px;
   }
 
   @media (max-width:767px) {

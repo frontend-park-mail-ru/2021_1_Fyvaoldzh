@@ -140,9 +140,6 @@ export default class UserStore {
       });
     }
 
-    console.log(this.followedUsers);
-
-
     // await this.updateEvents(); // тут норм?
 
     const queryParamTab = this.globalStore.routerStore.currentUrl?.searchParams.get('tab');
