@@ -1,15 +1,16 @@
 .one-user-block
     .one-user-block__body
         a.one-user-block__photo(style='background: url(http://95.163.180.8:1323/api/v1/avatar/' + id + ') no-repeat center / cover;', href='profile'+id)
-        .one-user-block__title
-            a.block-anchor(href='profile'+id, id=id) #{name}
+        //.one-user-block__title
+            //a.block-anchor(href='profile'+id, id=id) #{name}
+        a.one-user-block__title(href='profile' + id, id=id) #{name}
         .profile-header__other-info
-            .profile-header__info-segment
+            .one-user-block__info-segment
                 .profile-header__age-img
                 | #{age}
-            .profile-header__info-segment
+            .one-user-block__info-segment
                 .profile-header__city-img
                 | #{city}
-            .profile-header__info-segment
+            .one-user-block__info-segment
                 .profile-header__subscribers-img
                 | #{followers}

@@ -254,30 +254,28 @@ export default class UserView extends ProfilesBaseView {
 
     const wrapper = document.getElementById('wrapper');
     wrapper.style.background = 'url("templates/profile/img/profile-background.jpg") no-repeat top / 100%';
+    wrapper.style.paddingTop = '0px';
+    wrapper.style.paddingBottom = '0px';
 
-    if (userData.followers) {
-      userData.followersCount = addDeclensionOfNumbers(
-        userData.followers?.length,
-        ['подписчик', 'подписчика', 'подписчиков'],
-      );
-      userData.planningCount = addDeclensionOfNumbers(
-        userData.planning?.length,
-        ['планируемое', 'планируемых', 'планируемых'],
-      );
+    userData.followers = addDeclensionOfNumbers(userData.followers, ['подписчик', 'подписчика', 'подписчиков']);
+    userData.planningCount = addDeclensionOfNumbers(userData.planning?.length, [
+      'планируемое',
+      'планируемых',
+      'планируемых',
+    ]);
 
-      if (!userData.planningCount) {
-        userData.visitedCount = '0 планируемых';
-      }
+    if (!userData.planningCount) {
+      userData.planningCount = '0 планируемых';
+    }
 
-      userData.visitedCount = addDeclensionOfNumbers(userData.visited?.length, [
-        'посещенное',
-        'посещенных',
-        'посещенных',
-      ]);
+    userData.visitedCount = addDeclensionOfNumbers(userData.visited?.length, [
+      'посещенное',
+      'посещенных',
+      'посещенных',
+    ]);
 
-      if (!userData.visitedCount) {
-        userData.visitedCount = '0 посещенных';
-      }
+    if (!userData.visitedCount) {
+      userData.visitedCount = '0 посещенных';
     }
 
     wrapper.innerHTML = '';

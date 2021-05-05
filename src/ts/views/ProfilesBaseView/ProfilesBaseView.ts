@@ -22,6 +22,7 @@ export default class ProfilesBaseView {
       thereIsNothing.style.fontSize = '24px';
       thereIsNothing.style.textAlign = 'center';
       thereIsNothing.style.marginBottom = '30px';
+      thereIsNothing.style.alignSelf = 'center';
 
       nothingRow.appendChild(thereIsNothing);
 

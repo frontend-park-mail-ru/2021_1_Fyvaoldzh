@@ -1,11 +1,11 @@
 @import "../../components/css/mixins";
 @import "../../components/css/variables";
 
-.button-block {
-  width: 100%;
-  margin-top: 30px;
-  display: flex;
-}
+//.button-block {
+//  width: 100%;
+//  margin-top: 30px;
+//  display: flex;
+//}
 
 .profile-main-block {
   @include value-adaptive("width", 1200, 320);

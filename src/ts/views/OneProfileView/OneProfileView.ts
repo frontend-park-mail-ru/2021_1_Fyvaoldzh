@@ -79,9 +79,11 @@ export default class OneProfileView extends ProfilesBaseView {
     const { oneProfileData } = this.globalStore.oneProfileStore;
 
     this.wrapper.style.background = 'url("templates/one-profile/img/one-profile-background.jpg") no-repeat top / 100%';
+    this.wrapper.style.paddingTop = '0px';
+    this.wrapper.style.paddingBottom = '0px';
 
     oneProfileData.age = addDeclensionOfNumbers(oneProfileData.age, ['год', 'года', 'лет']);
-    oneProfileData.followersCount = addDeclensionOfNumbers(oneProfileData.followers.length, [
+    oneProfileData.followers = addDeclensionOfNumbers(oneProfileData.followers, [
       'подписчик',
       'подписчика',
       'подписчиков',

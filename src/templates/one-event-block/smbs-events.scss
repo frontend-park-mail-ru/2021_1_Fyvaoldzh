@@ -32,6 +32,8 @@ $smbs-event-endSize: 258;
 @media (max-width:767px) {
   .smbs-event-cube {
     @include value-adaptive("height", $smbs-event-startSize, $smbs-event-endSize);
+    @include value-adaptive("margin-bottom", 155, 55);
+    //margin-bottom: 55px;
   }
 }
 

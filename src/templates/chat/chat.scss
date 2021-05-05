@@ -154,7 +154,7 @@ body::-webkit-scrollbar-thumb {
 
 @media (max-width:767px) {
   .container {
-    width: 100vw;
+    max-width: 100vw;  //изменил с width на max-width
   }
 
   .chat__right {

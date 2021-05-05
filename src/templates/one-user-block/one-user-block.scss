@@ -27,6 +27,17 @@
     position: relative;
   }
 
+  @media (max-width:767px) {
+    &__body {
+      @include value-adaptive("margin-left", 125, 0);
+      @include value-adaptive("margin-right", 125, 0);
+      //margin: 0;
+      padding: 0;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
   &__photo {
     width: 155px;
     height: 155px;
@@ -38,6 +49,17 @@
     left: 0;
     transform: translate(-50%);
     z-index: 1;
+  }
+
+  @media (max-width:767px) {
+    &__photo {
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%) translateY(-50%);
+      @include value-adaptive("height", 170, 100);
+      @include value-adaptive("width", 170, 100);
+      @include value-adaptive("border-width", 9, 5);
+    }
   }
 
   &__photo_default {
@@ -59,6 +81,48 @@
     font-weight: 700;
     line-height: 32px;
     letter-spacing: 0em;
+    color: #2E1665;
+    width: 100%;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+
+    &:hover {
+      color: #8986AC;
+    }
+  }
+
+  @media (max-width:767px) {
+    &__title {
+      @include value-adaptive("font-size", 36, 18);
+      @include value-adaptive("line-height", 32, 20);
+      @include value-adaptive("bottom", 10, 30);
+      //@include value-adaptive("margin-bottom", 15, 5);
+      text-align: center;
+      position: absolute;
+    }
+  }
+
+  &__info-segment {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+  }
+
+  @media (max-width:767px) {
+    &__info-segment {
+      @include value-adaptive("font-size", 24, 16);
+      @include value-adaptive("line-height", 40, 20);
+      display: none;
+    }
+  }
+}
+
+@media (max-width:767px) {
+  .one-user-block {
+    @include value-adaptive("margin-top", 90, 40);
+    margin-bottom: 40px;
   }
 }
 

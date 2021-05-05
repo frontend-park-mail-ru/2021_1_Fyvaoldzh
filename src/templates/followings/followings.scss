@@ -20,6 +20,17 @@
     z-index: 1;
   }
 
+  @media (max-width:767px) {
+    &__avatar {
+      position: unset;
+      transform: none;
+      @include value-adaptive("margin-top", 60, 20);
+      @include value-adaptive("height", 460, 200);
+      @include value-adaptive("width", 460, 200);
+      @include value-adaptive("border-width", 17, 7);
+    }
+  }
+
   &__title {
     //height: 50px;
     margin-top: 230px;
@@ -31,5 +42,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  @media (max-width:767px) {
+    &__title {
+      @include value-adaptive("margin-top", 40, 10);
+      @include value-adaptive("font-size", 60, 24);
+    }
   }
 }

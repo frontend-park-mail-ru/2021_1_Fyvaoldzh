@@ -50,6 +50,8 @@ export default class SearchView extends ProfilesBaseView {
     const { currentTab } = this.globalStore.searchStore;
 
     this.wrapper.style.background = 'url("templates/profile/img/profile-background.jpg") no-repeat top / 100%';
+    this.wrapper.style.paddingTop = '0px';
+    this.wrapper.style.paddingBottom = '0px';
 
     this.wrapper.innerHTML = '';
     this.wrapper.innerHTML = searchTemplate();
@@ -174,6 +176,7 @@ export default class SearchView extends ProfilesBaseView {
       thereIsNothing.style.fontSize = '24px';
       thereIsNothing.style.textAlign = 'center';
       thereIsNothing.style.marginBottom = '30px';
+      thereIsNothing.style.alignSelf = 'center';
 
       nothingRow.appendChild(thereIsNothing);
 
