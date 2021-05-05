@@ -107,6 +107,7 @@ body::-webkit-scrollbar-thumb {
     justify-content: flex-start;
     color: black;
     transition-duration: 0.5s;
+    width: 100%;
   }
 
   &_unread {
@@ -126,6 +127,9 @@ body::-webkit-scrollbar-thumb {
   }
 
   &__text {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
     opacity: .6;
   }
 
@@ -138,6 +142,7 @@ body::-webkit-scrollbar-thumb {
   &__body {
     margin-left: 8px;
     height: 100%;
+    width: 60%;
     @include flex-mixin(column, flex-start);
     justify-content: space-between;
   }

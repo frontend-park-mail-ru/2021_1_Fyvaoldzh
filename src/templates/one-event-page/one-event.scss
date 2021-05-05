@@ -91,7 +91,7 @@
     height: 50px;
     width: 50px;
     position: absolute;
-    right: 0;
+    right: 10px;
     transform: translate(50%);
 
     &_active {
@@ -164,7 +164,7 @@
   margin-left: -150px;
   display: none;
   background: white;
-
+  box-shadow: 0 0 10px rgb(0 0 0 / 25%);
 
   &__accept {
     @extend .event-description__star;
