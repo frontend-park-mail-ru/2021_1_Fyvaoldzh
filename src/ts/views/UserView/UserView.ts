@@ -263,8 +263,8 @@ export default class UserView extends ProfilesBaseView {
       wrapper.style.paddingBottom = '0px';
     }
 
-    userData.followersCount = addDeclensionOfNumbers(followers.length, ['подписчик', 'подписчика', 'подписчиков']);
-    userData.followedUsersCount = addDeclensionOfNumbers(followedUsers.length, ['подписка', 'подписки', 'подписок']);
+    userData.followers = addDeclensionOfNumbers(userData.followers, ['подписчик', 'подписчика', 'подписчиков']);
+    userData.subscriptions = addDeclensionOfNumbers(userData.subscriptions, ['подписка', 'подписки', 'подписок']);
     userData.planningCount = addDeclensionOfNumbers(profilePlanningEvents.length, [
       'планируемое',
       'планируемых',

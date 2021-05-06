@@ -126,7 +126,7 @@ export default class SearchStore {
     //   });
     // }
 
-    const followersJson = await getFollowersById(this.inspectedProfileData.Uid);
+    const followersJson = await getFollowersById(this.inspectedProfileData.Uid, this.currentFollowersPage);
 
     if (followersJson !== null) {
       Object.entries(followersJson).forEach(([, followerJson]) => {
@@ -135,7 +135,7 @@ export default class SearchStore {
       });
     }
 
-    const followedUsersJson = await getFollowedUsersById(this.inspectedProfileData.Uid);
+    const followedUsersJson = await getFollowedUsersById(this.inspectedProfileData.Uid, this.currentFollowedUsersPage);
 
     if (followedUsersJson !== null) {
       Object.entries(followedUsersJson).forEach(([, followedUserJson]) => {
@@ -189,7 +189,7 @@ export default class SearchStore {
     //   });
     // }
 
-    const followersJson = await getFollowersById(this.inspectedProfileData.Uid);
+    const followersJson = await getFollowersById(this.inspectedProfileData.Uid, this.currentFollowersPage);
 
     if (followersJson !== null) {
       Object.entries(followersJson).forEach(([, followerJson]) => {
@@ -198,7 +198,7 @@ export default class SearchStore {
       });
     }
 
-    const followedUsersJson = await getFollowedUsersById(this.inspectedProfileData.Uid);
+    const followedUsersJson = await getFollowedUsersById(this.inspectedProfileData.Uid, this.currentFollowedUsersPage);
 
     if (followedUsersJson !== null) {
       Object.entries(followedUsersJson).forEach(([, followedUserJson]) => {

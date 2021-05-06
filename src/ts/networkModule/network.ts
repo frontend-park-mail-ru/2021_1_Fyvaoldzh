@@ -479,14 +479,40 @@ export async function getActivity(page: number) {
   }
 }
 
-export async function getFollowersById(id: number | string) {
-  const answer = await fetch(urlMap.followersUrl + id);
+/**
+ * Функция для получения подписчиков пользователя
+ * @param {Number | String} id - id пользователя
+ * @param {Number | String} page - номер текущей страницы подписчиков
+ * @return {json} - json подписчиков
+ */
+
+export async function getFollowersById(id: number | string, page: number | string = '') {
+  const url = new URL(urlMap.followersUrl + id);
+  const params = [
+    ['page', `${page}`],
+  ];
+  url.search = new URLSearchParams(params).toString();
+  const answer = await fetch(url.toString());
+  // const answer = await fetch(urlMap.followersUrl + id);
   const jsonFile = await answer.json();
   return jsonFile;
 }
 
-export async function getFollowedUsersById(id: number | string) {
-  const answer = await fetch(urlMap.followedUsersUrl + id);
+/**
+ * Функция для получения подписок пользователя
+ * @param {Number | String} id - id пользователя
+ * @param {Number | String} page - номер текущей страницы подписок
+ * @return {json} - json подписок
+ */
+
+export async function getFollowedUsersById(id: number | string, page: number | string = '') {
+  const url = new URL(urlMap.followedUsersUrl + id);
+  const params = [
+    ['page', `${page}`],
+  ];
+  url.search = new URLSearchParams(params).toString();
+  const answer = await fetch(url.toString());
+  // const answer = await fetch(urlMap.followedUsersUrl + id);
   const jsonFile = await answer.json();
   return jsonFile;
 }
