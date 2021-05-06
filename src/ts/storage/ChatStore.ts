@@ -1,12 +1,12 @@
 import { ActionsInterface } from '../interfaces';
 import { ChannelNames } from '../config/config';
-import DateTimeFormatOptions = Intl.DateTimeFormatOptions;
 
 import {
   getAllDialogues,
   getOneDialog,
-  deleteOneDialog,
-  postMessage} from '../networkModule/network';
+  postMessage,
+} from '../networkModule/network';
+import DateTimeFormatOptions = Intl.DateTimeFormatOptions;
 
 interface LeftMessageInterface {
   id: number;
@@ -40,7 +40,6 @@ interface MessageToSend {
   text: string;
 }
 
-
 export default class ChatStore {
   public globalStore: any;
 
@@ -66,6 +65,7 @@ export default class ChatStore {
   async update(renderOnlyMessages?: boolean) {
     this.interlocturId = <number><unknown>(new URL(window.location.href).searchParams.get('c'));
     this.leftMessages = await getAllDialogues(1, this.searchString);
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
     this.leftMessages?.forEach((val) => val.message.date = parseChatTime(val.message.date));
     await this.uploadChatHistory(this.interlocturId);
     if (renderOnlyMessages) {
@@ -83,7 +83,7 @@ export default class ChatStore {
     }
 
     const page = 1;
-    let rightAnswer: RightChatAnswer = await getOneDialog(page, userId); // Ответ с бэка
+    const rightAnswer: RightChatAnswer = await getOneDialog(page, userId); // Ответ с бэка
     this.rightMessages = rightAnswer.messages;
     this.rightChatterName = rightAnswer.interlocutor.name;
   }
@@ -92,15 +92,15 @@ export default class ChatStore {
     const messageToSend: MessageToSend = {
       to: this.interlocturId,
       text: messageText,
-    }
+    };
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const answer = await postMessage(messageToSend);
     this.uploadChatHistory(this.interlocturId);
   }
 
   changeSearch(search: string) {
     this.searchString = search;
-
   }
 
   reducer(action: ActionsInterface) {

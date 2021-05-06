@@ -56,6 +56,19 @@ input {
   top: 175px;
 }
 
+@media (max-width: 767px) {
+  .error-block-avatar {
+    white-space: nowrap;
+    top: unset;
+    @include value-adaptive("bottom", -50, -35);  //-42 -35
+    @include value-adaptive("font-size", 24, 15);
+    text-align: center;
+    width: fit-content;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
 .block-anchor {
   color: #2E1665;
 

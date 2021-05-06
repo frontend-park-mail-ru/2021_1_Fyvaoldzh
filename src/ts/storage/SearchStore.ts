@@ -144,7 +144,7 @@ export default class SearchStore {
       });
     }
 
-    const usersJsonArray: Array<object> = await getUsersByParams(this.currentUsersPage);
+    const usersJsonArray: Array<object> = await getUsersByParams(this.searchData, this.currentUsersPage);
     if (usersJsonArray !== null) {
       Object.entries(usersJsonArray).forEach(([, userJson]) => {
         this.searchResultUsers.push(userJson);
@@ -191,7 +191,7 @@ export default class SearchStore {
       });
     }
 
-    const usersJsonArray: Array<object> = await getUsersByParams(this.currentUsersPage);
+    const usersJsonArray: Array<object> = await getUsersByParams(this.searchData, this.currentUsersPage);
     if (usersJsonArray !== null) {
       Object.entries(usersJsonArray).forEach(([, userJson]) => {
         this.searchResultUsers.push(userJson);

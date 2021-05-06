@@ -27,7 +27,6 @@ export default class ActivityStore {
 
   async update() {
     this.activityArray = await getActivity(this.currentPage);
-    console.log(this.activityArray);
     this.activityArray?.forEach((val) => val.time = parseDate(val.time));
     this.globalStore.eventBus.publish(ChannelNames.activityUpdated);
   }

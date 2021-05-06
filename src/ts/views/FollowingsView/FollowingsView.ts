@@ -110,15 +110,15 @@ export default class FollowingsView {
             user.age = 'Не указан';
           }
           user.followers = addDeclensionOfNumbers(user.followers, ['подписчик', 'подписчика', 'подписчиков']);
-          // пока бэк не отдает город, возраст и подписчиков для юзеров в поиске, заглушки:
+
           if (!user.city) {
             user.city = 'Не указан';
           }
           if (!user.age) {
-            user.age = '19 лет';
+            user.age = 'не указан';
           }
           if (!user.followers) {
-            user.followers = '12 подписчиков';
+            user.followers = '0 подписчиков';
           }
           resultHTML += oneUserBlockTemplate(user);
         }

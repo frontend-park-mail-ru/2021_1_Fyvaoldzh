@@ -25,10 +25,11 @@ export default class ActivityPageView {
 
     const activityColumn = document.getElementById('jsActivity');
 
+    // @ts-ignore
     activities.forEach((val) => {
       const oneActivity = new ActivityEventComponent(activityColumn, val);
       oneActivity.render();
-    })
+    });
   }
 
   subscribeViews() {
