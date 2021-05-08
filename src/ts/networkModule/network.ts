@@ -324,7 +324,6 @@ export async function getUsersByParams(search: string = '', page: number | strin
   const url = new URL(urlMap.customUserUrl);
   const params = [['search', `${search}`], ['page', `${page}`]];
   url.search = new URLSearchParams(params).toString();
-  console.log(url.toString());
   const answer = await fetch(url.toString());
   const jsonFile = await answer.json();
   return jsonFile;
