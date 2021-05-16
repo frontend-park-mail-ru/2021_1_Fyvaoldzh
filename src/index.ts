@@ -228,6 +228,13 @@ document.getElementById('wrapper').addEventListener('click', () => {
   }
 });
 
+navigator.geolocation.getCurrentPosition((geoCoords: GeolocationPosition) => {
+  console.log(geoCoords.coords.latitude, geoCoords.coords.longitude);
+  actions.updateGeolocation([geoCoords.coords.latitude, geoCoords.coords.longitude]);
+},
+() => actions.updateGeolocation(null),
+{ enableHighAccuracy: true });
+
 setInterval(() => {
   if (!globalStore.userStore.userData) {
     return;

@@ -328,4 +328,11 @@ export default class Actions {
       data,
     });
   }
+
+  updateGeolocation(data: [number, number]) {
+    this.dispatcher.dispatch({
+      eventName: 'user/updateGeolocation',
+      data,
+    });
+  }
 }

@@ -2,6 +2,7 @@ import { ChannelNames } from '../../config/config';
 import Store from '../../storage/store';
 import Actions from '../../actions/actions';
 import OneFollowerComponent from './OneFollowerComponent';
+import getMap from '../../map/map';
 
 const oneEventPageTemplate = require('Templates/one-event-page/one-event-page.pug');
 const oneTagTemplate = require('Templates/one-event-page/tagTemplate.pug');
@@ -69,6 +70,8 @@ export default class OneEventView {
     }
     this.renderGoingUsers();
     this.renderFollowers();
+
+    getMap(this.globalStore.userStore.geolocation, 'Мероприятие'); // Затычка!
   }
 
   renderTags() {

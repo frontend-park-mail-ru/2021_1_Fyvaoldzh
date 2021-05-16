@@ -59,6 +59,8 @@ export default class UserStore {
 
   public followers: Array<any>; // подписчики
 
+  public geolocation: [number, number];
+
   constructor(globalStore: any) {
     this.globalStore = globalStore;
     this.userData = null;
@@ -73,6 +75,7 @@ export default class UserStore {
     this.currentEventsPage = 1;
     this.followedUsers = [];
     this.followers = [];
+    this.geolocation = null;
   }
 
   async register(action: ActionsInterface) {
@@ -306,6 +309,10 @@ export default class UserStore {
     await unfollowUser(action.data);
   }
 
+  updateGeolocation(action: ActionsInterface) {
+    this.geolocation = action.data;
+  }
+
   reducer(action: ActionsInterface) {
     switch (action.eventName) {
       case 'user/register':
@@ -370,6 +377,10 @@ export default class UserStore {
 
       case 'user/unsubscribeFromUser':
         this.unsubscribeFromUser(action);
+        break;
+
+      case 'user/updateGeolocation':
+        this.updateGeolocation(action);
         break;
 
       default:
