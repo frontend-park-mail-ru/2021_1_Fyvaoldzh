@@ -47,7 +47,7 @@ export default class OneEventView {
     this.wrapper.innerHTML = oneEventPageTemplate(oneEventData);
     this.wrapper.style.background = null;
     const eventPhoto = document.getElementById('jsPagePhoto');
-    eventPhoto.style.background = `url(http://95.163.180.8:1323/api/v1/event/${oneEventData.id}/image) 
+    eventPhoto.style.background = `url(https://qdaqda.ru/api/v1/event/${oneEventData.id}/image) 
                                   no-repeat center / cover`;
 
     const eventStar = document.getElementById('jsEventStar');
