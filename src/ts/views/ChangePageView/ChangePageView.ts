@@ -91,7 +91,6 @@ export default class ChangePageView {
 
     switch (state.page) {
       case routes.login:
-        window.scroll(0, 0);
         this.renderLoginPage();
         break;
 
@@ -101,17 +100,14 @@ export default class ChangePageView {
         break;
 
       case routes.profile:
-        window.scroll(0, 0);
         this.userView.renderProfilePage(state.parameter);
         break;
 
       case routes.main:
-        window.scroll(0, 0);
         this.eventsView.renderEvents();
         break;
 
       case routes.events:
-        window.scroll(0, 0);
         this.eventsView.renderEvents();
         break;
 
@@ -136,11 +132,13 @@ export default class ChangePageView {
   }
 
   renderSignUp() {
+    window.scroll(0, 0);
     this.wrapper.innerHTML = '';
     this.wrapper.innerHTML = signUpFormTemplate({});
   }
 
   renderLoginPage() {
+    window.scroll(0, 0);
     this.wrapper.innerHTML = '';
     this.wrapper.innerHTML = loginTemplate({});
   }
@@ -198,39 +196,28 @@ export default class ChangePageView {
       return;
     }
 
-    // if (currentUrl.pathname.includes("search")) {  //реализация Димы
-    //   window.scroll(0, 0);
-    //   this.actions.searchUpdate(currentUrl.searchParams.get("tab"));
-    //   return;
-    // }
-
     switch (currentUrl.pathname) {
       case routes.events:
-        window.scroll(0, 0);
         this.actions.updateEvents();
         break;
 
       case routes.main:
-        window.scroll(0, 0);
         this.actions.updateEvents();
         break;
 
       case routes.profile:
-        window.scroll(0, 0);
         this.actions.updateUser();
         break;
 
       case routes.signup:
-        window.scroll(0, 0);
         if (userData) {
-          this.actions.routerChangePage(routes.events); // Редирект
+          this.actions.routerChangePage(routes.events);
           return;
         }
         this.renderSignUp();
         break;
 
       case routes.login:
-        window.scroll(0, 0);
         if (userData) {
           // Если юзер уже зашел, но пытается зайти на страницу логина/регистрации.
           this.actions.routerChangePage(routes.events); // Редирект пока на эвенты
@@ -240,13 +227,11 @@ export default class ChangePageView {
         break;
 
       case routes.logout:
-        window.scroll(0, 0);
         this.actions.logout();
         this.renderLogout();
         break;
 
       case routes.search:
-        window.scroll(0, 0);
         this.actions.searchUpdate();
         break;
 

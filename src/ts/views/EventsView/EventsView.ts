@@ -28,6 +28,8 @@ export default class EventsView {
       return;
     }
     */
+    window.scroll(0, 0);
+    document.title = 'События';
     const eventsJson = this.globalStore.eventsStore.allEvents;
     this.wrapper.innerHTML = '';
     this.wrapper.innerHTML = upperTextTemplate({});

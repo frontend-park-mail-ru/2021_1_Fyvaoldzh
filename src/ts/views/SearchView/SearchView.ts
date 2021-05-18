@@ -48,6 +48,7 @@ export default class SearchView extends ProfilesBaseView {
     window.scroll(0, 0);
     const { searchData } = this.globalStore.searchStore;
     const { currentTab } = this.globalStore.searchStore;
+    document.title = 'Поиск';
 
     this.wrapper.style.background = 'url("templates/profile/img/profile-background.jpg") no-repeat top / 100%';
     if (window.screen.width <= 767) {

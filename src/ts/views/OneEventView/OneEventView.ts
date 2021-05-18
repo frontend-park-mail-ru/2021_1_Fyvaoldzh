@@ -3,26 +3,11 @@ import Store from '../../storage/store';
 import Actions from '../../actions/actions';
 import OneFollowerComponent from './OneFollowerComponent';
 import getMap from '../../map/map';
+import { TagInterface, FollowerInterface, ToInviteInterface } from '../../interfaces/OneEventStoreInterfaces';
 
 const oneEventPageTemplate = require('Templates/one-event-page/one-event-page.pug');
 const oneTagTemplate = require('Templates/one-event-page/tagTemplate.pug');
 const onePlanningUserTemplate = require('Templates/one-event-page/one-going-user.pug');
-
-interface TagInterface {
-  id: number;
-  name: string;
-}
-
-interface FollowerInterface {
-  id: number;
-  name: string;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-interface ToInviteInterface {
-  eventId: number;
-  invites: Array<number>;
-}
 
 export default class OneEventView {
   public globalStore: Store;
@@ -41,8 +26,9 @@ export default class OneEventView {
   }
 
   renderEventPage() {
+    window.scroll(0, 0);
     const { oneEventData } = this.globalStore.oneEventStore;
-
+    document.title = oneEventData.title;
     this.wrapper.innerHTML = '';
     this.wrapper.innerHTML = oneEventPageTemplate(oneEventData);
     this.wrapper.style.background = null;

@@ -19,13 +19,13 @@ export default class ActivityPageView {
   }
 
   renderActivity() {
+    document.title = 'Активность';
     this.wrapper.innerHTML = activityBaseTemplate();
 
     const activities = this.globalStore.activityStore.activityArray;
 
     const activityColumn = document.getElementById('jsActivity');
 
-    // @ts-ignore
     activities.forEach((val) => {
       const oneActivity = new ActivityEventComponent(activityColumn, val);
       oneActivity.render();
