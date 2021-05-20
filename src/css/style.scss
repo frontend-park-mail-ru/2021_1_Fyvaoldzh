@@ -64,7 +64,7 @@
 
   &_search {
     @extend .page-photo;
-    background: url("../templates/search/img/background12.jpg") repeat-y top left / 100%;
+    background: url("../templates/search/img/background15.jpg") no-repeat top left / cover;
     height: 100%;
   }
 }

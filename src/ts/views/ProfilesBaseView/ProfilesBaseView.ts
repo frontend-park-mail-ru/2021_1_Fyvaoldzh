@@ -1,5 +1,8 @@
-import { parseDate } from '../utils/utils';
+import {modalOverlayHandler, shareButtonHandler, copyButtonHandler, parseDate} from '../utils/utils';
 
+// (window as any).VK = require('https://vk.com/js/api/share.js?93');
+
+// const asfasdv = require('../../VK.js');
 const oneEventBlockTemplate = require('../../../templates/one-event-block/one-event-block.pug');
 
 export default class ProfilesBaseView {
@@ -45,15 +48,25 @@ export default class ProfilesBaseView {
       button.addEventListener('click', () => {
         button.closest('.smbs-event-cube').classList.toggle('smbs-event-cube_show_top');
       });
-      // if (button.classList.contains('smbs-event__arrow-down')) {
-      //   (<HTMLElement>button.closest('.smbs-event-cube')).style.minHeight = window.getComputedStyle(
-      //     button.closest('.smbs-event'),
-      //   ).minHeight;
-      //   button.closest('.smbs-event-cube').addEventListener('resize', (e: any) => {
-      //     const { target } = e;
-      //     target.style.minHeight = window.getComputedStyle(target.querySelector('smbs-event_front_side')).minHeight;
-      //   });
-      // }
     });
+
+    // const eventCubes = Array.from(eventsList.querySelectorAll('.smbs-event-cube'));
+    // eventCubes.forEach((eventCube) => {
+    //   const photo : HTMLAnchorElement = eventCube.querySelector('.smbs-event__photo');
+    //   const title : HTMLAnchorElement = eventCube.querySelector('.smbs-event__title');
+    //   eventCube.querySelector('.smbs-event__button-block').innerHTML = (window as any).VK.Share.button({url: title.href, title: title.innerText, image: photo.style.backgroundImage.slice(5, -2)}, {type: 'round'});
+    // });
+
+    const modalOverlay = document.querySelector('#modal-overlay');
+    modalOverlay.addEventListener('click', modalOverlayHandler.bind(this));
+
+    const copyButton = document.querySelector('#copyButton');
+    copyButton.addEventListener('click', copyButtonHandler.bind(this));
+
+    const shareButtons = Array.from(eventsList.querySelectorAll('.smbs-event__share-button'));
+    shareButtons.forEach((shareButton) => {
+      shareButton.addEventListener('click', shareButtonHandler.bind(this));
+    });
+
   }
 }

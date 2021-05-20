@@ -1,6 +1,8 @@
 import { followingsTab, searchTab } from '../../config/config';
 import DateTimeFormatOptions = Intl.DateTimeFormatOptions;
 
+// const asfasdv = require('../../VK.js');
+
 /**
  * Функция для склонения слов, стоящих после чисел
  * @param {Number} number - само число
@@ -261,4 +263,71 @@ export function searchKeyPress(e: any) {
     const input = document.getElementById('jsNavbarSearchInput') as HTMLInputElement;
     this.actions.routerChangePage(`/search?tab=${input.value}`);
   }
+}
+
+/**
+ * Функция-обработчик клика по кнопке share мероприятия
+ * @param {Object} event - ивент
+ */
+
+export function shareButtonHandler(event: any) {
+  const { target } = event;
+  const eventCube = target.closest('.smbs-event-cube');
+  const photo : HTMLAnchorElement = eventCube.querySelector('.smbs-event__photo');
+  const title : HTMLAnchorElement = eventCube.querySelector('.smbs-event__title');
+
+  if (true) {
+    const shareData = {
+      title: title.innerText,
+      // text: 'Learn web development on MDN!',
+      url: title.href,
+    };
+
+    console.log((navigator as any).canShare(shareData));
+  }
+
+  const modal = document.querySelector('#share-modal');
+  const modalOverlay = document.querySelector('#modal-overlay');
+  const shareInput: HTMLInputElement = document.querySelector('#shareInput');
+  const shareButtonsBlock = modal.querySelector('#shareButtonsBlock');
+
+  shareInput.value = title.href;
+  shareButtonsBlock.innerHTML = '';
+  shareButtonsBlock.insertAdjacentHTML(
+    'beforeend',
+    (window as any).VK.Share.button(
+      {
+        url: title.href,
+        title: title.innerText,
+        image: photo.style.backgroundImage.slice(5, -2),
+      },
+      { type: 'round' },
+    ),
+  );
+
+  modal.classList.toggle('share-modal_closed');
+  modalOverlay.classList.toggle('modal-overlay_closed');
+}
+
+/**
+ * Функция-обработчик клика по затененному фону вокруг модального окна
+ * @param {Object} event - ивент
+ */
+
+export function modalOverlayHandler(event: any) {
+  const { target } = event;
+  const modal = document.querySelector('#share-modal');
+
+  modal.classList.toggle('share-modal_closed');
+  target.classList.toggle('modal-overlay_closed');
+}
+
+/**
+ * Функция-обработчик клика по кнопке копирования
+ * @param {Object} event - ивент
+ */
+
+export function copyButtonHandler() {
+  const shareInput : HTMLInputElement = document.querySelector('#shareInput');
+  navigator.clipboard.writeText(shareInput.value);
 }

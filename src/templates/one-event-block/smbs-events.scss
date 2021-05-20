@@ -94,6 +94,11 @@ $smbs-event-endSize: 258;
   @media (max-width:767px) {
     &__photo {
       @include value-adaptive("min-height", 472, 150);
+      border-radius: 10px 10px 0 0;
+
+      &:hover {
+        transform: none;
+      }
     }
   }
 
@@ -247,13 +252,14 @@ $smbs-event-endSize: 258;
       position: absolute;
       bottom: 0;
       background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 20%, rgba(255,255,255,0) 100%);
+      border-radius: 0 0 10px 10px;
     }
   }
 
   &__button-block {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-end;
     justify-content: start;
   }
 
@@ -385,6 +391,160 @@ $smbs-event-endSize: 258;
     @include value-adaptive("height", $smbs-event-startSize, $smbs-event-endSize);
     //flex-direction: column;
     //justify-content: start;
+  }
+}
+
+.share-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px;
+  z-index: 2010;
+
+  background: rgba( 120, 120, 120, 1 );
+  //background: rgba(222, 215, 216, 1);
+  border-radius: 10px;
+  border: 1px solid rgba( 255, 255, 255, 0.6 );
+  border-bottom: 0;
+  border-right: 0;
+
+  &_closed {
+    display: none;
+  }
+}
+
+@media (max-width:767px) {
+  .share-modal {
+    width: 70%;
+  }
+}
+
+.modal-overlay {
+  z-index: 2000;
+  position: fixed;
+  top:0;
+  left:0;
+  width: 100%;
+  height: 100%;
+
+  background: rgba( 0, 0, 0, 0.8 );
+
+  &_closed {
+    display: none;
+  }
+}
+
+.share-buttons-block {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.share-line-block {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  //box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+  margin-bottom: 30px;
+  border: 1px solid #E5E5E5;
+  position: relative;
+  padding: 15px 90px 15px 30px;
+
+  background: rgba( 0, 0, 0, 0.4 );
+  box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.3);
+  //backdrop-filter: blur( 9.5px );
+  border-radius: 10px;
+  border: 1px solid rgba( 255, 255, 255, 0.4 );
+  border-bottom: 0;
+  border-right: 0;
+
+  &__input {
+    width: 100%;
+    //color: #8986AC;
+    font-size: 30px;
+    line-height: 40px;
+    background: transparent;
+
+    color: rgba(222, 215, 216, 0.7);
+
+
+    &::placeholder {
+      font-style: normal;
+      font-weight: normal;
+      font-size: 26px;
+      line-height: 31px;
+      //color: #8986AC;
+
+      color: rgba(222, 215, 216, 0.7);
+    }
+
+    @media (max-width:767px) {
+      &::placeholder {
+        @include value-adaptive("font-size", 30, 18);
+        @include value-adaptive("line-height", 36, 22);
+      }
+    }
+
+    &:focus {
+      color: rgba(222, 215, 216, 1);
+    }
+  }
+
+  @media (max-width:767px) {
+    &__input {
+      @include value-adaptive("font-size", 30, 18);
+      @include value-adaptive("line-height", 36, 22);
+    }
+  }
+}
+
+@media (max-width:767px) {
+  .share-line-block {
+    @include value-adaptive("padding-left", 48, 10);
+    @include value-adaptive("padding-right", 70, 40);
+    @include value-adaptive("padding-top", 20, 5);
+    @include value-adaptive("padding-bottom", 20, 5);
+  }
+}
+
+.copy-button {
+  background: url(../templates/one-event-block/img/copy-icon-white.svg) no-repeat center / cover;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  position: absolute;
+  right: 25px;
+  cursor: pointer;
+  transition: all 0.2s ease-out 0s;
+
+  &:hover {
+    width: 36px;
+    height: 36px;
+  }
+
+  @media (max-width:767px) {
+    &:hover {
+      @include value-adaptive("width", 45, 20);
+      @include value-adaptive("height", 45, 20);
+    }
+  }
+}
+
+@media (max-width:767px) {
+  .copy-button {
+    @include value-adaptive("width", 45, 20);
+    @include value-adaptive("height", 45, 20);
+    @include value-adaptive("right", 25, 7);
+    transition: none;
   }
 }
 

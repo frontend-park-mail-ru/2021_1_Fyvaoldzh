@@ -1,4 +1,4 @@
-const baseApi = 'http://95.163.180.8:1323';
+const baseApi = 'https://qdaqda.ru';
 
 export const urlMap = {
   allEventsUrl: `${baseApi}/api/v1/event`,
