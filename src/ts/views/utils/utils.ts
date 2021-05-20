@@ -270,43 +270,44 @@ export function searchKeyPress(e: any) {
  * @param {Object} event - ивент
  */
 
-export function shareButtonHandler(event: any) {
+export async function shareButtonHandler(event: any) {
   const { target } = event;
   const eventCube = target.closest('.smbs-event-cube');
   const photo : HTMLAnchorElement = eventCube.querySelector('.smbs-event__photo');
   const title : HTMLAnchorElement = eventCube.querySelector('.smbs-event__title');
 
-  if (true) {
-    const shareData = {
-      title: title.innerText,
-      // text: 'Learn web development on MDN!',
-      url: title.href,
-    };
+  const shareData = {
+    title: title.innerText,
+    // text: 'Learn web development on MDN!',
+    url: title.href,
+  };
+  if ((window.navigator as any).canShare && (window.navigator as any).canShare(shareData)) {
 
-    console.log((navigator as any).canShare(shareData));
+    await navigator.share(shareData);
+
+  } else {
+    const modal = document.querySelector('#share-modal');
+    const modalOverlay = document.querySelector('#modal-overlay');
+    const shareInput: HTMLInputElement = document.querySelector('#shareInput');
+    const shareButtonsBlock = modal.querySelector('#shareButtonsBlock');
+
+    shareInput.value = title.href;
+    shareButtonsBlock.innerHTML = '';
+    shareButtonsBlock.insertAdjacentHTML(
+      'beforeend',
+      (window as any).VK.Share.button(
+        {
+          url: title.href,
+          title: title.innerText,
+          image: photo.style.backgroundImage.slice(5, -2),
+        },
+        { type: 'round_nocount' },
+      ),
+    );
+
+    modal.classList.toggle('share-modal_closed');
+    modalOverlay.classList.toggle('modal-overlay_closed');
   }
-
-  const modal = document.querySelector('#share-modal');
-  const modalOverlay = document.querySelector('#modal-overlay');
-  const shareInput: HTMLInputElement = document.querySelector('#shareInput');
-  const shareButtonsBlock = modal.querySelector('#shareButtonsBlock');
-
-  shareInput.value = title.href;
-  shareButtonsBlock.innerHTML = '';
-  shareButtonsBlock.insertAdjacentHTML(
-    'beforeend',
-    (window as any).VK.Share.button(
-      {
-        url: title.href,
-        title: title.innerText,
-        image: photo.style.backgroundImage.slice(5, -2),
-      },
-      { type: 'round' },
-    ),
-  );
-
-  modal.classList.toggle('share-modal_closed');
-  modalOverlay.classList.toggle('modal-overlay_closed');
 }
 
 /**
