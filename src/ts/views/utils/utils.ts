@@ -188,6 +188,7 @@ export function updatePaginationState(currentPaginatorValue: any, resultsAmount 
   const pagBack = document.getElementById('paginationBack');
   const pagForward = document.getElementById('paginationForward');
   const pagIndicator = document.getElementById('paginationCurrent');
+  const pagIndicatorCircle = document.getElementById('paginationCurrentCircle');
 
   if (!pagBack) return;
   if (currentPaginatorValue < 2) {
@@ -209,11 +210,15 @@ export function updatePaginationState(currentPaginatorValue: any, resultsAmount 
   ) {
     // если обе кнопки: "назад" и "вперед" скрыты,
     pagIndicator.classList.add('paginator__element_none');
+    pagIndicatorCircle.classList.add('paginator__element_none');
     pagForward.classList.add('paginator__element_none');
     pagBack.classList.add('paginator__element_none');
     pagForward.classList.remove('paginator__element_hide');
     pagBack.classList.remove('paginator__element_hide');
-  } else pagIndicator.classList.remove('paginator__element_none'); // иначе показываем его, если он скрыт
+  } else { // иначе показываем его, если он скрыт
+    pagIndicator.classList.remove('paginator__element_none');
+    pagIndicatorCircle.classList.remove('paginator__element_none');
+  }
   pagIndicator.innerText = currentPaginatorValue; // обновляем значение в пагинаторе
 }
 
