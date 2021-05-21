@@ -59,3 +59,13 @@ $maxWidthContainer: 1200;
   border-bottom: 0;
   border-right: 0;
 }
+
+@mixin gm-text() { //для текста
+  color: rgba(222, 215, 216, 1);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: 0em;
+  text-align: start;
+}

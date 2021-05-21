@@ -14,7 +14,7 @@
   margin-bottom: 60px;
 
   &__body {
-    background-color: white;
+    //background-color: white;
     min-height: 120px;
     width: 100%;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
@@ -25,6 +25,8 @@
     justify-content: space-around;
     align-items: start;
     position: relative;
+
+    @include gm-second-layer-element();
   }
 
   @media (max-width:767px) {
