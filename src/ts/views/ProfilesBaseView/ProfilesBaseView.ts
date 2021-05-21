@@ -1,4 +1,4 @@
-import {modalOverlayHandler, shareButtonHandler, copyButtonHandler, parseDate} from '../utils/utils';
+import {modalOverlayHandler, eventBlockShareButtonHandler, copyButtonHandler, parseDate} from '../utils/utils';
 
 // (window as any).VK = require('https://vk.com/js/api/share.js?93');
 
@@ -50,13 +50,6 @@ export default class ProfilesBaseView {
       });
     });
 
-    // const eventCubes = Array.from(eventsList.querySelectorAll('.smbs-event-cube'));
-    // eventCubes.forEach((eventCube) => {
-    //   const photo : HTMLAnchorElement = eventCube.querySelector('.smbs-event__photo');
-    //   const title : HTMLAnchorElement = eventCube.querySelector('.smbs-event__title');
-    //   eventCube.querySelector('.smbs-event__button-block').innerHTML = (window as any).VK.Share.button({url: title.href, title: title.innerText, image: photo.style.backgroundImage.slice(5, -2)}, {type: 'round'});
-    // });
-
     const modalOverlay = document.querySelector('#modal-overlay');
     modalOverlay.addEventListener('click', modalOverlayHandler.bind(this));
 
@@ -65,8 +58,7 @@ export default class ProfilesBaseView {
 
     const shareButtons = Array.from(eventsList.querySelectorAll('.smbs-event__share-button'));
     shareButtons.forEach((shareButton) => {
-      shareButton.addEventListener('click', shareButtonHandler.bind(this));
+      shareButton.addEventListener('click', eventBlockShareButtonHandler.bind(this));
     });
-
   }
 }

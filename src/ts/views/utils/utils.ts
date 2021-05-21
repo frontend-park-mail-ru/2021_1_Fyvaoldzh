@@ -271,11 +271,11 @@ export function searchKeyPress(e: any) {
 }
 
 /**
- * Функция-обработчик клика по кнопке share мероприятия
+ * Функция-обработчик клика по кнопке share на блоке мероприятия
  * @param {Object} event - ивент
  */
 
-export async function shareButtonHandler(event: any) {
+export async function eventBlockShareButtonHandler(event: any) {
   const { target } = event;
   const eventCube = target.closest('.smbs-event-cube');
   const photo : HTMLAnchorElement = eventCube.querySelector('.smbs-event__photo');
@@ -283,13 +283,10 @@ export async function shareButtonHandler(event: any) {
 
   const shareData = {
     title: title.innerText,
-    // text: 'Learn web development on MDN!',
     url: title.href,
   };
   if ((window.navigator as any).canShare && (window.navigator as any).canShare(shareData)) {
-
     await navigator.share(shareData);
-
   } else {
     const modal = document.querySelector('#share-modal');
     const modalOverlay = document.querySelector('#modal-overlay');
@@ -303,6 +300,47 @@ export async function shareButtonHandler(event: any) {
       (window as any).VK.Share.button(
         {
           url: title.href,
+          title: title.innerText,
+          image: photo.style.backgroundImage.slice(5, -2),
+        },
+        { type: 'round_nocount' },
+      ),
+    );
+
+    modal.classList.toggle('share-modal_closed');
+    modalOverlay.classList.toggle('modal-overlay_closed');
+  }
+}
+
+/**
+ * Функция-обработчик клика по кнопке share на странице мероприятия
+ * @param {Object} event - ивент
+ */
+
+export async function eventPageShareButtonHandler() {
+  const photo : HTMLElement = document.querySelector('#jsPagePhoto');
+  const title : HTMLElement = document.querySelector('.event-description__title');
+  const eventUrl = window.location.href;
+  console.log(photo.style.backgroundImage.slice(5, -2));
+  const shareData = {
+    title: title.innerText,
+    url: eventUrl,
+  };
+  if ((window.navigator as any).canShare && (window.navigator as any).canShare(shareData)) {
+    await navigator.share(shareData);
+  } else {
+    const modal = document.querySelector('#share-modal');
+    const modalOverlay = document.querySelector('#modal-overlay');
+    const shareInput: HTMLInputElement = document.querySelector('#shareInput');
+    const shareButtonsBlock = modal.querySelector('#shareButtonsBlock');
+
+    shareInput.value = eventUrl;
+    shareButtonsBlock.innerHTML = '';
+    shareButtonsBlock.insertAdjacentHTML(
+      'beforeend',
+      (window as any).VK.Share.button(
+        {
+          url: eventUrl,
           title: title.innerText,
           image: photo.style.backgroundImage.slice(5, -2),
         },
