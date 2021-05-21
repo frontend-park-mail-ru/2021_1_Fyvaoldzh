@@ -26,14 +26,16 @@
   margin-top: 60px;
   position: relative;
 
-  background: rgba( 120, 120, 120, 0.2 ); //для темного фона
-  //background: rgba( 40, 40, 40, 0.35 ); //для светлого(относительно) фона
-  box-shadow: 8px 8px 24px 0 rgba( 0, 0, 0, 0.2 );
-  backdrop-filter: blur( 9.5px );
-  border-radius: 10px;
-  border: 1px solid rgba( 255, 255, 255, 0.25 );
-  border-bottom: 0;
-  border-right: 0;
+  //background: rgba( 120, 120, 120, 0.2 ); //для темного фона
+  ////background: rgba( 40, 40, 40, 0.35 ); //для светлого(относительно) фона
+  //box-shadow: 8px 8px 24px 0 rgba( 0, 0, 0, 0.2 );
+  //backdrop-filter: blur( 9.5px );
+  //border-radius: 10px;
+  //border: 1px solid rgba( 255, 255, 255, 0.25 );
+  //border-bottom: 0;
+  //border-right: 0;
+
+  @include gm-main-block();
 
   &__back-button {
     //background: url(../templates/search/img/back-arrow-icon.svg) no-repeat center / 30%;
