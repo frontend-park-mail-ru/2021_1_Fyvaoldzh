@@ -235,9 +235,11 @@ navigator.geolocation.getCurrentPosition((geoCoords: GeolocationPosition) => {
 () => actions.updateGeolocation(null),
 { enableHighAccuracy: true });
 
+/*
 setInterval(() => {
   if (!globalStore.userStore.userData) {
     return;
   }
   actions.updateChat(true);
 }, 2000);
+*/
