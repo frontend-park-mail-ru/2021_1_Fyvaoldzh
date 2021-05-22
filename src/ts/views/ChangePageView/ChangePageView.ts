@@ -67,6 +67,7 @@ export default class ChangePageView {
   }
 
   async render(state: HistoryState) {
+    this.eventsView.vList?.destroy();
     if (state.page.includes('event') && state.page !== routes.events) {
       await this.actions.eventPage(<number>(<unknown>state.page.substr(6)));
       // this.oneEventView.renderEventPage();
@@ -164,6 +165,7 @@ export default class ChangePageView {
   }
 
   changePage() {
+    this.eventsView.vList?.destroy();
     const { currentUrl } = this.globalStore.routerStore;
     const { userData } = this.globalStore.userStore;
 

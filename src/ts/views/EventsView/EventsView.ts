@@ -3,7 +3,7 @@ import EventComponent from './EventComponent';
 import Store from '../../storage/store';
 import Actions from '../../actions/actions';
 import VirtualizedList from '../../virtualizedList/VirtualizedList';
-import { getAllEventsJson } from '../../networkModule/network';
+import { getAllEventsJson, getRecommendEvents } from '../../networkModule/network';
 
 const upperTextTemplate = require('Templates/events/upper-text.pug');
 const oneTableEventTemplate = require('Templates/events/one-table-event.pug');
@@ -26,7 +26,7 @@ export default class EventsView {
 
   public actions: Actions;
 
-  private vList: VirtualizedList;
+  public vList: VirtualizedList;
 
   constructor(globalStore: Store, actions: Actions) {
     this.globalStore = globalStore;
@@ -87,7 +87,11 @@ export default class EventsView {
 
       this.vList.destroy();
 
-      const reqFunction = categoryRequire(target.dataset.category);
+      let reqFunction = categoryRequire(target.dataset.category);
+
+      if (target.dataset.category === 'Рекомендации') {
+        reqFunction = getRecommendEvents;
+      }
 
       this.vList = new VirtualizedList({
         height: 570,

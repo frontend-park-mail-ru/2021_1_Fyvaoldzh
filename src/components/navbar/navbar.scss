@@ -82,7 +82,7 @@
 
   &__drop-menu-stroke {
     width: 100%;
-    box-shadow: $project-box-shadow;
+    box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.25);
     border-top: 0;
     height: 70px;
     background: $project-dark-red;
