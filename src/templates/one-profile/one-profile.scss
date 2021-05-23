@@ -8,8 +8,9 @@
 //}
 
 .profile-main-block {
+  @include gm-main-block();
+
   @include value-adaptive("width", 1200, 320);
-  background-color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,7 +18,6 @@
   max-width: 100%;
   margin: 0px auto;
   padding: 30px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
   margin-top: 60px;
   position: relative;
 
@@ -41,6 +41,8 @@
     @include value-adaptive("padding-left", 30, 5);
     @include value-adaptive("padding-right", 30, 5);
     margin-top: 0;
+    border: none;
+    border-radius: 0;
   }
 }
 
@@ -58,6 +60,8 @@
     margin-left: 10%;
     margin-right: 5%;
     width: 60%;
+
+    @include gm-text();
   }
 
   @media (max-width:1399px) {
@@ -91,12 +95,8 @@
   &__about {
     width: 100%;
     height: 90px;
-    font-family: PT Serif;
-    font-weight: normal;
     font-size: 20px;
     line-height: 31px;
-    text-align: start;
-    color: #000000;
     margin-top: 10px;
     display: flex;
     justify-content: start;
@@ -116,12 +116,8 @@
   &__other-info {
     width: 100%;
     min-height: 50px;
-    font-family: PT Serif;
-    font-weight: normal;
     font-size: 20px;
     line-height: 31px;
-    text-align: start;
-    color: #000000;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -144,15 +140,9 @@
   &__title {
     width: 100%;
     height: 50px;
-    font-family: PT Serif;
     font-weight: bold;
     font-size: 36px;
     line-height: 66px;
-    text-align: start;
-    color: #000000;
-    //display: flex;
-    //align-items: center;
-    //justify-content: start;
   }
 
   @media (max-width:767px) {
@@ -165,7 +155,7 @@
 
   &__avatar {
     background: url(../templates/one-profile/img/avatar_nadya.png) no-repeat center / cover;
-    border: 9px solid #FFFFFF;
+    border: 5px solid rgba( 255, 255, 255, 0.6 );
     border-radius: 50%;
     filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.25));
     height: 175px;
@@ -186,7 +176,7 @@
     &__avatar {
       @include value-adaptive("width", 175, 100);
       @include value-adaptive("height", 175, 100);
-      @include value-adaptive("border-width", 9, 5);
+      @include value-adaptive("border-width", 6, 3);
     }
   }
 
@@ -220,7 +210,7 @@
   }
 
   &__dialogue-cloud-img {
-    background: url(../templates/one-profile/img/dialogue-cloud.svg) no-repeat center / contain;
+    background: url(../templates/one-profile/img/dialogue-cloud-icon-white.svg) no-repeat center / contain;
     width: 28px;
     height: 25px;
     flex-shrink: 0;
@@ -236,7 +226,7 @@
   }
 
   &__age-img {
-    background: url(../templates/one-profile/img/age.svg) no-repeat center / cover;
+    background: url(../templates/one-profile/img/age-icon-white.svg) no-repeat center / cover;
     width: 32px;
     height: 27px;
     margin-right: 12px;
@@ -251,7 +241,7 @@
   }
 
   &__city-img {
-    background: url(../templates/one-profile/img/city.svg) no-repeat center / cover;
+    background: url(../templates/one-profile/img/city-icon-white.svg) no-repeat center / cover;
     width: 32px;
     height: 34px;
     margin-right: 11px;
@@ -266,7 +256,7 @@
   }
 
   &__subscribers-img {
-    background: url(../templates/one-profile/img/subscribers.svg) no-repeat center / cover;
+    background: url(../templates/one-profile/img/subscribers-icon-white.svg) no-repeat center / cover;
     width: 30px;
     height: 18px;
     margin-right: 9px;

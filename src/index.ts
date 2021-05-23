@@ -26,6 +26,8 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js', { scope: '/' }).then();
 }
 
+// (window as any).VK = require('https://vk.com/js/api/share.js?93');
+
 dispatcher.register(globalStore.reducer.bind(globalStore));
 
 const eventsView = new EventsView(globalStore, actions);

@@ -1,3 +1,9 @@
+#share-modal.share-modal.share-modal_closed
+  .share-line-block
+    input#shareInput.share-line-block__input.form__input(type='text' value='' placeholder='' disabled)
+    button#copyButton.copy-button
+  #shareButtonsBlock.share-buttons-block
+#modal-overlay.modal-overlay.modal-overlay_closed
 .row
   .page-photo(id='jsPagePhoto')
   .container
@@ -30,6 +36,7 @@
           | #{street}
         .event-info__location_subway
           | #{subway}
+      button.smbs-event__share-button
       .decor-line
       .going-title
         | Уже идут

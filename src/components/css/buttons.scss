@@ -50,7 +50,17 @@
   &-active {
     @extend .button;
     background: $main-gradient;
-    color: #ffffff;
+    //color: #ffffff;
+
+    color: rgba(222, 215, 216, 1);
+    filter: brightness(1.5);
+    //box-shadow: 0 8px 32px 0 rgba( 0, 0, 0, 0.37 );
+    box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.7 );
+    border-right: 0;
+    border-bottom: 0;
+
   }
 
   @media (max-width:767px) {
@@ -64,7 +74,17 @@
   &-inactive {
     @extend .button;
     background: $project-white;
-    color: black;
+    //color: black;
+
+    filter: brightness(1.5);
+    color: rgba(222, 215, 216, 1);
+    //background: rgba( 0, 0, 0, 0.2 );
+    //box-shadow: 0 8px 32px 0 rgba( 0, 0, 0, 0.37 );
+    //backdrop-filter: blur( 9.5px );
+    box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.3);
+
+    @include gm-second-layer-element();
+
   }
 
   @media (max-width:767px) {

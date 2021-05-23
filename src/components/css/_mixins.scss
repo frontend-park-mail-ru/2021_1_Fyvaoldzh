@@ -32,3 +32,78 @@ $maxWidthContainer: 1200;
   $addSize: $startSize - $endSize;
   @return calc((#{$endSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidthContainer - 320})) / 2);
 }
+
+@mixin bg-height() {
+  @if (100vh < 100vw) {
+    height: $padding;
+  } @else {
+    padding: $margin;
+  }
+}
+
+@mixin bg-height-fix {
+  @media (max-device-aspect-ratio: 3/4) and (orientation: landscape) {
+    height: calc(100vw * 1.333 - 9%);
+  }
+  @media (max-device-aspect-ratio: 3/4) and (orientation: portrait) {
+    height: calc(100vh * 1.333 - 9%);
+  }
+
+  @media (max-device-aspect-ratio: 2/3) and (orientation:landscape) {
+    height: calc(100vw * 1.5 - 9%);
+  }
+  @media (max-device-aspect-ratio: 2/3) and (orientation:portrait) {
+    height: calc(100vh * 1.5 - 9%);
+  }
+
+  @media (max-device-aspect-ratio: 10/16) and (orientation:landscape) {
+    height: calc(100vw * 1.6 - 9%);
+  }
+  @media (max-device-aspect-ratio: 10/16) and (orientation:portrait) {
+    height: calc(100vh * 1.6 - 9%);
+  }
+
+  @media (max-device-aspect-ratio: 9/16) and (orientation:landscape) {
+    height: calc(100vw * 1.778 - 9%);
+  }
+  @media (max-device-aspect-ratio: 9/16) and (orientation:portrait) {
+    height: calc(100vh * 1.778 - 9%);
+  }
+}
+
+//миксины для glassmorphism:
+@mixin gm-main-block() { //для основной подложки
+  //background: rgba( 120, 120, 120, 0.2 ); //для темного фона
+  background: rgba( 40, 40, 40, 0.35 ); //для светлого(относительно) фона
+  box-shadow: 8px 8px 24px 0 rgba( 0, 0, 0, 0.2 );
+  backdrop-filter: blur( 9.5px );
+  border-radius: 10px;
+  border: 1px solid rgba( 255, 255, 255, 0.25 );
+  border-bottom: 0;
+  border-right: 0;
+}
+
+@mixin gm-round-button() { //для круглых кнопок
+  filter: brightness(2);
+  border-radius: 50%;
+  border: 1px solid rgba(222, 215, 216, 0.5);
+}
+
+@mixin gm-second-layer-element() { //для элементов второго слоя (на основном): инпут поиска, плашки мероприятий и т.п.
+  background: rgba( 0, 0, 0, 0.5 );
+  //backdrop-filter: blur( 9.5px );
+  border-radius: 10px;
+  border: 1px solid rgba( 255, 255, 255, 0.6 );
+  border-bottom: 0;
+  border-right: 0;
+}
+
+@mixin gm-text() { //для текста
+  color: rgba(222, 215, 216, 1);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: 0em;
+  text-align: start;
+}

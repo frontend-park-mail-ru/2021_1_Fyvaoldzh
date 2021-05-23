@@ -75,7 +75,7 @@
   flex: 1 1 auto;
   height: 0;
   overflow: hidden;
-  z-index: 1;
+  z-index: 10;
   min-width: 210px;
 
   transition: height .3s cubic-bezier(.53,1.51,.74,1.54);

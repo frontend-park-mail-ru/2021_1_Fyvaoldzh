@@ -314,14 +314,15 @@ export async function getEventsByParams( // моя реализация
 
 /**
  * Функция для получения пользователей по номеру страницы
+ * @param {String} search - часть имени пользователя
  * @param {Number | String} page - номер текущей страницы поиска
  * @return {json} - json, содержащий найденных пользователей
  */
 
-export async function getUsersByParams(page: number | string = '1') {
+export async function getUsersByParams(search: string = '', page: number | string = '1') {
   // моя реализация
   const url = new URL(urlMap.customUserUrl);
-  const params = [['page', `${page}`]];
+  const params = [['search', `${search}`], ['page', `${page}`]];
   url.search = new URLSearchParams(params).toString();
   const answer = await fetch(url.toString());
   const jsonFile = await answer.json();
@@ -477,14 +478,40 @@ export async function getActivity(page: number) {
   }
 }
 
-export async function getFollowersById(id: number | string) {
-  const answer = await fetch(urlMap.followersUrl + id);
+/**
+ * Функция для получения подписчиков пользователя
+ * @param {Number | String} id - id пользователя
+ * @param {Number | String} page - номер текущей страницы подписчиков
+ * @return {json} - json подписчиков
+ */
+
+export async function getFollowersById(id: number | string, page: number | string = '') {
+  const url = new URL(urlMap.followersUrl + id);
+  const params = [
+    ['page', `${page}`],
+  ];
+  url.search = new URLSearchParams(params).toString();
+  const answer = await fetch(url.toString());
+  // const answer = await fetch(urlMap.followersUrl + id);
   const jsonFile = await answer.json();
   return jsonFile;
 }
 
-export async function getFollowedUsersById(id: number | string) {
-  const answer = await fetch(urlMap.followedUsersUrl + id);
+/**
+ * Функция для получения подписок пользователя
+ * @param {Number | String} id - id пользователя
+ * @param {Number | String} page - номер текущей страницы подписок
+ * @return {json} - json подписок
+ */
+
+export async function getFollowedUsersById(id: number | string, page: number | string = '') {
+  const url = new URL(urlMap.followedUsersUrl + id);
+  const params = [
+    ['page', `${page}`],
+  ];
+  url.search = new URLSearchParams(params).toString();
+  const answer = await fetch(url.toString());
+  // const answer = await fetch(urlMap.followedUsersUrl + id);
   const jsonFile = await answer.json();
   return jsonFile;
 }
