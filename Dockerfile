@@ -1,6 +1,6 @@
 FROM node:14-alpine3.10
 
-COPY .github /frontend
+COPY . /frontend
 
 WORKDIR /frontend
 
