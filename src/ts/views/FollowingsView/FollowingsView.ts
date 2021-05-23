@@ -95,6 +95,7 @@ export default class FollowingsView {
       thereIsNothing.style.fontSize = '24px';
       thereIsNothing.style.textAlign = 'center';
       thereIsNothing.style.marginBottom = '30px';
+      thereIsNothing.style.color = '#ded7d8';
 
       nothingRow.appendChild(thereIsNothing);
 

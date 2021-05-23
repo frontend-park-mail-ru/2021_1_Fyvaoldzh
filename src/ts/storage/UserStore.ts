@@ -121,27 +121,6 @@ export default class UserStore {
 
     this.followers = [];
     this.followedUsers = [];
-
-    const followersJson = await getFollowersById(this.userData.Uid);
-
-    if (followersJson !== null) {
-      Object.entries(followersJson).forEach(([, followerJson]) => {
-        // @ts-ignore
-        this.followers.push(followerJson);
-      });
-    }
-
-    const followedUsersJson = await getFollowedUsersById(this.userData.Uid);
-
-    if (followedUsersJson !== null) {
-      Object.entries(followedUsersJson).forEach(([, followedUserJson]) => {
-        // @ts-ignore
-        this.followedUsers.push(followedUserJson);
-      });
-    }
-
-    // await this.updateEvents(); // тут норм?
-
     const queryParamTab = this.globalStore.routerStore.currentUrl?.searchParams.get('tab');
     if (queryParamTab) {
       this.currentTab = queryParamTab;
@@ -157,6 +136,25 @@ export default class UserStore {
       this.globalStore.eventBus.publish(ChannelNames.userIsNotAuth);
     } else {
       await this.updateEvents(); // тут норм?
+      // ============================ подтягивание фолловеров и подписок
+      const followersJson = await getFollowersById(this.userData.Uid);
+
+      if (followersJson !== null) {
+        Object.entries(followersJson).forEach(([, followerJson]) => {
+          // @ts-ignore
+          this.followers.push(followerJson);
+        });
+      }
+
+      const followedUsersJson = await getFollowedUsersById(this.userData.Uid);
+
+      if (followedUsersJson !== null) {
+        Object.entries(followedUsersJson).forEach(([, followedUserJson]) => {
+          // @ts-ignore
+          this.followedUsers.push(followedUserJson);
+        });
+      }
+      // ============================
       if (action?.data) {
         this.globalStore.eventBus.publish(ChannelNames.firstUserUpdated);
       }

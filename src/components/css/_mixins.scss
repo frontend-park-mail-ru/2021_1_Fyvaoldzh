@@ -33,14 +33,6 @@ $maxWidthContainer: 1200;
   @return calc((#{$endSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidthContainer - 320})) / 2);
 }
 
-@mixin bg-height() {
-  @if (100vh < 100vw) {
-    height: $padding;
-  } @else {
-    padding: $margin;
-  }
-}
-
 @mixin bg-height-fix {
   position: fixed;
 
@@ -84,8 +76,12 @@ $maxWidthContainer: 1200;
   border-bottom: 0;
   border-right: 0;
 
-  @media (max-width:767px) {
+  @media (max-width:767px) and (orientation:portrait) {
     backdrop-filter: blur( 3.5px );
+  }
+
+  @media (max-width:767px) and (orientation:landscape) {
+    backdrop-filter: blur( 2px );
   }
 }
 

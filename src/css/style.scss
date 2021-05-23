@@ -60,11 +60,8 @@
   &_profile {
     @extend .page-photo;
     background: url("../templates/search/img/background15.jpg") no-repeat top left / cover;
-    //height: 350vh;
     height: 100vh;
     position: fixed;
-    //overflow: hidden;
-    //background-attachment: fixed;
   }
 
   @media (max-width:767px) {
@@ -78,7 +75,6 @@
     background: url("../templates/search/img/background15.jpg") no-repeat top left / cover;
     height: 100%;
     position: fixed;
-    //background-attachment: fixed;
   }
 
   @media (max-width:767px) {
@@ -92,7 +88,6 @@
     background: url("../templates/search/img/background15.jpg") no-repeat top left / cover;
     height: 100%;
     position: fixed;
-    //background-attachment: fixed;
   }
 
   @media (max-width:767px) {
@@ -106,7 +101,6 @@
     background: url("../templates/search/img/background15.jpg") no-repeat top left / cover;
     height: 100%;
     position: fixed;
-    //background-attachment: fixed;
   }
 
   @media (max-width:767px) {
