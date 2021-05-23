@@ -33,6 +33,14 @@ $maxWidthContainer: 1200;
   @return calc((#{$endSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidthContainer - 320})) / 2);
 }
 
+@mixin bg-height() {
+  @if (100vh < 100vw) {
+    padding: $padding;
+  } @else {
+    padding: $margin;
+  }
+}
+
 //миксины для glassmorphism:
 @mixin gm-main-block() { //для основной подложки
   //background: rgba( 120, 120, 120, 0.2 ); //для темного фона
