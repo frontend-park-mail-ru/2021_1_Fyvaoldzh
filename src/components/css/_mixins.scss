@@ -35,9 +35,39 @@ $maxWidthContainer: 1200;
 
 @mixin bg-height() {
   @if (100vh < 100vw) {
-    padding: $padding;
+    height: $padding;
   } @else {
     padding: $margin;
+  }
+}
+
+@mixin bg-height-fix {
+  @media (max-device-aspect-ratio: 3/4) and (orientation: landscape) {
+    height: calc(100vw * 1.333 - 9%);
+  }
+  @media (max-device-aspect-ratio: 3/4) and (orientation: portrait) {
+    height: calc(100vh * 1.333 - 9%);
+  }
+
+  @media (max-device-aspect-ratio: 2/3) and (orientation:landscape) {
+    height: calc(100vw * 1.5 - 9%);
+  }
+  @media (max-device-aspect-ratio: 2/3) and (orientation:portrait) {
+    height: calc(100vh * 1.5 - 9%);
+  }
+
+  @media (max-device-aspect-ratio: 10/16) and (orientation:landscape) {
+    height: calc(100vw * 1.6 - 9%);
+  }
+  @media (max-device-aspect-ratio: 10/16) and (orientation:portrait) {
+    height: calc(100vh * 1.6 - 9%);
+  }
+
+  @media (max-device-aspect-ratio: 9/16) and (orientation:landscape) {
+    height: calc(100vw * 1.778 - 9%);
+  }
+  @media (max-device-aspect-ratio: 9/16) and (orientation:portrait) {
+    height: calc(100vh * 1.778 - 9%);
   }
 }
 
