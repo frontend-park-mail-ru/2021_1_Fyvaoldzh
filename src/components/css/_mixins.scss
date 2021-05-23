@@ -35,8 +35,8 @@ $maxWidthContainer: 1200;
 
 //миксины для glassmorphism:
 @mixin gm-main-block() { //для основной подложки
-  background: rgba( 120, 120, 120, 0.2 ); //для темного фона
-  //background: rgba( 40, 40, 40, 0.35 ); //для светлого(относительно) фона
+  //background: rgba( 120, 120, 120, 0.2 ); //для темного фона
+  background: rgba( 40, 40, 40, 0.35 ); //для светлого(относительно) фона
   box-shadow: 8px 8px 24px 0 rgba( 0, 0, 0, 0.2 );
   backdrop-filter: blur( 9.5px );
   border-radius: 10px;

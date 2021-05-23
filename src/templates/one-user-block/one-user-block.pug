@@ -4,13 +4,13 @@
         //.one-user-block__title
             //a.block-anchor(href='profile'+id, id=id) #{name}
         a.one-user-block__title(href='profile' + id, id=id) #{name}
-        .profile-header__other-info
-            .one-user-block__info-segment
+        .one-user-block__other-info
+            .one-user-block__info-segment.one-user-block__info-segment_left
                 .profile-header__age-img
                 | #{age}
-            .one-user-block__info-segment
+            .one-user-block__info-segment.one-user-block__info-segment_bottom
                 .profile-header__city-img
                 | #{city}
-            .one-user-block__info-segment
+            .one-user-block__info-segment.one-user-block__info-segment_right
                 .profile-header__subscribers-img
                 | #{followers}
