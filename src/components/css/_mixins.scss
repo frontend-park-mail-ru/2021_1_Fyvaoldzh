@@ -81,7 +81,7 @@ $maxWidthContainer: 1200;
   }
 
   @media (max-width:767px) and (orientation:landscape) {
-    backdrop-filter: blur( 2.5px );
+    backdrop-filter: blur( 2px );
   }
 }
 
