@@ -342,8 +342,8 @@ input[type="file"] {
 
   @media (max-width:767px) {
     &__submit {
-      @include value-adaptive("width", 95, 60);
-      @include value-adaptive("height", 95, 60);  }
+      @include value-adaptive("width", 90, 45);
+      @include value-adaptive("height", 90, 45);  }
   }
 
   &__decline {
