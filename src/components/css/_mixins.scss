@@ -42,6 +42,8 @@ $maxWidthContainer: 1200;
 }
 
 @mixin bg-height-fix {
+  position: fixed;
+
   @media (max-device-aspect-ratio: 3/4) and (orientation: landscape) {
     height: calc(100vw * 1.333 - 9%);
   }
@@ -81,6 +83,10 @@ $maxWidthContainer: 1200;
   border: 1px solid rgba( 255, 255, 255, 0.25 );
   border-bottom: 0;
   border-right: 0;
+
+  @media (max-width:767px) {
+    backdrop-filter: blur( 3.5px );
+  }
 }
 
 @mixin gm-round-button() { //для круглых кнопок
