@@ -80,6 +80,7 @@ input[type="file"] {
   @include gm-text();
 
   //font-weight: normal;
+  font-family: PT Serif;
   font-size: 20px;
   line-height: 31px;
   //text-align: start;
@@ -144,6 +145,7 @@ input[type="file"] {
 
   &__title {
     //font-style: normal;
+    font-family: PT Serif;
     font-weight: 600;
     font-size: 36px;
     line-height: 36px;
@@ -151,13 +153,13 @@ input[type="file"] {
 
   @media (max-width:767px) {
     &__title {
+      font-family: PT Serif;
       @include value-adaptive("font-size", 60, 24);
     }
   }
 
   &__login-block {
-    font-style: normal;
-    font-weight: normal;
+    font-family: PT Serif;
     font-size: 26px;
     line-height: 31px;
     margin-top: 12px;
@@ -165,6 +167,7 @@ input[type="file"] {
 
   @media (max-width:767px) {
     &__login-block {
+      font-family: PT Serif;
       @include value-adaptive("font-size", 40, 20);
       @include value-adaptive("margin-top", 30, 0);
     }
@@ -189,6 +192,7 @@ input[type="file"] {
   @media (max-width:767px) {
     &__followers-block {
       margin-bottom: 0;
+      font-family: PT Serif;
       @include value-adaptive("font-size", 35, 20);
       @include value-adaptive("margin-top", 60, 15);
     }
@@ -247,6 +251,7 @@ input[type="file"] {
 
   @media (max-width:767px) {
     &__events-stats-block_planning {
+      font-family: PT Serif;
       @include value-adaptive("font-size", 35, 20);
       margin: 0 10px 0 10px;
     }
@@ -260,6 +265,7 @@ input[type="file"] {
 
   @media (max-width:767px) {
     &__events-stats-block_visited {
+      font-family: PT Serif;
       @include value-adaptive("font-size", 35, 20);
       margin: 0 10px 0 10px;
     }
@@ -491,12 +497,9 @@ input[type="file"] {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    //font-family: PT Serif;
-    //font-style: normal;
-    //font-weight: normal;
+    font-family: PT Serif;
     font-size: 26px;
     line-height: 31px;
-    //color: #000000;
     margin-bottom: 40px;
   }
 
@@ -541,6 +544,7 @@ input[type="file"] {
   @media (max-width:767px) {
     &__title {
       width: 100%;
+      font-family: PT Serif;
       @include value-adaptive("font-size", 40, 20);
       @include value-adaptive("margin-bottom", 35, 5);
     }

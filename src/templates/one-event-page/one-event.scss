@@ -77,9 +77,10 @@
   background: $project-white;
 
   &__title {
+    margin-top: 48px;
+    color: white;
     font: $title-event;
-    color: $project-black;
-    text-align: center;
+    text-align: left;
   }
 
   &__body {
@@ -90,29 +91,25 @@
   &__star {
     height: 50px;
     width: 50px;
-    position: absolute;
-    right: 10px;
-    transform: translate(50%);
 
     &_active {
       @extend .event-description__star;
+
       background: url("../templates/one-event-page/img/description-star_active.svg") no-repeat center / cover;
     }
 
     &_inactive {
       @extend .event-description__star;
+
       background: url("../templates/one-event-page/img/description-star_inactive.svg") no-repeat center / 100%;
     }
 
     &:hover {
-      transition-duration: 0.5s;
-      transform: translate(60%);
     }
   }
 
   &__share {
     @extend .event-description__star;
-    top: 70px;
     background: url("../templates/one-event-page/img/share.svg") no-repeat center / cover;
   }
 }
@@ -223,4 +220,14 @@
   height: 320px;
   border-radius: 4px;
   box-shadow: 0 0 1px #222;
+}
+
+.event-page-photo {
+  width: 100%;
+  position: relative;
+  margin-top: -30px;
+}
+
+.one-event-buttons-wrapper {
+  display: flex;
 }

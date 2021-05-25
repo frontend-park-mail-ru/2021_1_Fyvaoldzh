@@ -119,6 +119,7 @@ $smbs-event-endSize: 258;
 
     font-size: 24px;
     font-weight: 700;
+    font-family: PT Serif;
     line-height: 32px;
     width: fit-content;
     overflow: hidden;
@@ -133,6 +134,7 @@ $smbs-event-endSize: 258;
 
   @media (max-width:767px) {
     &__title {
+      font-family: PT Serif;
       @include value-adaptive("font-size", 36, 16);
       @include value-adaptive("line-height", 32, 20);
       @include value-adaptive("margin-bottom", 15, 5);
@@ -151,6 +153,7 @@ $smbs-event-endSize: 258;
 
   @media (max-width:767px) {
     &__info {
+      font-family: PT Serif;
       @include value-adaptive("font-size", 32, 14);
       @include value-adaptive("line-height", 38, 18);
       margin-bottom: 0;
@@ -158,6 +161,7 @@ $smbs-event-endSize: 258;
   }
 
   &__place {
+    font-family: PT Serif;
     font-weight: bold;
     overflow: hidden;
     display: -webkit-box;
@@ -190,6 +194,7 @@ $smbs-event-endSize: 258;
     width: 100%;
     margin: 25px;
     max-height: 122px;
+    font-family: PT Serif;
     font-size: 20px;
     line-height: 20px;
     overflow: hidden;
@@ -200,6 +205,7 @@ $smbs-event-endSize: 258;
 
   @media (max-width:767px) {
     &__text {
+      font-family: PT Serif;
       @include value-adaptive("font-size", 34, 18);
       @include value-adaptive("line-height", 44, 20);
       @include value-adaptive("margin", 25, 10);
@@ -453,14 +459,14 @@ $smbs-event-endSize: 258;
 
   &__input {
     width: 100%;
+    font-family: PT Serif;
     font-size: 30px;
     line-height: 40px;
     background: transparent;
     color: rgba(222, 215, 216, 0.7);
 
     &::placeholder {
-      font-style: normal;
-      font-weight: normal;
+      font-family: PT Serif;
       font-size: 26px;
       line-height: 31px;
       color: rgba(222, 215, 216, 0.7);
@@ -468,6 +474,7 @@ $smbs-event-endSize: 258;
 
     @media (max-width:767px) {
       &::placeholder {
+        font-family: PT Serif;
         @include value-adaptive("font-size", 30, 18);
         @include value-adaptive("line-height", 36, 22);
       }
@@ -480,6 +487,7 @@ $smbs-event-endSize: 258;
 
   @media (max-width:767px) {
     &__input {
+      font-family: PT Serif;
       @include value-adaptive("font-size", 30, 18);
       @include value-adaptive("line-height", 36, 22);
     }

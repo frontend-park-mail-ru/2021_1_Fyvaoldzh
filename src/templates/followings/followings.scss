@@ -37,6 +37,7 @@
 
     margin-top: 230px;
     font-weight: bold;
+    font-family: PT Serif;
     font-size: 36px;
     display: flex;
     align-items: center;
@@ -45,6 +46,7 @@
 
   @media (max-width:767px) {
     &__title {
+      font-family: PT Serif;
       @include value-adaptive("margin-top", 40, 10);
       @include value-adaptive("font-size", 60, 24);
     }

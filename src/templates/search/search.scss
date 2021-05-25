@@ -86,6 +86,7 @@
   margin-right: 16px;
   margin-left: 16px;
   padding: 15px 32px;
+  font-family: PT Serif;
   font-size: 20px;
   line-height: 26px;
   text-align: center;
@@ -120,6 +121,7 @@
 @media (max-width:767px) {
   .tab-active {
     align-items: center;
+    font-family: PT Serif;
     @include value-adaptive("font-size", 33, 16);
     @include value-adaptive("line-height", 26, 24);
     @include value-adaptive("padding-left", 42, 10);
@@ -140,6 +142,7 @@
   margin-right: 16px;
   margin-left: 16px;
   padding: 15px 32px;
+  font-family: PT Serif;
   font-size: 20px;
   line-height: 26px;
   text-align: center;
@@ -172,6 +175,7 @@
 @media (max-width:767px) {
   .tab-inactive {
     align-items: center;
+    font-family: PT Serif;
     @include value-adaptive("font-size", 33, 16);
     @include value-adaptive("line-height", 26, 24);
     @include value-adaptive("padding-left", 42, 10);
@@ -286,12 +290,14 @@
   &__input {
     width: 100%;
     //color: #8986AC;
+    font-family: PT Serif;
     font-size: 30px;
     line-height: 40px;
     background: transparent;
     color: rgba(222, 215, 216, 0.7);
 
     &::placeholder {
+      font-family: PT Serif;
       font-style: normal;
       font-weight: normal;
       font-size: 26px;
@@ -301,6 +307,7 @@
 
     @media (max-width:767px) {
       &::placeholder {
+        font-family: PT Serif;
         @include value-adaptive("font-size", 30, 18);
         @include value-adaptive("line-height", 36, 22);
       }
@@ -313,6 +320,7 @@
 
   @media (max-width:767px) {
     &__input {
+      font-family: PT Serif;
       @include value-adaptive("font-size", 30, 18);
       @include value-adaptive("line-height", 36, 22);
     }

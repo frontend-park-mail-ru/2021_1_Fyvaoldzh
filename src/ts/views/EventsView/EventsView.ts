@@ -50,7 +50,7 @@ export default class EventsView {
 
     this.renderCategoryButtons();
 
-    this.vList = new VirtualizedList({ height: 570,
+    this.vList = new VirtualizedList({ height: 320,
       elementWrapperName: 'events-block',
       component: oneTableEventTemplate,
       container: document.getElementById('events-row'),
@@ -94,7 +94,7 @@ export default class EventsView {
       }
 
       this.vList = new VirtualizedList({
-        height: 570,
+        height: 320,
         elementWrapperName: 'events-block',
         component: oneTableEventTemplate,
         container: document.getElementById('events-row'),

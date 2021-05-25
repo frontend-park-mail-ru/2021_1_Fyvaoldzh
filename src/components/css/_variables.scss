@@ -1,11 +1,11 @@
 $main-gradient: linear-gradient(90deg, #2e1665 0%, #57001e 100%);
-$main-font: 20px PT-serif, serif;
-$title-font: bold 50px PT-serif, serif;
-$little-font: 16px PT-serif, serif;
-$title-event: bold 30px PT-serif, serif;
-$notification-title-font: 15px PT-serif, serif;
-$notification-main-font: 12px PT-serif, serif;
-$notification-list-title: 24px PT-serif, serif;
+$main-font: 20px PT serif, serif;
+$title-font: bold 50px PT serif, serif;
+$little-font: 12px PT serif, serif;
+$title-event: bold 48px PT serif, serif;
+$notification-title-font: 15px PT serif, serif;
+$notification-main-font: 12px PT serif, serif;
+$notification-list-title: 24px PT serif, serif;
 
 
 $project-grey: #8986AC;
@@ -15,3 +15,5 @@ $project-red: #CE0E50;
 $project-dark-red: #57001E;
 
 $project-box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+
+$container-width: 1200px;
