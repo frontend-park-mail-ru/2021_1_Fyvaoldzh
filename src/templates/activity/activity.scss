@@ -8,7 +8,7 @@
   height: auto;
   background-color: $project-white;
   box-shadow: $project-box-shadow;
-  @include value-adaptive("padding", 30, 0);
+  @include value-adaptive("padding", 30, 8);
   align-items: center;
 }
 
@@ -36,6 +36,9 @@
 
   &_anchor {
     @extend .event-title;
+    width: 25%;
+    text-overflow: ellipsis;
+    overflow: hidden;
     color: $project-grey;
   }
 }

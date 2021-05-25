@@ -1,7 +1,6 @@
-.events-block
-  a.events-block__photo(id=id, href='event' + id)
-  .events-block__text
-    .events-block__title
-      |#{title}
-    .events-block__info
-      |#{description}
+a.events-block__photo(id=id, href='event' + id, style='background: url(https://qdaqda.ru/api/v1/event/' + id + '/image) no-repeat center / cover;')
+a.events-block__text(href='event' + id)
+  .events-block__title
+    |#{title}
+  .events-block__info
+    |#{description}

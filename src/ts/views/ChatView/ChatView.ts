@@ -26,6 +26,7 @@ export default class ChatView {
         return;
       }
     }
+    document.title = 'Сообщения';
 
     this.wrapper.innerHTML = chatBaseTemplate();
     this.renderLeftMessages();

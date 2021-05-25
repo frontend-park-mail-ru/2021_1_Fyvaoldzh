@@ -1,0 +1,10 @@
+a.notification-element(href=href)
+    .notification-element__new(style='display: ' + display + ';')
+    .notification-element__image(style='background: url(' + pathToImage + ') no-repeat center / cover;')
+    .notification-element__text
+        .notification-element__upper-text
+            | #{type}
+        .notification-element__bottom-text
+            | #{text}
+        .notification-element__date-text
+            | #{date}

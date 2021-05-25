@@ -11,15 +11,40 @@ import {
   unfollowUser,
   getFollowersById,
   getFollowedUsersById,
+  getNotifications,
 } from '../networkModule/network';
 
 import { ChannelNames, profileTab, profileEventsButton } from '../config/config';
 import validation from '../validationModule/inputValidation';
 import { ActionsInterface } from '../interfaces';
+import { NotificationInterface } from '../interfaces/UserInterfaces';
+import { addDeclensionOfNumbers } from '../views/utils/utils';
 
 const urltoFile = (url: string, filename?: string, mimeType?: string) => fetch(url)
   .then((res) => res.arrayBuffer())
   .then((buf) => new File([buf], filename, { type: mimeType }));
+
+const timeAgo = (date: string) => {
+  const currentDate = new Date();
+  const sendDate = new Date(date);
+
+  const diffDate = currentDate.getTime() - sendDate.getTime();
+
+  const minutes = diffDate / 60000;
+  const hours = minutes / 60;
+  const days = hours / 24;
+
+  if (Math.trunc(days) === 0) {
+    if (Math.trunc(hours) === 0) {
+      if (Math.trunc(minutes) === 0) {
+        return `${addDeclensionOfNumbers(1, ['минута', 'минуты', 'минут'])} назад`;
+      }
+      return `${addDeclensionOfNumbers(Math.trunc(minutes), ['минута', 'минуты', 'минут'])} назад`;
+    }
+    return `${addDeclensionOfNumbers(Math.trunc(hours), ['часов', 'часа', 'часов'])} назад`;
+  }
+  return `${addDeclensionOfNumbers(Math.trunc(days), ['день', 'дня', 'дней'])} назад`;
+}
 
 interface UserDataInterface {
   Uid: number;
@@ -59,6 +84,10 @@ export default class UserStore {
 
   public followers: Array<any>; // подписчики
 
+  public geolocation: [number, number];
+
+  public notifications: Array<NotificationInterface>;
+
   constructor(globalStore: any) {
     this.globalStore = globalStore;
     this.userData = null;
@@ -73,6 +102,7 @@ export default class UserStore {
     this.currentEventsPage = 1;
     this.followedUsers = [];
     this.followers = [];
+    this.geolocation = null;
   }
 
   async register(action: ActionsInterface) {
@@ -121,10 +151,29 @@ export default class UserStore {
 
     this.followers = [];
     this.followedUsers = [];
+
+    const followersJson = await getFollowersById(this.userData.Uid);
+
+    if (followersJson !== null) {
+      Object.entries(followersJson).forEach(([, followerJson]) => {
+        // @ts-ignore
+        this.followers.push(followerJson);
+      });
+    }
+
+    const followedUsersJson = await getFollowedUsersById(this.userData.Uid);
+
+    if (followedUsersJson !== null) {
+      Object.entries(followedUsersJson).forEach(([, followedUserJson]) => {
+        // @ts-ignore
+        this.followedUsers.push(followedUserJson);
+      });
+    }
+
+
     const queryParamTab = this.globalStore.routerStore.currentUrl?.searchParams.get('tab');
     if (queryParamTab) {
       this.currentTab = queryParamTab;
-      // console.log(this.currentTab);
     }
 
     if (this.userData.message === 'user is not authorized') {
@@ -304,6 +353,46 @@ export default class UserStore {
     await unfollowUser(action.data);
   }
 
+  updateGeolocation(action: ActionsInterface) {
+    this.geolocation = action.data;
+  }
+
+  async updateNotifications() {
+    this.notifications = await getNotifications();
+    const string = '[{"id":17,"id_to_image":12,"type":"Mail","date":"2021-05-24 02:27:30.235995 +0000 UTC","text":"danya2","read":true},{"id":2,"id_to_image":2,"type":"Event","date":"2021-05-24 20:28:01.870899 +0000 UTC","text":"Концерт Элджея","read":false}]';
+    this.notifications = JSON.parse(string);
+
+    this.notifications.forEach((val) => {
+      switch (val.type) {
+        case 'Mail':
+          val.type = 'Вас пригласили';
+          val.text = `${val.text} приглашает вас на мероприятие`;
+          val.pathToImage = `https://qdaqda.ru/api/v1/avatar/${val.id_to_image}`;
+          val.href = `/chat?c=${val.id}`;
+          val.date = timeAgo(val.date);
+          break;
+
+        case 'Event':
+          val.type = 'Скоро событие';
+          val.pathToImage = `https://qdaqda.ru/api/v1/event/${val.id_to_image}/image`;
+          val.text = `Мероприятие "${val.text}" начнется через 5 часов`;
+          val.href = `/event${val.id}`;
+          val.date = timeAgo(val.date);
+          break;
+      }
+
+      if (val.read) {
+        val.display = 'block';
+      }
+
+      if (!val.read) {
+        val.display = 'none';
+      }
+    })
+
+    this.globalStore.eventBus.publish(ChannelNames.notificationsUpdated);
+  }
+
   reducer(action: ActionsInterface) {
     switch (action.eventName) {
       case 'user/register':
@@ -368,6 +457,14 @@ export default class UserStore {
 
       case 'user/unsubscribeFromUser':
         this.unsubscribeFromUser(action);
+        break;
+
+      case 'user/updateGeolocation':
+        this.updateGeolocation(action);
+        break;
+
+      case 'user/updateNotifications':
+        this.updateNotifications();
         break;
 
       default:
