@@ -226,6 +226,10 @@ document.getElementById('wrapper').addEventListener('click', () => {
     (document.getElementById('JSsearchBarButton') as HTMLInputElement).classList.toggle('close');
     (document.getElementById('JSsearchBarInput') as HTMLInputElement).classList.toggle('square');
   }
+
+  if (!(document.getElementById('JSNavbarNotificationList')).classList.contains('css-hidden')) {
+    (document.getElementById('JSNavbarNotificationList')).classList.toggle('css-hidden');
+  }
 });
 
 navigator.geolocation.getCurrentPosition((geoCoords: GeolocationPosition) => {

@@ -335,4 +335,11 @@ export default class Actions {
       data,
     });
   }
+
+  updateNotifications() {
+    this.dispatcher.dispatch({
+      eventName: 'user/updateNotifications',
+      data: null,
+    });
+  }
 }
