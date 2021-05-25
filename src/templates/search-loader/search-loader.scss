@@ -4,16 +4,19 @@
   stroke-miterlimit: 10;
 }
 .lbl-map.outline, .lbl-map.white, .lbl-map.slim {
-  stroke: #cbd1d3;
+  //stroke: #cbd1d3;
+  stroke: #ded7d8
 }
 .lbl-map.outline, .lbl-map.white {
   stroke-width: 4;
 }
 .lbl-map.outline {
-  fill: none;
+  //fill: none;
+  fill: black;
 }
 .lbl-map.white {
-  fill: #fff;
+  //fill: #fff;
+  fill: black
 }
 .lbl-map.gray {
   fill: #cbd1d3;

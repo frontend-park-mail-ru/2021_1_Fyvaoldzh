@@ -2,8 +2,12 @@ import { ChannelNames } from '../../config/config';
 import Store from '../../storage/store';
 import Actions from '../../actions/actions';
 import OneFollowerComponent from './OneFollowerComponent';
+
 import getMap from '../../map/map';
 import { TagInterface, FollowerInterface, ToInviteInterface } from '../../interfaces/OneEventStoreInterfaces';
+
+import {copyButtonHandler, eventPageShareButtonHandler, modalOverlayHandler} from "../utils/utils";
+
 
 const oneEventPageTemplate = require('Templates/one-event-page/one-event-page.pug');
 const oneTagTemplate = require('Templates/one-event-page/tagTemplate.pug');
@@ -57,7 +61,19 @@ export default class OneEventView {
     this.renderGoingUsers();
     this.renderFollowers();
 
+
     getMap(this.globalStore.userStore.geolocation, 'Мероприятие'); // Затычка!
+
+    // для кнопки шеринга мероприятия:
+    const modalOverlay = document.querySelector('#modal-overlay');
+    modalOverlay.addEventListener('click', modalOverlayHandler.bind(this));
+
+    const copyButton = document.querySelector('#copyButton');
+    copyButton.addEventListener('click', copyButtonHandler.bind(this));
+
+    const shareButton = document.querySelector('.smbs-event__share-button');
+    shareButton.addEventListener('click', eventPageShareButtonHandler.bind(this));
+
   }
 
   renderTags() {

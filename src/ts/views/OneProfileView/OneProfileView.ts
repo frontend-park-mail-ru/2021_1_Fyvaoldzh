@@ -94,6 +94,7 @@ export default class OneProfileView extends ProfilesBaseView {
 
     if (!this.globalStore.userStore.userData) {
       document.getElementById('subscribeUserButton').style.display = 'none';
+      document.getElementById('messageButton').style.display = 'none';
     } else if (this.globalStore.userStore.followedUsers.find((followedUser) => followedUser.id === inspectingProfileId)) {
       document.getElementById('subscribeUserButton').innerText = 'Отписаться';
     }

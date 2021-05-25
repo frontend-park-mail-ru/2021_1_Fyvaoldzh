@@ -1,5 +1,8 @@
-import { parseDate } from '../utils/utils';
+import {modalOverlayHandler, eventBlockShareButtonHandler, copyButtonHandler, parseDate} from '../utils/utils';
 
+// (window as any).VK = require('https://vk.com/js/api/share.js?93');
+
+// const asfasdv = require('../../VK.js');
 const oneEventBlockTemplate = require('../../../templates/one-event-block/one-event-block.pug');
 
 export default class ProfilesBaseView {
@@ -23,6 +26,7 @@ export default class ProfilesBaseView {
       thereIsNothing.style.textAlign = 'center';
       thereIsNothing.style.marginBottom = '30px';
       thereIsNothing.style.alignSelf = 'center';
+      thereIsNothing.style.color = '#ded7d8';
 
       nothingRow.appendChild(thereIsNothing);
 
@@ -45,15 +49,17 @@ export default class ProfilesBaseView {
       button.addEventListener('click', () => {
         button.closest('.smbs-event-cube').classList.toggle('smbs-event-cube_show_top');
       });
-      // if (button.classList.contains('smbs-event__arrow-down')) {
-      //   (<HTMLElement>button.closest('.smbs-event-cube')).style.minHeight = window.getComputedStyle(
-      //     button.closest('.smbs-event'),
-      //   ).minHeight;
-      //   button.closest('.smbs-event-cube').addEventListener('resize', (e: any) => {
-      //     const { target } = e;
-      //     target.style.minHeight = window.getComputedStyle(target.querySelector('smbs-event_front_side')).minHeight;
-      //   });
-      // }
+    });
+
+    const modalOverlay = document.querySelector('#modal-overlay');
+    modalOverlay.addEventListener('click', modalOverlayHandler.bind(this));
+
+    const copyButton = document.querySelector('#copyButton');
+    copyButton.addEventListener('click', copyButtonHandler.bind(this));
+
+    const shareButtons = Array.from(eventsList.querySelectorAll('.smbs-event__share-button'));
+    shareButtons.forEach((shareButton) => {
+      shareButton.addEventListener('click', eventBlockShareButtonHandler.bind(this));
     });
   }
 }

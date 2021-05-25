@@ -64,10 +64,19 @@
     &_error {
       margin-top: 3px;
       height: 0;
-      color: $project-red;
+      //color: $project-red;
+      color: #ff73a3;
       width: 100%;
-      font-size: 13px;
+      font-size: 16px;
       text-align: center;
+    }
+
+    @media (max-width:767px) {
+      &_error {
+        @include value-adaptive("margin-top", 10, -5);
+        white-space: nowrap;
+        font-size: 13px;
+      }
     }
 
     &_success {
