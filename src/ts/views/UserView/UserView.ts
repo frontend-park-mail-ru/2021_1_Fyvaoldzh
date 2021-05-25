@@ -15,6 +15,9 @@ import {
   ChangePasswordInterface,
   PostUserDataInterface,
 } from '../../interfaces';
+import {
+  NotificationInterface
+} from '../../interfaces/UserInterfaces';
 import Actions from '../../actions/actions';
 
 const navbarLoggedTemplate = require('../../../components/navbar/navbar-logged.pug');
@@ -22,6 +25,7 @@ const profileTemplate = require('../../../templates/profile/profile.pug');
 const profileAboutTabTemplate = require('../../../templates/profile-about-tab/profile-about-tab.pug');
 const profileSettingsTabTemplate = require('../../../templates/profile-settings-tab/profile-settings-tab.pug');
 const profileEventsTabTemplate = require('../../../templates/profile-events-tab/profile-events-tab.pug');
+const notificationTemplate = require('../../../components/navbar/notification.pug');
 
 const redBoxShadow = '0px 0px 10px 0px #CE0E50';
 const greyBoxShadow = '0 0 10px rgba(0, 0, 0, 0.25)';
@@ -114,7 +118,28 @@ export default class UserView extends ProfilesBaseView {
     const navbarMenu = document.getElementById('jsProfileNav');
     navbarMenu.addEventListener('click', () => {
       (document.getElementById('toggle') as HTMLInputElement).checked = !(document.getElementById('toggle') as HTMLInputElement).checked;
+      if ((document.getElementById('JSNavbarNotificationList')).classList.contains('css-hidden')) {
+        return;
+      }
+
+      (document.getElementById('JSNavbarNotificationList')).classList.toggle('css-hidden');
     });
+
+    const navbarBell = document.getElementById('JSNavbarBell');
+
+    navbarBell.addEventListener('click', () => {
+      const bell = document.getElementById('JSNavbarNotificationList');
+
+      if (bell.classList.contains('css-hidden')) {
+        this.actions.updateNotifications();
+      }
+
+      bell.classList.toggle('css-hidden');
+
+      if ((document.getElementById('toggle') as HTMLInputElement).checked) {
+        (document.getElementById('toggle') as HTMLInputElement).checked = false;
+      }
+    })
   }
 
   renderValidationErrors() {
@@ -477,6 +502,19 @@ export default class UserView extends ProfilesBaseView {
     document.getElementById('jsPasswordSuccess').innerText = 'Пароль успешно изменен.';
   }
 
+  renderNotifications() {
+    Array.from(document.getElementsByClassName('notification-element')).forEach((val) => {
+      val.remove();
+    })
+
+    const notificationList = document.getElementById('JSNavbarNotificationList');
+    const notificationData: Array<NotificationInterface> = this.globalStore.userStore.notifications;
+
+    notificationData.forEach((data) => {
+      notificationList.insertAdjacentHTML('beforeend', notificationTemplate(data));
+    })
+  }
+
   subscribeViews() {
     this.globalStore.eventBus.subscribe(
       ChannelNames.errorValidation,
@@ -513,6 +551,10 @@ export default class UserView extends ProfilesBaseView {
     this.globalStore.eventBus.subscribe(
       ChannelNames.profilePasswordChanged,
       this.renderSuccessPassword.bind(this),
+    );
+    this.globalStore.eventBus.subscribe(
+      ChannelNames.notificationsUpdated,
+      this.renderNotifications.bind(this),
     );
   }
 

@@ -5,6 +5,7 @@
   background: $main-gradient;
 
   &__row {
+    position: relative;
     @include flex-mixin(row, center);
     height: 70px;
     justify-content: space-between;
@@ -82,7 +83,7 @@
 
   &__drop-menu-stroke {
     width: 100%;
-    box-shadow: $project-box-shadow;
+    box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.25);
     border-top: 0;
     height: 70px;
     background: $project-dark-red;
@@ -292,4 +293,122 @@ input[type=checkbox]:checked  ~ .dropdown-menu {
   padding 0.2s;
   transition-delay: 0.4s, 0s, 0.4s;
   transform: translate(-100%, -50%);
+}
+
+.notifications {
+  position: relative;
+  cursor: pointer;
+  margin-right: 16px;
+
+  &__bell {
+    width: 50px;
+    height: 50px;
+    background: url("../components/navbar/img/notifications.svg") no-repeat center / cover;
+  }
+
+  &__count {
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    text-align: center;
+    display: flex;
+    background: $project-red;
+    font: $main-font;
+    font-size: 14px;
+    color: white;
+    top: 0;
+    left: 24px;
+    height: 24px;
+    width: 24px;
+  }
+}
+
+.notification-list {
+  position: absolute;
+  width: 300px;
+  max-height: 500px;
+  background: white;
+  z-index: 500;
+  right: 0;
+  top: 70px;
+  box-shadow: $project-box-shadow;
+  overflow-y: auto;
+  padding-top: 8px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__line {
+    margin-top: 8px;
+    width: calc(100% - 16px);
+    height: 1px;
+    background: #C4DBF6;
+  }
+
+  &__title {
+    font: $notification-list-title;
+  }
+}
+
+.notification-element {
+  padding: 8px;
+  display: flex;
+  cursor: pointer;
+  position: relative;
+  width: 100%;
+  color: black;
+
+  &__image {
+    width: 50px;
+    height: 50px;
+    background: black;
+    border-radius: 50%;
+    box-shadow: $project-box-shadow;
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    margin-left: 16px;
+    width: 75%;
+  }
+
+  &__upper-text {
+    font: $notification-title-font;
+  }
+
+  &__bottom-text {
+    margin-top: 8px;
+    font: $notification-main-font;
+    color: rgba(0, 0, 0, 0.65);
+  }
+
+  &:hover {
+    background: #C4DBF6;
+  }
+
+  &__date-text {
+    position: absolute;
+    font: $notification-main-font;
+    font-size: 10px;
+    color: rgba(0, 0, 0, 0.65);
+    right: 8px;
+    top: 11px;
+  }
+
+  &__new {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    left: 59px;
+    top: 11px;
+    position: absolute;
+    background: $project-dark-red;
+  }
+}
+
+.css-hidden {
+  display: none;
 }

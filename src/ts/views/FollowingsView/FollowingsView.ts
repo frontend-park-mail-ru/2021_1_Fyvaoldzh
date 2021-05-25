@@ -27,6 +27,7 @@ export default class FollowingsView {
   }
 
   renderFollowingsPage() {
+    document.title = 'Подписчики';
     window.scroll(0, 0);
     const { currentTab } = this.globalStore.followingsStore;
 

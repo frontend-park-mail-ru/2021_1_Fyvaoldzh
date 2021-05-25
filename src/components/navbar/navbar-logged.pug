@@ -4,6 +4,14 @@
     .search-bar__block
       input#JSsearchBarInput.search-bar__input(type='text' name='searchBar')
       button#JSsearchBarButton.search-bar__button(type='reset')
+    .notifications#JSNavbarBell
+      .notifications__bell
+      .notifications__count
+        | 100
+    .notification-list#JSNavbarNotificationList.css-hidden
+      span.notification-list__title
+        | Уведомления
+      .notification-list__line
     .navbar-menu
       .navbar-menu__list
       .profile-nav(id='jsProfileNav')

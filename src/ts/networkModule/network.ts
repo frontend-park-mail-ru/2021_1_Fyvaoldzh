@@ -534,3 +534,20 @@ export async function inviteFollowers(toPost: object) {
     }
   }
 }
+
+export async function getNotifications() {
+  const csrf = getCsrf();
+  try {
+    const answer = await fetch(`${urlMap.notificationsUrl}`, {
+      credentials: 'include',
+      headers: {
+        'X-XSRF-TOKEN': csrf,
+      },
+    });
+    return await answer.json();
+  } catch (err) {
+    if (!navigator.onLine) {
+      location.reload();
+    }
+  }
+}

@@ -4,25 +4,7 @@ import {
 import { ChannelNames } from '../config/config';
 import { ActionsInterface } from '../interfaces';
 import { parseDate } from '../views/utils/utils';
-
-interface OneEventDataInterface {
-  id: number;
-  place: string;
-  description: string;
-  startDate: string;
-  endDate: string;
-  subway: string;
-  street: string;
-  tags: Array<object>;
-  category: string;
-  followers: Array<object>;
-}
-
-interface PlanningAnswer {
-  userId: number;
-  eventId: number;
-  isAdded: boolean;
-}
+import { OneEventDataInterface, PlanningAnswer } from '../interfaces/OneEventStoreInterfaces';
 
 export default class OneEventStore {
   public globalStore: any;
