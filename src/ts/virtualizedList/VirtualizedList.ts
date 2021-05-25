@@ -1,4 +1,5 @@
 import { vlOptions, toVirtualize } from './VirtualizedListInterfaces';
+import { parseDate } from '../views/utils/utils';
 
 function isEmpty(element: HTMLElement) {
   if (element.innerHTML === '') {
@@ -37,6 +38,11 @@ export default class VirtualizedList {
 
   constructor(options: vlOptions) {
     this.data = options.data;
+    Object.entries(this.data).forEach(([, val]) => {
+      if ((val as any).startDate) {
+        (val as any).startDate = parseDate((val as any).startDate);
+      }
+    })
     this.component = options.component;
     this.height = options.height;
     this.offset = options.offset || 100;
@@ -69,6 +75,7 @@ export default class VirtualizedList {
 
     Array.from(this.collection).forEach((el: HTMLElement) => {
       if (this.isVisible(el) && isEmpty(el)) {
+        console.log(Object.entries(this.data)[index][1]);
         el.innerHTML = this.component(Object.entries(this.data)[index][1]);
       }
 
@@ -98,12 +105,18 @@ export default class VirtualizedList {
     this.countPages++;
     const newData: any = await this.uploadContentFunction(this.countPages);
 
-    console.log(newData, 'загружено');
 
     if (newData === null) {
       this.endOfData = true;
       return;
     }
+
+    Object.entries(newData).forEach(([, val]) => {
+      if ((val as any).startDate) {
+        (val as any).startDate = parseDate((val as any).startDate);
+        console.log(val);
+      }
+    })
 
     if (Object.entries(newData).length < this.onePageSize) {
       this.endOfData = true;
@@ -123,7 +136,6 @@ export default class VirtualizedList {
     this.data = await this.uploadContentFunction(this.countPages);
 
     if (Object.entries(this.data).length < this.onePageSize) {
-      console.log('daawdadwwd');
       this.endOfData = true;
     }
 

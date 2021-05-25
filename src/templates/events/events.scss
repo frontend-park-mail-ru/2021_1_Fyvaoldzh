@@ -65,6 +65,8 @@
   &__text {
     display: block;
     padding: 8px;
+    overflow: hidden;
+    height: 113px;
   }
 
   &__date {

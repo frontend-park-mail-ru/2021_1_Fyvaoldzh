@@ -551,3 +551,20 @@ export async function getNotifications() {
     }
   }
 }
+
+export async function getCounts() {
+  const csrf = getCsrf();
+  try {
+    const answer = await fetch(`${urlMap.countsUrl}`, {
+      credentials: 'include',
+      headers: {
+        'X-XSRF-TOKEN': csrf,
+      },
+    });
+    return await answer.json();
+  } catch (err) {
+    if (!navigator.onLine) {
+      location.reload();
+    }
+  }
+}

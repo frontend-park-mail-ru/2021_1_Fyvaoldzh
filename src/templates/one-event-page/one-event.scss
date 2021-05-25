@@ -2,7 +2,7 @@
 @import "../../components/css/mixins";
 
 .tags {
-  margin-top: 60px;
+  margin-top: 24px;
 }
 
 .event-info {
@@ -239,4 +239,8 @@
 
 .one-event-buttons-wrapper {
   display: flex;
+}
+
+#jsTagsRow {
+  margin-left: -24px;
 }

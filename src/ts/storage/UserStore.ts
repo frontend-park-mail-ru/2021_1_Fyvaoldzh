@@ -12,6 +12,7 @@ import {
   getFollowersById,
   getFollowedUsersById,
   getNotifications,
+  getCounts,
 } from '../networkModule/network';
 
 import { ChannelNames, profileTab, profileEventsButton } from '../config/config';
@@ -88,6 +89,10 @@ export default class UserStore {
 
   public notifications: Array<NotificationInterface>;
 
+  public notificationsCount: number;
+
+  public chatCount: number;
+
   constructor(globalStore: any) {
     this.globalStore = globalStore;
     this.userData = null;
@@ -103,6 +108,8 @@ export default class UserStore {
     this.followedUsers = [];
     this.followers = [];
     this.geolocation = null;
+    this.chatCount = 0;
+    this.notificationsCount = 0;
   }
 
   async register(action: ActionsInterface) {
@@ -169,7 +176,6 @@ export default class UserStore {
         this.followedUsers.push(followedUserJson);
       });
     }
-
 
     const queryParamTab = this.globalStore.routerStore.currentUrl?.searchParams.get('tab');
     if (queryParamTab) {
@@ -359,8 +365,6 @@ export default class UserStore {
 
   async updateNotifications() {
     this.notifications = await getNotifications();
-    const string = '[{"id":17,"id_to_image":12,"type":"Mail","date":"2021-05-24 02:27:30.235995 +0000 UTC","text":"danya2","read":true},{"id":2,"id_to_image":2,"type":"Event","date":"2021-05-24 20:28:01.870899 +0000 UTC","text":"Концерт Элджея","read":false}]';
-    this.notifications = JSON.parse(string);
 
     this.notifications.forEach((val) => {
       switch (val.type) {
@@ -391,6 +395,15 @@ export default class UserStore {
     })
 
     this.globalStore.eventBus.publish(ChannelNames.notificationsUpdated);
+  }
+
+  async updateCounts() {
+    const answer: CountInterface = await getCounts();
+
+    this.notificationsCount = answer.notifications;
+    this.chatCount = answer.chat;
+
+    this.globalStore.eventBus.publish(ChannelNames.countsUpdated);
   }
 
   reducer(action: ActionsInterface) {
@@ -467,8 +480,17 @@ export default class UserStore {
         this.updateNotifications();
         break;
 
+      case 'user/updateCounts':
+        this.updateCounts();
+        break;
+
       default:
         break;
     }
   }
+}
+
+interface CountInterface {
+  notifications: number;
+  chat: number;
 }

@@ -515,6 +515,14 @@ export default class UserView extends ProfilesBaseView {
     })
   }
 
+  renderCounts() {
+    const chatCounts = this.globalStore.userStore.chatCount;
+    const notificationsCount = this.globalStore.userStore.notificationsCount;
+
+    document.getElementById('JSNotificationsCount').innerText = chatCounts;
+    // da
+  }
+
   subscribeViews() {
     this.globalStore.eventBus.subscribe(
       ChannelNames.errorValidation,
@@ -556,6 +564,10 @@ export default class UserView extends ProfilesBaseView {
       ChannelNames.notificationsUpdated,
       this.renderNotifications.bind(this),
     );
+    this.globalStore.eventBus.subscribe(
+      ChannelNames.countsUpdated,
+      this.renderCounts.bind(this),
+    );
   }
 
   postProfile(e: MouseEvent) {
@@ -592,6 +604,8 @@ export default class UserView extends ProfilesBaseView {
 
     this.actions.postProfileForm(dataToPost);
   }
+
+
 
   changePassword(e: MouseEvent) {
     e.preventDefault();

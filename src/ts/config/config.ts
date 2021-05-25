@@ -32,7 +32,7 @@ export const urlMap = {
   followedUsersUrl: `${baseApi}/api/v1/subscriptions/`,
   inviteFollowersUrl: `${baseApi}/api/v1/message/mailing`,
   notificationsUrl: `${baseApi}/api/v1/notifications`,
-
+  countsUrl: `${baseApi}/api/v1/counts`,
 };
 
 export const SERVER_ERRORS = {
@@ -84,6 +84,7 @@ export enum ChannelNames {
   chatUploaded,
   activityUpdated,
   notificationsUpdated,
+  countsUpdated,
 }
 
 export const routes = {

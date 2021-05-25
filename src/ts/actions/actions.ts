@@ -342,4 +342,11 @@ export default class Actions {
       data: null,
     });
   }
+
+  updateCounts() {
+    this.dispatcher.dispatch({
+      eventName: 'user/updateCounts',
+      data: null,
+    });
+  }
 }
