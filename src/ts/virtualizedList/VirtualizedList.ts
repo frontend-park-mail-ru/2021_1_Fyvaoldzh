@@ -97,9 +97,6 @@ export default class VirtualizedList {
 
     this.countPages++;
     const newData: any = await this.uploadContentFunction(this.countPages);
-    Object.entries(newData).forEach((val: any) => {
-      console.g
-    })
 
     console.log(newData, 'загружено');
 
