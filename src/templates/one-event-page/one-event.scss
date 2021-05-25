@@ -10,12 +10,13 @@
 
   &__title {
     font: $title-event;
-    margin-top: 20px;
+    margin-top: 24px;
   }
 
   &__date {
     margin-top: 20px;
     font: $little-font;
+    font-size: 16px;
   }
 
   &__location {
@@ -23,6 +24,8 @@
 
     &_place {
       margin-top: 20px;
+      font: $little-font;
+      font-size: 16px;
       &:before {
         @include before-event-info("../templates/one-event-page/img/location-icon.svg");
       }
@@ -30,6 +33,8 @@
 
     &_street {
       margin-top: 20px;
+      font: $little-font;
+      font-size: 16px;
 
       &:before {
         @include before-event-info("../templates/one-event-page/img/street-icon.svg");
@@ -38,6 +43,8 @@
 
     &_subway {
       margin-top: 20px;
+      font: $little-font;
+      font-size: 16px;
 
       &:before {
         @include before-event-info("../templates/one-event-page/img/subway-icon.svg");
@@ -84,8 +91,10 @@
   }
 
   &__body {
-    margin-top: 20px;
+    margin-top: 16px;
     font: $main-font;
+    font-size: 16px;
+    max-width: 800px;
   }
 
   &__star {
