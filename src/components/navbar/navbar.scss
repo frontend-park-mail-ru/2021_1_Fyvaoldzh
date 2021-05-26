@@ -87,10 +87,10 @@
     border-top: 0;
     height: 70px;
     background: $project-dark-red;
+    padding-top: 22px;
+    padding-left: 8px;
     font: $main-font;
-    text-align: right;
     vertical-align: center;
-    padding: 23px 10px 10px;
     color: $project-white;
     &:hover {
       background: $project-red;
@@ -103,7 +103,8 @@
     width: 19px;
     height: 19px;
     float: left;
-    margin-top: 3px;
+    margin-top: 5px;
+    margin-right: 16px;
   }
 
   &__profile {
