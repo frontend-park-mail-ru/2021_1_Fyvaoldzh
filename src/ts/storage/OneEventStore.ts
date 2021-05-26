@@ -3,8 +3,9 @@ import {
 } from '../networkModule/network';
 import { ChannelNames } from '../config/config';
 import { ActionsInterface } from '../interfaces';
-import { parseDate } from '../views/utils/utils';
+import { parseDate, capitalize } from '../views/utils/utils';
 import { OneEventDataInterface, PlanningAnswer } from '../interfaces/OneEventStoreInterfaces';
+
 
 export default class OneEventStore {
   public globalStore: any;
@@ -21,6 +22,14 @@ export default class OneEventStore {
 
   async update(action: ActionsInterface) {
     this.oneEventData = await getEventById(<number><unknown>action.data);
+
+    this.oneEventData.place = capitalize(this.oneEventData.place);
+    this.oneEventData.street = capitalize(this.oneEventData.street);
+    this.oneEventData.subway = capitalize(this.oneEventData.subway);
+
+    if (this.oneEventData.subway === '') {
+      this.oneEventData.subway = 'Метро не указано';
+    }
     const checkPlanningAnswer: PlanningAnswer = await checkPlanningEvent(this.oneEventData.id);
     this.oneEventData.startDate = parseDate(this.oneEventData.startDate);
     this.oneEventData.endDate = parseDate(this.oneEventData.endDate);

@@ -572,7 +572,7 @@ export async function getCounts() {
 export async function getNearest(page: number, geoposition: object) {
   const csrf = getCsrf();
   try {
-    const answer = await fetch(`${urlMap.nearUrl}`, {
+    const answer = await fetch(`${urlMap.nearUrl}?page=${page}`, {
       method: 'POST',
       credentials: 'include',
       headers: {

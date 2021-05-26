@@ -412,3 +412,20 @@ input[type=checkbox]:checked  ~ .dropdown-menu {
 .css-hidden {
   display: none;
 }
+
+.notification-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px;
+
+  &__title {
+    font: $notification-list-title;
+    font-size: 18px;
+  }
+
+  &__text {
+    margin-top: 8px;
+    font: $notification-main-font;
+  }
+}

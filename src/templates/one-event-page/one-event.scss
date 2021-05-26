@@ -84,7 +84,6 @@
   background: $project-white;
 
   &__title {
-    margin-top: 48px;
     color: white;
     font: $title-event;
     text-align: left;
@@ -104,11 +103,21 @@
     &_active {
       @extend .event-description__star;
 
+      &:hover {
+        transform: scale(1.1);
+        transition-duration: 0.5s;
+      }
+
       background: url("../templates/one-event-page/img/description-star_active.svg") no-repeat center / cover;
     }
 
     &_inactive {
       @extend .event-description__star;
+
+      &:hover {
+        transform: scale(1.1);
+        transition-duration: 0.5s;
+      }
 
       background: url("../templates/one-event-page/img/description-star_inactive.svg") no-repeat center / 100%;
     }
@@ -119,6 +128,10 @@
 
   &__share {
     @extend .event-description__star;
+    &:hover {
+      transform: scale(1.1);
+      transition-duration: 0.5s;
+    }
     background: url("../templates/one-event-page/img/share.svg") no-repeat center / cover;
   }
 }
@@ -234,9 +247,12 @@
   width: 100%;
   position: relative;
   margin-top: -30px;
+  padding-top: 48px;
+  padding-bottom: 48px;
 }
 
 .one-event-buttons-wrapper {
+  margin-top: 24px;
   display: flex;
 }
 

@@ -1,5 +1,5 @@
 import { vlOptions, toVirtualize } from './VirtualizedListInterfaces';
-import { parseDate } from '../views/utils/utils';
+import { parseDate, capitalize } from '../views/utils/utils';
 
 function isEmpty(element: HTMLElement) {
   if (element.innerHTML === '') {
@@ -38,11 +38,6 @@ export default class VirtualizedList {
 
   constructor(options: vlOptions) {
     this.data = options.data;
-    Object.entries(this.data).forEach(([, val]) => {
-      if ((val as any).startDate) {
-        (val as any).startDate = parseDate((val as any).startDate);
-      }
-    })
     this.component = options.component;
     this.height = options.height;
     this.offset = options.offset || 100;
@@ -77,6 +72,10 @@ export default class VirtualizedList {
       if (this.isVisible(el) && isEmpty(el)) {
         if (Object.entries(this.data)[index][1].startDate) {
           Object.entries(this.data)[index][1].startDate = parseDate(Object.entries(this.data)[index][1].startDate);
+        }
+
+        if (Object.entries(this.data)[index][1].place) {
+          Object.entries(this.data)[index][1].place = capitalize(Object.entries(this.data)[index][1].place);
         }
         el.innerHTML = this.component(Object.entries(this.data)[index][1]);
       }

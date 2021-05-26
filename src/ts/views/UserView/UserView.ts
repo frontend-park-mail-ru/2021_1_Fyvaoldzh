@@ -26,6 +26,7 @@ const profileAboutTabTemplate = require('../../../templates/profile-about-tab/pr
 const profileSettingsTabTemplate = require('../../../templates/profile-settings-tab/profile-settings-tab.pug');
 const profileEventsTabTemplate = require('../../../templates/profile-events-tab/profile-events-tab.pug');
 const notificationTemplate = require('../../../components/navbar/notification.pug');
+const notificationsEmpty = require('../../../components/navbar/notificationEmpty.pug');
 
 const redBoxShadow = '0px 0px 10px 0px #CE0E50';
 const greyBoxShadow = '0 0 10px rgba(0, 0, 0, 0.25)';
@@ -510,6 +511,12 @@ export default class UserView extends ProfilesBaseView {
     const notificationList = document.getElementById('JSNavbarNotificationList');
     const notificationData: Array<NotificationInterface> = this.globalStore.userStore.notifications;
 
+    console.log('dawdawawd');
+    if (!notificationData) {
+      notificationList.innerHTML = notificationsEmpty();
+      return;
+    }
+
     notificationData.forEach((data) => {
       notificationList.insertAdjacentHTML('beforeend', notificationTemplate(data));
     })
@@ -518,6 +525,14 @@ export default class UserView extends ProfilesBaseView {
   renderCounts() {
     const chatCounts = this.globalStore.userStore.chatCount;
     const notificationsCount = this.globalStore.userStore.notificationsCount;
+
+    if (notificationsCount === 0) {
+      document.getElementById('JSNotificationsCount').style.display = 'none';
+    }
+
+    if (notificationsCount > 0) {
+      document.getElementById('JSNotificationsCount').style.display = 'block';
+    }
 
     document.getElementById('JSNotificationsCount').innerText = chatCounts;
     // da

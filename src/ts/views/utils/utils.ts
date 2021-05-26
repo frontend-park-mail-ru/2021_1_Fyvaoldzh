@@ -374,3 +374,7 @@ export function copyButtonHandler() {
   const shareInput : HTMLInputElement = document.querySelector('#shareInput');
   navigator.clipboard.writeText(shareInput.value);
 }
+
+export function capitalize(string: string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}

@@ -366,6 +366,11 @@ export default class UserStore {
   async updateNotifications() {
     this.notifications = await getNotifications();
 
+    if (!this.notifications) {
+      this.globalStore.eventBus.publish(ChannelNames.notificationsUpdated);
+      return;
+    }
+
     this.notifications.forEach((val) => {
       switch (val.type) {
         case 'Mail':
