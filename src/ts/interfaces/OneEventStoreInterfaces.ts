@@ -10,6 +10,7 @@ export interface OneEventDataInterface {
   tags: Array<object>;
   category: string;
   followers: Array<object>;
+  coordinates: [number, number];
 }
 
 export interface PlanningAnswer {

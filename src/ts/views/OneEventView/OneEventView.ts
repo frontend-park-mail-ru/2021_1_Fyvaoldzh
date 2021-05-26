@@ -58,8 +58,8 @@ export default class OneEventView {
     this.renderGoingUsers();
     this.renderFollowers();
 
-
-    getMap(this.globalStore.userStore.geolocation, 'Мероприятие'); // Затычка!
+    getMap(this.globalStore.oneEventStore.oneEventData.coordinates,
+      this.globalStore.oneEventStore.oneEventData.title);
 
     // для кнопки шеринга мероприятия:
     const modalOverlay = document.querySelector('#modal-overlay');
