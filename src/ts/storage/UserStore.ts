@@ -377,7 +377,7 @@ export default class UserStore {
           val.type = 'Вас пригласили';
           val.text = `${val.text} приглашает вас на мероприятие`;
           val.pathToImage = `https://qdaqda.ru/api/v1/avatar/${val.id_to_image}`;
-          val.href = `/chat?c=${val.id}`;
+          val.href = `/chat?c=${val.id_to_image}`;
           val.date = timeAgo(val.date);
           break;
 
