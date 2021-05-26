@@ -93,9 +93,14 @@ export default class OneEventView {
     const followersArray: Array<FollowerInterface> = this.globalStore.userStore.followers;
     console.log(this.globalStore.userStore.followedUsers);
 
+    let index = 0;
     followersArray.forEach((val) => {
+      if (index >= followersArray.length / 2) {
+        return;
+      }
       const newFollower = new OneFollowerComponent(followersColumn, val);
       newFollower.render();
+      index++;
     });
 
     const followers = document.getElementsByClassName('event-follower-block');
