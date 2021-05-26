@@ -321,7 +321,6 @@ export async function eventPageShareButtonHandler() {
   const photo : HTMLElement = document.querySelector('#jsPagePhoto');
   const title : HTMLElement = document.querySelector('.event-description__title');
   const eventUrl = window.location.href;
-  console.log(photo.style.backgroundImage.slice(5, -2));
   const shareData = {
     title: title.innerText,
     url: eventUrl,

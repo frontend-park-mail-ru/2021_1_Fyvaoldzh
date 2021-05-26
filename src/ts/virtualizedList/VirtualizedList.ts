@@ -75,7 +75,6 @@ export default class VirtualizedList {
 
     Array.from(this.collection).forEach((el: HTMLElement) => {
       if (this.isVisible(el) && isEmpty(el)) {
-        console.log(Object.entries(this.data)[index][1]);
         el.innerHTML = this.component(Object.entries(this.data)[index][1]);
       }
 
@@ -114,7 +113,6 @@ export default class VirtualizedList {
     Object.entries(newData).forEach(([, val]) => {
       if ((val as any).startDate) {
         (val as any).startDate = parseDate((val as any).startDate);
-        console.log(val);
       }
     })
 

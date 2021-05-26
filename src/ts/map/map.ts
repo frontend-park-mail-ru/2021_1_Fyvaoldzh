@@ -3,12 +3,8 @@ import * as L from 'leaflet';
 let map: any = null;
 
 export default function getMap(position: [number, number], tooltip: string) {
-  if (map === null) {
-    const zoom = 15;
-    map = L.map('map').setView(position, zoom);
-  } else {
-    return;
-  }
+  const zoom = 15;
+  map = L.map('map').setView(position, zoom);
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution:

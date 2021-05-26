@@ -70,7 +70,6 @@ export default class OneEventView {
 
     const shareButton = document.querySelector('.smbs-event__share-button');
     shareButton.addEventListener('click', eventPageShareButtonHandler.bind(this));
-
   }
 
   renderTags() {

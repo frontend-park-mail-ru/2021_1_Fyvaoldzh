@@ -386,11 +386,11 @@ export default class UserStore {
       }
 
       if (val.read) {
-        val.display = 'block';
+        val.display = 'none';
       }
 
       if (!val.read) {
-        val.display = 'none';
+        val.display = 'block';
       }
     })
 
