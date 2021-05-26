@@ -568,3 +568,22 @@ export async function getCounts() {
     }
   }
 }
+
+export async function getNearest(page: number, geoposition: object) {
+  const csrf = getCsrf();
+  try {
+    const answer = await fetch(`${urlMap.nearUrl}`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'X-XSRF-TOKEN': csrf,
+      },
+      body: JSON.stringify(geoposition),
+    });
+    return await answer.json();
+  } catch (err) {
+    if (!navigator.onLine) {
+      location.reload();
+    }
+  }
+}

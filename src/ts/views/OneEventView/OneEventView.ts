@@ -8,7 +8,6 @@ import { TagInterface, FollowerInterface, ToInviteInterface } from '../../interf
 
 import {copyButtonHandler, eventPageShareButtonHandler, modalOverlayHandler} from "../utils/utils";
 
-
 const oneEventPageTemplate = require('Templates/one-event-page/one-event-page.pug');
 const oneTagTemplate = require('Templates/one-event-page/tagTemplate.pug');
 const onePlanningUserTemplate = require('Templates/one-event-page/one-going-user.pug');
@@ -92,6 +91,7 @@ export default class OneEventView {
   renderFollowers() {
     const followersColumn = document.getElementById('jsFollowersColumn');
     const followersArray: Array<FollowerInterface> = this.globalStore.userStore.followers;
+    console.log(this.globalStore.userStore.followedUsers);
 
     followersArray.forEach((val) => {
       const newFollower = new OneFollowerComponent(followersColumn, val);

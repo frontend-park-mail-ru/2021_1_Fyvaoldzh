@@ -75,6 +75,9 @@ export default class VirtualizedList {
 
     Array.from(this.collection).forEach((el: HTMLElement) => {
       if (this.isVisible(el) && isEmpty(el)) {
+        if (Object.entries(this.data)[index][1].startDate) {
+          Object.entries(this.data)[index][1].startDate = parseDate(Object.entries(this.data)[index][1].startDate);
+        }
         el.innerHTML = this.component(Object.entries(this.data)[index][1]);
       }
 

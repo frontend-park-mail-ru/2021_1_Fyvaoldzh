@@ -3,7 +3,7 @@ import EventComponent from './EventComponent';
 import Store from '../../storage/store';
 import Actions from '../../actions/actions';
 import VirtualizedList from '../../virtualizedList/VirtualizedList';
-import { getAllEventsJson, getRecommendEvents } from '../../networkModule/network';
+import { getAllEventsJson, getRecommendEvents, getNearest } from '../../networkModule/network';
 
 const upperTextTemplate = require('Templates/events/upper-text.pug');
 const oneTableEventTemplate = require('Templates/events/one-table-event.pug');
@@ -16,6 +16,17 @@ function toggleButton(button: HTMLButtonElement) {
 function categoryRequire(category: string) {
   return async function (page: number) {
     return await getAllEventsJson(page, category);
+  }
+}
+
+interface Geoposition {
+  latitude: number;
+  longitude: number;
+}
+
+function geopositionLock(geoposition: Geoposition) {
+  return async function (page: number) {
+    return await getNearest(page, geoposition);
   }
 }
 
@@ -91,6 +102,12 @@ export default class EventsView {
 
       if (target.dataset.category === 'Рекомендации') {
         reqFunction = getRecommendEvents;
+      }
+
+      if (target.dataset.category === 'Ближайшие') {
+        const geopos = this.globalStore.userStore.geolocation;
+
+        reqFunction = geopositionLock({latitude: geopos[0], longitude: geopos[1]});
       }
 
       this.vList = new VirtualizedList({

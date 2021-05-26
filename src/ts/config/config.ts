@@ -33,6 +33,7 @@ export const urlMap = {
   inviteFollowersUrl: `${baseApi}/api/v1/message/mailing`,
   notificationsUrl: `${baseApi}/api/v1/notifications`,
   countsUrl: `${baseApi}/api/v1/counts`,
+  nearUrl: `${baseApi}/api/v1/near`,
 };
 
 export const SERVER_ERRORS = {
