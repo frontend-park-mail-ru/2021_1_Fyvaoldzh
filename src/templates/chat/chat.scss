@@ -289,7 +289,7 @@ body::-webkit-scrollbar-thumb {
   @extend .chat__message_my;
   align-self: flex-start;
   margin-left: 76px;
-  max-width: 50%;
+  max-width: 70%;
 
   &_avatar {
     @extend .chat__message_companion;
@@ -330,4 +330,12 @@ body::-webkit-scrollbar-thumb {
   position: absolute;;
   right: 12px;
   top: 10px;
+}
+
+.chat-link {
+  color: $project-grey;
+
+  &:hover {
+    color: $project-red;
+  }
 }

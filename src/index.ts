@@ -247,5 +247,6 @@ setInterval(() => {
     return;
   }
   actions.updateCounts();
+  actions.updateChat(true);
 }, 2000);
 

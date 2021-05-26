@@ -534,7 +534,7 @@ export default class UserView extends ProfilesBaseView {
       document.getElementById('JSNotificationsCount').style.display = 'block';
     }
 
-    document.getElementById('JSNotificationsCount').innerText = chatCounts;
+    document.getElementById('JSNotificationsCount').innerText = notificationsCount;
     // da
   }
 
