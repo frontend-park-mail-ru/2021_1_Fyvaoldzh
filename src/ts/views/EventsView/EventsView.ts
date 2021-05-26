@@ -7,6 +7,7 @@ import { getAllEventsJson, getRecommendEvents, getNearest } from '../../networkM
 
 const upperTextTemplate = require('Templates/events/upper-text.pug');
 const oneTableEventTemplate = require('Templates/events/one-table-event.pug');
+const geopositionError = require('Templates/events/geopositionError.pug');
 
 function toggleButton(button: HTMLButtonElement) {
   button.classList.toggle('button-category_inactive');
@@ -106,6 +107,10 @@ export default class EventsView {
 
       if (target.dataset.category === 'Ближайшие') {
         const geopos = this.globalStore.userStore.geolocation;
+        if (!geopos) {
+          document.getElementById('events-row').innerHTML = geopositionError();
+          return;
+        }
 
         reqFunction = geopositionLock({latitude: geopos[0], longitude: geopos[1]});
       }
