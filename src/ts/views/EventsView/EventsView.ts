@@ -2,12 +2,33 @@ import { ChannelNames } from '../../config/config';
 import EventComponent from './EventComponent';
 import Store from '../../storage/store';
 import Actions from '../../actions/actions';
+import VirtualizedList from '../../virtualizedList/VirtualizedList';
+import { getAllEventsJson, getRecommendEvents, getNearest } from '../../networkModule/network';
 
 const upperTextTemplate = require('Templates/events/upper-text.pug');
+const oneTableEventTemplate = require('Templates/events/one-table-event.pug');
+const geopositionError = require('Templates/events/geopositionError.pug');
 
 function toggleButton(button: HTMLButtonElement) {
   button.classList.toggle('button-category_inactive');
   button.classList.toggle('button-category_active');
+}
+
+function categoryRequire(category: string) {
+  return async function (page: number) {
+    return await getAllEventsJson(page, category);
+  }
+}
+
+interface Geoposition {
+  latitude: number;
+  longitude: number;
+}
+
+function geopositionLock(geoposition: Geoposition) {
+  return async function (page: number) {
+    return await getNearest(page, geoposition);
+  }
 }
 
 export default class EventsView {
@@ -17,10 +38,13 @@ export default class EventsView {
 
   public actions: Actions;
 
+  public vList: VirtualizedList;
+
   constructor(globalStore: Store, actions: Actions) {
     this.globalStore = globalStore;
     this.wrapper = document.getElementById('wrapper');
     this.actions = actions;
+    this.vList = null;
   }
 
   renderEvents() {
@@ -28,35 +52,26 @@ export default class EventsView {
       return;
     }
     */
+    window.scroll(0, 0);
+    document.title = 'События';
     const eventsJson = this.globalStore.eventsStore.allEvents;
     this.wrapper.innerHTML = '';
     this.wrapper.innerHTML = upperTextTemplate({});
 
     const eventsRow = document.getElementById('events-row');
 
-    Object.entries(eventsJson).forEach(([, val]) => {
-      const innerEvent = new EventComponent(eventsRow, val);
-      innerEvent.render();
+    this.renderCategoryButtons();
+
+    this.vList = new VirtualizedList({ height: 320,
+      elementWrapperName: 'events-block',
+      component: oneTableEventTemplate,
+      container: document.getElementById('events-row'),
+      data: this.globalStore.eventsStore.allEvents,
+      onePageSize: 6,
+      uploadContent: getAllEventsJson,
     });
 
-    this.renderCategoryButtons();
-    window.addEventListener('scroll', this.infinityScroll.bind(this));
-  }
-
-  infinityScroll() {
-    const eventsRow = document.getElementById('events-row');
-    if (!eventsRow) {
-      return;
-    }
-
-    const contentHeight = eventsRow.offsetHeight;
-    const windowOffsetY = window.pageYOffset;
-
-    const windowHeight = window.innerHeight;
-
-    if (windowOffsetY + windowHeight > contentHeight) {
-      this.actions.uploadEventsContent();
-    }
+    this.vList.initialize();
   }
 
   renderCategoryButtons() {
@@ -72,11 +87,45 @@ export default class EventsView {
     });
   }
 
-  categoryButtonHandler(ev: MouseEvent) {
+  async categoryButtonHandler(ev: MouseEvent) {
     const { target } = ev;
     if (target instanceof HTMLButtonElement && target.classList.contains('button-category_inactive')) {
-      toggleButton(target);
-      this.actions.changeEventCategory(target.dataset.category);
+      const activeButton = document.getElementsByClassName('button-category_active').item(0);
+      activeButton.classList.toggle('button-category_active');
+      activeButton.classList.toggle('button-category_inactive');
+
+      target.classList.toggle('button-category_inactive');
+      target.classList.toggle('button-category_active');
+
+      this.vList.destroy();
+
+      let reqFunction = categoryRequire(target.dataset.category);
+
+      if (target.dataset.category === 'Рекомендации') {
+        reqFunction = getRecommendEvents;
+      }
+
+      if (target.dataset.category === 'Ближайшие') {
+        const geopos = this.globalStore.userStore.geolocation;
+        if (!geopos) {
+          document.getElementById('events-row').innerHTML = geopositionError();
+          return;
+        }
+
+        reqFunction = geopositionLock({latitude: geopos[0], longitude: geopos[1]});
+      }
+
+      this.vList = new VirtualizedList({
+        height: 320,
+        elementWrapperName: 'events-block',
+        component: oneTableEventTemplate,
+        container: document.getElementById('events-row'),
+        data: this.globalStore.eventsStore.allEvents,
+        onePageSize: 6,
+        uploadContent: reqFunction,
+      });
+
+      this.vList.initialize();
     }
   }
 

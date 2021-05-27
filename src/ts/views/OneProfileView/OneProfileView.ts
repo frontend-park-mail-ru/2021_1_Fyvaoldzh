@@ -41,20 +41,6 @@ export default class OneProfileView extends ProfilesBaseView {
         super.renderEventsList(oneProfileVisitedEvents);
         break;
     }
-    // вне зависимости от нажатой кнопки планируемых/посещенных ивентов текущая страница выбранного раздела хранится в currentEventsPage
-
-    // обновляем состояние пагинатора после отрисовки списка (пока нет пагинации на этой страничке)
-    // const { currentEventsPage } = this.globalStore.oneProfileStore;
-    // switch (currentEventsButton) {  //
-    //   case profileEventsButton.planning:
-    //     const { oneProfilePlanningEvents } = this.globalStore.oneProfileStore;
-    //     updatePaginationState(currentEventsPage, oneProfilePlanningEvents.length);
-    //     break;
-    //   case profileEventsButton.visited:
-    //     const { oneProfileVisitedEvents } = this.globalStore.oneProfileStore;
-    //     updatePaginationState(currentEventsPage, oneProfileVisitedEvents.length);
-    //     break;
-    // }
 
     // обновляем стиль кнопок в зависимости от активной кнопки в сторе:
     const eventsButtonsBlock = document.getElementById('jsEventsButtonsBlock');
@@ -77,7 +63,7 @@ export default class OneProfileView extends ProfilesBaseView {
   renderOneProfilePage() {
     window.scroll(0, 0);
     const { oneProfileData } = this.globalStore.oneProfileStore;
-
+    document.title = 'Профиль';
     this.wrapper.style.background = 'url("templates/one-profile/img/one-profile-background.jpg") no-repeat top / 100%';
     if (window.screen.width <= 767) {
       this.wrapper.style.paddingTop = '0px';
@@ -108,6 +94,7 @@ export default class OneProfileView extends ProfilesBaseView {
 
     if (!this.globalStore.userStore.userData) {
       document.getElementById('subscribeUserButton').style.display = 'none';
+      document.getElementById('messageButton').style.display = 'none';
     } else if (this.globalStore.userStore.followedUsers.find((followedUser) => followedUser.id === inspectingProfileId)) {
       document.getElementById('subscribeUserButton').innerText = 'Отписаться';
     }

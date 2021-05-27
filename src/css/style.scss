@@ -26,22 +26,22 @@
   z-index: -1;
   position: absolute;
   width: 100%;
-  height: 600px;
+  height: 400px;
   left: 0;
   top: 0;
   box-shadow: $project-box-shadow;
 
-  &:before {
-    content: '';
-    display: block;
-    background: $project-white;
-    width: 600px;
-    height: 800px;
-    transform: skewY(30deg);
-    position: relative;
-    margin-top: 430px;
-    overflow: hidden;
-  }
+  //&:before {
+  //  content: '';
+  //  display: block;
+  //  background: $project-white;
+  //  width: 600px;
+  //  height: 800px;
+  //  transform: skewY(30deg);
+  //  position: relative;
+  //  margin-top: 430px;
+  //  overflow: hidden;
+  //}
 
   &_events {
     @extend .page-photo;
@@ -59,6 +59,81 @@
 
   &_profile {
     @extend .page-photo;
-    background: url("../templates/profile/img/profile-background.jpg") no-repeat top / cover;
+    background: url("../templates/search/img/background15.jpg") no-repeat top left / cover;
+    height: 100vh;
+    position: fixed;
   }
+
+  @media (max-width:767px) {
+    &_profile {
+      @include bg-height-fix();
+    }
+  }
+
+  &_search {
+    @extend .page-photo;
+    background: url("../templates/search/img/background15.jpg") no-repeat top left / cover;
+    height: 100%;
+    position: fixed;
+  }
+
+  @media (max-width:767px) {
+    &_search {
+      @include bg-height-fix();
+    }
+  }
+
+  &_followings {
+    @extend .page-photo;
+    background: url("../templates/search/img/background15.jpg") no-repeat top left / cover;
+    height: 100%;
+    position: fixed;
+  }
+
+  @media (max-width:767px) {
+    &_followings {
+      @include bg-height-fix();
+    }
+  }
+
+  &_one-profile {
+    @extend .page-photo;
+    background: url("../templates/search/img/background15.jpg") no-repeat top left / cover;
+    height: 100%;
+    position: fixed;
+  }
+
+  @media (max-width:767px) {
+    &_one-profile {
+      @include bg-height-fix();
+    }
+  }
+}
+
+/* pt-serif-regular - latin */
+@font-face {
+  font-family: 'PT Serif';
+  font-style: normal;
+  font-weight: 400;
+  src: local(''),
+  url('../fonts/pt-serif-v12-latin_cyrillic-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+  url('../fonts/pt-serif-v12-latin_cyrillic-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+/* pt-serif-700 - latin */
+@font-face {
+  font-family: 'PT Serif';
+  font-style: normal;
+  font-weight: 700;
+  src: local(''),
+  url('../fonts/pt-serif-v12-latin_cyrillic-700.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+  url('../fonts/pt-serif-v12-latin_cyrillic-700.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+@font-face {
+  font-family: 'Abril Fatface';
+  font-style: normal;
+  font-weight: 400;
+  src: local(''),
+  url('../fonts/abril-fatface-v12-latin-regular.woff') format('woff'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+  url('../fonts/abril-fatface-v12-latin-regular.woff2') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }

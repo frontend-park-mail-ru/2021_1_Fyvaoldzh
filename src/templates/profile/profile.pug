@@ -1,8 +1,15 @@
+#share-modal.share-modal.share-modal_closed
+    .share-line-block
+        input#shareInput.share-line-block__input.form__input(type='text' value='' placeholder='' disabled)
+        button#copyButton.copy-button
+    #shareButtonsBlock.share-buttons-block
+#modal-overlay.modal-overlay.modal-overlay_closed
 .container.container_mobile_fullscreen
     .page-photo_profile
     .row.row_mobile_fullscreen
         .my-profile-main-block
-            a.my-profile-main-block__back-button(href='/' data-direction='events' data-profileId=Uid)
+            //a.my-profile-main-block__back-button(href='/' data-direction='events' data-profileId=Uid)
+            a.search-main-block__back-button(href='/' data-direction='events' data-profileId=Uid)
             .my-profile-header
                 #profileAvatar.my-profile-header__avatar-block
                     .error-block-avatar(id='jsErrorAvatar')
@@ -16,11 +23,11 @@
                     .my-profile-header__login-block @#{login}
                     a.my-profile-header__followers-block(href='profile' + Uid + 'followings?tab=followersTab')
                         .my-profile-header__followers-img
-                        |#{followersCount}
+                        |#{followers}
                     a.my-profile-header__followers-block(href='profile' + Uid + 'followings?tab=followedUsersTab')
                         //.my-profile-header__followers-img
                         .my-profile-header__followed-users-img
-                        | #{followedUsersCount}
+                        | #{subscriptions}
                     .my-profile-header__events-stats-block
                         .my-profile-header__events-stats-block_planning
                             .my-profile-header__black-star-img

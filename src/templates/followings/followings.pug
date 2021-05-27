@@ -1,19 +1,21 @@
 .container.container_mobile_fullscreen
     .row.row_mobile_fullscreen
-        .page-photo_profile
+        .page-photo_followings
         .search-main-block
             a.search-main-block__back-button(href='/' data-direction='events' data-profileId=Uid)
             .followings-header
-                #followingsAvatar.followings-header__avatar(style='background: url(http://95.163.180.8:1323/api/v1/avatar/' + Uid + ') no-repeat center / cover;')
+                #followingsAvatar.followings-header__avatar(style='background: url(https://qdaqda.ru/api/v1/avatar/' + Uid + ') no-repeat center / cover;')
                 //.profile-header__avatar_default
                 .followings-header__title
                     | #{name}
             #jsTabsBlock.search__tabs-block
                 button#followedUsersTab.tab-active(data-buttontype='toggle')
-                    .search__events-img
+                    //.search__events-img
+                    .my-profile-header__followed-users-img
                     | Подписки
                 button#followersTab.tab-inactive(data-buttontype='toggle')
-                    .search__people-img
+                    //.search__people-img
+                    .my-profile-header__followers-img
                     | Подписчики
             .search__decor-line
             #changing-content.changing-content-block

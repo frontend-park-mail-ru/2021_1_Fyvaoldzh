@@ -1,24 +1,24 @@
 @import "variables";
 
 .button-category {
-  font-size: 24px;
+  font-family: PT Serif;
+  font-size: 16px;
   text-align: center;
   vertical-align: center;
-  box-shadow: $project-box-shadow;
-  margin-left: 5px;
-  padding: 10px;
-  margin-top: 5px;
+  padding: 8px 16px;
+  margin-top: 0px;
+  border-radius: 30px;
 
   &_active {
     @extend .button-category;
     background: $main-gradient;
     color: $project-white;
+    box-shadow: $project-box-shadow;
   }
 
   &_inactive {
     @extend .button-category;
-    background: $project-white;
-    color: $project-black;
+    background: white;
     &:hover {
       transform: translateY(-5px);
       transition-duration: 0.5s;
@@ -30,7 +30,7 @@
   @extend .button-category_active;
   width: 100%;
   height: 60px;
-  margin-top: 58px;
+  margin-top: 48px;
 
   &:hover {
     transform: translateY(-5px);
@@ -44,17 +44,29 @@
   vertical-align: center;
   padding: 10px;
   margin-right: 20px;
+  font-family: PT Serif;
   font-size: 24px;
   line-height: 32px;
 
   &-active {
     @extend .button;
     background: $main-gradient;
-    color: #ffffff;
+    //color: #ffffff;
+
+    color: rgba(222, 215, 216, 1);
+    filter: brightness(1.5);
+    //box-shadow: 0 8px 32px 0 rgba( 0, 0, 0, 0.37 );
+    box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.7 );
+    border-right: 0;
+    border-bottom: 0;
+
   }
 
   @media (max-width:767px) {
     &-active {
+      font-family: PT Serif;
       @include value-adaptive("font-size", 36, 18);
       @include value-adaptive("line-height", 32, 20);
       //@include value-adaptive("margin-bottom", 15, 5);
@@ -64,11 +76,22 @@
   &-inactive {
     @extend .button;
     background: $project-white;
-    color: black;
+    //color: black;
+
+    filter: brightness(1.5);
+    color: rgba(222, 215, 216, 1);
+    //background: rgba( 0, 0, 0, 0.2 );
+    //box-shadow: 0 8px 32px 0 rgba( 0, 0, 0, 0.37 );
+    //backdrop-filter: blur( 9.5px );
+    box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.3);
+
+    @include gm-second-layer-element();
+
   }
 
   @media (max-width:767px) {
     &-inactive {
+      font-family: PT Serif;
       @include value-adaptive("font-size", 36, 18);
       @include value-adaptive("line-height", 32, 20);
       //@include value-adaptive("margin-bottom", 15, 5);

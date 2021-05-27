@@ -26,6 +26,9 @@ export default class RightMessageComponent {
   }
 
   render() {
+    const re = /([^\"=]{2}|^)((https?|ftp):\/\/\S+[^\s.,> )\];'\"!?])/;
+    const subst = '$1<a href="$2" target="_blank" class="chat-link">$2</a>';
+    this.data.text = this.data.text.replace(re, subst);
     let template: string;
     if (this.data.fromMe) {
       template = rightMyMessageTemplate(this.data);

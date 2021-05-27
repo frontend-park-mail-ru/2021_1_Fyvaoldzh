@@ -1,44 +1,49 @@
-.row
-  .page-photo(id='jsPagePhoto')
+#share-modal.share-modal.share-modal_closed
+  .share-line-block
+    input#shareInput.share-line-block__input.form__input(type='text' value='' placeholder='' disabled)
+    button#copyButton.copy-button
+  #shareButtonsBlock.share-buttons-block
+#modal-overlay.modal-overlay.modal-overlay_closed
+.event-page-photo#jsPagePhoto(style='background: linear-gradient(180deg, #000000 0%, rgba(0, 0, 0, 0.78) 18.23%, rgba(0, 0, 0, 0.65) 49.38%, rgba(0, 0, 0, 0.578176) 71.35%, #000000 100%), url(https://qdaqda.ru/api/v1/event/' + id + '/image) no-repeat center / cover')
   .container
-    .left-row
-      .description-wrapper
-        .event-description
-          button.event-description__star_inactive(id='jsEventStar')
-          button.event-description__share(id='jsEventShare')
-          .event-description__title
-            | #{title}
-          .decor-line
-          .event-description__body
-            | #{description}
-  .tags
-    .container
-      .left-row(id='jsTagsRow')
-  .event-info
-    .container
-      .event-info__title
-        | Когда?
-      .event-info__date
-        | Начало: #{startDate}
-      .event-info__date
-        | Конец: #{endDate}
-      .event-info__title Где?
-      .event-info__location
-        .event-info__location_place
-          | #{place}
-        .event-info__location_street
-          | #{street}
-        .event-info__location_subway
-          | #{subway}
-      .decor-line
-      .going-title
-        | Уже идут
-        .left-row(id='jsPlanningUsers')
-  .invite-followers-block(id='jsEventFollowers')
-    .invite-followers-block__title
-      | Пригласить
+    .event-description__title
+      | #{title}
+    .tags
+      .container
+        .left-row(id='jsTagsRow')
+    .one-event-buttons-wrapper
+      button.event-description__star_inactive(id='jsEventStar')
+      button.event-description__share(id='jsEventShare')
+      button.smbs-event__share-button(style='height: 38px; width: 38px; margin-top: 6px; margin-left: 6px; margin-bottom: 0px; margin-right: 0px;')
+.main-content
+  .container
+    .event-info__title
+      | Описание
+    .event-description__body
+      | #{description}
+    .event-info__title
+      | Когда?
+    .event-info__date
+      | Начало: #{startDate}
+    .event-info__date
+      | Конец: #{endDate}
+    .event-info__title
+      | Где?
+    .event-info__location_place
+      | #{place}
+    .event-info__location_street
+      | #{street}
+    .event-info__location_subway
+      | #{subway}
+    .map(id='map')
     .decor-line
-    button.invite-followers-block__accept(id='jsEventFollowersAccept')
-    button.invite-followers-block__decline(id='jsEventFollowersDecline')
-    .invite-followers-block__column(id='jsFollowersColumn')
-    .decor-line
+    .going-title(id='jsGoingTitle')
+      | Уже идут
+      .left-row(id='jsPlanningUsers')
+.invite-followers-block(id='jsEventFollowers')
+  .invite-followers-block__title
+    | Пригласить
+  .decor-line
+  button.invite-followers-block__accept(id='jsEventFollowersAccept')
+  button.invite-followers-block__decline(id='jsEventFollowersDecline')
+  .invite-followers-block__column(id='jsFollowersColumn')

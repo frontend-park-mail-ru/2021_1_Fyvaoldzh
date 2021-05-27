@@ -20,7 +20,7 @@
   height: 1px;
   width: 100%;
   background-color: $project-grey;
-  margin-top: 50px;
+  margin-top: 16px;
 }
 
 ::placeholder {
@@ -39,10 +39,11 @@ input {
 .container {
   width: 1200px;
   margin: 0 auto;
-  padding: 0 15px;
+  padding: 0 8px;
 }
 
 .title {
+  font-family: PT Serif;
   font-weight: bold;
   font-size: 50px;
   color: $project-black;
@@ -58,6 +59,7 @@ input {
 
 @media (max-width: 767px) {
   .error-block-avatar {
+    font-family: PT Serif;
     white-space: nowrap;
     top: unset;
     @include value-adaptive("bottom", -50, -35);  //-42 -35

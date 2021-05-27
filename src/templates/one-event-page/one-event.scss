@@ -2,7 +2,7 @@
 @import "../../components/css/mixins";
 
 .tags {
-  margin-top: 60px;
+  margin-top: 24px;
 }
 
 .event-info {
@@ -10,12 +10,13 @@
 
   &__title {
     font: $title-event;
-    margin-top: 20px;
+    margin-top: 24px;
   }
 
   &__date {
     margin-top: 20px;
     font: $little-font;
+    font-size: 16px;
   }
 
   &__location {
@@ -23,6 +24,8 @@
 
     &_place {
       margin-top: 20px;
+      font: $little-font;
+      font-size: 16px;
       &:before {
         @include before-event-info("../templates/one-event-page/img/location-icon.svg");
       }
@@ -30,6 +33,8 @@
 
     &_street {
       margin-top: 20px;
+      font: $little-font;
+      font-size: 16px;
 
       &:before {
         @include before-event-info("../templates/one-event-page/img/street-icon.svg");
@@ -38,6 +43,8 @@
 
     &_subway {
       margin-top: 20px;
+      font: $little-font;
+      font-size: 16px;
 
       &:before {
         @include before-event-info("../templates/one-event-page/img/subway-icon.svg");
@@ -77,42 +84,54 @@
   background: $project-white;
 
   &__title {
+    color: white;
     font: $title-event;
-    color: $project-black;
-    text-align: center;
+    text-align: left;
   }
 
   &__body {
-    margin-top: 20px;
+    margin-top: 16px;
     font: $main-font;
+    font-size: 16px;
+    max-width: 800px;
   }
 
   &__star {
     height: 50px;
     width: 50px;
-    position: absolute;
-    right: 10px;
-    transform: translate(50%);
 
     &_active {
       @extend .event-description__star;
+
+      &:hover {
+        transform: scale(1.1);
+        transition-duration: 0.5s;
+      }
+
       background: url("../templates/one-event-page/img/description-star_active.svg") no-repeat center / cover;
     }
 
     &_inactive {
       @extend .event-description__star;
+
+      &:hover {
+        transform: scale(1.1);
+        transition-duration: 0.5s;
+      }
+
       background: url("../templates/one-event-page/img/description-star_inactive.svg") no-repeat center / 100%;
     }
 
     &:hover {
-      transition-duration: 0.5s;
-      transform: translate(60%);
     }
   }
 
   &__share {
     @extend .event-description__star;
-    top: 70px;
+    &:hover {
+      transform: scale(1.1);
+      transition-duration: 0.5s;
+    }
     background: url("../templates/one-event-page/img/share.svg") no-repeat center / cover;
   }
 }
@@ -154,10 +173,10 @@
 .invite-followers-block {
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  padding: 8px;
   position: fixed;
   width: 300px;
-  height: 400px;
+  max-height: 400px;
   top: 50%;
   left: 50%;
   margin-top: -180px;
@@ -168,15 +187,17 @@
 
   &__accept {
     @extend .event-description__star;
+    position: absolute;
     left: 0;
-    top: 330px;
+    top: 0;
     background: url("../templates/profile/img/submit-avatar.svg") no-repeat center / cover;
   }
 
   &__decline {
     @extend .event-description__star;
-    right: 55px;
-    top: 330px;
+    position: absolute;
+    right: 0;
+    top: 0;
     background: url("../templates/profile/img/decline-avatar.svg") no-repeat center / cover;
   }
 
@@ -187,28 +208,25 @@
     width: 100%;
     height: 100%;
     overflow-y: scroll;
-    padding: 8px;
   }
 
   &__title {
-    font: $title-event;
+    font: 24px PT serif;
   }
 }
 
 .event-follower-block {
   display: flex;
   justify-content: space-between;
-  margin-top: 8px;
   width: 100%;
-  height: 50px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+  height: 75px;
   padding: 5px;
   align-items: center;
   cursor: pointer;
 
   &__avatar {
-    width: 35px;
-    height: 35px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
   }
 
@@ -217,6 +235,27 @@
   }
 }
 
+#map {
+  margin-top: 16px;
+  max-width: 480px;
+  height: 320px;
+  border-radius: 4px;
+  box-shadow: 0 0 1px #222;
+}
 
+.event-page-photo {
+  width: 100%;
+  position: relative;
+  margin-top: -30px;
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
 
+.one-event-buttons-wrapper {
+  margin-top: 24px;
+  display: flex;
+}
 
+#jsTagsRow {
+  margin-left: -24px;
+}

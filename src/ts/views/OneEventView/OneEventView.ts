@@ -3,25 +3,14 @@ import Store from '../../storage/store';
 import Actions from '../../actions/actions';
 import OneFollowerComponent from './OneFollowerComponent';
 
+import getMap from '../../map/map';
+import { TagInterface, FollowerInterface, ToInviteInterface } from '../../interfaces/OneEventStoreInterfaces';
+
+import {copyButtonHandler, eventPageShareButtonHandler, modalOverlayHandler} from "../utils/utils";
+
 const oneEventPageTemplate = require('Templates/one-event-page/one-event-page.pug');
 const oneTagTemplate = require('Templates/one-event-page/tagTemplate.pug');
 const onePlanningUserTemplate = require('Templates/one-event-page/one-going-user.pug');
-
-interface TagInterface {
-  id: number;
-  name: string;
-}
-
-interface FollowerInterface {
-  id: number;
-  name: string;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-interface ToInviteInterface {
-  eventId: number;
-  invites: Array<number>;
-}
 
 export default class OneEventView {
   public globalStore: Store;
@@ -40,14 +29,12 @@ export default class OneEventView {
   }
 
   renderEventPage() {
+    window.scroll(0, 0);
     const { oneEventData } = this.globalStore.oneEventStore;
-
+    document.title = oneEventData.title;
     this.wrapper.innerHTML = '';
     this.wrapper.innerHTML = oneEventPageTemplate(oneEventData);
     this.wrapper.style.background = null;
-    const eventPhoto = document.getElementById('jsPagePhoto');
-    eventPhoto.style.background = `url(http://95.163.180.8:1323/api/v1/event/${oneEventData.id}/image) 
-                                  no-repeat center / cover`;
 
     const eventStar = document.getElementById('jsEventStar');
     eventStar.addEventListener('click', this.starHandler.bind(this));
@@ -69,6 +56,19 @@ export default class OneEventView {
     }
     this.renderGoingUsers();
     this.renderFollowers();
+
+    getMap(this.globalStore.oneEventStore.oneEventData.coordinates,
+      this.globalStore.oneEventStore.oneEventData.title);
+
+    // для кнопки шеринга мероприятия:
+    const modalOverlay = document.querySelector('#modal-overlay');
+    modalOverlay.addEventListener('click', modalOverlayHandler.bind(this));
+
+    const copyButton = document.querySelector('#copyButton');
+    copyButton.addEventListener('click', copyButtonHandler.bind(this));
+
+    const shareButton = document.querySelector('.smbs-event__share-button');
+    shareButton.addEventListener('click', eventPageShareButtonHandler.bind(this));
   }
 
   renderTags() {
@@ -91,10 +91,16 @@ export default class OneEventView {
   renderFollowers() {
     const followersColumn = document.getElementById('jsFollowersColumn');
     const followersArray: Array<FollowerInterface> = this.globalStore.userStore.followers;
+    console.log(this.globalStore.userStore.followedUsers);
 
+    let index = 0;
     followersArray.forEach((val) => {
+      if (index >= followersArray.length / 2) {
+        return;
+      }
       const newFollower = new OneFollowerComponent(followersColumn, val);
       newFollower.render();
+      index++;
     });
 
     const followers = document.getElementsByClassName('event-follower-block');

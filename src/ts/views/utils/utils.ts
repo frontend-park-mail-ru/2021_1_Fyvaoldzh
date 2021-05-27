@@ -1,6 +1,8 @@
 import { followingsTab, searchTab } from '../../config/config';
 import DateTimeFormatOptions = Intl.DateTimeFormatOptions;
 
+// const asfasdv = require('../../VK.js');
+
 /**
  * Функция для склонения слов, стоящих после чисел
  * @param {Number} number - само число
@@ -186,6 +188,7 @@ export function updatePaginationState(currentPaginatorValue: any, resultsAmount 
   const pagBack = document.getElementById('paginationBack');
   const pagForward = document.getElementById('paginationForward');
   const pagIndicator = document.getElementById('paginationCurrent');
+  const pagIndicatorCircle = document.getElementById('paginationCurrentCircle');
 
   if (!pagBack) return;
   if (currentPaginatorValue < 2) {
@@ -207,11 +210,15 @@ export function updatePaginationState(currentPaginatorValue: any, resultsAmount 
   ) {
     // если обе кнопки: "назад" и "вперед" скрыты,
     pagIndicator.classList.add('paginator__element_none');
+    pagIndicatorCircle.classList.add('paginator__element_none');
     pagForward.classList.add('paginator__element_none');
     pagBack.classList.add('paginator__element_none');
     pagForward.classList.remove('paginator__element_hide');
     pagBack.classList.remove('paginator__element_hide');
-  } else pagIndicator.classList.remove('paginator__element_none'); // иначе показываем его, если он скрыт
+  } else { // иначе показываем его, если он скрыт
+    pagIndicator.classList.remove('paginator__element_none');
+    pagIndicatorCircle.classList.remove('paginator__element_none');
+  }
   pagIndicator.innerText = currentPaginatorValue; // обновляем значение в пагинаторе
 }
 
@@ -262,3 +269,114 @@ export function searchKeyPress(e: any) {
     this.actions.routerChangePage(`/search?tab=${input.value}`);
   }
 }
+
+/**
+ * Функция-обработчик клика по кнопке share на блоке мероприятия
+ * @param {Object} event - ивент
+ */
+
+export async function eventBlockShareButtonHandler(event: any) {
+  const { target } = event;
+  const eventCube = target.closest('.smbs-event-cube');
+  const photo : HTMLAnchorElement = eventCube.querySelector('.smbs-event__photo');
+  const title : HTMLAnchorElement = eventCube.querySelector('.smbs-event__title');
+
+  const shareData = {
+    title: title.innerText,
+    url: title.href,
+  };
+  if ((window.navigator as any).canShare && (window.navigator as any).canShare(shareData)) {
+    await navigator.share(shareData);
+  } else {
+    const modal = document.querySelector('#share-modal');
+    const modalOverlay = document.querySelector('#modal-overlay');
+    const shareInput: HTMLInputElement = document.querySelector('#shareInput');
+    const shareButtonsBlock = modal.querySelector('#shareButtonsBlock');
+
+    shareInput.value = title.href;
+    shareButtonsBlock.innerHTML = '';
+    shareButtonsBlock.insertAdjacentHTML(
+      'beforeend',
+      (window as any).VK.Share.button(
+        {
+          url: title.href,
+          title: title.innerText,
+          image: photo.style.backgroundImage.slice(5, -2),
+        },
+        { type: 'round_nocount' },
+      ),
+    );
+
+    modal.classList.toggle('share-modal_closed');
+    modalOverlay.classList.toggle('modal-overlay_closed');
+  }
+}
+
+/**
+ * Функция-обработчик клика по кнопке share на странице мероприятия
+ * @param {Object} event - ивент
+ */
+
+export async function eventPageShareButtonHandler() {
+  const photo : HTMLElement = document.querySelector('#jsPagePhoto');
+  const title : HTMLElement = document.querySelector('.event-description__title');
+  const eventUrl = window.location.href;
+  const shareData = {
+    title: title.innerText,
+    url: eventUrl,
+  };
+  if ((window.navigator as any).canShare && (window.navigator as any).canShare(shareData)) {
+    await navigator.share(shareData);
+  } else {
+    const modal = document.querySelector('#share-modal');
+    const modalOverlay = document.querySelector('#modal-overlay');
+    const shareInput: HTMLInputElement = document.querySelector('#shareInput');
+    const shareButtonsBlock = modal.querySelector('#shareButtonsBlock');
+
+    shareInput.value = eventUrl;
+    shareButtonsBlock.innerHTML = '';
+    shareButtonsBlock.insertAdjacentHTML(
+      'beforeend',
+      (window as any).VK.Share.button(
+        {
+          url: eventUrl,
+          title: title.innerText,
+          image: photo.style.backgroundImage.slice(5, -2),
+        },
+        { type: 'round_nocount' },
+      ),
+    );
+
+    modal.classList.toggle('share-modal_closed');
+    modalOverlay.classList.toggle('modal-overlay_closed');
+  }
+}
+
+/**
+ * Функция-обработчик клика по затененному фону вокруг модального окна
+ * @param {Object} event - ивент
+ */
+
+export function modalOverlayHandler(event: any) {
+  const { target } = event;
+  const modal = document.querySelector('#share-modal');
+
+  modal.classList.toggle('share-modal_closed');
+  target.classList.toggle('modal-overlay_closed');
+}
+
+/**
+ * Функция-обработчик клика по кнопке копирования
+ * @param {Object} event - ивент
+ */
+
+export function copyButtonHandler() {
+  const shareInput : HTMLInputElement = document.querySelector('#shareInput');
+  navigator.clipboard.writeText(shareInput.value);
+}
+
+export function capitalize(string: string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+

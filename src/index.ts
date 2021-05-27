@@ -26,6 +26,8 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js', { scope: '/' }).then();
 }
 
+// (window as any).VK = require('https://vk.com/js/api/share.js?93');
+
 dispatcher.register(globalStore.reducer.bind(globalStore));
 
 const eventsView = new EventsView(globalStore, actions);
@@ -226,11 +228,25 @@ document.getElementById('wrapper').addEventListener('click', () => {
     (document.getElementById('JSsearchBarButton') as HTMLInputElement).classList.toggle('close');
     (document.getElementById('JSsearchBarInput') as HTMLInputElement).classList.toggle('square');
   }
+
+  if (!(document.getElementById('JSNavbarNotificationList')).classList.contains('css-hidden')) {
+    (document.getElementById('JSNavbarNotificationList')).classList.toggle('css-hidden');
+  }
 });
+
+navigator.geolocation.getCurrentPosition((geoCoords: GeolocationPosition) => {
+  console.log(geoCoords.coords.latitude, geoCoords.coords.longitude);
+  actions.updateGeolocation([geoCoords.coords.latitude, geoCoords.coords.longitude]);
+},
+() => actions.updateGeolocation(null),
+{ enableHighAccuracy: true });
+
 
 setInterval(() => {
   if (!globalStore.userStore.userData) {
     return;
   }
+  actions.updateCounts();
   actions.updateChat(true);
 }, 2000);
+

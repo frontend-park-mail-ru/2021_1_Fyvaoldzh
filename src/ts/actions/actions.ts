@@ -328,4 +328,25 @@ export default class Actions {
       data,
     });
   }
+
+  updateGeolocation(data: [number, number]) {
+    this.dispatcher.dispatch({
+      eventName: 'user/updateGeolocation',
+      data,
+    });
+  }
+
+  updateNotifications() {
+    this.dispatcher.dispatch({
+      eventName: 'user/updateNotifications',
+      data: null,
+    });
+  }
+
+  updateCounts() {
+    this.dispatcher.dispatch({
+      eventName: 'user/updateCounts',
+      data: null,
+    });
+  }
 }

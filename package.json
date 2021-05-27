@@ -21,9 +21,11 @@
   },
   "homepage": "https://github.com/frontend-park-mail-ru/2021_1_Fyvaoldzh#readme",
   "dependencies": {
+    "@types/leaflet": "^1.7.0",
     "body-parser": "^1.19.0",
     "debug": "^4.3.1",
     "express": "^4.17.1",
+    "leaflet": "^1.7.1",
     "node-fetch": "^2.6.1"
   },
   "devDependencies": {

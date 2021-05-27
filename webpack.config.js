@@ -13,6 +13,7 @@ module.exports = {
   output: {
     filename: '[name].js',
     path: dist,
+    publicPath: '/',
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -56,6 +57,18 @@ module.exports = {
         test: /\.pug$/i,
         use: ['pug-loader'],
       },
+      {
+        test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'fonts/'
+            }
+          }
+        ]
+      }
     ],
   },
 };

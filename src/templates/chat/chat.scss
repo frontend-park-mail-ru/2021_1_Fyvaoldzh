@@ -150,19 +150,37 @@ body::-webkit-scrollbar-thumb {
 
 @media (max-width:1200px) {
   .container {
+    $container-width: 970px;
+    $count-of-cards: 4;
     width: 970px;
+  }
+
+  .events-block {
+    width: calc((970px - 16px - (3 - 1) * 8px) / 3);
   }
 }
 
 @media (max-width:992px) {
   .container {
+    $container-width: 750px;
+    $count-of-cards: 3;
     width: 750px;
+  }
+
+  .events-block {
+    width: calc((750px - 16px - (3 - 1) * 8px) / 3);
   }
 }
 
 @media (max-width:767px) {
   .container {
+    $container-width: calc(100%);
+    $count-of-cards: 2;
     width: 100%;
+  }
+
+  .events-block {
+    width: calc((calc(100%) - 0px - (2 - 1) * 8px) / 2);
   }
 
   .chat__right {
@@ -176,14 +194,6 @@ body::-webkit-scrollbar-thumb {
 
   .chat__left {
     min-width: 100%;
-  }
-
-  .events-block {
-    min-width: 100%;
-
-    &__photo {
-      width: 100%;
-    }
   }
 
   .navbar-profile-name {
@@ -203,6 +213,10 @@ body::-webkit-scrollbar-thumb {
 
 @media (max-width:420px){
   .form {
+    width: 100%;
+  }
+
+  .events-block {
     width: 100%;
   }
 
@@ -267,6 +281,7 @@ body::-webkit-scrollbar-thumb {
   max-width: 70%;
   padding: 10px;
   font-size: 15px;
+  font-family: PT Serif;
   box-shadow: $project-box-shadow;
 }
 
@@ -274,7 +289,7 @@ body::-webkit-scrollbar-thumb {
   @extend .chat__message_my;
   align-self: flex-start;
   margin-left: 76px;
-  max-width: 50%;
+  max-width: 70%;
 
   &_avatar {
     @extend .chat__message_companion;
@@ -315,4 +330,12 @@ body::-webkit-scrollbar-thumb {
   position: absolute;;
   right: 12px;
   top: 10px;
+}
+
+.chat-link {
+  color: $project-grey;
+
+  &:hover {
+    color: $project-red;
+  }
 }
