@@ -31,6 +31,7 @@ body::-webkit-scrollbar-thumb {
     justify-content: start;
     min-width: 300px;
     overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
     height: 100%;
 
     &::-webkit-scrollbar {
@@ -249,6 +250,7 @@ body::-webkit-scrollbar-thumb {
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
   overflow-x: hidden;
   padding: 5px;
   flex: 1;
