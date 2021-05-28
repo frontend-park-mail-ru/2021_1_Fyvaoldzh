@@ -349,6 +349,7 @@ input[type=checkbox]:checked  ~ .dropdown-menu {
   }
 
   &__title {
+    color: black;
     font: $notification-list-title;
   }
 }
