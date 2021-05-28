@@ -2,9 +2,9 @@
 @import "variables";
 
 
-.body {
-  font: $main-font;
-  background: $project-white;
+body {
+  background: $background-color;
+  color: white;
 }
 
 .wrapper {
@@ -46,8 +46,7 @@ input {
   font-family: PT Serif;
   font-weight: bold;
   font-size: 50px;
-  color: $project-black;
-  background: $project-white;
+  color: white;
 }
 
 .error-block-avatar {

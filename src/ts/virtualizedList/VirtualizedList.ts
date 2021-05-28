@@ -40,7 +40,7 @@ export default class VirtualizedList {
     this.data = options.data;
     this.component = options.component;
     this.height = options.height;
-    this.offset = options.offset || 100;
+    this.offset = options.offset || 1000;
     this.collection = document.getElementsByClassName(options.elementWrapperName);
     this.container = options.container;
     this.elementWrapperName = options.elementWrapperName;

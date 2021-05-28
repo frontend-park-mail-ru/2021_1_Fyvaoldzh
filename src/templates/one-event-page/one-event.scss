@@ -141,6 +141,7 @@
   width: 100px;
   @include flex-mixin(column, center);
   justify-content: space-between;
+  margin-top: 24px;
 
   &__photo {
     display: block;
@@ -155,7 +156,7 @@
     width: 120px;
     text-overflow: ellipsis;
     overflow: hidden;
-    margin-top: 20px;
+    margin-top: 8px;
     font: $little-font;
     text-align: center;
   }
@@ -254,8 +255,19 @@
 .one-event-buttons-wrapper {
   margin-top: 24px;
   display: flex;
+  align-items: center;
+
+  &__text {
+    cursor: pointer;
+    margin-top: 3px;
+    margin-left: 8px;
+  }
 }
 
 #jsTagsRow {
   margin-left: -24px;
+}
+
+#jsPlanningUsers {
+  margin-left: -50px;
 }

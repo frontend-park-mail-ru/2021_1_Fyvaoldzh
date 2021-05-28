@@ -13,8 +13,14 @@
         .left-row(id='jsTagsRow')
     .one-event-buttons-wrapper
       button.event-description__star_inactive(id='jsEventStar')
+      label.one-event-buttons-wrapper__text(id='jsGoingText' for='jsEventStar')
+        | Пойти на мероприятие
       button.event-description__share(id='jsEventShare')
-      button.smbs-event__share-button(style='height: 38px; width: 38px; margin-top: 6px; margin-left: 6px; margin-bottom: 0px; margin-right: 0px;')
+      label.one-event-buttons-wrapper__text(id='jsShareSubs' for='jsEventShare')
+        | Пригласить
+      button.smbs-event__share-button(style='height: 38px; width: 38px; margin-top: 6px; margin-left: 6px; margin-bottom: 0px; margin-right: 0px;' id='jsSocialShare')
+      label.one-event-buttons-wrapper__text(for='jsSocialShare')
+        | Поделиться
 .main-content
   .container
     .event-info__title
