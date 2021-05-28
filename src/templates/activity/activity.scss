@@ -10,6 +10,7 @@
   box-shadow: $project-box-shadow;
   @include value-adaptive("padding", 30, 8);
   align-items: center;
+  @include gm-main-block();
 }
 
 .activity-column {
@@ -27,6 +28,7 @@
   background-color: $project-white;
   box-shadow: $project-box-shadow;
   padding: 15px;
+  @include gm-second-layer-element();
 }
 
 .event-title {
