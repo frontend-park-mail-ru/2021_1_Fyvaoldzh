@@ -258,6 +258,7 @@
   margin-top: 24px;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 
   &__text {
     cursor: pointer;
@@ -272,4 +273,10 @@
 
 #jsPlanningUsers {
   margin-left: -50px;
+}
+
+.one-wrapper {
+  display: flex;
+  align-items: center;
+  margin-right: 16px;
 }
