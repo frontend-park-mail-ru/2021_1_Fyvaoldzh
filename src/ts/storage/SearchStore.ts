@@ -250,7 +250,7 @@ export default class SearchStore {
         return 'Развлечения';
 
       case searchButton.training:
-        return 'Обучение';
+        return 'Образование';
 
       case searchButton.movie:
         return 'Кино';
