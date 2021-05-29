@@ -141,6 +141,7 @@
   width: 100px;
   @include flex-mixin(column, center);
   justify-content: space-between;
+  margin-top: 24px;
 
   &__photo {
     display: block;
@@ -155,7 +156,7 @@
     width: 120px;
     text-overflow: ellipsis;
     overflow: hidden;
-    margin-top: 20px;
+    margin-top: 8px;
     font: $little-font;
     text-align: center;
   }
@@ -184,6 +185,7 @@
   display: none;
   background: white;
   box-shadow: 0 0 10px rgb(0 0 0 / 25%);
+  color: black;
 
   &__accept {
     @extend .event-description__star;
@@ -211,6 +213,7 @@
   }
 
   &__title {
+    color: black;
     font: 24px PT serif;
   }
 }
@@ -232,6 +235,15 @@
 
   &_active {
     background: green;
+
+    &:hover {
+      background: green
+      !important;
+    }
+  }
+
+  &:hover {
+    background: #8986AC;
   }
 }
 
@@ -254,8 +266,26 @@
 .one-event-buttons-wrapper {
   margin-top: 24px;
   display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  &__text {
+    cursor: pointer;
+    margin-top: 3px;
+    margin-left: 8px;
+  }
 }
 
 #jsTagsRow {
   margin-left: -24px;
+}
+
+#jsPlanningUsers {
+  margin-left: -50px;
+}
+
+.one-wrapper {
+  display: flex;
+  align-items: center;
+  margin-right: 16px;
 }

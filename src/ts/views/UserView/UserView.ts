@@ -271,7 +271,6 @@ export default class UserView extends ProfilesBaseView {
     const { profileVisitedEvents } = this.globalStore.userStore;
 
     if (window.location.pathname !== '/profile') {
-      // console.log(this.globalStore.routerStore.currentUrl.pathname);
       if (userData) {
         if (
           this.globalStore.routerStore.currentUrl.pathname
@@ -511,7 +510,6 @@ export default class UserView extends ProfilesBaseView {
     const notificationList = document.getElementById('JSNavbarNotificationList');
     const notificationData: Array<NotificationInterface> = this.globalStore.userStore.notifications;
 
-    console.log('dawdawawd');
     if (!notificationData) {
       notificationList.innerHTML = notificationsEmpty();
       return;

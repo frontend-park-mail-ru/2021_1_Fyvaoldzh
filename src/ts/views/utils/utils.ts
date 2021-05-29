@@ -242,7 +242,7 @@ export function searchBarHandler(event: any) {
 
 export function parseDate(dateInput: any) {
   if (dateInput.includes('UTC')) {
-    const date = new Date(Date.parse(dateInput));
+    const date = new Date(Date.parse(dateInput.replace(/-/g, "/")));
     const options = {
       year: 'numeric',
       month: 'long',

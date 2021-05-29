@@ -40,7 +40,7 @@ export default class VirtualizedList {
     this.data = options.data;
     this.component = options.component;
     this.height = options.height;
-    this.offset = options.offset || 100;
+    this.offset = options.offset || 1000;
     this.collection = document.getElementsByClassName(options.elementWrapperName);
     this.container = options.container;
     this.elementWrapperName = options.elementWrapperName;
@@ -77,6 +77,11 @@ export default class VirtualizedList {
         if (Object.entries(this.data)[index][1].place) {
           Object.entries(this.data)[index][1].place = capitalize(Object.entries(this.data)[index][1].place);
         }
+
+        if (Object.entries(this.data)[index][1].distance) {
+          (Object.entries(this.data)[index][1] as any).distance = (parseFloat((Object.entries(this.data)[index][1] as any).distance)).toFixed(2) + ' км';
+        }
+
         el.innerHTML = this.component(Object.entries(this.data)[index][1]);
       }
 
@@ -115,6 +120,10 @@ export default class VirtualizedList {
     Object.entries(newData).forEach(([, val]) => {
       if ((val as any).startDate) {
         (val as any).startDate = parseDate((val as any).startDate);
+      }
+
+      if ((val as any).distance) {
+        (val as any).distance = ((val as any).distance as number).toFixed(2) + ' км';
       }
     })
 

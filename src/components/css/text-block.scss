@@ -3,16 +3,16 @@
 
 .text-block {
   @include flex-mixin(column, flex-start);
+  @include gm-second-layer-element();
+  background: rgba( 0, 0, 0, 0.65 );
   justify-content: space-between;
   max-width: 570px;
   padding: 24px;
-  box-shadow: $project-box-shadow;
-  background: $project-white;
   border-radius: 20px;
 
   &__title {
     font: $title-font;
-    color: $project-black;
+    color: white;
   }
 
   &__body {

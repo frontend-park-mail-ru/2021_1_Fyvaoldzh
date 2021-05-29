@@ -229,13 +229,14 @@ document.getElementById('wrapper').addEventListener('click', () => {
     (document.getElementById('JSsearchBarInput') as HTMLInputElement).classList.toggle('square');
   }
 
-  if (!(document.getElementById('JSNavbarNotificationList')).classList.contains('css-hidden')) {
-    (document.getElementById('JSNavbarNotificationList')).classList.toggle('css-hidden');
+  if (document.getElementById('JSNavbarNotificationList')) {
+    if (!(document.getElementById('JSNavbarNotificationList')).classList.contains('css-hidden')) {
+      (document.getElementById('JSNavbarNotificationList')).classList.toggle('css-hidden');
+    }
   }
 });
 
 navigator.geolocation.getCurrentPosition((geoCoords: GeolocationPosition) => {
-  console.log(geoCoords.coords.latitude, geoCoords.coords.longitude);
   actions.updateGeolocation([geoCoords.coords.latitude, geoCoords.coords.longitude]);
 },
 () => actions.updateGeolocation(null),

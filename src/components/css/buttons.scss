@@ -18,7 +18,7 @@
 
   &_inactive {
     @extend .button-category;
-    background: white;
+    color: white;
     &:hover {
       transform: translateY(-5px);
       transition-duration: 0.5s;
@@ -75,8 +75,7 @@
 
   &-inactive {
     @extend .button;
-    background: $project-white;
-    //color: black;
+    color: white;
 
     filter: brightness(1.5);
     color: rgba(222, 215, 216, 1);

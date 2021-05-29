@@ -384,7 +384,7 @@ export default class UserStore {
         case 'Event':
           val.type = 'Скоро событие';
           val.pathToImage = `https://qdaqda.ru/api/v1/event/${val.id_to_image}/image`;
-          val.text = `Мероприятие "${val.text}" начнется через 5 часов`;
+          val.text = `Мероприятие "${val.text}" начнется менее чем через 5 часов`;
           val.href = `/event${val.id}`;
           val.date = timeAgo(val.date);
           break;

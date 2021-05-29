@@ -11,6 +11,7 @@ import {copyButtonHandler, eventPageShareButtonHandler, modalOverlayHandler} fro
 const oneEventPageTemplate = require('Templates/one-event-page/one-event-page.pug');
 const oneTagTemplate = require('Templates/one-event-page/tagTemplate.pug');
 const onePlanningUserTemplate = require('Templates/one-event-page/one-going-user.pug');
+const emptyFollowers = require('Templates/one-event-page/emptyFollowers.pug');
 
 export default class OneEventView {
   public globalStore: Store;
@@ -46,14 +47,18 @@ export default class OneEventView {
     if (!this.globalStore.userStore.userData) {
       document.getElementById('jsEventStar').style.display = 'none';
       document.getElementById('jsEventShare').style.display = 'none';
+      document.getElementById('jsGoingText').style.display = 'none';
+      document.getElementById('jsShareSubs').style.display = 'none';
     }
 
     this.renderTags();
 
     if (this.globalStore.oneEventStore.isPlanning) {
       eventStar.classList.add('event-description__star_active');
+      document.getElementById('jsGoingText').innerText = 'Уже иду!';
       eventStar.classList.remove('event-description__star_inactive');
     }
+
     this.renderGoingUsers();
     this.renderFollowers();
 
@@ -69,6 +74,8 @@ export default class OneEventView {
 
     const shareButton = document.querySelector('.smbs-event__share-button');
     shareButton.addEventListener('click', eventPageShareButtonHandler.bind(this));
+
+
   }
 
   renderTags() {
@@ -80,6 +87,9 @@ export default class OneEventView {
 
   renderGoingUsers() {
     const goingUsers = this.globalStore.oneEventStore.oneEventData.followers;
+    if (!goingUsers) {
+      document.getElementById('jsGoingTitle').style.display = 'none';
+    }
 
     const goingUsersRow = document.getElementById('jsPlanningUsers');
 
@@ -91,7 +101,11 @@ export default class OneEventView {
   renderFollowers() {
     const followersColumn = document.getElementById('jsFollowersColumn');
     const followersArray: Array<FollowerInterface> = this.globalStore.userStore.followers;
-    console.log(this.globalStore.userStore.followedUsers);
+
+    if (!followersArray.length) {
+      document.getElementById('jsFollowersColumn').innerHTML = emptyFollowers();
+      document.getElementById('jsEventFollowersAccept').style.display = 'none';
+    }
 
     let index = 0;
     followersArray.forEach((val) => {
@@ -114,6 +128,7 @@ export default class OneEventView {
     const { target } = ev;
 
     if (target instanceof HTMLButtonElement && target.classList.contains('event-description__star_inactive')) {
+      document.getElementById('jsGoingText').innerText = 'Уже иду!';
       target.classList.add('event-description__star_active');
       target.classList.remove('event-description__star_inactive');
       this.actions.addPlanningEvent(this.globalStore.oneEventStore.oneEventData.id);
@@ -121,6 +136,7 @@ export default class OneEventView {
     }
 
     if (target instanceof HTMLButtonElement && target.classList.contains('event-description__star_active')) {
+      document.getElementById('jsGoingText').innerText = 'Пойти на мероприятие';
       target.classList.add('event-description__star_inactive');
       target.classList.remove('event-description__star_active');
       this.actions.removePlanningEvent(this.globalStore.oneEventStore.oneEventData.id);
@@ -146,15 +162,29 @@ export default class OneEventView {
   }
 
   followerHandler(ev: MouseEvent) {
-    const target = ev.target as HTMLElement;
-    target.classList.toggle('event-follower-block_active');
+    const followerId = this.findElement(<HTMLElement>ev.target);
+    if (followerId == null) {
+      return;
+    }
+    ev.preventDefault();
+    document.getElementById(followerId).classList.toggle('event-follower-block_active');
 
-    const indexOf = this.toInvite.indexOf(<number><unknown>target.id);
+    const indexOf = this.toInvite.indexOf(<number><unknown>followerId);
     if (indexOf === -1) {
-      this.toInvite.push(<number><unknown>target.id);
+      this.toInvite.push(<number><unknown>followerId);
     } else {
       this.toInvite.splice(indexOf, 1);
     }
+  }
+
+  findElement(el: HTMLElement): any {
+    // eslint-disable-next-line eqeqeq
+    if (el.classList.contains('event-follower-block')) {
+      return el.id;
+    } if (el.parentElement) {
+      return this.findElement(el.parentElement);
+    }
+    return null;
   }
 
   subscribeViews() {
