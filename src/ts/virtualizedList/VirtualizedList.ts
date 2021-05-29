@@ -77,6 +77,11 @@ export default class VirtualizedList {
         if (Object.entries(this.data)[index][1].place) {
           Object.entries(this.data)[index][1].place = capitalize(Object.entries(this.data)[index][1].place);
         }
+
+        if (Object.entries(this.data)[index][1].distance) {
+          (Object.entries(this.data)[index][1] as any).distance = ((Object.entries(this.data)[index][1] as any).distance as number).toFixed(2) + ' км';
+        }
+        
         el.innerHTML = this.component(Object.entries(this.data)[index][1]);
       }
 
