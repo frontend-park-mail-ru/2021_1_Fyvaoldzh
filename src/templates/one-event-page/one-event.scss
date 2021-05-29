@@ -235,6 +235,10 @@
 
   &_active {
     background: green;
+
+    &:hover {
+      background: green;
+    }
   }
 
   &:hover {
