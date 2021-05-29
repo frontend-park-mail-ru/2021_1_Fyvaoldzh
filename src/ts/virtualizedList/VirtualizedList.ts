@@ -81,7 +81,7 @@ export default class VirtualizedList {
         if (Object.entries(this.data)[index][1].distance) {
           (Object.entries(this.data)[index][1] as any).distance = ((Object.entries(this.data)[index][1] as any).distance as number).toFixed(2) + ' км';
         }
-        
+
         el.innerHTML = this.component(Object.entries(this.data)[index][1]);
       }
 
