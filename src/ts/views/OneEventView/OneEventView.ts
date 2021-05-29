@@ -161,15 +161,29 @@ export default class OneEventView {
   }
 
   followerHandler(ev: MouseEvent) {
-    const target = ev.target as HTMLElement;
-    target.classList.toggle('event-follower-block_active');
+    const followerId = this.findElement(<HTMLElement>ev.target);
+    if (followerId == null) {
+      return;
+    }
+    ev.preventDefault();
+    document.getElementById(followerId).classList.toggle('event-follower-block_active');
 
-    const indexOf = this.toInvite.indexOf(<number><unknown>target.id);
+    const indexOf = this.toInvite.indexOf(<number><unknown>followerId);
     if (indexOf === -1) {
-      this.toInvite.push(<number><unknown>target.id);
+      this.toInvite.push(<number><unknown>followerId);
     } else {
       this.toInvite.splice(indexOf, 1);
     }
+  }
+
+  findElement(el: HTMLElement): any {
+    // eslint-disable-next-line eqeqeq
+    if (el.classList.contains('event-follower-block')) {
+      return el.id;
+    } if (el.parentElement) {
+      return this.findElement(el.parentElement);
+    }
+    return null;
   }
 
   subscribeViews() {

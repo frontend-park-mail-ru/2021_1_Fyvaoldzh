@@ -236,6 +236,10 @@
   &_active {
     background: green;
   }
+
+  &:hover {
+    background: #8986AC;
+  }
 }
 
 #map {
