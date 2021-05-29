@@ -101,8 +101,8 @@ export default class OneEventView {
   renderFollowers() {
     const followersColumn = document.getElementById('jsFollowersColumn');
     const followersArray: Array<FollowerInterface> = this.globalStore.userStore.followers;
-    console.log(followersArray);
-    if (!followersArray) {
+    
+    if (!followersArray.length) {
       document.getElementById('jsFollowersColumn').innerHTML = emptyFollowers();
       document.getElementById('jsEventFollowersAccept').style.display = 'none';
     }
