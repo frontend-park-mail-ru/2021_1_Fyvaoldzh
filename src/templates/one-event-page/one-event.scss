@@ -237,7 +237,8 @@
     background: green;
 
     &:hover {
-      background: green;
+      background: green
+      !important;
     }
   }
 

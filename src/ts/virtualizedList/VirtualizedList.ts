@@ -116,6 +116,10 @@ export default class VirtualizedList {
       if ((val as any).startDate) {
         (val as any).startDate = parseDate((val as any).startDate);
       }
+
+      if ((val as any).distance) {
+        (val as any).distance = ((val as any).distance as number).toFixed(2) + ' км';
+      }
     })
 
     if (Object.entries(newData).length < this.onePageSize) {

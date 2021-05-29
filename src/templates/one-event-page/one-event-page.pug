@@ -12,13 +12,13 @@
       .container
         .left-row(id='jsTagsRow')
     .one-event-buttons-wrapper
-      .one-wrapper
+      .one-wrapper(id='jsGoingText')
         button.event-description__star_inactive(id='jsEventStar')
-        label.one-event-buttons-wrapper__text(id='jsGoingText' for='jsEventStar')
+        label.one-event-buttons-wrapper__text(for='jsEventStar')
           | Пойти на мероприятие
-      .one-wrapper
+      .one-wrapper(id='jsShareSubs')
         button.event-description__share(id='jsEventShare')
-        label.one-event-buttons-wrapper__text(id='jsShareSubs' for='jsEventShare')
+        label.one-event-buttons-wrapper__text(for='jsEventShare')
           | Пригласить
       .one-wrapper
         button.smbs-event__share-button(style='height: 38px; width: 38px; margin-top: 6px; margin-left: 6px; margin-bottom: 0px; margin-right: 0px;' id='jsSocialShare')
