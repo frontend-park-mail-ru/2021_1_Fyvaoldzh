@@ -63,6 +63,7 @@
   }
 
   &__text {
+    position: relative;
     display: block;
     padding: 8px;
     overflow: hidden;
@@ -84,6 +85,16 @@
     overflow: hidden;
     color: rgba(255, 255, 255, 0.65);
     margin-top: 8px;
+  }
+
+  &__distance {
+    position: absolute;
+    font: $little-font;
+    font-size: 13px;
+    overflow: hidden;
+    color: rgba(255, 255, 255, 0.65);
+    right: 0;
+    bottom: 0;
   }
 }
 
